@@ -65,10 +65,10 @@ public class AudioManager : MonoBehaviour
 
     // USE THIS CODE FOR SOUND PANEL:
 
-    public voice ToggleMusic(){
+    public void ToggleMusic(){
         musicSource.mute = !musicSource.mute;
     }
-    public voice ToggleSFX(){
+    public void ToggleSFX(){
         sfxSource.mute = !sfxSource.mute;
     }
 
