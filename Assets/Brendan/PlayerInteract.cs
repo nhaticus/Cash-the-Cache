@@ -8,30 +8,50 @@ public class PlayerInteract : MonoBehaviour
 {
     GameObject objRef;
     public List<LootInfo> inventory = new List<LootInfo>();
+    public int weight = 0;
+    public int weightMax = 30;
+
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && objRef != null)
         {
-            if (objRef.GetComponent<StealableObject>())
+            StealableObject stealObj = objRef.GetComponent<StealableObject>();
+            if (stealObj != null)
             {
-                inventory.Add(objRef.GetComponent<StealableObject>().lootInfo);
+                if(weight <= weightMax) // you can steal over the weight max but cant steal when past it
+                {
+                    inventory.Add(stealObj.lootInfo);
+                    weight += stealObj.lootInfo.weight;
+                    ExecuteEvents.Execute<InteractEvent>(objRef, null, (x, y) => x.Interact());
+                }
             }
-            ExecuteEvents.Execute<InteractEvent>(objRef, null, (x, y) => x.Interact());
+            else
+            {
+                ExecuteEvents.Execute<InteractEvent>(objRef, null, (x, y) => x.Interact());
+            }
         }
         if (Input.GetMouseButtonDown(1) && inventory.Count > 0)
         {
             RevealInventory();
         }
     }
-    private void OnTriggerEnter(Collider other) // CHECK: might be triggered multiple times if overlapping multiple things
-    {
-        objRef = other.gameObject;
-    }
 
-    private void OnTriggerExit(Collider other)
+    float raycastDistance = 5.0f;
+    void FixedUpdate()
     {
-        objRef = null;
+        Debug.DrawRay(transform.position, transform.forward * raycastDistance, Color.green);
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, raycastDistance))
+        {
+            objRef = hit.transform.gameObject;
+        }
+        else
+        {
+            objRef = null;
+        }
+            
     }
 
     private void RevealInventory()

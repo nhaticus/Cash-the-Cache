@@ -7,7 +7,6 @@ public class Apple : MonoBehaviour, InteractEvent
 {
     public void Interact()
     {
-        Debug.Log("Apple got picked up");
         Destroy(gameObject);
     }
 }
