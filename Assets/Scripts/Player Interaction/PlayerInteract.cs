@@ -37,13 +37,14 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    float raycastDistance = 5.0f;
+    [SerializeField] float raycastDistance = 3.0f;
+    [SerializeField] GameObject camera;
     void FixedUpdate()
     {
-        Debug.DrawRay(transform.position, transform.forward * raycastDistance, Color.green);
+        Debug.DrawRay(transform.position, camera.transform.forward * raycastDistance, Color.green);
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, raycastDistance))
+        if (Physics.Raycast(transform.position, camera.transform.forward, out hit, raycastDistance))
         {
             objRef = hit.transform.gameObject;
         }
