@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class PlayerInteract : MonoBehaviour
         {
             Interact(objRef);
         }
-        if (Input.GetMouseButtonDown(1) && inventory.Count > 0)
+        if (Input.GetMouseButtonDown(1))
         {
             RevealInventory();
         }
@@ -64,8 +63,10 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
+    [HideInInspector] public UnityEvent ShowInventory;
     private void RevealInventory()
     {
+        ShowInventory.Invoke(); // send event saying to show inventory menu
         foreach (var loot in inventory)
         {
             Debug.Log(loot.name + ", val: " + loot.value + ", weight: " + loot.weight);
