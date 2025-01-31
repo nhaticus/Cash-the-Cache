@@ -102,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
         if (grounded)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            AudioManager.Instance.PlaySFX("footstep_sound");
         }
         else if (!grounded)
         {
