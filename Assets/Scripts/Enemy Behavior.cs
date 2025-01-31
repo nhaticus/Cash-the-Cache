@@ -3,95 +3,120 @@ using UnityEngine.AI;
 
 public class EnemyBehavior : MonoBehaviour
 {
-    public NavMeshAgent agent;
+    private NavMeshAgent agent;
 
-    public Transform player;
+    private Transform player;
+
+    /*  Layers for detection    */
+    public LayerMask playerLayer;
+
+    /*  States  */
+    public float sightDistance, reachDistance;
+    private bool withinSight, withinReach;
 
 
     private void Awake()
     {
-        // setting the variable without manual work
+        /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
-        player = GameObject.Find("PlayerObj").transform;
+        player = GameObject.Find("Player").transform;
     }
 
     void Update()
     {
-        float OPTION = 2;
-        RaycastHit hit;
-        Vector3 direction = player.position - transform.position;
-        /*  OPTION 1: Have a raycast from enemy to player to avoid obstacles
-            If the raycast hits the player and they are within a certain distance, the enemy will move towards the player
-        */
-        if (OPTION == 1){
-            if (Physics.Raycast(transform.position, direction, out hit))
-            {
-                Debug.DrawRay(transform.position, direction, Color.red);
-                if (hit.transform == player)
-                {
-                    float distance = Vector3.Distance(player.position, transform.position);
-                    if (distance < 10.0f) // replace 10.0f with your desired distance
-                    {
-                        agent.SetDestination(player.position);
-                    }
-                    else
-                    {
-                        agent.ResetPath();
-                    }
-                }
-                else
-                {
-                    agent.ResetPath();
-                }
-            }
-            else
-            {
-                agent.ResetPath();
-            }
-        } 
-        /*  OPTION 2: raycast in a 45-degree cone in front of the enemy
-            If the raycast hits the player and they are within a certain distance, the enemy will move towards the player
-        */
-        if (OPTION == 2){
-            float angle = Vector3.Angle(transform.forward, player.position - transform.position);
-            if (angle < 45.0f)
-            {
-                if (Physics.Raycast(transform.position, direction, out hit))
-                {
-                    Debug.DrawRay(transform.position, direction, Color.red);
-                    if (hit.transform == player)
-                    {
-                        float distance = Vector3.Distance(player.position, transform.position);
-                        if (distance < 10.0f) // replace 10.0f with your desired distance
-                        {
-                            agent.SetDestination(player.position);
-                        }
-                        else
-                        {
-                            agent.ResetPath();
-                        }
-                    }
-                    else
-                    {
-                        agent.ResetPath();
-                    }
-                }
-                else
-                {
-                    agent.ResetPath();
-                }
-            }
-            else
-            {
-                agent.ResetPath();
-            }
-        }
+        DetectPlayer(2);
     }
-    void OnCollisionEnter(Collision collision)
+
+    private void DetectPlayer(int option)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (option == 1)
         {
-            Debug.Log("touching");
+            withinSight = Physics.CheckSphere(transform.position, sightDistance, playerLayer);
+            withinReach = Physics.CheckSphere(transform.position, reachDistance, playerLayer);
+
+            if (withinSight && !withinReach)
+            {
+                // Chase
+                ChasePlayer();
+            }
+            else if (withinSight && withinReach)
+            {
+                // If within reach, attack or something
+                AttackPlayer();
+            }
+            else
+            {
+                // Idle
+                PathingDefault();
+            }
+        }
+        else if (option == 2)
+        {
+            withinReach = Physics.CheckSphere(transform.position, reachDistance, playerLayer);
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, sightDistance, playerLayer);
+            if (hitColliders.Length == 0)
+            {
+                withinSight = false;
+            }
+            else
+            {
+                foreach (var hitCollider in hitColliders)
+                {
+                    Vector3 directionToPlayer = (hitCollider.transform.position - transform.position).normalized;
+                    float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+
+                    if (angleToPlayer <= 45)
+                    {
+                        withinSight = true;
+                        break;
+                    }
+                }
+            }
+
+            // Debug.Log("Within Sight: " + withinSight + " Within Reach: " + withinReach);
+
+            if (withinSight && !withinReach)
+            {
+                // Chase
+                ChasePlayer();
+            }
+            else if (withinSight && withinReach)
+            {
+                // If within reach, attack or something
+                AttackPlayer();
+            }
+            else
+            {
+                // Idle
+                PathingDefault();
+            }
         }
     }
+
+    private void ChasePlayer()
+    {
+        // Debug.Log("Chasing");
+        agent.SetDestination(player.position);
+        transform.LookAt(player);
+    }
+
+    private void AttackPlayer()
+    {
+        // Debug.Log("Attacking");
+        transform.LookAt(player);
+    }
+
+    private void PathingDefault()
+    {
+        agent.SetDestination(transform.position);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, reachDistance);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, sightDistance);
+    }
+
 }
