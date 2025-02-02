@@ -8,7 +8,8 @@ using UnityEngine.EventSystems;
 public class PlayerInteract : MonoBehaviour
 {
     GameObject objRef;
-    public List<LootInfo> inventory = new List<LootInfo>();
+    //public List<LootInfo> inventory = new List<LootInfo>();
+    public List<GameObject> inventory = new List<GameObject>();
     public int weight = 0;
     public int maxWeight = 30;
 
@@ -50,7 +51,8 @@ public class PlayerInteract : MonoBehaviour
         {
             if (weight <= maxWeight) // can steal over max weight once: but suffer more speed loss
             {
-                inventory.Add(stealObj.lootInfo);
+                //inventory.Add(stealObj.lootInfo);
+                inventory.Add(obj);
                 weight += stealObj.lootInfo.weight;
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 

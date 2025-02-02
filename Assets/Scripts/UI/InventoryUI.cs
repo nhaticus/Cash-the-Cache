@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryUI : MonoBehaviour
 {
     PlayerInteract playerInteract;
+    [SerializeField] GameObject gridElement;
     public void Initialize(GameObject player)
     {
         playerInteract = player.GetComponent<PlayerInteract>();
