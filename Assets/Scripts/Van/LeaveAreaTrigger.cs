@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // Required for UI text
+using TMPro; 
 
 public class LeaveAreaTrigger : MonoBehaviour
 {
