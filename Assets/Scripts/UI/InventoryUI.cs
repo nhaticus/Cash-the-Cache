@@ -14,10 +14,14 @@ public class InventoryUI : MonoBehaviour
     private void ShowInventory()
     {
         GetComponent<CanvasGroup>().alpha = 1;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void HideInventory() // on exit button
     {
         GetComponent<CanvasGroup>().alpha = 0;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
