@@ -1,16 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PoliceTimer : MonoBehaviour
 {
     public float timeLeft = 300f;
     public bool timerOn = true;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TMP_Text Timer_display;
 
     // Update is called once per frame
     void Update()
@@ -22,20 +19,17 @@ public class PoliceTimer : MonoBehaviour
                 timeLeft = 0;
                 timerOn = false;
             }
+            updateTimerDisplay();
         }
     }
 
-    void OnGUI()
+    void updateTimerDisplay()
     {
         int minutes = Mathf.FloorToInt(timeLeft / 60);
         int seconds = Mathf.FloorToInt(timeLeft % 60);
         string timeText = minutes + ":" + seconds.ToString("00");
-        
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 30;
-        style.normal.textColor = Color.white;
 
-        GUI.Label(new Rect(10, 10, 200, 50), timeText, style);
+        Timer_display.text = minutes + ":" + seconds.ToString("00");
     }
 
     void onTimerUp(){
