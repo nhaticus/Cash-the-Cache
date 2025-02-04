@@ -63,9 +63,10 @@ public class VanTrigger : MonoBehaviour
         }
 
         int totalMoney = 0;
-        foreach (KeyValuePair<LootInfo, int> item in playerInventory.inventory)
+        foreach (KeyValuePair<string, (int, LootInfo)> item in playerInventory.inventory)
         {
-            totalMoney += item.Key.value;
+            //totalMoney += item.Key.value;
+            totalMoney += item.Value.Item2.value * item.Value.Item1; // Brendan: not sure if this actually works because haven't looked at this script
         }
 
         if (totalMoney > 0) // Only convert if there's something to convert
@@ -89,9 +90,9 @@ public class VanTrigger : MonoBehaviour
             if (VanInventory.Instance != null)
             {
                 Debug.Log("Stolen Items:");
-                foreach (KeyValuePair<LootInfo, int> item in VanInventory.Instance.stolenItems)
+                foreach (KeyValuePair<string, (int, LootInfo)> item in VanInventory.Instance.stolenItems)
                 {
-                    Debug.Log(item.Key.name + " - $" + item.Key.value);
+                    Debug.Log(item.Key + " - $" + item.Value.Item2.value); // Brendan: also not sure if this needed the amount owned
                 }
             }
             else

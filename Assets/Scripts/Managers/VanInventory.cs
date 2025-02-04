@@ -6,7 +6,7 @@ using UnityEngine;
 public class VanInventory : MonoBehaviour
 {
     public static VanInventory Instance; // Singleton to access from anywhere
-    public Dictionary<LootInfo, int> stolenItems = new Dictionary<LootInfo, int>(); // List of stolen items
+    public Dictionary<string, (int, LootInfo)> stolenItems = new Dictionary<string, (int, LootInfo)>(); // Dictionary of stolen items
 
     private void Awake()
     {
@@ -20,17 +20,18 @@ public class VanInventory : MonoBehaviour
         }
     }
 
-    public void AddToVan(Dictionary<LootInfo, int> items)
+    public void AddToVan(Dictionary<string, (int, LootInfo)> playerItems)
     {
-        foreach(KeyValuePair<LootInfo, int> info in items)
+        foreach(KeyValuePair<string, (int, LootInfo)> item in playerItems)
         {
-            try
+            if (stolenItems.ContainsKey(item.Key))
             {
-                stolenItems.Add(info.Key, 1);
+                // stolen items = stolen items + player items
+                stolenItems[item.Key] = (stolenItems[item.Key].Item1 + item.Value.Item1, item.Value.Item2);
             }
-            catch (ArgumentException)
+            else
             {
-                stolenItems[info.Key] += 1;
+                stolenItems.Add(item.Key, (1, item.Value.Item2));
             }
         }
         

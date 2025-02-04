@@ -79,10 +79,10 @@ public class LeaveAreaTrigger : MonoBehaviour
         int totalEarnings = 0;
         string summary = "Stolen Items:\n";
 
-        foreach (KeyValuePair<LootInfo, int> item in VanInventory.Instance.stolenItems)
+        foreach (KeyValuePair<string, (int, LootInfo)> item in VanInventory.Instance.stolenItems)
         {
-            summary += $"{item.Key.name} - ${item.Key.value}\n";
-            totalEarnings += item.Key.value;
+            summary += $"{item.Key} - ${item.Value.Item2.value}\n";
+            totalEarnings += item.Value.Item2.value * item.Value.Item1; // value * numOwned
         }
 
         summary += $"\nTotal Earned: ${totalEarnings}";

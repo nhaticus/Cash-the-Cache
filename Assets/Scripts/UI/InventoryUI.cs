@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,12 +49,12 @@ public class InventoryUI : MonoBehaviour
         }
 
         // fill grid
-        foreach (KeyValuePair<LootInfo, int> info in playerInteract.inventory)
+        foreach (KeyValuePair<string, (int, LootInfo)> info in playerInteract.inventory)
         {
             GameObject newElement = Instantiate(gridElement, gridTransform);
-            newElement.GetComponent<GridElement>().lootInfo = info.Key;
-            newElement.GetComponent<GridElement>().img.sprite = info.Key.sprite;
-            newElement.GetComponent<GridElement>().numOwned.text = info.Value.ToString();
+            newElement.GetComponent<GridElement>().lootInfo = info.Value.Item2;
+            newElement.GetComponent<GridElement>().img.sprite = info.Value.Item2.sprite;
+            newElement.GetComponent<GridElement>().numOwned.text = info.Value.Item1.ToString();
 
             newElement.GetComponent<GridElement>().gridElementClicked.AddListener(ChangeItemInfo);
         }
