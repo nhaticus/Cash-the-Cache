@@ -7,7 +7,7 @@ If true: it saves the objects information and executes its "interact event"
 If false: it executes its "interact event"
 If there is no "interact event" attached to the object, nothing happens.
 
-(2) If you simply just want a stealable item with no special behaviors just attach the StealableObject.cs script to it which has information about the name, value, and weight.
+(2) If you simply just want a stealable item with no special behaviors just attach the StealableObject.cs script to it which has information about the game object, name, value, and weight.
 You can also attach a script to destroy the object when clicked.
 An example is the apple, which has StealableObject.cs and Apple.cs.
 When the player interacts with it: the player's inventory saves the StealableObject information and executes the apple's "interact event" which destroys the game object.

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +8,7 @@ using UnityEngine.UI;
 public class InventoryUI : MonoBehaviour
 {
     PlayerInteract playerInteract;
+    
 
     private void Start()
     {
@@ -62,10 +62,34 @@ public class InventoryUI : MonoBehaviour
 
     [SerializeField] TMP_Text itemName, itemWeight;
     [SerializeField] Image itemImg;
+    LootInfo selectedItem;
     private void ChangeItemInfo(LootInfo info)
     {
-        itemName.text = info.name;
-        itemWeight.text = "weight: " + info.weight;
-        itemImg.sprite = info.sprite;
+        selectedItem = info;
+
+        itemName.text = selectedItem.itemName;
+        itemWeight.text = "weight: " + selectedItem.weight;
+        itemImg.sprite = selectedItem.sprite;
+    }
+
+    public void DropItem()
+    {
+        // create object (if prefab is attached create, otherwise create basic cube)
+        Instantiate(selectedItem != null ? selectedItem.prefab : GameObject.CreatePrimitive(PrimitiveType.Cube), playerInteract.transform.position + transform.TransformDirection(new Vector3(0, 0, 2)), playerInteract.transform.rotation);
+
+        // remove from inventory
+        playerInteract.inventory[selectedItem.itemName] = (playerInteract.inventory[selectedItem.itemName].Item1 - 1, selectedItem);
+        if(playerInteract.inventory[selectedItem.itemName].Item1 == 0)
+        {
+            playerInteract.inventory.Remove(selectedItem.itemName);
+            selectedItem = new LootInfo();
+            ChangeItemInfo(selectedItem);
+        }
+
+        // decrease weight
+        playerInteract.weight -= selectedItem.weight;
+
+        // update grid
+        FillInventoryGrid();
     }
 }
