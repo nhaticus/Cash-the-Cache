@@ -63,9 +63,9 @@ public class VanTrigger : MonoBehaviour
         }
 
         int totalMoney = 0;
-        foreach (LootInfo item in playerInventory.inventory)
+        foreach (KeyValuePair<LootInfo, int> item in playerInventory.inventory)
         {
-            totalMoney += item.value;
+            totalMoney += item.Key.value;
         }
 
         if (totalMoney > 0) // Only convert if there's something to convert
@@ -89,9 +89,9 @@ public class VanTrigger : MonoBehaviour
             if (VanInventory.Instance != null)
             {
                 Debug.Log("Stolen Items:");
-                foreach (LootInfo item in VanInventory.Instance.stolenItems)
+                foreach (KeyValuePair<LootInfo, int> item in VanInventory.Instance.stolenItems)
                 {
-                    Debug.Log(item.name + " - $" + item.value);
+                    Debug.Log(item.Key.name + " - $" + item.Key.value);
                 }
             }
             else

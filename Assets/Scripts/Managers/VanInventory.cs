@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class VanInventory : MonoBehaviour
 {
     public static VanInventory Instance; // Singleton to access from anywhere
-    public List<LootInfo> stolenItems = new List<LootInfo>(); // List of stolen items
+    public Dictionary<LootInfo, int> stolenItems = new Dictionary<LootInfo, int>(); // List of stolen items
 
     private void Awake()
     {
@@ -19,9 +20,20 @@ public class VanInventory : MonoBehaviour
         }
     }
 
-    public void AddToVan(List<LootInfo> items)
+    public void AddToVan(Dictionary<LootInfo, int> items)
     {
-        stolenItems.AddRange(items);
+        foreach(KeyValuePair<LootInfo, int> info in items)
+        {
+            try
+            {
+                stolenItems.Add(info.Key, 1);
+            }
+            catch (ArgumentException)
+            {
+                stolenItems[info.Key] += 1;
+            }
+        }
+        
     }
 
     public void ClearVan()
