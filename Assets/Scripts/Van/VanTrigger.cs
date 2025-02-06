@@ -6,7 +6,7 @@ public class VanTrigger : MonoBehaviour
 {
     private bool playerInRange = false; // Track if player is in van area
     private PlayerInteract playerInventory;
-    [SerializeField] private GameObject loadText;
+    [SerializeField] GameObject canvas;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,12 +15,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInteract>();
 
-            if (loadText != null)
-            {
-                loadText.SetActive(true); // Show "Press E to load van"
-            }
-
-            //Debug.Log("Press E to turn in stolen items.");
+            canvas.SetActive(true);
         }
     }
 
@@ -31,12 +26,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = false;
             playerInventory = null;
 
-            if (loadText != null)
-            {
-                loadText.SetActive(false); //Hide "Load Text"
-            }
-
-            //Debug.Log("Left van area.");
+            canvas.SetActive(false);
         }
     }
 
