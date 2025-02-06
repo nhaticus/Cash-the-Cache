@@ -7,7 +7,7 @@ public class LeaveAreaTrigger : MonoBehaviour
 {
     private bool playerInLeaveArea = false;
     private bool showingSummary = false;
-    [SerializeField] private GameObject leaveText;
+    [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject summaryPanel;
     [SerializeField] private TMP_Text summaryText; // Text for stolen items summary
     [SerializeField] private string shopSceneName = "ShopScene"; // Change later
@@ -19,9 +19,9 @@ public class LeaveAreaTrigger : MonoBehaviour
         {
             playerInLeaveArea = true;
 
-            if (leaveText != null)
+            if (canvas != null)
             {
-                leaveText.SetActive(true); // Show "Press E to leave"
+                canvas.SetActive(true); // Show "Press E to leave"
             }
 
             Debug.Log("Press E to leave.");
@@ -34,9 +34,9 @@ public class LeaveAreaTrigger : MonoBehaviour
         {
             playerInLeaveArea = false;
 
-            if (leaveText != null)
+            if (canvas != null)
             {
-                leaveText.SetActive(false); // Hide text
+                canvas.SetActive(false); // Hide text
             }
 
             Debug.Log("Left leave area.");
@@ -65,9 +65,9 @@ public class LeaveAreaTrigger : MonoBehaviour
 
         showingSummary = true;
 
-        if (leaveText != null)
+        if (canvas != null)
         {
-            leaveText.SetActive(false); // Hide "Press E to leave" text
+            canvas.SetActive(false); // Hide "Press E to leave" text
         }
 
         if (summaryPanel != null)
@@ -79,10 +79,10 @@ public class LeaveAreaTrigger : MonoBehaviour
         int totalEarnings = 0;
         string summary = "Stolen Items:\n";
 
-        foreach (LootInfo item in VanInventory.Instance.stolenItems)
+        foreach (KeyValuePair<string, (int, LootInfo)> item in VanInventory.Instance.stolenItems)
         {
-            summary += $"{item.name} - ${item.value}\n";
-            totalEarnings += item.value;
+            summary += $"{item.Key} - ${item.Value.Item2.value}\n";
+            totalEarnings += item.Value.Item2.value * item.Value.Item1; // value * numOwned
         }
 
         summary += $"\nTotal Earned: ${totalEarnings}";
