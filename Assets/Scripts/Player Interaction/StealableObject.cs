@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Scriptable Object that defines the loot data
 [CreateAssetMenu(fileName = "Loot ScriptableObject")]
 public class LootInfo : ScriptableObject
 {

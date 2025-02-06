@@ -12,6 +12,8 @@ public class PlayerInteract : MonoBehaviour
     public int weight = 0;
     public int maxWeight = 30;
 
+    [SerializeField] GameObject resultScreen;
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && objRef != null)
@@ -21,6 +23,14 @@ public class PlayerInteract : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             RevealInventory();
+        }
+
+        // here for testing in case i forget
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            resultScreen.SetActive(true);
+            resultScreen.GetComponent<ResultScreen>().inventoryRef = inventory;
+            resultScreen.GetComponent<ResultScreen>().Begin();
         }
     }
 

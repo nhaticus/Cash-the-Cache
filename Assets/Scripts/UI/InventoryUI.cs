@@ -86,10 +86,8 @@ public class InventoryUI : MonoBehaviour
             ChangeItemInfo(selectedItem);
         }
 
-        // decrease weight
-        playerInteract.weight -= selectedItem.weight;
+        playerInteract.weight -= selectedItem.weight; // decrease weight
 
-        // update grid
-        FillInventoryGrid();
+        FillInventoryGrid(); // update grid
     }
 }

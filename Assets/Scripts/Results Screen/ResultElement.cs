@@ -7,15 +7,15 @@ using UnityEngine.UI;
 public class ResultElement : MonoBehaviour
 {
     [SerializeField] Image img;
-    [SerializeField] TMP_Text name;
+    [SerializeField] TMP_Text nameText;
     [SerializeField] TMP_Text amtValText;
     [SerializeField] TMP_Text totalText;
 
-    public void Initialize(Sprite _sprite, string _name, string amtVal, string total)
+    public void Initialize(Sprite _sprite, string _name, int amt, int value)
     {
         img.sprite = _sprite;
-        name.text = _name;
-        amtValText.text = amtVal;
-        totalText.text = total;
+        nameText.text = _name;
+        amtValText.text = amt + " X " + value;
+        totalText.text = ": " + (amt * value).ToString();
     }
 }
