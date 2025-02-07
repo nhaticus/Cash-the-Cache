@@ -43,7 +43,10 @@ public class PlayerInteract : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, camera.transform.forward, out hit, raycastDistance))
         {
-            objRef = hit.transform.gameObject;
+            if(hit.transform.tag == "Selectable")
+            {
+                objRef = hit.transform.gameObject;
+            }
         }
         else
         {

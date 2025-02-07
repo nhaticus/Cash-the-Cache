@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3677948570181540461}
-  - component: {fileID: 65228432631833413}
   - component: {fileID: 1314892913540890875}
+  - component: {fileID: 3222205750778715153}
   m_Layer: 0
   m_Name: pivot
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,23 +34,6 @@ Transform:
   - {fileID: 8124319976247097421}
   m_Father: {fileID: 7126427138411579151}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &65228432631833413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332841304765405946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 601e2f7112af9fe4eadc023182e95670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  door: {fileID: 1332841304765405946}
-  openRot: 80
-  closeRot: 0
-  speed: 15
-  opening: 0
 --- !u!65 &1314892913540890875
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -72,6 +55,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: -0.5, y: 0, z: 0}
+--- !u!114 &3222205750778715153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332841304765405946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 601e2f7112af9fe4eadc023182e95670, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  door: {fileID: 1332841304765405946}
+  openRot: 80
+  closeRot: 0
+  speed: 15
+  opening: 0
 --- !u!1 &5267429673563308812
 GameObject:
   m_ObjectHideFlags: 0
