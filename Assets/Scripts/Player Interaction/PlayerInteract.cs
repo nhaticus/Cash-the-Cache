@@ -24,14 +24,6 @@ public class PlayerInteract : MonoBehaviour
         {
             RevealInventory();
         }
-
-        // here for testing in case i forget
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            resultScreen.SetActive(true);
-            resultScreen.GetComponent<ResultScreen>().inventoryRef = inventory;
-            resultScreen.GetComponent<ResultScreen>().Begin();
-        }
     }
 
     [SerializeField] float raycastDistance = 3.0f;
