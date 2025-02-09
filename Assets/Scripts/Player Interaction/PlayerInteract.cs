@@ -53,6 +53,7 @@ public class PlayerInteract : MonoBehaviour
         {
             if (weight <= maxWeight) // can steal over max weight once: but suffer more speed loss
             {
+                Debug.Log("pick up");
                 if (inventory.ContainsKey(stealObj.lootInfo.itemName))
                 {
                     inventory[stealObj.lootInfo.itemName] = (inventory[stealObj.lootInfo.itemName].Item1 + 1, stealObj.lootInfo);
