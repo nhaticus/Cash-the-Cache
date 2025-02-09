@@ -19,26 +19,54 @@ public class VanInventory : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public void AddToVan(Dictionary<string, (int, LootInfo)> playerItems)
+    public void TransferItemsFromPlayer(PlayerInteract playerInventory)
     {
-        foreach(KeyValuePair<string, (int, LootInfo)> item in playerItems)
+        if (playerInventory == null || playerInventory.inventory.Count == 0)
         {
+            Debug.Log("No items to transfer.");
+            return;
+        }
+
+        int totalMoney = 0;
+
+        foreach (KeyValuePair<string, (int, LootInfo)> item in playerInventory.inventory)
+        {
+            // Add items to van inventory
             if (stolenItems.ContainsKey(item.Key))
             {
-                // stolen items = stolen items + player items
                 stolenItems[item.Key] = (stolenItems[item.Key].Item1 + item.Value.Item1, item.Value.Item2);
             }
             else
             {
-                stolenItems.Add(item.Key, (1, item.Value.Item2));
+                stolenItems.Add(item.Key, (item.Value.Item1, item.Value.Item2));
             }
-        }
-        
-    }
 
+            // Calculate earnings
+            totalMoney += item.Value.Item2.value * item.Value.Item1;
+        }
+
+        // Add money to player
+        if (totalMoney > 0)
+        {
+            GameManager.Instance.AddMoney(totalMoney);
+            Debug.Log("Converted stolen items to $" + totalMoney);
+        }
+
+        // Clear player's inventory
+        playerInventory.inventory.Clear();
+        playerInventory.weight = 0;
+
+        // Update UI
+        WeightUI weightUI = FindObjectOfType<WeightUI>();
+        if (weightUI != null)
+        {
+            weightUI.UpdateWeightDisplay();
+        }
+    }
     public void ClearVan()
     {
         stolenItems.Clear();
     }
+
+
 }
