@@ -12,8 +12,6 @@ public class PlayerInteract : MonoBehaviour
     public int weight = 0;
     public int maxWeight = 30;
 
-    [SerializeField] GameObject resultScreen;
-
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && objRef != null)
