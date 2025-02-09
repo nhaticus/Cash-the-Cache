@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class PlayerInteract : MonoBehaviour
 {
     GameObject objRef;
-    public List<LootInfo> inventory = new List<LootInfo>();
+    public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
     public int weight = 0;
     public int maxWeight = 30;
 
@@ -50,7 +50,15 @@ public class PlayerInteract : MonoBehaviour
         {
             if (weight <= maxWeight) // can steal over max weight once: but suffer more speed loss
             {
-                inventory.Add(stealObj.lootInfo);
+                if (inventory.ContainsKey(stealObj.lootInfo.itemName))
+                {
+                    inventory[stealObj.lootInfo.itemName] = (inventory[stealObj.lootInfo.itemName].Item1 + 1, stealObj.lootInfo);
+                }
+                else
+                {
+                    inventory.Add(stealObj.lootInfo.itemName, (1, stealObj.lootInfo));
+                }
+
                 weight += stealObj.lootInfo.weight;
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
@@ -67,9 +75,5 @@ public class PlayerInteract : MonoBehaviour
     private void RevealInventory()
     {
         ShowInventory.Invoke(); // send event saying to show inventory menu
-        foreach (var loot in inventory)
-        {
-            Debug.Log(loot.name + ", val: " + loot.value + ", weight: " + loot.weight);
-        }
     }
 }

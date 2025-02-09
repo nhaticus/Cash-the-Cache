@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class VanTrigger : MonoBehaviour
 {
-    private bool playerInRange = false; // Track if player is in van area
+    private bool playerInRange = false;
     private PlayerInteract playerInventory;
-    [SerializeField] private GameObject loadText;
+    [SerializeField] GameObject canvas;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -15,12 +15,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInteract>();
 
-            if (loadText != null)
-            {
-                loadText.SetActive(true); // Show "Press E to load van"
-            }
-
-            //Debug.Log("Press E to turn in stolen items.");
+            if (canvas != null) canvas.SetActive(true);
         }
     }
 
@@ -31,12 +26,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = false;
             playerInventory = null;
 
-            if (loadText != null)
-            {
-                loadText.SetActive(false); //Hide "Load Text"
-            }
-
-            //Debug.Log("Left van area.");
+            if (canvas != null) canvas.SetActive(false);
         }
     }
 
@@ -44,64 +34,19 @@ public class VanTrigger : MonoBehaviour
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.E))
         {
-            ConvertItemsToMoney();
+            DepositItems();
         }
     }
 
-    void ConvertItemsToMoney()
+    private void DepositItems()
     {
-        if (playerInventory == null) return;
-
-        if (VanInventory.Instance != null)
+        if (VanInventory.Instance != null && playerInventory != null)
         {
-            VanInventory.Instance.AddToVan(playerInventory.inventory);
+            VanInventory.Instance.TransferItemsFromPlayer(playerInventory);
         }
         else
         {
-            Debug.LogError("VanInventory Instance is NULL! Make sure VanInventory exists in the scene.");
-            return;
-        }
-
-        int totalMoney = 0;
-        foreach (LootInfo item in playerInventory.inventory)
-        {
-            totalMoney += item.value;
-        }
-
-        if (totalMoney > 0) // Only convert if there's something to convert
-        {
-            GameManager.Instance.AddMoney(totalMoney);
-            Debug.Log("Converted stolen items to $" + totalMoney);
-
-            playerInventory.inventory.Clear(); // Clear inventory
-            playerInventory.weight = 0; // Reset weight
-
-            Debug.Log("Total Money: " + GameManager.Instance.playerMoney);
-
-            //Update weight UI after removing all items
-            WeightUI weightUI = FindObjectOfType<WeightUI>();
-            if (weightUI != null)
-            {
-                weightUI.UpdateWeightDisplay();
-            }
-
-            //Log stolen items in the console after conversion
-            if (VanInventory.Instance != null)
-            {
-                Debug.Log("Stolen Items:");
-                foreach (LootInfo item in VanInventory.Instance.stolenItems)
-                {
-                    Debug.Log(item.name + " - $" + item.value);
-                }
-            }
-            else
-            {
-                Debug.Log("Van Inventory is empty.");
-            }
-        }
-        else
-        {
-            Debug.Log("No items to convert.");
+            Debug.LogError("VanInventory or PlayerInventory is NULL!");
         }
     }
 }
