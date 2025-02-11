@@ -261,8 +261,15 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  walkPoint: {x: 0, y: 0, z: 0}
+  walkPointRange: 10
   sightDistance: 10
   reachDistance: 5
+  sightDuration: 2
+  chaseDuration: 3
 --- !u!54 &8574110885106386901
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -272,7 +279,7 @@ Rigidbody:
   m_GameObject: {fileID: 1593302400742073529}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}

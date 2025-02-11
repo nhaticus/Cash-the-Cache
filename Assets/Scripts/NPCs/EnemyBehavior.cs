@@ -8,7 +8,12 @@ public class EnemyBehavior : MonoBehaviour
     private Transform player;
 
     /*  Layers for detection    */
-    public LayerMask playerLayer;
+    public LayerMask playerLayer, groundLayer;
+
+    /*  Random walking  */
+    public Vector3 walkPoint;
+    bool walkPointExist;
+    public float walkPointRange;
 
     /*  States  */
     public float sightDistance, reachDistance;
@@ -136,7 +141,32 @@ public class EnemyBehavior : MonoBehaviour
 
     private void PathingDefault()
     {
-        agent.SetDestination(transform.position);
+        if (!walkPointExist) FindWalkPoint();
+
+        if (walkPointExist)
+        {
+            agent.SetDestination(walkPoint);
+        }
+
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+        
+        if (distanceToWalkPoint.magnitude < 1f)
+        {
+            walkPointExist = false;
+        }
+    }
+
+    private void FindWalkPoint()
+    {
+        float randomZ = Random.Range(-walkPointRange, walkPointRange);
+        float randomX = Random.Range(-walkPointRange, walkPointRange);
+
+        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+        if (Physics.Raycast(walkPoint, -transform.up, 2f, groundLayer))
+        {
+            walkPointExist = true;
+        }
     }
 
     private void OnDrawGizmosSelected()

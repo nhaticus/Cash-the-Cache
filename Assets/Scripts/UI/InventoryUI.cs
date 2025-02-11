@@ -32,6 +32,7 @@ public class InventoryUI : MonoBehaviour
 
     private void ShowInventory()
     {
+        PlayerManager.Instance.lockRotation();
         GetComponent<CanvasGroup>().alpha = 1;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -41,6 +42,7 @@ public class InventoryUI : MonoBehaviour
 
     private void HideInventory() // on exit button
     {
+        PlayerManager.Instance.unlockRotation();
         GetComponent<CanvasGroup>().alpha = 0;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
