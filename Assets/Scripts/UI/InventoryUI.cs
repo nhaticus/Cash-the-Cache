@@ -9,7 +9,6 @@ public class InventoryUI : MonoBehaviour
 {
     PlayerInteract playerInteract;
     
-
     private void Start()
     {
         HideInventory();
@@ -18,7 +17,17 @@ public class InventoryUI : MonoBehaviour
     public void Initialize(GameObject player)
     {
         playerInteract = player.GetComponent<PlayerInteract>();
-        playerInteract.ShowInventory.AddListener(ShowInventory);
+        playerInteract.ShowInventory.AddListener(SwitchInventoryView);
+    }
+
+    bool show = false;
+    public void SwitchInventoryView()
+    {
+        show = !show;
+        if (show)
+            ShowInventory();
+        else
+            HideInventory();
     }
 
     private void ShowInventory()
@@ -31,7 +40,7 @@ public class InventoryUI : MonoBehaviour
         FillInventoryGrid();
     }
 
-    public void HideInventory() // on exit button
+    private void HideInventory() // on exit button
     {
         PlayerManager.Instance.unlockRotation();
         GetComponent<CanvasGroup>().alpha = 0;
@@ -68,27 +77,36 @@ public class InventoryUI : MonoBehaviour
     private void ChangeItemInfo(LootInfo info)
     {
         selectedItem = info;
-
-        itemName.text = selectedItem.itemName;
-        itemWeight.text = "weight: " + selectedItem.weight;
-        itemImg.sprite = selectedItem.sprite;
+        if(selectedItem == null)
+        {
+            itemName.text = "N/A";
+            itemWeight.text = "weight: 0";
+            itemImg.sprite = null;
+        }
+        else
+        {
+            itemName.text = selectedItem.itemName;
+            itemWeight.text = "weight: " + selectedItem.weight;
+            itemImg.sprite = selectedItem.sprite;
+        }
+        
     }
 
     public void DropItem()
     {
-        // create object (if prefab is attached create, otherwise create basic cube)
-        Instantiate(selectedItem != null ? selectedItem.prefab : GameObject.CreatePrimitive(PrimitiveType.Cube), playerInteract.transform.position + transform.TransformDirection(new Vector3(0, 0, 2)), playerInteract.transform.rotation);
+        // create prefab
+        Instantiate(selectedItem.prefab, playerInteract.transform.position + transform.TransformDirection(new Vector3(0, 0, 2)), playerInteract.transform.rotation);
+
+        playerInteract.weight -= selectedItem.weight; // decrease weight
+        playerInteract.ItemTaken.Invoke(); // update weight UI
 
         // remove from inventory
         playerInteract.inventory[selectedItem.itemName] = (playerInteract.inventory[selectedItem.itemName].Item1 - 1, selectedItem);
         if(playerInteract.inventory[selectedItem.itemName].Item1 == 0)
         {
             playerInteract.inventory.Remove(selectedItem.itemName);
-            selectedItem = new LootInfo();
-            ChangeItemInfo(selectedItem);
+            ChangeItemInfo(null);
         }
-
-        playerInteract.weight -= selectedItem.weight; // decrease weight
 
         FillInventoryGrid(); // update grid
     }
