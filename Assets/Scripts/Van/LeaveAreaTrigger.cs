@@ -7,19 +7,24 @@ public class LeaveAreaTrigger : MonoBehaviour
 {
     private bool playerInLeaveArea = false;
     private bool showingSummary = false;
-    [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject leaveText; // "Press E to leave" text
     [SerializeField] private GameObject summaryPanel;
     [SerializeField] private TMP_Text summaryText; // Text for stolen items summary
     [SerializeField] private string shopSceneName = "ShopScene"; // Change later
 
+    private void Awake()
+    {
+        leaveText.SetActive(false);
+        summaryPanel.SetActive(false);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             playerInLeaveArea = true;
-            if (canvas != null)
-            { 
-                canvas.SetActive(true); // Show "Press E to leave"
+            if (leaveText != null)
+            {
+                leaveText.SetActive(true); // Show "Press E to leave"
             }
             Debug.Log("Press E to leave.");
         }
@@ -30,7 +35,7 @@ public class LeaveAreaTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInLeaveArea = false;
-            if (canvas != null) canvas.SetActive(false);
+            if (leaveText != null) leaveText.SetActive(false);
             Debug.Log("Left leave area.");
         }
     }
@@ -67,7 +72,7 @@ public class LeaveAreaTrigger : MonoBehaviour
         Debug.Log("Game World Frozen.");
         showingSummary = true;
 
-        if (canvas != null) canvas.SetActive(false);
+        if (leaveText != null) leaveText.SetActive(false);
         if (summaryPanel != null) summaryPanel.SetActive(true);
 
         int totalEarnings = 0;
