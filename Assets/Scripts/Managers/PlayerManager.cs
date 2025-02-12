@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,12 @@ public class PlayerManager : MonoBehaviour
     //Player Stats
     [SerializeField]
     private int weight = 0;
+
+    [SerializeField]
     private int maxWeight = 30;
+
+    [SerializeField]
+    private float slowdownAmount = 9;
 
     //Create a Singleton
     private void Awake()
@@ -30,14 +36,21 @@ public class PlayerManager : MonoBehaviour
         playerMovementScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
     }
 
+    public float getSlowAmt()
+    {
+        return this.slowdownAmount;
+    }
+
     public void increaseMoveSpeed(float speedIncrease)
     {
         playerMovementScript.moveSpeed += speedIncrease;
+        Debug.Log("increasing Move speed");
     }
 
     public void decreaseMoveSpeed(float speedDecrease)
     {
         playerMovementScript.moveSpeed -= speedDecrease;
+        Debug.Log("decreasing Move speed");
     }
 
     public float getMoveSpeed()
