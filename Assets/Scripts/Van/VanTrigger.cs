@@ -1,13 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class VanTrigger : MonoBehaviour
 {
     private bool playerInRange = false;
     private PlayerInteract playerInventory;
-    [SerializeField] GameObject canvas;
+    [SerializeField] GameObject depositText;
 
+    private void Awake()
+    {
+        depositText.SetActive(false);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -15,7 +20,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInteract>();
 
-            if (canvas != null) canvas.SetActive(true);
+            if (depositText != null) depositText.SetActive(true);
         }
     }
 
@@ -26,7 +31,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = false;
             playerInventory = null;
 
-            if (canvas != null) canvas.SetActive(false);
+            if (depositText != null) depositText.SetActive(false);
         }
     }
 
