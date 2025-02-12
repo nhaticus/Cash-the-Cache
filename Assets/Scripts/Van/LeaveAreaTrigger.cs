@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class LeaveAreaTrigger : MonoBehaviour
 {
     private bool playerInLeaveArea = false;
-    private bool showingSummary = false;
     [SerializeField] private GameObject leaveText; // "Press E to leave" text
-    [SerializeField] private GameObject summaryPanel;
-    [SerializeField] private TMP_Text summaryText; // Text for stolen items summary
-    [SerializeField] private string shopSceneName = "ShopScene"; // Change later
+    [SerializeField] GameObject resultScreen;
 
     private void Awake()
     {
         leaveText.SetActive(false);
-        summaryPanel.SetActive(false);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -26,7 +23,6 @@ public class LeaveAreaTrigger : MonoBehaviour
             {
                 leaveText.SetActive(true); // Show "Press E to leave"
             }
-            Debug.Log("Press E to leave.");
         }
     }
 
@@ -36,7 +32,6 @@ public class LeaveAreaTrigger : MonoBehaviour
         {
             playerInLeaveArea = false;
             if (leaveText != null) leaveText.SetActive(false);
-            Debug.Log("Left leave area.");
         }
     }
 
@@ -55,20 +50,17 @@ public class LeaveAreaTrigger : MonoBehaviour
                 Debug.LogError("VanInventory or PlayerInventory is NULL!");
             }
 
-            if (!showingSummary)
-            {
-                ShowSummary();
-            }
-            else
-            {
-                LeaveLevel();
-            }
+            ShowSummary();
         }
     }
 
     void ShowSummary()
     {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
+        resultScreen.SetActive(true);
+        resultScreen.GetComponent<ResultScreen>().inventoryRef = VanInventory.Instance.stolenItems;
+        resultScreen.GetComponent<ResultScreen>().Begin();
+        /*
         Debug.Log("Game World Frozen.");
         showingSummary = true;
 
@@ -89,12 +81,6 @@ public class LeaveAreaTrigger : MonoBehaviour
         summaryText.text = summary; // Set UI text
 
         Debug.Log("Summary displayed. Press E again to continue.");
-    }
-
-    void LeaveLevel()
-    {
-        Debug.Log("Leaving level... Loading shop scene.");
-        Time.timeScale = 1;
-        // SceneManager.LoadScene(shopSceneName); // Uncomment this to load the next scene
+        */
     }
 }

@@ -5,11 +5,16 @@ using TMPro;
 
 public class PoliceTimer : MonoBehaviour
 {
-    public float timeLeft = 300f;
+    public float maxTime = 300f;
+    public float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        timeLeft = maxTime;
+    }
+
     void Update()
     {
         if(timerOn){
@@ -18,6 +23,7 @@ public class PoliceTimer : MonoBehaviour
             } else{
                 timeLeft = 0;
                 timerOn = false;
+                onTimerUp();
             }
             updateTimerDisplay();
         }
@@ -27,12 +33,14 @@ public class PoliceTimer : MonoBehaviour
     {
         int minutes = Mathf.FloorToInt(timeLeft / 60);
         int seconds = Mathf.FloorToInt(timeLeft % 60);
-        string timeText = minutes + ":" + seconds.ToString("00");
 
         Timer_display.text = minutes + ":" + seconds.ToString("00");
     }
 
     void onTimerUp(){
-        // Sent in police
+        // Send in police
+        timerOn = true;
+        timeLeft = maxTime / 1.5f;
+
     }
 }

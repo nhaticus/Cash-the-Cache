@@ -79,7 +79,7 @@ public class InventoryUI : MonoBehaviour
         selectedItem = info;
         if(selectedItem == null)
         {
-            itemName.text = "N/A";
+            itemName.text = "none";
             itemWeight.text = "weight: 0";
             itemImg.sprite = null;
         }
