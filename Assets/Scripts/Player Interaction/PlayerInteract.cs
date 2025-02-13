@@ -41,7 +41,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (objRef != hit.transform.gameObject) // Only update if a new object is hit
                 {
-                    ResetHighlight(); // Reset previous object's color
+                    //ResetHighlight(); // Reset previous object's color
 
                     objRef = hit.transform.gameObject;
                     objRenderer = objRef.GetComponent<Renderer>();

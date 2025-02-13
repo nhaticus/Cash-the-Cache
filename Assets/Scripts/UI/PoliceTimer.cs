@@ -6,9 +6,13 @@ using TMPro;
 public class PoliceTimer : MonoBehaviour
 {
     public float maxTime = 300f;
-    public float timeLeft;
+    float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
+
+    // police stuff
+    [SerializeField] GameObject police;
+    [SerializeField] Transform spawnPos;
 
     private void Start()
     {
@@ -39,6 +43,8 @@ public class PoliceTimer : MonoBehaviour
 
     void onTimerUp(){
         // Send in police
+        Instantiate(police, spawnPos);
+
         timerOn = true;
         timeLeft = maxTime / 1.5f;
 
