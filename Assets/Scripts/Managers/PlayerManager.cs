@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,17 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
     private PlayerCam playerCameraScript;
+    private PlayerMovement playerMovementScript;
+
+    //Player Stats
+    [SerializeField]
+    private int weight = 0;
+
+    [SerializeField]
+    private int maxWeight = 30;
+
+    [SerializeField]
+    private float slowdownAmount = 9;
 
     //Create a Singleton
     private void Awake()
@@ -19,8 +31,62 @@ public class PlayerManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        //Finds reference to playerCamera 
         playerCameraScript = GameObject.Find("Main Camera").GetComponent<PlayerCam>();
+        playerMovementScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
     }
+
+    public float getSlowAmt()
+    {
+        return this.slowdownAmount;
+    }
+
+    public void increaseMoveSpeed(float speedIncrease)
+    {
+        playerMovementScript.moveSpeed += speedIncrease;
+        Debug.Log("increasing Move speed");
+    }
+
+    public void decreaseMoveSpeed(float speedDecrease)
+    {
+        playerMovementScript.moveSpeed -= speedDecrease;
+        Debug.Log("decreasing Move speed");
+    }
+
+    public float getMoveSpeed()
+    {
+        return playerMovementScript.moveSpeed;
+    }
+
+    public void addWeight(int itemWeight)
+    {
+        this.weight += itemWeight;
+    }
+
+    public void subWeight(int itemWeight)
+    {
+        this.weight -= itemWeight;
+    }
+
+    public int getWeight()
+    {
+        return this.weight;
+    }
+
+    public void increaseMaxWeight(int increase)
+    {
+        this.maxWeight += increase;
+    }
+    public void decreaseMaxWeight(int decrease)
+    {
+        this.maxWeight -= decrease;
+    }
+
+    public int getMaxWeight()
+    {
+        return this.maxWeight;
+    }
+
 
     //Locks rotation of player camera
     public void lockRotation()
