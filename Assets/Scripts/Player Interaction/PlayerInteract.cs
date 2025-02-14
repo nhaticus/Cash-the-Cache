@@ -14,7 +14,7 @@ public class PlayerInteract : MonoBehaviour
     public int weight = 0;
     public int maxWeight = 30;
 
-    [SerializeField] private float highlightIntensity = 1.5f; // How much lighter the object should get
+    [SerializeField] float highlightIntensity = 1f; // How much lighter the object should get
     [SerializeField] float raycastDistance = 3.0f;
     [SerializeField] GameObject camera;
 
@@ -41,7 +41,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (objRef != hit.transform.gameObject) // Only update if a new object is hit
                 {
-                    //ResetHighlight(); // Reset previous object's color
+                    ResetHighlight(); // Reset previous object's color
 
                     objRef = hit.transform.gameObject;
                     objRenderer = objRef.GetComponent<Renderer>();
@@ -49,8 +49,7 @@ public class PlayerInteract : MonoBehaviour
                     if (objRenderer != null)
                     {
                         originalColor = objRenderer.material.color; // Store original color
-                        Color highlightedColor = originalColor * highlightIntensity; // Make it lighter
-                        highlightedColor.a = originalColor.a; // Preserve transparency
+                        Color highlightedColor = new Color(originalColor.r, originalColor.g, originalColor.b ); // originalColor * highlightIntensity; // Make it lighter
                         objRenderer.material.color = highlightedColor; // Apply new color
                     }
                 }
