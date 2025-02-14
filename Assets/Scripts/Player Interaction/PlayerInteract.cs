@@ -51,6 +51,7 @@ public class PlayerInteract : MonoBehaviour
         StealableObject stealObj = obj.GetComponent<StealableObject>();
         if (stealObj != null)
         {
+            AudioManager.Instance.PlaySFX("collect_item_sound");
             if (weight + stealObj.lootInfo.weight <= maxWeight)
             {
                 if (inventory.ContainsKey(stealObj.lootInfo.itemName))
