@@ -13,6 +13,7 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
+        disableTemplates();
         populateShop();
     }
 
@@ -26,6 +27,13 @@ public class ShopManager : MonoBehaviour
             itemTemplates[i].itemLevel.text = "Level: " + items[i].level.ToString();
             itemTemplates[i].itemStats.text = items[i].stats;
             itemTemplates[i].itemPrice.text = "Price: " + items[i].price.ToString();
+        }
+    }
+    public void disableTemplates()
+    {
+        for (int i = 0; i < itemTemplates.Length; i++)
+        {
+            itemTemplates[i].gameObject.SetActive(false);
         }
     }
 }
