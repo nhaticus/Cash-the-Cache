@@ -19,6 +19,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private float slowdownAmount = 9;
 
+    public bool inventoryOpen = false;
+
     //Create a Singleton
     private void Awake()
     {
