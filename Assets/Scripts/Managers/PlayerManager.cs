@@ -68,6 +68,11 @@ public class PlayerManager : MonoBehaviour
         this.weight -= itemWeight;
     }
 
+    public void setWeight(int newWeight)
+    {
+        this.weight = newWeight;
+    }
+
     public int getWeight()
     {
         return this.weight;

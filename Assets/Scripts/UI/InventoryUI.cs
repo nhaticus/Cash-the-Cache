@@ -101,7 +101,7 @@ public class InventoryUI : MonoBehaviour
         // create prefab
         Instantiate(selectedItem.prefab, playerInteract.transform.position + transform.TransformDirection(new Vector3(0, 0, 2)), playerInteract.transform.rotation);
 
-        playerInteract.weight -= selectedItem.weight; // decrease weight
+        PlayerManager.Instance.subWeight(selectedItem.weight); //decrease weight
         playerInteract.ItemTaken.Invoke(); // update weight UI
 
         // remove from inventory

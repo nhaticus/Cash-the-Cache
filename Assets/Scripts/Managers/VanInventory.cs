@@ -54,7 +54,7 @@ public class VanInventory : MonoBehaviour
 
         // Clear player's inventory
         playerInventory.inventory.Clear();
-        playerInventory.weight = 0;
+        PlayerManager.Instance.setWeight(0);
 
         // Update UI
         WeightUI weightUI = FindObjectOfType<WeightUI>();
