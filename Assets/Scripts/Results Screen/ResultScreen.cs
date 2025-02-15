@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*
  * Results screen that shows when you leave a level
@@ -16,6 +17,7 @@ public class ResultScreen : MonoBehaviour
     [SerializeField] GameObject resultElement; // prefab that shows item stolen
     [SerializeField] Transform resultGridTransform;
     [SerializeField] TMP_Text totalStolenText;
+    [SerializeField] string shopSceneName = "Shop Scene";
     public void Begin()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -42,7 +44,7 @@ public class ResultScreen : MonoBehaviour
 
     public void GoToShop() // used by Continue button to go to shop scene
     {
-
+        SceneManager.LoadScene(shopSceneName);
     }
 
 }
