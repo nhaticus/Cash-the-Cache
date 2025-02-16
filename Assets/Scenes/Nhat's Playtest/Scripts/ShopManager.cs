@@ -57,20 +57,18 @@ public class ShopManager : MonoBehaviour
 
     private void CheckPurchaseable()
     {
-        if(itemsInShop.Count == 0)
+        if (itemsInShop.Count != 0)
         {
-            return;
-        }
-
-        foreach (GameObject item in itemsInShop)
-        {
-            if (CanBuyItem(item.GetComponent<ItemTemplate>().itemData))
+            foreach (GameObject item in itemsInShop)
             {
-                item.GetComponent<ItemTemplate>().buyButton.interactable = true;
-            }
-            else
-            {
-                item.GetComponent<ItemTemplate>().buyButton.interactable = false;
+                if (CanBuyItem(item.GetComponent<ItemTemplate>().itemData))
+                {
+                    item.GetComponent<ItemTemplate>().buyButton.interactable = true;
+                }
+                else
+                {
+                    item.GetComponent<ItemTemplate>().buyButton.interactable = false;
+                }
             }
         }
     }
@@ -95,6 +93,7 @@ public class ShopManager : MonoBehaviour
         itemScriptableObject.level++;
         itemScriptableObject.price += itemScriptableObject.level * 100;
         UpdateItem(itemScriptableObject, itemGameObject);
+
         switch (itemScriptableObject.item)
         {
             case "Backpack":

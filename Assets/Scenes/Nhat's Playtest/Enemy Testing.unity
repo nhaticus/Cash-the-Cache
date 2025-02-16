@@ -646,6 +646,10 @@ GameObject:
   - component: {fileID: 1412741084}
   - component: {fileID: 1412741083}
   - component: {fileID: 1412741082}
+  - component: {fileID: 1412741089}
+  - component: {fileID: 1412741088}
+  - component: {fileID: 1412741087}
+  - component: {fileID: 1412741086}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -736,6 +740,60 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1412741086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412741081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca9006e1052871f4abc160f8ce927158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1412741087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412741081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 022c2fa7745e6b742b7747de9000fe36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeedUpgradeIncrement: 0.5
+  maxWeightUpgradeIncrement: 3
+--- !u!114 &1412741088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412741081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7096c77ee1ea0c54c9907ad40779e011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 0
+  maxWeight: 30
+  slowdownAmount: 9
+--- !u!114 &1412741089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1412741081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe484714dcf65c4f85fbfa6e71d5440, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMoney: 0
 --- !u!1 &1494731925
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,6 +1004,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859982539312117676, guid: 9f2312d32bfabda47aedea375adc49d3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4241942556014677600, guid: 9f2312d32bfabda47aedea375adc49d3,
         type: 3}
@@ -1336,6 +1399,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shop UI
       objectReference: {fileID: 0}
+    - target: {fileID: 3557289062620311943, guid: 363ed496bd51de443b4eb450b75bde7a,
+        type: 3}
+      propertyPath: items.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3557289062620311943, guid: 363ed496bd51de443b4eb450b75bde7a,
+        type: 3}
+      propertyPath: items.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 98ddf67e3913dd44dbba42938217f6fe,
+        type: 2}
     - target: {fileID: 6067712427130863824, guid: 363ed496bd51de443b4eb450b75bde7a,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1434,6 +1508,16 @@ PrefabInstance:
     - target: {fileID: 6067712427130863824, guid: 363ed496bd51de443b4eb450b75bde7a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726953415084002707, guid: 363ed496bd51de443b4eb450b75bde7a,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6726953415084002707, guid: 363ed496bd51de443b4eb450b75bde7a,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7348622326771293789, guid: 363ed496bd51de443b4eb450b75bde7a,
