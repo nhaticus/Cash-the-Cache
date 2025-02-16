@@ -5,35 +5,107 @@
  */
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
+using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
 {
-    public Items[] items;   // Array of items pulled from scriptable object
-    public ItemTemplate[] itemTemplates;
+    public static ShopManager Instance;
 
-    void Start()
+    public Items[] items;   // Array of items pulled from scriptable object
+
+    // Testing
+    public GameObject itemTemplate;
+    public Transform shopPanel;
+    private List<GameObject> itemsInShop = new List<GameObject>();
+    private TMP_Text MoneyText;
+
+    void Awake()
     {
-        disableTemplates();
-        populateShop();
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        MoneyText = GameObject.Find("Money txt").GetComponent<TMP_Text>();
+        PopulateShop();
     }
 
-    public void populateShop()
+    void Update()
     {
-        for (int i = 0; i < items.Length; i++)
+        CheckPurchaseable();
+        MoneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
+    }
+
+
+    public void PopulateShop()
+    {
+        foreach (Items item in items)
         {
-            itemTemplates[i].gameObject.SetActive(true);
-            itemTemplates[i].itemName.text = items[i].item;
-            itemTemplates[i].itemDescription.text = items[i].description;
-            itemTemplates[i].itemLevel.text = "Level: " + items[i].level.ToString();
-            itemTemplates[i].itemStats.text = items[i].stats;
-            itemTemplates[i].itemPrice.text = "Price: " + items[i].price.ToString();
+            Items itemScriptableObject = Instantiate(item);
+            GameObject itemGameObject = Instantiate(itemTemplate, shopPanel);
+            itemsInShop.Add(itemGameObject);
+            UpdateItem(itemScriptableObject, itemGameObject);
+            itemGameObject.GetComponent<ItemTemplate>().itemData = itemScriptableObject;
+            itemGameObject.GetComponent<ItemTemplate>().buyButton.onClick.AddListener(() => BuyItem(itemScriptableObject, itemGameObject));
         }
     }
-    public void disableTemplates()
+
+    private void CheckPurchaseable()
     {
-        for (int i = 0; i < itemTemplates.Length; i++)
+        if(itemsInShop.Count == 0)
         {
-            itemTemplates[i].gameObject.SetActive(false);
+            return;
+        }
+
+        foreach (GameObject item in itemsInShop)
+        {
+            if (CanBuyItem(item.GetComponent<ItemTemplate>().itemData))
+            {
+                item.GetComponent<ItemTemplate>().buyButton.interactable = true;
+            }
+            else
+            {
+                item.GetComponent<ItemTemplate>().buyButton.interactable = false;
+            }
+        }
+    }
+
+    private bool CanBuyItem(Items item)
+    {
+        return GameManager.Instance.playerMoney >= item.price;
+    }
+
+    private void UpdateItem(Items itemScriptableObject, GameObject itemGameObject)
+    {
+        itemGameObject.GetComponent<ItemTemplate>().itemName.text = itemScriptableObject.item;
+        itemGameObject.GetComponent<ItemTemplate>().itemDescription.text = itemScriptableObject.description;
+        itemGameObject.GetComponent<ItemTemplate>().itemLevel.text = "Level: " + itemScriptableObject.level.ToString();
+        itemGameObject.GetComponent<ItemTemplate>().itemStats.text = itemScriptableObject.stats;
+        itemGameObject.GetComponent<ItemTemplate>().itemPrice.text = "Price: " + itemScriptableObject.price.ToString();
+    }
+
+    public void BuyItem(Items itemScriptableObject, GameObject itemGameObject)
+    {
+        GameManager.Instance.playerMoney -= itemScriptableObject.price;
+        itemScriptableObject.level++;
+        itemScriptableObject.price += itemScriptableObject.level * 100;
+        UpdateItem(itemScriptableObject, itemGameObject);
+        switch (itemScriptableObject.item)
+        {
+            case "Backpack":
+                UpgradeManager.Instance.upgradeMaxWeight();
+                break;
+            case "Running Shoes":
+                UpgradeManager.Instance.upgradeSpeed();
+                break;
+            default:
+                Debug.Log("Item not found");
+                break;
         }
     }
 }
