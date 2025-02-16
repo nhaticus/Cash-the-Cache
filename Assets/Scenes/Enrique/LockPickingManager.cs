@@ -1,36 +1,42 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LockPickingManager : MonoBehaviour
 {
+    public int maxAttempts = 3;
+    public int currentAttempts;
+
     public GameObject easyPanel;
     public GameObject mediumPanel;
     public GameObject hardPanel;
     public GameObject lockpickingUI;
 
     private LockPicking lockPickingScript;
-
-    
+    private LockPickTrigger currentSafe;
     void Start()
     {
-   
+        currentAttempts = maxAttempts;
     }
-    public void SetDifficulty(string difficulty)
+
+    public void SetDifficulty(string difficulty, LockPickTrigger safe)
     {
+        if (lockPickingScript == null)
+        {
+            lockPickingScript = FindObjectOfType<LockPicking>();
+
             if (lockPickingScript == null)
             {
-                lockPickingScript = FindObjectOfType<LockPicking>();
-
-                if (lockPickingScript == null)
-                {
-                    Debug.LogError("LockPicking script is STILL NOT found! Make sure it is attached to the UI Canvas.");
-                    return;
-                }
+                Debug.LogError("LockPicking script is STILL NOT found! Make sure it is attached to the UI Canvas.");
+                return;
             }
-            // Disable all panels
-            easyPanel.SetActive(false);
+        }
+
+        currentSafe = safe;
+
+        // Disable all panels
+        easyPanel.SetActive(false);
         mediumPanel.SetActive(false);
         hardPanel.SetActive(false);
 
@@ -52,13 +58,44 @@ public class LockPickingManager : MonoBehaviour
         }
 
         Debug.Log("Difficulty set to: " + difficulty);
+        Debug.Log("New Safe Assigned: " + safe.gameObject.name);
+    }
+    public void LockPickSuccess()
+    {
+        if (currentSafe != null)
+        {
+            currentSafe.MarkSafeUnlocked();
+            currentSafe = null;
+        }
+        CloseLockpicking();
     }
 
     public void CloseLockpicking()
     {
-        lockpickingUI.SetActive(false);
+        easyPanel.SetActive(false);
+        mediumPanel.SetActive(false);
+        hardPanel.SetActive(false);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+    public bool ReduceAttempt()
+    {
+        currentAttempts--;
+        Debug.Log("Attempts Left: " + currentAttempts);
+
+        if (currentAttempts <= 0)
+        {
+            Debug.Log("Out of attempts! No more lockpicking allowed.");
+            return false; // No attempts left
+        }
+        return true; // Can still attempt
+    }
+
+    public void ResetAllAttempts()
+    {
+        Debug.Log("Resetting all attempts to max!");
+        currentAttempts = maxAttempts;
     }
 
 }

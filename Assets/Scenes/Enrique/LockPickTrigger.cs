@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class LockPickTrigger : MonoBehaviour
 {
-    public GameObject player;
     public string difficulty = "Easy"; // Default difficulty is 'Easy
     private bool isNearSafe = false;
     private bool isUnlocked = false;
     public LockPickingManager lockPickingManager;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-      
-    }
+    public Animator safeAnimator;
 
     // Update is called once per frame
     void Update()
     {
         if (isNearSafe && !isUnlocked && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("Lock Picking Started");
-            OpenLockpicking();
+            if (lockPickingManager.currentAttempts > 0) // Prevent interaction if no attempts left
+            {
+                Debug.Log("Lock Picking Started");
+                OpenLockpicking();
+            }
+            else
+            {
+                Debug.Log("No attempts left! Can't pick the lock.");
+            }
         }
     }
     void OnTriggerEnter(Collider other)
@@ -44,19 +45,24 @@ public class LockPickTrigger : MonoBehaviour
 
     void OpenLockpicking()
     {
+
+
         PlayerManager.Instance.lockRotation();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
 
+        lockPickingManager.lockpickingUI.SetActive(true);
+        lockPickingManager.SetDifficulty(difficulty, this);
 
-        lockPickingManager.SetDifficulty(difficulty);
-
-        // player.GetComponent<FirstPersonController>().enabled = false; // Disable movement (if using FPS controller)
+        
     }
     public void MarkSafeUnlocked()
     {
+        //if (isUnlocked) return;
         isUnlocked = true;
+        Debug.Log("Safe Unlocked: " + gameObject.name);
+        safeAnimator.SetTrigger("OpenSafe");
     }
 
 }

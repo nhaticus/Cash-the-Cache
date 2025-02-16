@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,10 @@ public class LockPicking : MonoBehaviour
     public Color wrongColor = Color.red;
     private Color defaultColor;
 
+    public TextMeshProUGUI attemptsText; // Text to display remaining attempts
+    public GameObject failedText;
+    private GameObject currentDifficultyPanel;
+
     public int maxAttempts = 3;   // Maximum attempts before lock resets  
     private int currentAttempts = 0; // Tracks current attempts
 
@@ -21,8 +26,18 @@ public class LockPicking : MonoBehaviour
 
     private List<int> correctOrder = new List<int>(); // Stores the order of correct clicks
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Exit();
+        }
+    }
+
     public void SetPins(GameObject difficultyPanel) 
     {
+        currentDifficultyPanel = difficultyPanel;
+
         // Find the "Pins" container inside the difficulty panel
         Transform pinsContainer = difficultyPanel.transform.Find("Pins");
 
@@ -33,6 +48,16 @@ public class LockPicking : MonoBehaviour
 
 
         Debug.Log("Pins assigned: " + pins.Length);
+
+
+        //currentAttempts = maxAttempts;
+
+
+        if (attemptsText != null)
+        {
+            attemptsText.gameObject.SetActive(true);
+        }
+        UpdateAttemptsUI();
 
         // Reset index
         currentIndex = 0;
@@ -61,12 +86,13 @@ public class LockPicking : MonoBehaviour
     private void Exit() 
     {
         PlayerManager.Instance.unlockRotation();
-       
-        Cursor.lockState = CursorLockMode.Locked;
+        
+        
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
 
-        // Hide UI
-        gameObject.SetActive(false);
+        currentDifficultyPanel.SetActive(false);
+        attemptsText.gameObject.SetActive(false);
 
         // Reset everything for the next use
         ResetAllPins();
@@ -80,6 +106,8 @@ public class LockPicking : MonoBehaviour
 
         Debug.Log("Clicked Pin: " + pinIndex + " | Expected: " + correctOrder[currentIndex]);
 
+        LockPickingManager manager = FindObjectOfType<LockPickingManager>();
+
         // Check if the clicked pin is the next one in the correct order
         if (pinIndex == correctOrder[currentIndex])
         {
@@ -88,10 +116,10 @@ public class LockPicking : MonoBehaviour
 
             if (currentIndex >= pins.Length)
             {
-                LockPickTrigger lockTrigger = FindObjectOfType<LockPickTrigger>();
-                if (lockTrigger != null)
+                LockPickingManager lockManager = FindObjectOfType<LockPickingManager>();
+                if (lockManager != null)
                 {
-                    lockTrigger.MarkSafeUnlocked();
+                    lockManager.LockPickSuccess(); // Unlocks the specific safe
                 }
 
                 Debug.Log("Lock is picked successfully!");
@@ -100,8 +128,22 @@ public class LockPicking : MonoBehaviour
         }
         else
         {
-            
+
+            if (manager != null)
+            {
+                manager.ReduceAttempt();  // Reduce attempt count
+
+                UpdateAttemptsUI(); //Ensure UI updates
+
+                if (manager.currentAttempts <= 0) 
+                {
+                    StartCoroutine(ShowFailedMessage());
+                    return;
+                }
+            }
+
             StartCoroutine(WrongPinEffect(pinIndex));
+
         }
     }
 
@@ -114,7 +156,7 @@ public class LockPicking : MonoBehaviour
 
         // Move the pin slightly up
         Vector3 originalPos = pinTransforms[pinIndex].localPosition;
-        pinTransforms[pinIndex].localPosition += new Vector3(0, 10f, 0); // Move up by 10
+        pinTransforms[pinIndex].localPosition += new Vector3(0, 100f, 0); // Move up by 10
 
         yield return new WaitForSeconds(0.3f); // Small delay for effect
 
@@ -172,4 +214,34 @@ public class LockPicking : MonoBehaviour
 
         Debug.Log("Randomized Click Order: " + string.Join(", ", correctOrder));
     }
+
+    void UpdateAttemptsUI()
+    {
+        LockPickingManager manager = FindObjectOfType<LockPickingManager>();
+        if (manager != null && attemptsText != null)
+        {
+            attemptsText.text = "Attempts Left: " + manager.currentAttempts;
+        }
+    }
+
+    IEnumerator ShowFailedMessage()
+    {
+        if (failedText != null)
+        {
+            failedText.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("FAILED! text is NULL! Assign it in the Inspector.");
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        if (failedText != null)
+        {
+            failedText.SetActive(false);
+        }
+        Exit();
+    }
+
 }
