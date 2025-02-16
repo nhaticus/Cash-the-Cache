@@ -12,8 +12,7 @@ public class PlayerInteract : MonoBehaviour
     private Color originalColor; // Store the original color of the object
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
 
-
-    [SerializeField] float highlightIntensity = 1f; // How much lighter the object should get
+    [SerializeField] float highlightIntensity = 3f; // How much lighter the object should get
     [SerializeField] float raycastDistance = 3.0f;
     [SerializeField] GameObject camera;
 
@@ -48,7 +47,7 @@ public class PlayerInteract : MonoBehaviour
                     if (objRenderer != null)
                     {
                         originalColor = objRenderer.material.color; // Store original color
-                        Color highlightedColor = new Color(originalColor.r, originalColor.g, originalColor.b ); // originalColor * highlightIntensity; // Make it lighter
+                        Color highlightedColor = originalColor * highlightIntensity; // Make it lighter
                         objRenderer.material.color = highlightedColor; // Apply new color
                     }
                 }
