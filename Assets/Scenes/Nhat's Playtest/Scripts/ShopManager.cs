@@ -107,4 +107,9 @@ public class ShopManager : MonoBehaviour
                 break;
         }
     }
+
+    public void ToggleShop()
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+    }
 }

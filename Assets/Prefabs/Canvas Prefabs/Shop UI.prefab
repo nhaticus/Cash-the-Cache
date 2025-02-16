@@ -256,7 +256,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7732339053122469170}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3557289062620311943}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+        m_MethodName: ToggleShop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2771036752258384606
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,6 +364,7 @@ MonoBehaviour:
   items:
   - {fileID: 11400000, guid: 5c4ceda8658d76145a7a9a3db580d104, type: 2}
   - {fileID: 11400000, guid: 09ef4d4817b3c6246b61bc0d0713d7ff, type: 2}
+  - {fileID: 11400000, guid: 98ddf67e3913dd44dbba42938217f6fe, type: 2}
   itemTemplate: {fileID: 6493604764299950295, guid: ea1600ff7d2ecdc4787e0936247dde68,
     type: 3}
   shopPanel: {fileID: 6726953415084002707}
