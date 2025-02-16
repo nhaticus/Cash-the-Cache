@@ -19,6 +19,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private float slowdownAmount = 9;
 
+    public bool inventoryOpen = false;
+
     //Create a Singleton
     private void Awake()
     {
@@ -66,6 +68,11 @@ public class PlayerManager : MonoBehaviour
     public void subWeight(int itemWeight)
     {
         this.weight -= itemWeight;
+    }
+
+    public void setWeight(int newWeight)
+    {
+        this.weight = newWeight;
     }
 
     public int getWeight()

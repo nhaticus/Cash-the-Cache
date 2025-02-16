@@ -11,8 +11,7 @@ public class PlayerInteract : MonoBehaviour
     private Renderer objRenderer;
     private Color originalColor; // Store the original color of the object
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
-    public int weight = 0;
-    public int maxWeight = 30;
+
 
     [SerializeField] float highlightIntensity = 1f; // How much lighter the object should get
     [SerializeField] float raycastDistance = 3.0f;
@@ -20,7 +19,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && objRef != null)
+        if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.inventoryOpen != true)
         {
             Interact(objRef);
         }
@@ -81,7 +80,7 @@ public class PlayerInteract : MonoBehaviour
         StealableObject stealObj = obj.GetComponent<StealableObject>();
         if (stealObj != null)
         {
-            if (weight <= maxWeight) // can steal over max weight once: but suffer more speed loss
+            if (PlayerManager.Instance.getWeight() <= PlayerManager.Instance.getMaxWeight()) // can steal over max weight once: but suffer more speed loss
             {
                 if (inventory.ContainsKey(stealObj.lootInfo.itemName))
                 {
@@ -92,7 +91,7 @@ public class PlayerInteract : MonoBehaviour
                     inventory.Add(stealObj.lootInfo.itemName, (1, stealObj.lootInfo));
                 }
 
-                weight += stealObj.lootInfo.weight;
+                PlayerManager.Instance.addWeight(stealObj.lootInfo.weight);
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
                 ItemTaken.Invoke(); // send event saying an item was taken
