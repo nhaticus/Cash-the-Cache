@@ -12,21 +12,18 @@ public class PlayerInteract : MonoBehaviour
     private Color originalColor; // Store the original color of the object
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
 
-    [SerializeField] float highlightIntensity = 3f; // How much lighter the object should get
+
+    [SerializeField] private float highlightIntensity = 1.5f; // How much lighter the object should get
     [SerializeField] float raycastDistance = 3.0f;
     [SerializeField] GameObject camera;
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract)
+        if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract != false)
         {
             Interact(objRef);
         }
-        if (Input.GetMouseButtonDown(0) &&  PlayerManager.Instance.ableToInteract)
-        {
-            Debug.Log("should interact");
-        }
-        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract)
+        if (Input.GetMouseButtonDown(1))
         {
             RevealInventory();
         }
@@ -43,7 +40,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (objRef != hit.transform.gameObject) // Only update if a new object is hit
                 {
-                    ResetHighlight(); // Reset previous object's color
+                    //ResetHighlight(); // Reset previous object's color
 
                     objRef = hit.transform.gameObject;
                     objRenderer = objRef.GetComponent<Renderer>();
@@ -52,6 +49,7 @@ public class PlayerInteract : MonoBehaviour
                     {
                         originalColor = objRenderer.material.color; // Store original color
                         Color highlightedColor = originalColor * highlightIntensity; // Make it lighter
+                        highlightedColor.a = originalColor.a; // Preserve transparency
                         objRenderer.material.color = highlightedColor; // Apply new color
                     }
                 }
@@ -85,6 +83,7 @@ public class PlayerInteract : MonoBehaviour
         {
             if (PlayerManager.Instance.getWeight() <= PlayerManager.Instance.getMaxWeight()) // can steal over max weight once: but suffer more speed loss
             {
+                AudioManager.Instance.PlaySFX("collect_item_sound");
                 if (inventory.ContainsKey(stealObj.lootInfo.itemName))
                 {
                     inventory[stealObj.lootInfo.itemName] = (inventory[stealObj.lootInfo.itemName].Item1 + 1, stealObj.lootInfo);

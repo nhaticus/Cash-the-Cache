@@ -47,10 +47,7 @@ public class PlayerManager : MonoBehaviour
     {
         this.currentSpeed = playerMovementScript.moveSpeed;
         this.maxSpeed = playerMovementScript.moveSpeed;
-        if (ableToInteract)
-            Debug.Log("good");
-        else
-            Debug.Log("bad");
+        this.ableToInteract = true;
     }
 
     public float getSlowAmt()
