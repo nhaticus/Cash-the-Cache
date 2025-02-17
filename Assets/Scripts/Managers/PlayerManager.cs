@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private float maxSpeed;
 
-    public bool ableToInteract = false;
+    public bool ableToInteract = true;
 
     //Create a Singleton
     private void Awake()
@@ -47,6 +47,10 @@ public class PlayerManager : MonoBehaviour
     {
         this.currentSpeed = playerMovementScript.moveSpeed;
         this.maxSpeed = playerMovementScript.moveSpeed;
+        if (ableToInteract)
+            Debug.Log("good");
+        else
+            Debug.Log("bad");
     }
 
     public float getSlowAmt()

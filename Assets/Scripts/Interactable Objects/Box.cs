@@ -33,6 +33,11 @@ public class Box : MonoBehaviour, InteractEvent
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
+            PlayerManager.Instance.ableToInteract = false;
+            PlayerManager.Instance.lockRotation();
+            PlayerManager.Instance.setMoveSpeed(0);
+            
+
             for (int i = 0; i < screwsLeft; i++)
             {
                 GameObject screwObj = Instantiate(screw);
@@ -58,6 +63,11 @@ public class Box : MonoBehaviour, InteractEvent
         canvas.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        PlayerManager.Instance.ableToInteract = true;
+        PlayerManager.Instance.unlockRotation();
+        PlayerManager.Instance.setMoveSpeed(PlayerManager.Instance.getMaxMoveSpeed());
+
         Instantiate(obj[Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
         Destroy(gameObject);
     }

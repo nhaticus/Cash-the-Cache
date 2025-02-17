@@ -18,11 +18,15 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract != true)
+        if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract)
         {
             Interact(objRef);
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(0) &&  PlayerManager.Instance.ableToInteract)
+        {
+            Debug.Log("should interact");
+        }
+        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract)
         {
             RevealInventory();
         }
