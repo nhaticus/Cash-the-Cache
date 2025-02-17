@@ -11,7 +11,9 @@ public class InventoryUI : MonoBehaviour
     
     private void Start()
     {
-        HideInventory();
+        GetComponent<CanvasGroup>().alpha = 0;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void Initialize(GameObject player)
@@ -33,6 +35,8 @@ public class InventoryUI : MonoBehaviour
     private void ShowInventory()
     {
         PlayerManager.Instance.lockRotation();
+        PlayerManager.Instance.ableToInteract = false;
+        PlayerManager.Instance.slowPlayer();
         GetComponent<CanvasGroup>().alpha = 1;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -43,6 +47,8 @@ public class InventoryUI : MonoBehaviour
     private void HideInventory() // on exit button
     {
         PlayerManager.Instance.unlockRotation();
+        PlayerManager.Instance.ableToInteract = true;
+        PlayerManager.Instance.unSlowPlayer();
         GetComponent<CanvasGroup>().alpha = 0;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -79,7 +85,7 @@ public class InventoryUI : MonoBehaviour
         selectedItem = info;
         if(selectedItem == null)
         {
-            itemName.text = "N/A";
+            itemName.text = "none";
             itemWeight.text = "weight: 0";
             itemImg.sprite = null;
         }
@@ -97,7 +103,7 @@ public class InventoryUI : MonoBehaviour
         // create prefab
         Instantiate(selectedItem.prefab, playerInteract.transform.position + transform.TransformDirection(new Vector3(0, 0, 2)), playerInteract.transform.rotation);
 
-        playerInteract.weight -= selectedItem.weight; // decrease weight
+        PlayerManager.Instance.subWeight(selectedItem.weight); //decrease weight
         playerInteract.ItemTaken.Invoke(); // update weight UI
 
         // remove from inventory
