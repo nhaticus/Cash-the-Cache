@@ -11,7 +11,7 @@ using UnityEngine;
 public class Box : MonoBehaviour, InteractEvent
 {
     [SerializeField] GameObject[] obj;
-    [SerializeField] int difficulty = 3; // difficulty determines amount of clicks (difficulty * 1.3) and number of screws
+    [SerializeField] int difficulty = 4; // difficulty determines amount of clicks (difficulty * 1.5) and number of screws
 
     [SerializeField] GameObject canvas, background;
     [SerializeField] GameObject screw;
@@ -23,6 +23,8 @@ public class Box : MonoBehaviour, InteractEvent
         canvas.SetActive(false);
         screwsLeft = difficulty;
     }
+
+    // Create difficulty amount of screws and connect their event to ScrewOff
     public void Interact()
     {
         if (!interacted)
