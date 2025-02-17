@@ -83,6 +83,7 @@ public class PlayerInteract : MonoBehaviour
         {
             if (PlayerManager.Instance.getWeight() <= PlayerManager.Instance.getMaxWeight()) // can steal over max weight once: but suffer more speed loss
             {
+                AudioManager.Instance.PlaySFX("collect_item_sound");
                 if (inventory.ContainsKey(stealObj.lootInfo.itemName))
                 {
                     inventory[stealObj.lootInfo.itemName] = (inventory[stealObj.lootInfo.itemName].Item1 + 1, stealObj.lootInfo);

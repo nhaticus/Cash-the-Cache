@@ -23,7 +23,8 @@ public class PlayerMovement : MonoBehaviour
     bool grounded;
 
     [Header("Keybinds")]
-    public KeyCode jumpKey = KeyCode.Space;
+    public
+     KeyCode jumpKey = KeyCode.Space;
 
 
     public Transform orientation;
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     Transform tf;
 
     public bool touchingWall;
+    private bool isPlayingFootsteps = false;
 
     private void Start()
     {
@@ -58,6 +60,8 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
 
+        HandleFootstepSound();
+    
         // handle drag
         if (grounded)
         {
@@ -96,13 +100,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+        //AudioManager.Instance.PlaySFX("footstep_sound");
+
         // calculate movement Direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         if (grounded)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-            AudioManager.Instance.PlaySFX("footstep_sound");
         }
         else if (!grounded)
         {
@@ -124,6 +129,24 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
+
+    private void HandleFootstepSound()
+    {
+        // Check if player is moving horizontally
+        bool isMoving = rb.velocity.magnitude > 0.1f;
+
+        if (isMoving && !isPlayingFootsteps) {
+            //Debug.Log("playing footstep sound");
+            AudioManager.Instance.PlaySFX("footstep_sound", true);
+            isPlayingFootsteps = true;
+        }
+        else if (!isMoving && isPlayingFootsteps) {
+            //Debug.Log("stopping footstep sound");
+            AudioManager.Instance.StopSFX("footstep_sound");
+            isPlayingFootsteps = false;
+        }
+    }
+
 
     private void Jump()
     {
