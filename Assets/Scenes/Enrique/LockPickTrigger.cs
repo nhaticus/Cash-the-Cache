@@ -9,9 +9,18 @@ public class LockPickTrigger : MonoBehaviour
     private bool isUnlocked = false;
     public LockPickingManager lockPickingManager;
     public Animator safeAnimator;
+    public string safeID;
+
+    private void Start()
+    {
+        if (string.IsNullOrEmpty(safeID))
+        {
+            safeID = gameObject.name; // Assign the GameObject name if no ID is given
+        }
+    }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (isNearSafe && !isUnlocked && Input.GetKeyDown(KeyCode.E))
         {
@@ -26,7 +35,7 @@ public class LockPickTrigger : MonoBehaviour
             }
         }
     }
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player")) // Check if the player entered the safe area
         {
@@ -34,7 +43,7 @@ public class LockPickTrigger : MonoBehaviour
             isNearSafe = true;
         }
     }
-    void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player")) // Check if the player left the safe area
         {
@@ -45,12 +54,8 @@ public class LockPickTrigger : MonoBehaviour
 
     void OpenLockpicking()
     {
-
-
         PlayerManager.Instance.lockRotation();
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
+        SetCursorState(true);
 
         lockPickingManager.lockpickingUI.SetActive(true);
         lockPickingManager.SetDifficulty(difficulty, this);
@@ -64,5 +69,16 @@ public class LockPickTrigger : MonoBehaviour
         Debug.Log("Safe Unlocked: " + gameObject.name);
         safeAnimator.SetTrigger("OpenSafe");
     }
-
+    private void SetCursorState(bool visible)
+    {
+        if (visible)
+        {
+            Cursor.lockState = CursorLockMode.None; // Unlock the cursor and make it visible
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked; // Lock the cursor and hide it
+        }
+        Cursor.visible = visible;
+    }
 }
