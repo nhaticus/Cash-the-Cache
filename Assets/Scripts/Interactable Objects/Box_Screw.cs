@@ -13,6 +13,7 @@ public class Box_Screw : MonoBehaviour
     public void Clicked()
     {
         clicks++;
+        transform.Rotate(new Vector3(0, 0, Random.Range(-20, -40)));
         if(clicks == clicksRequired)
         {
             removeScrew.Invoke();

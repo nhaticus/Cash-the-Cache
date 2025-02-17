@@ -30,28 +30,25 @@ public class Box : MonoBehaviour, InteractEvent
             canvas.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+
             for (int i = 0; i < screwsLeft; i++)
             {
-                // make sure not to spawn too close to each other
                 GameObject screwObj = Instantiate(screw);
                 screwObj.transform.SetParent(background.transform);
-                //Vector3 randPos = new Vector3(Random.Range(-600, 600), Random.Range(-300, 300), 0);
-                screwObj.transform.localPosition = new Vector3(Random.Range(-600, 600), Random.Range(-300, 300), 0);
+                screwObj.transform.localPosition = new Vector3(Random.Range(-620, 620), Random.Range(-320, 320), 0);
                 Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
-                screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.3f);
+                screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.5f);
                 screwScript.removeScrew.AddListener(ScrewOff);
             }
             interacted = true; // prevent opening when in canvas (NEED TO ASK AJ)
         }
     }
 
-    void ScrewOff()
+    void ScrewOff() // when a screw comes off this event is used
     {
         screwsLeft--;
         if(screwsLeft == 0)
-        {
             OpenBox();
-        }
     }
 
     void OpenBox()
