@@ -71,14 +71,14 @@ public class AudioManager : MonoBehaviour
     }
 
     public void StopSFX(string name){
-        Debug.Log($"Attempting to stop: {name}");
+        //Debug.Log($"Attempting to stop: {name}");
         if (sfxSource.clip != null) {
-            Debug.Log($"Current clip name: {sfxSource.clip.name}");
+            //Debug.Log($"Current clip name: {sfxSource.clip.name}");
         } else {
             Debug.Log("No clip assigned to sfxSource");
         }
 
-        Debug.Log("Stopping SFX: " + name);
+        //Debug.Log("Stopping SFX: " + name);
         sfxSource.Stop();
         sfxSource.loop = false;
         sfxSource.clip = null; // Force reset
