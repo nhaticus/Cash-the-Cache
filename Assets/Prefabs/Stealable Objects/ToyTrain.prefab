@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 7698766369746697353}
   - component: {fileID: 169269512475377376}
   - component: {fileID: 6664600528046524460}
+  - component: {fileID: 8839959328597128334}
   m_Layer: 0
   m_Name: ToyTrain
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -132,4 +133,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2a1fa0b4f0f27d41aa5bf6f8e1dc9da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootInfo: {fileID: 0}
+  lootInfo: {fileID: 11400000, guid: d4c345fbc3c6bae4aaa38907c2e77d4c, type: 2}
+--- !u!54 &8839959328597128334
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762214484957385018}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
