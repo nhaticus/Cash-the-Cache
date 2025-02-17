@@ -16,7 +16,6 @@ public class Box : MonoBehaviour, InteractEvent
     [SerializeField] GameObject canvas, background;
     [SerializeField] GameObject screw;
     int screwsLeft = 0;
-    bool interacted = false;
 
     private void Start()
     {
@@ -27,27 +26,23 @@ public class Box : MonoBehaviour, InteractEvent
     // Create difficulty amount of screws and connect their event to ScrewOff
     public void Interact()
     {
-        if (!interacted)
+        canvas.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        PlayerManager.Instance.ableToInteract = false;
+        PlayerManager.Instance.lockRotation();
+        PlayerManager.Instance.setMoveSpeed(0);
+
+
+        for (int i = 0; i < screwsLeft; i++)
         {
-            canvas.SetActive(true);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-
-            PlayerManager.Instance.ableToInteract = false;
-            PlayerManager.Instance.lockRotation();
-            PlayerManager.Instance.setMoveSpeed(0);
-            
-
-            for (int i = 0; i < screwsLeft; i++)
-            {
-                GameObject screwObj = Instantiate(screw);
-                screwObj.transform.SetParent(background.transform);
-                screwObj.transform.localPosition = new Vector3(Random.Range(-620, 620), Random.Range(-320, 320), 0);
-                Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
-                screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.5f);
-                screwScript.removeScrew.AddListener(ScrewOff);
-            }
-            interacted = true; // prevent opening when in canvas (NEED TO ASK AJ)
+            GameObject screwObj = Instantiate(screw);
+            screwObj.transform.SetParent(background.transform);
+            screwObj.transform.localPosition = new Vector3(Random.Range(-620, 620), Random.Range(-320, 320), 0);
+            Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
+            screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.5f);
+            screwScript.removeScrew.AddListener(ScrewOff);
         }
     }
 
