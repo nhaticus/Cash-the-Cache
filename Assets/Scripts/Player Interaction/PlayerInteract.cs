@@ -19,7 +19,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract != true)
+        if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract != false)
         {
             Interact(objRef);
         }
