@@ -33,9 +33,10 @@ public class Box : MonoBehaviour, InteractEvent
             for (int i = 0; i < screwsLeft; i++)
             {
                 // make sure not to spawn too close to each other
-                Vector3 randPos = new Vector3(Random.Range(-500, 500), Random.Range(-300, 300), 0);
-                GameObject screwObj = Instantiate(screw, randPos, Quaternion.identity);
+                GameObject screwObj = Instantiate(screw);
                 screwObj.transform.SetParent(background.transform);
+                //Vector3 randPos = new Vector3(Random.Range(-600, 600), Random.Range(-300, 300), 0);
+                screwObj.transform.localPosition = new Vector3(Random.Range(-600, 600), Random.Range(-300, 300), 0);
                 Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
                 screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.3f);
                 screwScript.removeScrew.AddListener(ScrewOff);
