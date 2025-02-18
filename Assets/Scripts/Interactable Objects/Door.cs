@@ -34,6 +34,7 @@ public class Door : MonoBehaviour, InteractEvent
     }
     public void Interact()
     {
+        Debug.Log("Door Interacted! Current state: " + opening);
         opening = !opening;
     }
 }
