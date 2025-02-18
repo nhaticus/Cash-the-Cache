@@ -14,6 +14,10 @@ public class InventoryUI : MonoBehaviour
         GetComponent<CanvasGroup>().alpha = 0;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        itemName.text = "none";
+        itemWeight.text = "weight: 0";
+        itemImg.sprite = null;
     }
 
     public void Initialize(GameObject player)

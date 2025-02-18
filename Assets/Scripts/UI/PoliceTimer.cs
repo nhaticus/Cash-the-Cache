@@ -12,7 +12,8 @@ public class PoliceTimer : MonoBehaviour
 
     // police stuff
     [SerializeField] GameObject police;
-    [SerializeField] Transform spawnPos;
+    [SerializeField] int numPoliceToSpawn = 1;
+    [SerializeField] Transform[] spawnPos;
 
     private void Start()
     {
@@ -42,11 +43,17 @@ public class PoliceTimer : MonoBehaviour
     }
 
     void onTimerUp(){
-        // Send in police
-        Instantiate(police, spawnPos);
+        // Send in police at random spawn positions
+        for(int i = 0; i < numPoliceToSpawn; i++)
+        {
+            Instantiate(police, spawnPos[Random.Range(0, spawnPos.Length)]);
+        }
 
+        // lower next spawn time
+        maxTime /= 1.75f;
+        if(maxTime < 30)
+            maxTime = 30;
+        timeLeft = maxTime;
         timerOn = true;
-        timeLeft = maxTime / 1.5f;
-
     }
 }
