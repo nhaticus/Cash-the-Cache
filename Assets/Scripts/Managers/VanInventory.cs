@@ -46,7 +46,7 @@ public class VanInventory : MonoBehaviour
         }
 
         // Add money to player
-        if (totalMoney > 0)
+        if (totalMoney > 0) // ----------- NOTE: CHANGE TO GIVE MONEY AT RESULT SCREEN ------------- //
         {
             GameManager.Instance.AddMoney(totalMoney);
             Debug.Log("Converted stolen items to $" + totalMoney);

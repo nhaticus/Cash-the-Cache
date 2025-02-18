@@ -15,9 +15,7 @@ public class InventoryUI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        itemName.text = "none";
-        itemWeight.text = "weight: 0";
-        itemImg.sprite = null;
+        ChangeItemInfo(null);
     }
 
     public void Initialize(GameObject player)
