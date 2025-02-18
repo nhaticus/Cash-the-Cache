@@ -19,7 +19,19 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public enum GameState
+    {
+        Play,
+        Pause,
+        Over
+    }
 
+    public GameState CurrentState { get; private set; }
+
+    public void SetGameState(GameState newState)
+    {
+        CurrentState = newState;
+    }
     public void AddMoney(int amount)
     {
         playerMoney += amount;
