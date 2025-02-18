@@ -39,7 +39,6 @@ public class ShopManager : MonoBehaviour
         openShopPrompt = GameObject.Find("OpenShopPrompt txt").GetComponent<TMP_Text>();
         openShopPrompt.gameObject.SetActive(false);
         moneyText = GameObject.Find("Money txt").GetComponent<TMP_Text>();
-        moneyText.gameObject.SetActive(false);
         PopulateShop();
         shopUI.SetActive(false);
     }
@@ -151,8 +150,8 @@ public class ShopManager : MonoBehaviour
     public void ToggleShop()
     {
         shopActive = !shopActive;
-        PlayerManager.Instance.toggleRotation();
-        PlayerManager.Instance.toggleCursor();
+        PlayerManager.Instance.ToggleRotation();
+        PlayerManager.Instance.ToggleCursor();
         shopUI.SetActive(!shopUI.activeSelf);
     }
 }
