@@ -10,35 +10,44 @@ using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
 {
-    public static ShopManager Instance;
+    public static ShopManager Instance { get; private set; }
 
     public Items[] items;   // Array of items pulled from scriptable object
 
-    // Testing
+    public GameObject shopUI;
+
     public GameObject itemTemplate;
     public Transform shopPanel;
     private List<GameObject> itemsInShop = new List<GameObject>();
-    private TMP_Text MoneyText;
+    [SerializeField] private TMP_Text moneyText;
+
+    [SerializeField] private TMP_Text openShopPrompt;
+
+    public bool shopActive { get; private set; } = false;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
-        MoneyText = GameObject.Find("Money txt").GetComponent<TMP_Text>();
+
+        openShopPrompt = GameObject.Find("OpenShopPrompt txt").GetComponent<TMP_Text>();
+        openShopPrompt.gameObject.SetActive(false);
+        moneyText = GameObject.Find("Money txt").GetComponent<TMP_Text>();
         PopulateShop();
+        shopUI.SetActive(false);
     }
 
     void Update()
     {
+        ShopCheck();
         CheckPurchaseable();
-        MoneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
+        moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
     }
 
 
@@ -107,9 +116,42 @@ public class ShopManager : MonoBehaviour
                 break;
         }
     }
+    private void ShopCheck()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 4))
+        {
+            if (hit.transform.CompareTag("Shop Keeper"))
+            {
+                if (!ShopManager.Instance.shopActive)
+                {
+                    openShopPrompt.gameObject.SetActive(true);
+                }
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    ShopManager.Instance.ToggleShop();
+                    openShopPrompt.gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                openShopPrompt.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            openShopPrompt.gameObject.SetActive(false);
+        }
+    }
+
 
     public void ToggleShop()
     {
-        gameObject.SetActive(!gameObject.activeSelf);
+        shopActive = !shopActive;
+        PlayerManager.Instance.ToggleRotation();
+        PlayerManager.Instance.ToggleCursor();
+        shopUI.SetActive(!shopUI.activeSelf);
     }
 }
