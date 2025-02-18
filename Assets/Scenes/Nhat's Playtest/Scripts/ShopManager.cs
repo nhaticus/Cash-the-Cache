@@ -33,6 +33,7 @@ public class ShopManager : MonoBehaviour
         }
         MoneyText = GameObject.Find("Money txt").GetComponent<TMP_Text>();
         PopulateShop();
+        gameObject.SetActive(false);
     }
 
     void Update()
