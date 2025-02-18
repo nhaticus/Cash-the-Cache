@@ -31,10 +31,15 @@ public class PlayerInteract : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.DrawRay(transform.position, camera.transform.forward * raycastDistance, Color.green);
+        // Get the screen center point
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+
+        // Generate a ray from the camera through the center of the screen
+        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+        Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, camera.transform.forward, out hit, raycastDistance))
+        if (Physics.Raycast(ray, out hit, raycastDistance))
         {
             if (hit.transform.CompareTag("Selectable"))
             {
