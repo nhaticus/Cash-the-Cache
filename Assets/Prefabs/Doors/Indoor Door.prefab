@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3822888988710415118}
   - component: {fileID: 3155729680280849080}
   - component: {fileID: 8075940873146681912}
+  - component: {fileID: 467835234848964272}
   m_Layer: 0
   m_Name: SM_Bld_House_InteriorWall_Door_02
   m_TagString: Selectable
@@ -100,12 +101,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0500414, y: 2.2724009, z: 0.237546}
-  m_Center: {x: -0.5250206, y: 1.1362004, z: 0.06464121}
+  m_Size: {x: 1.9178439, y: 2.3673098, z: 2.743589}
+  m_Center: {x: -0.5155756, y: 1.1836549, z: 0.107361294}
 --- !u!114 &8075940873146681912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +124,22 @@ MonoBehaviour:
   closeRot: 0
   speed: 15
   opening: 0
+--- !u!114 &467835234848964272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2432080930950016803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3b290f67ab2990469697d1f293dedb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  door: {fileID: 46344273775243601}
+  openAngle: 80
+  closeAngle: 0
+  speed: 3
 --- !u!1 &7889775635911675543
 GameObject:
   m_ObjectHideFlags: 0
