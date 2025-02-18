@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviour
     //Create a Singleton
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -142,5 +142,24 @@ public class PlayerManager : MonoBehaviour
     public void unlockRotation()
     {
         playerCameraScript.lockRotation = false;
+    }
+
+    public void ToggleRotation()
+    {
+        playerCameraScript.lockRotation = !playerCameraScript.lockRotation;
+    }
+
+    public void ToggleCursor()
+    {
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 }
