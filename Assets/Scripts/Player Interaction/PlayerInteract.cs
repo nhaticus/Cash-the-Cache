@@ -11,7 +11,7 @@ public class PlayerInteract : MonoBehaviour
     private Renderer objRenderer;
     private Color originalColor; // Store the original color of the object
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
-
+   
 
     [SerializeField] private float highlightIntensity = 1.5f; // How much lighter the object should get
     [SerializeField] float raycastDistance = 3.0f;
@@ -23,7 +23,8 @@ public class PlayerInteract : MonoBehaviour
         {
             Interact(objRef);
         }
-        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract)
+        LockPicking lockPicking = FindObjectOfType<LockPicking>();
+        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract && (lockPicking == null || !lockPicking.isLockpicking))
         {
             RevealInventory();
         }
