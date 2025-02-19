@@ -86,7 +86,7 @@ public class PlayerInteract : MonoBehaviour
         StealableObject stealObj = obj.GetComponent<StealableObject>();
         if (stealObj != null)
         {
-            if (PlayerManager.Instance.getWeight() <= PlayerManager.Instance.getMaxWeight()) // can steal over max weight once: but suffer more speed loss
+            if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
                 AudioManager.Instance.PlaySFX("collect_item_sound");
                 if (inventory.ContainsKey(stealObj.lootInfo.itemName))
@@ -101,6 +101,8 @@ public class PlayerInteract : MonoBehaviour
                 PlayerManager.Instance.addWeight(stealObj.lootInfo.weight);
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
+                WeightChangeSpeed();
+
                 ItemTaken.Invoke(); // send event saying an item was taken
             }
         }
@@ -109,6 +111,22 @@ public class PlayerInteract : MonoBehaviour
             ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
         }
     }
+
+    private void WeightChangeSpeed()
+    {
+        float ChangeSpeedByPercent(float percent){ return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);}
+
+        float weightPercentage = (float) PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
+        Debug.Log(weightPercentage);
+        if (weightPercentage >= 0.9)
+            PlayerManager.Instance.setMoveSpeed(ChangeSpeedByPercent(35)); // 35% slower
+        else if (weightPercentage > 0.8)
+            PlayerManager.Instance.setMoveSpeed(ChangeSpeedByPercent(20)); // 20% slower
+        else if (weightPercentage > 0.6)
+            PlayerManager.Instance.setMoveSpeed(ChangeSpeedByPercent(10)); // 10% slower
+    }
+
+    
 
     [HideInInspector] public UnityEvent ShowInventory;
     private void RevealInventory()
