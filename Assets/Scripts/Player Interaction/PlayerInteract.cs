@@ -10,12 +10,12 @@ public class PlayerInteract : MonoBehaviour
     GameObject objRef;
     private Renderer objRenderer;
     private Color originalColor; // Store the original color of the object
+    [SerializeField] private float highlightIntensity = 1.5f; // How much lighter the object should get
+
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
 
-
-    [SerializeField] private float highlightIntensity = 1.5f; // How much lighter the object should get
     [SerializeField] float raycastDistance = 3.0f;
-    [SerializeField] GameObject camera;
+    public GameObject camera;
 
     private void Update()
     {
@@ -112,18 +112,20 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    private void WeightChangeSpeed()
+    public void WeightChangeSpeed()
     {
         float ChangeSpeedByPercent(float percent){ return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);}
 
         float weightPercentage = (float) PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
-        Debug.Log(weightPercentage);
+        float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
         if (weightPercentage >= 0.9)
-            PlayerManager.Instance.setMoveSpeed(ChangeSpeedByPercent(35)); // 35% slower
+            newSpeed = ChangeSpeedByPercent(35); // 35% slower
         else if (weightPercentage > 0.8)
-            PlayerManager.Instance.setMoveSpeed(ChangeSpeedByPercent(20)); // 20% slower
+            newSpeed = ChangeSpeedByPercent(20); // 20% slower
         else if (weightPercentage > 0.6)
-            PlayerManager.Instance.setMoveSpeed(ChangeSpeedByPercent(10)); // 10% slower
+            newSpeed = ChangeSpeedByPercent(10); // 10% slower
+
+        PlayerManager.Instance.setMoveSpeed(newSpeed);
     }
 
     

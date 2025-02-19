@@ -2,8 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+
+/*
+ * Drop Item help (confusing)
+ * https://www.youtube.com/watch?v=TSZmvF2oDCg&ab_channel=FeedMyKids
+ */
 
 public class InventoryUI : MonoBehaviour
 {
@@ -103,9 +109,12 @@ public class InventoryUI : MonoBehaviour
     public void DropItem()
     {
         // create prefab
-        Instantiate(selectedItem.prefab, playerInteract.transform.position + transform.TransformDirection(new Vector3(0, 0, 2)), playerInteract.transform.rotation);
+        Vector3 newObjectLocation = (playerInteract.camera.transform.forward * 2.5f) + playerInteract.transform.position + new Vector3(0, 1, 0);
+        StealableObject o = Instantiate(selectedItem.Prefab.GetComponent<StealableObject>(), newObjectLocation, playerInteract.camera.transform.rotation);
+        o.SetInfo(selectedItem);
 
         PlayerManager.Instance.subWeight(selectedItem.weight); //decrease weight
+        playerInteract.WeightChangeSpeed(); // change player speed
         playerInteract.ItemTaken.Invoke(); // update weight UI
 
         // remove from inventory
@@ -115,7 +124,7 @@ public class InventoryUI : MonoBehaviour
             playerInteract.inventory.Remove(selectedItem.itemName);
             ChangeItemInfo(null);
         }
-
+        
         FillInventoryGrid(); // update grid
     }
 }
