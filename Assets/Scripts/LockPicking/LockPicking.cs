@@ -17,12 +17,13 @@ public class LockPicking : MonoBehaviour
     private GameObject currentDifficultyPanel;
 
     public int maxAttempts = 3;   // Maximum attempts before lock resets  
-    private int currentAttempts = 0; // Tracks current attempts
+    
 
 
     private int currentIndex = 0; // Tracks which pin should be pressed next
     private bool isLocked = false; // Prevent spam clicking
     private Vector3[] originalPositions; // Save original positions of pins
+    public bool isLockpicking = false;
 
     private List<int> correctOrder = new List<int>(); // Stores the order of correct clicks
 
@@ -30,7 +31,10 @@ public class LockPicking : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Exit();
+            if (isLockpicking && Input.GetKeyDown(KeyCode.Escape))
+            {
+                Exit();
+            }
         }
     }
 
@@ -38,6 +42,7 @@ public class LockPicking : MonoBehaviour
     public void SetPins(GameObject difficultyPanel, string safeID) 
     {
         currentDifficultyPanel = difficultyPanel;
+        isLockpicking = true;
 
         if (currentDifficultyPanel == null)
         {
@@ -115,6 +120,7 @@ public class LockPicking : MonoBehaviour
     // Exits the lock picking UI and resets the state.
     private void Exit() 
     {
+        isLockpicking = false;
         PlayerManager.Instance.unlockRotation();
 
         SetCursorState(false);

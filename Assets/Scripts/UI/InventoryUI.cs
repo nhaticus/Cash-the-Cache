@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class InventoryUI : MonoBehaviour
 {
     PlayerInteract playerInteract;
-    
+    public bool isInventoryOpen = false;
     private void Start()
     {
         GetComponent<CanvasGroup>().alpha = 0;
@@ -38,6 +38,7 @@ public class InventoryUI : MonoBehaviour
 
     private void ShowInventory()
     {
+        isInventoryOpen = true;
         PlayerManager.Instance.lockRotation();
         PlayerManager.Instance.ableToInteract = false;
         PlayerManager.Instance.slowPlayer();
@@ -50,6 +51,7 @@ public class InventoryUI : MonoBehaviour
 
     private void HideInventory() // on exit button
     {
+        isInventoryOpen = false;
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.ableToInteract = true;
         PlayerManager.Instance.unSlowPlayer();

@@ -22,9 +22,9 @@ public class LockPickTrigger : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (isNearSafe && !isUnlocked && Input.GetKeyDown(KeyCode.E))
+        if (isNearSafe && !isUnlocked && Input.GetMouseButtonDown(0) && !FindObjectOfType<InventoryUI>().isInventoryOpen)
         {
-            if (lockPickingManager.currentAttempts > 0) // Prevent interaction if no attempts left
+            if (lockPickingManager.currentAttempts > 0 ) // Prevent interaction if no attempts left
             {
                 Debug.Log("Lock Picking Started");
                 OpenLockpicking();
