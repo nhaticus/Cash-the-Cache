@@ -127,6 +127,7 @@ public class ShopManager : MonoBehaviour
             {
                 if (!ShopManager.Instance.shopActive)
                 {
+                    AudioManager.Instance.PlaySFX("shop_owner");
                     openShopPrompt.gameObject.SetActive(true);
                 }
                 if (Input.GetKeyDown(KeyCode.E))
