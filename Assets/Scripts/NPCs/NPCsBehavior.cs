@@ -14,7 +14,7 @@ public class NPCsBehavior : MonoBehaviour
 
     /*  Navmesh Agent Settings   */
     [Header("Navmesh Agent Settings")]
-    public float speed = 3.5f; // default speed 3.5f
+    public float agentDefaultSpeed = 3.5f; // default speed 3.5f
 
     /*  Layers for detection    */
     [Header("Layers for Detection")]
@@ -37,13 +37,11 @@ public class NPCsBehavior : MonoBehaviour
     /*  Timers  */
     public float sightCountdown = 2.0f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
     private float sightTimer = 0.0f;
-    public float chaseDuration = 3.0f; // Time for how long the enemy will chase the player before giving up
-
     private void Awake()
     {
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = speed;
+        agent.speed = agentDefaultSpeed;
         player = GameObject.Find("Player").transform;
     }
 
@@ -85,22 +83,21 @@ public class NPCsBehavior : MonoBehaviour
 
         if (withinSight)
         {
+            Vector3 direction = (player.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
             agent.SetDestination(transform.position);
             sightTimer += Time.deltaTime;
         }
         else
         {
             sightTimer = 0.0f;
+            PathingDefault();
         }
 
         if (sightTimer >= sightCountdown)
         {
             detectedPlayer = true;
-        }
-        else
-        {
-            // Idle
-            PathingDefault();
         }
 
     }
@@ -109,16 +106,19 @@ public class NPCsBehavior : MonoBehaviour
     private void Runaway()
     {
         Vector3 distanceToExit = transform.position - exit.position;
-        agent.speed = 5.0f;
+        if (agent.speed == agentDefaultSpeed)
+        {
+            agent.speed *= 1.5f;
+        }
 
         if (distanceToExit.magnitude < 2.0f)
         {
             Destroy(transform.parent.gameObject);
-            Debug.Log("NPC has escaped!");
+            // Debug.Log("NPC has escaped!");
         }
         agent.SetDestination(exit.transform.position);
 
-        Debug.Log("Player is in sight! RUN!");
+        // Debug.Log("Player is in sight! RUN!");
         // trigger police here...
     }
 
