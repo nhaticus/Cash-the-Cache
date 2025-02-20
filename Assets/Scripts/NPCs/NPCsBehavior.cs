@@ -109,7 +109,7 @@ public class NPCsBehavior : MonoBehaviour
     {
         Vector3 distanceToExit = transform.position - exit.position;
 
-        if (distanceToExit.magnitude < 1f)
+        if (distanceToExit.magnitude < 1.0f)
         {
             Destroy(transform.parent.gameObject);
             Debug.Log("NPC has escaped!");
@@ -124,14 +124,14 @@ public class NPCsBehavior : MonoBehaviour
     {
         if (!walkPointExist) FindWalkPoint();
 
-        if (walkPointExist)
+        else if (walkPointExist)
         {
             agent.SetDestination(walkPoint);
         }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 2.0f)
         {
             walkPointExist = false;
             StartCoroutine(WaitBeforeMoving());
@@ -155,7 +155,11 @@ public class NPCsBehavior : MonoBehaviour
 
         if (Physics.Raycast(walkPoint, -transform.up, 2f, groundLayer))
         {
-            walkPointExist = true;
+            NavMeshPath path = new NavMeshPath();
+            if (agent.CalculatePath(walkPoint, path) && path.status == NavMeshPathStatus.PathComplete)
+            {
+                walkPointExist = true;
+            }
         }
     }
 
