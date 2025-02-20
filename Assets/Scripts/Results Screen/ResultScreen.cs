@@ -40,6 +40,7 @@ public class ResultScreen : MonoBehaviour
             yield return new WaitForSeconds(0.4f);
         }
         totalStolenText.text = "Total Stolen: " + total;
+        GameManager.Instance.AddMoney(total);
     }
 
     public void GoToShop() // used by Continue button to go to shop scene

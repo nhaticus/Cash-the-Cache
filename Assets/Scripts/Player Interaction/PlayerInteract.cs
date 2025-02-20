@@ -10,12 +10,12 @@ public class PlayerInteract : MonoBehaviour
     GameObject objRef;
     private Renderer objRenderer;
     private Color originalColor; // Store the original color of the object
-    public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
-   
-
     [SerializeField] private float highlightIntensity = 1.5f; // How much lighter the object should get
+
+    public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
+
     [SerializeField] float raycastDistance = 3.0f;
-    [SerializeField] GameObject camera;
+    public GameObject camera;
 
     private void Update()
     {
@@ -23,8 +23,7 @@ public class PlayerInteract : MonoBehaviour
         {
             Interact(objRef);
         }
-        LockPicking lockPicking = FindObjectOfType<LockPicking>();
-        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract && (lockPicking == null || !lockPicking.isLockpicking))
+        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract)
         {
             RevealInventory();
         }
@@ -87,7 +86,7 @@ public class PlayerInteract : MonoBehaviour
         StealableObject stealObj = obj.GetComponent<StealableObject>();
         if (stealObj != null)
         {
-            if (PlayerManager.Instance.getWeight() <= PlayerManager.Instance.getMaxWeight()) // can steal over max weight once: but suffer more speed loss
+            if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
                 AudioManager.Instance.PlaySFX("collect_item_sound");
                 if (inventory.ContainsKey(stealObj.lootInfo.itemName))
@@ -102,6 +101,8 @@ public class PlayerInteract : MonoBehaviour
                 PlayerManager.Instance.addWeight(stealObj.lootInfo.weight);
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
+                WeightChangeSpeed();
+
                 ItemTaken.Invoke(); // send event saying an item was taken
             }
         }
@@ -110,6 +111,24 @@ public class PlayerInteract : MonoBehaviour
             ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
         }
     }
+
+    public void WeightChangeSpeed()
+    {
+        float ChangeSpeedByPercent(float percent){ return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);}
+
+        float weightPercentage = (float) PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
+        float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
+        if (weightPercentage >= 0.9)
+            newSpeed = ChangeSpeedByPercent(35); // 35% slower
+        else if (weightPercentage > 0.8)
+            newSpeed = ChangeSpeedByPercent(20); // 20% slower
+        else if (weightPercentage > 0.6)
+            newSpeed = ChangeSpeedByPercent(10); // 10% slower
+
+        PlayerManager.Instance.setMoveSpeed(newSpeed);
+    }
+
+    
 
     [HideInInspector] public UnityEvent ShowInventory;
     private void RevealInventory()
