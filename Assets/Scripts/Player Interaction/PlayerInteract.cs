@@ -23,7 +23,7 @@ public class PlayerInteract : MonoBehaviour
         {
             Interact(objRef);
         }
-        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract)
+        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract && !FindObjectOfType<LockPicking>().isLockpicking)
         {
             RevealInventory();
         }
