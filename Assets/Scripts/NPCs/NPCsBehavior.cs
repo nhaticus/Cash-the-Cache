@@ -85,6 +85,7 @@ public class NPCsBehavior : MonoBehaviour
 
         if (withinSight)
         {
+            agent.SetDestination(transform.position);
             sightTimer += Time.deltaTime;
         }
         else
@@ -108,8 +109,9 @@ public class NPCsBehavior : MonoBehaviour
     private void Runaway()
     {
         Vector3 distanceToExit = transform.position - exit.position;
+        agent.speed = 5.0f;
 
-        if (distanceToExit.magnitude < 1.0f)
+        if (distanceToExit.magnitude < 2.0f)
         {
             Destroy(transform.parent.gameObject);
             Debug.Log("NPC has escaped!");
