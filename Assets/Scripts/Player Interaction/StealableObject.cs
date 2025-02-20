@@ -7,7 +7,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Loot ScriptableObject")]
 public class LootInfo : ScriptableObject
 {
-    public GameObject prefab;
+    [SerializeField] GameObject prefab;
+    public GameObject Prefab => prefab;
+
     public Sprite sprite;
     public string itemName;
     public int value;
@@ -18,4 +20,9 @@ public class LootInfo : ScriptableObject
 public class StealableObject : MonoBehaviour
 {
     public LootInfo lootInfo;
+
+    public void SetInfo(LootInfo info)
+    {
+        lootInfo = info;
+    }
 }

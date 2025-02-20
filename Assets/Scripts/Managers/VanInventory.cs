@@ -27,8 +27,6 @@ public class VanInventory : MonoBehaviour
             return;
         }
 
-        int totalMoney = 0;
-
         foreach (KeyValuePair<string, (int, LootInfo)> item in playerInventory.inventory)
         {
             // Add items to van inventory
@@ -40,16 +38,6 @@ public class VanInventory : MonoBehaviour
             {
                 stolenItems.Add(item.Key, (item.Value.Item1, item.Value.Item2));
             }
-
-            // Calculate earnings
-            totalMoney += item.Value.Item2.value * item.Value.Item1;
-        }
-
-        // Add money to player
-        if (totalMoney > 0)
-        {
-            GameManager.Instance.AddMoney(totalMoney);
-            Debug.Log("Converted stolen items to $" + totalMoney);
         }
 
         // Clear player's inventory
