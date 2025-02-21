@@ -128,11 +128,11 @@ public class ShopManager : MonoBehaviour
                 if (!ShopManager.Instance.shopActive)
                 {
                     openShopPrompt.gameObject.SetActive(true);
-                }
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    ShopManager.Instance.ToggleShop();
-                    openShopPrompt.gameObject.SetActive(false);
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        ShopManager.Instance.ToggleShop();
+                        openShopPrompt.gameObject.SetActive(false);
+                    }
                 }
             }
             else

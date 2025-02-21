@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -42,8 +43,15 @@ public class PlayerManager : MonoBehaviour
         //Finds reference to playerCamera 
         playerCameraScript = GameObject.Find("Main Camera").GetComponent<PlayerCam>();
         playerMovementScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
+
+        SceneManager.sceneLoaded += OnSceneChanged;
     }
 
+    private void OnSceneChanged(Scene scene, LoadSceneMode mode)
+    {
+        playerCameraScript = GameObject.Find("Main Camera").GetComponent<PlayerCam>();
+        playerMovementScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
+    }
     private void Start()
     {
         this.currentSpeed = playerMovementScript.moveSpeed;
