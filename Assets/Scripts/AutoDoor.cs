@@ -15,6 +15,7 @@ public class AutoDoor : MonoBehaviour
     {
         if (other.CompareTag("AI"))
         {
+            Debug.Log("Ai Enter");
             objectsInTrigger++;
             if (!isOpen)
             {
@@ -28,6 +29,7 @@ public class AutoDoor : MonoBehaviour
     {
         if (other.CompareTag("AI"))
         {
+            Debug.Log("Ai Closed");
             objectsInTrigger--;
             if (objectsInTrigger <= 0) // Only close if no one is inside
             {
