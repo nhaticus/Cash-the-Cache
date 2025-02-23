@@ -10,7 +10,7 @@ public class WeightUI : MonoBehaviour
 
     public void Initialize(GameObject _player)
     {
-        playerInteract = _player.GetComponent<PlayerInteract>();
+        playerInteract = _player.GetComponentInChildren<PlayerInteract>();
         playerInteract.ItemTaken.AddListener(UpdateWeightDisplay);
         weightText.text = PlayerManager.Instance.getWeight().ToString();
         maxWeightText.text = PlayerManager.Instance.getMaxWeight().ToString();

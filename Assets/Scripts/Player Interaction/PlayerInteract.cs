@@ -8,9 +8,9 @@ using UnityEngine.EventSystems;
 public class PlayerInteract : MonoBehaviour
 {
     GameObject objRef;
-    private Renderer objRenderer;
-    private Color originalColor; // Store the original color of the object
-    [SerializeField] private float highlightIntensity = 1.5f; // How much lighter the object should get
+    Renderer objRenderer;
+    Color originalColor; // Store the original color of the object
+    [SerializeField] float highlightIntensity = 3f; // How much lighter the object should get
 
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
 
@@ -45,7 +45,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (objRef != hit.transform.gameObject) // Only update if a new object is hit
                 {
-                    //ResetHighlight(); // Reset previous object's color
+                    ResetHighlight(); // Reset previous object's color
 
                     objRef = hit.transform.gameObject;
                     objRenderer = objRef.GetComponent<Renderer>();
