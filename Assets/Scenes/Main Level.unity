@@ -3148,6 +3148,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5109969718294233873, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
         type: 3}
+      propertyPath: easyPanel
+      value: 
+      objectReference: {fileID: 2066402165}
+    - target: {fileID: 5109969718294233873, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
+        type: 3}
+      propertyPath: hardPanel
+      value: 
+      objectReference: {fileID: 2066402163}
+    - target: {fileID: 5109969718294233873, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
+        type: 3}
+      propertyPath: mediumPanel
+      value: 
+      objectReference: {fileID: 2066402164}
+    - target: {fileID: 5109969718294233873, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
+        type: 3}
+      propertyPath: lockpickingUI
+      value: 
+      objectReference: {fileID: 2066402166}
+    - target: {fileID: 5109969718294233873, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
+        type: 3}
       propertyPath: lockPickingManager
       value: 
       objectReference: {fileID: 1618287482}
@@ -3239,6 +3259,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Safe (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6144659764175903544, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8031402575042608138, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3321,6 +3346,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Safe (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144659764175903544, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8031402575042608138, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
         type: 3}
@@ -6608,7 +6638,6 @@ RectTransform:
   - {fileID: 261779410}
   - {fileID: 955134029}
   - {fileID: 2135919199}
-  - {fileID: 2066402162}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -8233,6 +8262,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: LockPickingManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4998294879906624165, guid: d8379e0b1eee86541a2e80006b248f4b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9727,7 +9761,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1429567765}
+    m_TransformParent: {fileID: 2135919199}
     m_Modifications:
     - target: {fileID: 2397738058791964115, guid: e5cbc503bf29a6546a5b1939f66d25c5,
         type: 3}
@@ -9792,17 +9826,17 @@ PrefabInstance:
     - target: {fileID: 2397738058791964115, guid: e5cbc503bf29a6546a5b1939f66d25c5,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2397738058791964115, guid: e5cbc503bf29a6546a5b1939f66d25c5,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2397738058791964115, guid: e5cbc503bf29a6546a5b1939f66d25c5,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2397738058791964115, guid: e5cbc503bf29a6546a5b1939f66d25c5,
         type: 3}
@@ -9833,6 +9867,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Lock Picking UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8084656982446848150, guid: e5cbc503bf29a6546a5b1939f66d25c5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10323,7 +10362,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 451583416058786618, guid: e0a9169d29dd8a346a52b6a786dbc872,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2066402162}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0a9169d29dd8a346a52b6a786dbc872, type: 3}
 --- !u!1660057539 &9223372036854775807

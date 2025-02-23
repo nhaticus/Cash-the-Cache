@@ -4,27 +4,37 @@ using UnityEngine;
 
 public class LockPickTrigger : MonoBehaviour
 {
-    public string difficulty = "Easy"; // Default difficulty is 'Easy
+    public string safeID;
     private bool isNearSafe = false;
     private bool isUnlocked = false;
-    public LockPickingManager lockPickingManager;
     public Animator safeAnimator;
-    public string safeID;
+    public string difficulty = "Easy";
+
+    // Your existing fields:
+    public GameObject lockpickingUI;
+    public GameObject easyPanel;
+    public GameObject mediumPanel;
+    public GameObject hardPanel;
+
+    public int maxAttempts = 3;
+    public int currentAttempts;
+    private List<int> savedOrder;
 
     private void Start()
     {
         if (string.IsNullOrEmpty(safeID))
         {
-            safeID = gameObject.name; // Assign the GameObject name if no ID is given
+            safeID = gameObject.name;
         }
+        currentAttempts = maxAttempts;
     }
 
-    // Update is called once per frame
+    // Interaction code remains unchanged except for using currentAttempts directly.
     private void Update()
     {
         if (isNearSafe && !isUnlocked && Input.GetMouseButtonDown(0) && !FindObjectOfType<InventoryUI>().isInventoryOpen)
         {
-            if (lockPickingManager.currentAttempts > 0 ) // Prevent interaction if no attempts left
+            if (currentAttempts > 0)
             {
                 Debug.Log("Lock Picking Started");
                 OpenLockpicking();
@@ -35,17 +45,19 @@ public class LockPickTrigger : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Check if the player entered the safe area
+        if (other.CompareTag("Player"))
         {
             Debug.Log("Player is in safe area");
             isNearSafe = true;
         }
     }
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) // Check if the player left the safe area
+        if (other.CompareTag("Player"))
         {
             Debug.Log("Player left safe area");
             isNearSafe = false;
@@ -57,28 +69,109 @@ public class LockPickTrigger : MonoBehaviour
         PlayerManager.Instance.lockRotation();
         SetCursorState(true);
 
-        lockPickingManager.lockpickingUI.SetActive(true);
-        lockPickingManager.SetDifficulty(difficulty, this);
-
-        
-    }
-    public void MarkSafeUnlocked()
-    {
-        //if (isUnlocked) return;
-        isUnlocked = true;
-        Debug.Log("Safe Unlocked: " + gameObject.name);
-        safeAnimator.SetTrigger("OpenSafe");
-    }
-    private void SetCursorState(bool visible)
-    {
-        if (visible)
+        if (lockpickingUI != null)
         {
-            Cursor.lockState = CursorLockMode.None; // Unlock the cursor and make it visible
+            lockpickingUI.SetActive(true);
+            StartLockPicking();
         }
         else
         {
-            Cursor.lockState = CursorLockMode.Locked; // Lock the cursor and hide it
+            Debug.LogError("Lockpicking UI is not assigned!");
         }
+    }
+
+    // Activates the correct UI panel based on difficulty and initializes the lock-picking UI.
+    void StartLockPicking()
+    {
+        if (easyPanel != null) easyPanel.SetActive(false);
+        if (mediumPanel != null) mediumPanel.SetActive(false);
+        if (hardPanel != null) hardPanel.SetActive(false);
+
+        LockPicking lp = lockpickingUI.GetComponentInChildren<LockPicking>();
+        if (lp == null)
+        {
+            Debug.LogError("LockPicking script not found in lockpicking UI!");
+            return;
+        }
+
+        if (difficulty == "Easy")
+        {
+            if (easyPanel != null)
+            {
+                easyPanel.SetActive(true);
+                lp.SetPins(easyPanel, this);
+            }
+        }
+        else if (difficulty == "Medium")
+        {
+            if (mediumPanel != null)
+            {
+                mediumPanel.SetActive(true);
+                lp.SetPins(mediumPanel, this);
+            }
+        }
+        else if (difficulty == "Hard")
+        {
+            if (hardPanel != null)
+            {
+                hardPanel.SetActive(true);
+                lp.SetPins(hardPanel, this);
+            }
+        }
+        else
+        {
+            Debug.LogError("Unknown difficulty level: " + difficulty);
+        }
+
+        Debug.Log("Difficulty set to: " + difficulty);
+    }
+
+    public void MarkSafeUnlocked()
+    {
+        isUnlocked = true;
+        Debug.Log("Safe Unlocked: " + gameObject.name);
+        if (safeAnimator != null)
+        {
+            safeAnimator.SetTrigger("OpenSafe");
+        }
+        else
+        {
+            Debug.LogError("Safe animator not assigned!");
+        }
+    }
+
+    // Returns the saved combination order.
+    public List<int> GetOrder()
+    {
+        return savedOrder;
+    }
+
+    // Saves the combination order.
+    public void SaveOrder(List<int> order)
+    {
+        if (savedOrder == null)
+        {
+            savedOrder = new List<int>(order);
+            Debug.Log($"Saved order for {safeID}: " + string.Join(", ", order));
+        }
+    }
+
+    // Reduces the attempt count and returns false if no attempts remain.
+    public bool ReduceAttempt()
+    {
+        currentAttempts--;
+        Debug.Log("Attempts Left: " + currentAttempts);
+        if (currentAttempts <= 0)
+        {
+            Debug.Log("Out of attempts! No more lockpicking allowed.");
+            return false;
+        }
+        return true;
+    }
+
+    private void SetCursorState(bool visible)
+    {
+        Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = visible;
     }
 }
