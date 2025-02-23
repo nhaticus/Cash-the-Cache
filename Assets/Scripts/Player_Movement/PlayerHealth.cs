@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /*
  * Script attached to a player hurtbox
@@ -18,9 +19,9 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    [HideInInspector] public UnityEvent Death;
     void OnDamage(int damage)
     {
-        Debug.Log("damaged");
         health -= damage;
 
         if(health <= 0)
@@ -28,6 +29,8 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("dead");
             PlayerManager.Instance.setMoveSpeed(0);
             PlayerManager.Instance.ableToInteract = false;
+
+            Death.Invoke(); // send dead signal for GameOver
         }
     }
 }
