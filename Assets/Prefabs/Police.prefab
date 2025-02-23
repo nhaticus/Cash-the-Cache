@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 8574110885106386901}
   m_Layer: 0
   m_Name: Police
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -252,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29625b3edf28ef740a89a1edd3e37890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 3.5
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -262,7 +263,7 @@ MonoBehaviour:
   walkPointRange: 10
   sightDistance: 10
   reachDistance: 5
-  sightDuration: 2
+  sightCountdown: 2
   chaseDuration: 3
 --- !u!54 &8574110885106386901
 Rigidbody:
