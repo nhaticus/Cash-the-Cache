@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/*
+ * Collider for player to deposit items
+ */
+
 public class VanTrigger : MonoBehaviour
 {
-    private bool playerInRange = false;
-    private PlayerInteract playerInventory;
-    [SerializeField] GameObject depositText;
+    bool playerInRange = false;
+    PlayerInteract playerInventory;
+    [SerializeField] GameObject vanText;
 
     private void Awake()
     {
-        depositText.SetActive(false);
+        vanText.SetActive(false);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -20,7 +24,8 @@ public class VanTrigger : MonoBehaviour
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInteract>();
 
-            if (depositText != null) depositText.SetActive(true);
+            vanText.SetActive(true);
+            vanText.GetComponent<TMP_Text>().text = "Press E to Deposit";
         }
     }
 
@@ -31,7 +36,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = false;
             playerInventory = null;
 
-            if (depositText != null) depositText.SetActive(false);
+            vanText.SetActive(false);
         }
     }
 
