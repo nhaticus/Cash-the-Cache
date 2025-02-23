@@ -13,7 +13,7 @@ public class VanTrigger : MonoBehaviour
     PlayerInteract playerInventory;
     [SerializeField] GameObject vanText;
 
-    private void Awake()
+    private void Start()
     {
         vanText.SetActive(false);
     }

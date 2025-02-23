@@ -13,7 +13,7 @@ public class LeaveAreaTrigger : MonoBehaviour
     [SerializeField] GameObject vanText;
     [SerializeField] GameObject resultScreen;
 
-    private void Awake()
+    private void Start()
     {
         vanText.SetActive(false);
     }

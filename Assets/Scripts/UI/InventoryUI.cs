@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,15 +25,14 @@ public class InventoryUI : MonoBehaviour
 
     public void Initialize(GameObject player)
     {
-        playerInteract = player.GetComponentInChildren<PlayerInteract>();
+        playerInteract = player.GetComponent<PlayerInteract>();
         playerInteract.ShowInventory.AddListener(SwitchInventoryView);
     }
 
-    bool show = false;
     public void SwitchInventoryView()
     {
-        show = !show;
-        if (show)
+        isInventoryOpen = !isInventoryOpen;
+        if (isInventoryOpen)
             ShowInventory();
         else
             HideInventory();
@@ -110,23 +108,26 @@ public class InventoryUI : MonoBehaviour
 
     public void DropItem()
     {
-        // create prefab
-        Vector3 newObjectLocation = (playerInteract.camera.transform.forward * 2.5f) + playerInteract.transform.position + new Vector3(0, 1, 0);
-        StealableObject o = Instantiate(selectedItem.Prefab.GetComponent<StealableObject>(), newObjectLocation, playerInteract.camera.transform.rotation);
-        o.SetInfo(selectedItem);
-
-        PlayerManager.Instance.subWeight(selectedItem.weight); //decrease weight
-        playerInteract.WeightChangeSpeed(); // change player speed
-        playerInteract.ItemTaken.Invoke(); // update weight UI
-
-        // remove from inventory
-        playerInteract.inventory[selectedItem.itemName] = (playerInteract.inventory[selectedItem.itemName].Item1 - 1, selectedItem);
-        if(playerInteract.inventory[selectedItem.itemName].Item1 == 0)
+        if (selectedItem)
         {
-            playerInteract.inventory.Remove(selectedItem.itemName);
-            ChangeItemInfo(null);
+            // create prefab
+            Vector3 newObjectLocation = (playerInteract.camera.transform.forward * 2.5f) + playerInteract.transform.position + new Vector3(0, 1, 0);
+            StealableObject o = Instantiate(selectedItem.Prefab.GetComponent<StealableObject>(), newObjectLocation, playerInteract.camera.transform.rotation);
+            o.SetInfo(selectedItem);
+
+            PlayerManager.Instance.subWeight(selectedItem.weight); //decrease weight
+            playerInteract.WeightChangeSpeed(); // change player speed
+            playerInteract.ItemTaken.Invoke(); // update weight UI
+
+            // remove from inventory
+            playerInteract.inventory[selectedItem.itemName] = (playerInteract.inventory[selectedItem.itemName].Item1 - 1, selectedItem);
+            if (playerInteract.inventory[selectedItem.itemName].Item1 == 0)
+            {
+                playerInteract.inventory.Remove(selectedItem.itemName);
+                ChangeItemInfo(null);
+            }
+
+            FillInventoryGrid(); // update grid
         }
-        
-        FillInventoryGrid(); // update grid
     }
 }

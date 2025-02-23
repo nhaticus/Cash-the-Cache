@@ -24,17 +24,19 @@ public class GameOver : MonoBehaviour
     {
         while (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            player = GameObject.FindGameObjectWithTag("Hurtbox");
             yield return new WaitForSeconds(0.5f);
         }
-        playerHealth = player.GetComponentInChildren<PlayerHealth>();
+        playerHealth = player.GetComponent<PlayerHealth>();
         playerHealth.Death.AddListener(ShowGameOver);
     }
 
     private void ShowGameOver()
     {
-        Debug.Log("show canvas");
         GetComponent<CanvasGroup>().alpha = 1;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        transform.parent.SetSiblingIndex(3);
     }
 
     public void SwitchScene(string gameScene)

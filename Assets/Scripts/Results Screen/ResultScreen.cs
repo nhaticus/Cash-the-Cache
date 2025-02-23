@@ -18,6 +18,12 @@ public class ResultScreen : MonoBehaviour
     [SerializeField] Transform resultGridTransform;
     [SerializeField] TMP_Text totalStolenText;
     [SerializeField] string shopSceneName = "Shop Scene";
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void Begin()
     {
         Cursor.lockState = CursorLockMode.None;

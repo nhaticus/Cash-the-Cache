@@ -26,9 +26,11 @@ public class PlayerHealth : MonoBehaviour
 
         if(health <= 0)
         {
-            Debug.Log("dead");
             PlayerManager.Instance.setMoveSpeed(0);
             PlayerManager.Instance.ableToInteract = false;
+            PlayerManager.Instance.lockRotation();
+
+            // hide inventory view if possible
 
             Death.Invoke(); // send dead signal for GameOver
         }
