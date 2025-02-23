@@ -59,22 +59,20 @@ public class NPCsBehavior : MonoBehaviour
 
     private void DetectPlayer()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sightDistance, playerLayer);
-        if (hitColliders.Length == 0)
+        for (int i = -45; i <= 45; i += 5)
         {
-            withinSight = false;
-        }
-        else
-        {
-            foreach (var hitCollider in hitColliders)
+            Vector3 direction = Quaternion.Euler(0, i, 0) * transform.forward;
+            Debug.DrawRay(transform.position, direction * sightDistance, Color.red);
+            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, sightDistance))
             {
-                Vector3 directionToPlayer = (hitCollider.transform.position - transform.position).normalized;
-                float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-
-                if (angleToPlayer <= 45)
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("playerLayer"))
                 {
                     withinSight = true;
                     break;
+                }
+                else
+                {
+                    withinSight = false;
                 }
             }
         }
