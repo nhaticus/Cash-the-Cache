@@ -26,7 +26,7 @@ public class InventoryUI : MonoBehaviour
 
     public void Initialize(GameObject player)
     {
-        playerInteract = player.GetComponent<PlayerInteract>();
+        playerInteract = player.GetComponentInChildren<PlayerInteract>();
         playerInteract.ShowInventory.AddListener(SwitchInventoryView);
     }
 

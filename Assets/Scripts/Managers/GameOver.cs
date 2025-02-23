@@ -27,7 +27,7 @@ public class GameOver : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player");
             yield return new WaitForSeconds(0.5f);
         }
-        playerHealth = player.GetComponent<PlayerHealth>();
+        playerHealth = player.GetComponentInChildren<PlayerHealth>();
         playerHealth.Death.AddListener(ShowGameOver);
     }
 
