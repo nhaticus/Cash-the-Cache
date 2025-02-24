@@ -7,15 +7,15 @@ using UnityEngine.EventSystems;
 
 public class PlayerInteract : MonoBehaviour
 {
-    GameObject objRef;
-    Renderer objRenderer;
-    Color originalColor; // Store the original color of the object
-    [SerializeField] float highlightIntensity = 3f; // How much lighter the object should get
+    private GameObject objRef;
+    private Renderer objRenderer;
+    private Material originalMaterial; // Store the original material of the object
+    [SerializeField] private Material highlightMaterial; // Material to highlight object
 
-    public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
-
-    [SerializeField] float raycastDistance = 3.0f;
+    [SerializeField] private float raycastDistance = 3.0f;
     public GameObject camera;
+
+    public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
 
     private void Update()
     {
@@ -31,10 +31,7 @@ public class PlayerInteract : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Get the screen center point
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-
-        // Generate a ray from the camera through the center of the screen
         Ray ray = Camera.main.ScreenPointToRay(screenCenter);
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
 
@@ -45,17 +42,15 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (objRef != hit.transform.gameObject) // Only update if a new object is hit
                 {
-                    ResetHighlight(); // Reset previous object's color
+                    ResetHighlight(); // Reset previous object's material
 
                     objRef = hit.transform.gameObject;
                     objRenderer = objRef.GetComponent<Renderer>();
 
                     if (objRenderer != null)
                     {
-                        originalColor = objRenderer.material.color; // Store original color
-                        Color highlightedColor = originalColor * highlightIntensity; // Make it lighter
-                        highlightedColor.a = originalColor.a; // Preserve transparency
-                        objRenderer.material.color = highlightedColor; // Apply new color
+                        originalMaterial = objRenderer.material; // Store original material
+                        objRenderer.material = highlightMaterial; // Apply highlight material
                     }
                 }
             }
@@ -72,9 +67,9 @@ public class PlayerInteract : MonoBehaviour
 
     private void ResetHighlight()
     {
-        if (objRef != null && objRenderer != null)
+        if (objRef != null && objRenderer != null && originalMaterial != null)
         {
-            objRenderer.material.color = originalColor; // Restore original color
+            objRenderer.material = originalMaterial; // Restore original material
         }
         objRef = null;
         objRenderer = null;
@@ -102,8 +97,7 @@ public class PlayerInteract : MonoBehaviour
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
                 WeightChangeSpeed();
-
-                ItemTaken.Invoke(); // send event saying an item was taken
+                ItemTaken.Invoke(); // Send event saying an item was taken
             }
         }
         else
@@ -114,7 +108,10 @@ public class PlayerInteract : MonoBehaviour
 
     public void WeightChangeSpeed()
     {
-        float ChangeSpeedByPercent(float percent){ return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);}
+        float ChangeSpeedByPercent(float percent) 
+        { 
+            return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);
+        }
 
         float weightPercentage = (float) PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
         float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
@@ -128,11 +125,9 @@ public class PlayerInteract : MonoBehaviour
         PlayerManager.Instance.setMoveSpeed(newSpeed);
     }
 
-    
-
     [HideInInspector] public UnityEvent ShowInventory;
     private void RevealInventory()
     {
-        ShowInventory.Invoke(); // send event saying to show inventory menu
+        ShowInventory.Invoke(); // Send event to show inventory menu
     }
 }
