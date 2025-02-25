@@ -1,96 +1,146 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;  
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LockPicking : MonoBehaviour
 {
-    public Button[] pins;
-    public RectTransform[] pinTransforms;
+    public static bool anyLockpickingOpen = false;
+
+    public string safeID;
+    public bool isUnlocked = false;
+    public Animator safeAnimator;
+    public int maxAttempts = 3;
+    [HideInInspector] public int currentAttempts;
+
+    public string difficulty = "Easy";
+    public GameObject easyPanel;
+    public GameObject mediumPanel;
+    public GameObject hardPanel;
+
+    public GameObject lockpickingUI;
+    public bool isLockpickingOpen = false;
+
+    [Header("Pin Puzzle Settings")]
     public Color correctColor = Color.green;
     public Color wrongColor = Color.red;
-    private Color defaultColor;
-
     public TextMeshProUGUI attemptsText;
     public GameObject failedText;
-    private GameObject currentDifficultyPanel;
 
-    private int currentIndex = 0;
-    private bool isLocked = false;
+    private Button[] pins;
+    private RectTransform[] pinTransforms;
+    private Color defaultColor;
     private Vector3[] originalPositions;
-    public bool isLockpicking = false;
-
+    private bool isLocked = false;
+    private int currentIndex = 0;
     private List<int> correctOrder = new List<int>();
 
-    // Reference to the safe that is being lockpicked
-    private LockPickTrigger currentSafe;
+    private void Start()
+    {
+        if (string.IsNullOrEmpty(safeID))
+            safeID = gameObject.name;
+
+        currentAttempts = maxAttempts;
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && isLockpickingOpen)
         {
-            if (isLockpicking)
-            {
-                Exit();
-            }
+            ExitLockpicking();
         }
     }
 
-    // Initializes the pins and sets up the lock-picking UI.
-    // Now it receives a reference to the safe instead of just a safeID.
-    public void SetPins(GameObject difficultyPanel, LockPickTrigger safe)
+    public void OpenLockpicking()
     {
-        currentSafe = safe;
-        currentDifficultyPanel = difficultyPanel;
-        isLockpicking = true;
-
-        if (currentDifficultyPanel == null)
+        if (isUnlocked)
         {
-            Debug.LogError("currentDifficultyPanel is NULL in SetPins!");
+            Debug.Log($"Safe {safeID} is already unlocked!");
+            return;
         }
-
-        Debug.Log($"currentDifficultyPanel set to {currentDifficultyPanel.name}");
-
-        // Find the "Pins" container inside the difficulty panel
-        Transform pinsContainer = difficultyPanel.transform.Find("Pins");
-        if (pinsContainer == null)
+        if (isLockpickingOpen)
         {
-            Debug.LogError("Pins container not found in the difficulty panel!");
+            Debug.Log($"Lockpicking already in progress on {safeID}!");
+            return;
+        }
+        if (currentAttempts <= 0)
+        {
+            Debug.Log($"No attempts left for safe {safeID}!");
             return;
         }
 
-        // Get all buttons inside the "Pins" container
-        pins = pinsContainer.GetComponentsInChildren<Button>();
-        Debug.Log("Pins assigned: " + pins.Length);
+        PlayerManager.Instance.lockRotation();
+        anyLockpickingOpen = true;
+        isLockpickingOpen = true;
 
-        // Try to load a saved order from the safe.
-        List<int> savedOrder = currentSafe.GetOrder();
-        if (savedOrder != null)
+        lockpickingUI.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        // Choose difficulty panel
+        if (easyPanel) easyPanel.SetActive(false);
+        if (mediumPanel) mediumPanel.SetActive(false);
+        if (hardPanel) hardPanel.SetActive(false);
+
+        GameObject chosenPanel = null;
+        if (difficulty == "Easy") chosenPanel = easyPanel;
+        else if (difficulty == "Medium") chosenPanel = mediumPanel;
+        else if (difficulty == "Hard") chosenPanel = hardPanel;
+
+        if (chosenPanel == null)
         {
-            correctOrder = new List<int>(savedOrder);
-            Debug.Log($"Loaded saved order for {currentSafe.safeID}: {string.Join(", ", correctOrder)}");
+            Debug.LogError($"Difficulty '{difficulty}' panel not set or invalid!");
+            return;
+        }
+        chosenPanel.SetActive(true);
+
+        SetupPins(chosenPanel);
+        Debug.Log($"Lock Picking UI opened for Safe: {safeID}, Difficulty: {difficulty}");
+    }
+
+    private void SetupPins(GameObject difficultyPanel)
+    {
+        Transform pinsContainer = difficultyPanel.transform.Find("Pins");
+        if (pinsContainer == null)
+        {
+            Debug.LogError("Pins container not found!");
+            return;
+        }
+
+        pins = pinsContainer.GetComponentsInChildren<Button>(true);
+        if (pins.Length == 0)
+        {
+            Debug.LogError("No pin buttons found!");
+            return;
+        }
+        Debug.Log($"Pins assigned: {pins.Length}");
+
+        //Try to load saved combo, else generate
+        LoadCombo();
+
+        if (correctOrder.Count == 0) // means no saved data found
+        {
+            GenerateShuffledOrder();
+            SaveCombo(); // store the new combo
         }
         else
         {
-            GenerateShuffledOrder();
-            currentSafe.SaveOrder(correctOrder);
-            Debug.Log($"Generated new order for {currentSafe.safeID}: {string.Join(", ", correctOrder)}");
+            Debug.Log($"Loaded saved combo for {safeID}: {string.Join(", ", correctOrder)}");
         }
 
+        // Show attempts
         if (attemptsText != null)
-        {
             attemptsText.gameObject.SetActive(true);
-        }
         UpdateAttemptsUI();
 
-        // Reset index
         currentIndex = 0;
+        isLocked = false;
 
-        // Save default color
         defaultColor = pins[0].GetComponent<Image>().color;
 
-        // Assign pinTransforms and click events
         pinTransforms = new RectTransform[pins.Length];
         originalPositions = new Vector3[pins.Length];
 
@@ -100,93 +150,41 @@ public class LockPicking : MonoBehaviour
             originalPositions[i] = pinTransforms[i].localPosition;
 
             int index = i;
-            pins[i].onClick.RemoveAllListeners();  // Prevent duplicate events
+            pins[i].onClick.RemoveAllListeners();
             pins[i].onClick.AddListener(() => TryPressPin(index));
         }
     }
-
-    // Exits the lock-picking UI and resets state.
-    private void Exit()
+private void TryPressPin(int pinIndex)
     {
-        isLockpicking = false;
-        PlayerManager.Instance.unlockRotation();
-        if (currentSafe != null)
-        {
-            currentSafe.isLockpickingOpen = false;
-        }
+        if (isLocked) return;
 
-        LockPickTrigger.anyLockpickingOpen = false;
-
-
-
-        SetCursorState(false);
-
-        if (currentDifficultyPanel != null)
-        {
-            currentDifficultyPanel.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("currentDifficultyPanel is null in Exit()!");
-        }
-
-        attemptsText.gameObject.SetActive(false);
-        ResetAllPins();
-        correctOrder.Clear();
-    }
-
-    // Attempts to press a pin and checks if it is correct.
-    void TryPressPin(int pinIndex)
-    {
-        if (isLocked) return; // Prevent spam clicking
-
-        // Log which pin was clicked and which one is currently expected
-        Debug.Log($"[LockPicking] Pin pressed: {pinIndex}, " + $"expected pin index: {correctOrder[currentIndex]} (currentIndex = {currentIndex})");
-
+        Debug.Log($"Pin {pinIndex} clicked, expected: {correctOrder[currentIndex]} (step {currentIndex + 1}/{correctOrder.Count})");
 
         if (pinIndex == correctOrder[currentIndex])
         {
-            Debug.Log($"[LockPicking] Pin {pinIndex} is CORRECT! Moving on to the next pin.");
             StartCoroutine(CorrectPinEffect(pinIndex));
-            currentIndex++; // Move to next pin
-
+            currentIndex++;
             if (currentIndex >= pins.Length)
             {
-                if (currentSafe != null)
-                {
-                    currentSafe.MarkSafeUnlocked();
-                    currentSafe = null;
-                }
-
-                Debug.Log("Lock is picked successfully!");
-                Exit();
-            }
-            else 
-            {
-                // Now the puzzle expects correctOrder[currentIndex]
-                Debug.Log($"[LockPicking] Next expected pin index is now: {correctOrder[currentIndex]} " + $"(currentIndex = {currentIndex}).");
+                Debug.Log($"Safe {safeID} is unlocked!");
+                MarkSafeUnlocked();
+                ExitLockpicking();
             }
         }
         else
         {
-            Debug.Log($"[LockPicking] Pin {pinIndex} is WRONG! The puzzle still expects pin index {correctOrder[currentIndex]}.");
-            // Wrong pin pressed: reduce an attempt on the safe.
-            if (currentSafe != null)
+            Debug.Log($"Pin {pinIndex} is wrong! expected {correctOrder[currentIndex]}");
+            bool attemptLeft = ReduceAttempt();
+            UpdateAttemptsUI();
+            if (!attemptLeft)
             {
-                bool attemptLeft = currentSafe.ReduceAttempt();
-                UpdateAttemptsUI();
-                if (!attemptLeft)
-                {
-                    StartCoroutine(ShowFailedMessage());
-                    return;
-                }
+                StartCoroutine(ShowFailedMessage());
+                return;
             }
-
             StartCoroutine(WrongPinEffect(pinIndex));
         }
     }
 
-    // Visual effect for a correct pin press.
     private IEnumerator CorrectPinEffect(int pinIndex)
     {
         isLocked = true;
@@ -196,8 +194,7 @@ public class LockPicking : MonoBehaviour
         isLocked = false;
     }
 
-    // Visual effect for an incorrect pin press.
-    IEnumerator WrongPinEffect(int pinIndex)
+    private IEnumerator WrongPinEffect(int pinIndex)
     {
         isLocked = true;
         Image pinImage = pins[pinIndex].GetComponent<Image>();
@@ -208,8 +205,7 @@ public class LockPicking : MonoBehaviour
         isLocked = false;
     }
 
-    // Resets all pins to their original state.
-    void ResetAllPins()
+    private void ResetAllPins()
     {
         currentIndex = 0;
         for (int i = 0; i < pins.Length; i++)
@@ -219,16 +215,12 @@ public class LockPicking : MonoBehaviour
         }
     }
 
-    // Generates a random (shuffled) order for the pins.
-    void GenerateShuffledOrder()
+    private void GenerateShuffledOrder()
     {
         correctOrder.Clear();
-        string safeID = currentSafe != null ? currentSafe.safeID : "Unknown";
+        int pinCount = pins.Length;
         List<int> indices = new List<int>();
-        for (int i = 0; i < pins.Length; i++)
-        {
-            indices.Add(i);
-        }
+        for (int i = 0; i < pinCount; i++) indices.Add(i);
 
         System.Random rand = new System.Random();
         while (indices.Count > 0)
@@ -237,39 +229,84 @@ public class LockPicking : MonoBehaviour
             correctOrder.Add(indices[randomIndex]);
             indices.RemoveAt(randomIndex);
         }
-        Debug.Log("Randomized Click Order: " + string.Join(", ", correctOrder));
+        Debug.Log($"Generated Lock Combo for {safeID}: {string.Join(", ", correctOrder)}");
     }
 
-    void UpdateAttemptsUI()
+    // ============ Save & Load to PlayerPrefs ============
+
+    private void LoadCombo()
     {
-        if (currentSafe != null && attemptsText != null)
+        // e.g. key = "SafeCombo_" + safeID
+        string key = "SafeCombo_" + safeID;
+        if (PlayerPrefs.HasKey(key))
         {
-            attemptsText.text = "Attempts Left: " + currentSafe.currentAttempts;
+            string savedString = PlayerPrefs.GetString(key);
+            // "2,0,1,3"
+            string[] tokens = savedString.Split(',');
+            correctOrder.Clear();
+            foreach (string t in tokens)
+            {
+                if (int.TryParse(t, out int pinIndex))
+                    correctOrder.Add(pinIndex);
+            }
         }
     }
 
-    // Shows a failed message and then exits.
-    IEnumerator ShowFailedMessage()
+    private void SaveCombo()
     {
-        if (failedText != null)
+        string key = "SafeCombo_" + safeID;
+        string comboString = string.Join(",", correctOrder);
+        PlayerPrefs.SetString(key, comboString);
+        PlayerPrefs.Save(); // ensures data is written to disk
+        Debug.Log($"Saved combo for {safeID}: {comboString}");
+    }
+
+    private bool ReduceAttempt()
+    {
+        currentAttempts--;
+        Debug.Log($"Attempts left for {safeID}: {currentAttempts}");
+        if (currentAttempts <= 0)
         {
-            failedText.SetActive(true);
+            Debug.Log($"No attempts left for {safeID}!");
+            return false;
         }
-        else
-        {
-            Debug.LogError("FAILED! text is NULL! Assign it in the Inspector.");
-        }
+        return true;
+    }
+
+    private void UpdateAttemptsUI()
+    {
+        if (attemptsText != null)
+            attemptsText.text = $"Attempts Left: {currentAttempts}";
+    }
+
+    private IEnumerator ShowFailedMessage()
+    {
+        if (failedText) failedText.SetActive(true);
         yield return new WaitForSeconds(1f);
-        if (failedText != null)
-        {
-            failedText.SetActive(false);
-        }
-        Exit();
+        if (failedText) failedText.SetActive(false);
+        ExitLockpicking();
     }
 
-    private void SetCursorState(bool visible)
+    private void MarkSafeUnlocked()
     {
-        Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
-        Cursor.visible = visible;
+        isUnlocked = true;
+        Debug.Log($"Safe {safeID} Unlocked!");
+        if (safeAnimator) safeAnimator.SetTrigger("OpenSafe");
+    }
+
+    private void ExitLockpicking()
+    {
+        isLockpickingOpen = false;
+        anyLockpickingOpen = false;
+
+        if (lockpickingUI) lockpickingUI.SetActive(false);
+        ResetAllPins();
+
+        // Lock the cursor again
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        PlayerManager.Instance.unlockRotation();
+        Debug.Log($"Lockpicking closed for {safeID}");
     }
 }

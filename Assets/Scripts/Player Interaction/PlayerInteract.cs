@@ -21,47 +21,81 @@ public class PlayerInteract : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract)
         {
-            Interact(objRef);
-        }
-        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract && !LockPickTrigger.anyLockpickingOpen)
-        {
-            RevealInventory();
+            // If any lockpicking is open, skip
+            if (LockPicking.anyLockpickingOpen)
+                return;
+
+            LockPicking safeLock = objRef.GetComponent<LockPicking>();
+            if (safeLock != null && !safeLock.isUnlocked)
+            {
+                safeLock.OpenLockpicking();  // Single-script approach
+            }
+            else
+            {
+                // Normal Interact
+                Interact(objRef);
+            }
         }
     }
 
     void FixedUpdate()
     {
-        // Get the screen center point
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-
-        // Generate a ray from the camera through the center of the screen
         Ray ray = Camera.main.ScreenPointToRay(screenCenter);
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, raycastDistance))
         {
-            if (hit.transform.CompareTag("Selectable"))
+            // Check if it's a safe with LockPicking script
+            LockPicking safeLock = hit.transform.GetComponent<LockPicking>();
+            if (safeLock != null)
             {
-                if (objRef != hit.transform.gameObject) // Only update if a new object is hit
+                // Highlight if not already highlighting this object
+                if (objRef != safeLock.gameObject)
                 {
-                    ResetHighlight(); // Reset previous object's color
-
-                    objRef = hit.transform.gameObject;
+                    ResetHighlight();
+                    objRef = safeLock.gameObject;
                     objRenderer = objRef.GetComponent<Renderer>();
-
                     if (objRenderer != null)
                     {
-                        originalColor = objRenderer.material.color; // Store original color
-                        Color highlightedColor = originalColor * highlightIntensity; // Make it lighter
-                        highlightedColor.a = originalColor.a; // Preserve transparency
-                        objRenderer.material.color = highlightedColor; // Apply new color
+                        originalColor = objRenderer.material.color;
+                        Color highlightedColor = originalColor * highlightIntensity;
+                        highlightedColor.a = originalColor.a;
+                        objRenderer.material.color = highlightedColor;
                     }
+                }
+
+                // If player left-clicks on the safe, try to open lockpicking
+                if (Input.GetMouseButtonDown(0) && PlayerManager.Instance.ableToInteract)
+                {
+                    safeLock.OpenLockpicking();
                 }
             }
             else
             {
-                ResetHighlight();
+                // If it's not a safe, maybe it's a normal "Selectable" or StealableObject
+                if (hit.transform.CompareTag("Selectable"))
+                {
+                    // The old highlight logic
+                    if (objRef != hit.transform.gameObject)
+                    {
+                        ResetHighlight();
+                        objRef = hit.transform.gameObject;
+                        objRenderer = objRef.GetComponent<Renderer>();
+                        if (objRenderer != null)
+                        {
+                            originalColor = objRenderer.material.color;
+                            Color highlightedColor = originalColor * highlightIntensity;
+                            highlightedColor.a = originalColor.a;
+                            objRenderer.material.color = highlightedColor;
+                        }
+                    }
+                }
+                else
+                {
+                    ResetHighlight();
+                }
             }
         }
         else
