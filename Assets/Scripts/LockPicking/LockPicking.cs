@@ -237,7 +237,7 @@ private void TryPressPin(int pinIndex)
     private void LoadCombo()
     {
         // e.g. key = "SafeCombo_" + safeID
-        string key = "SafeCombo_" + safeID;
+        string key = "SafeCombo_" + safeID + "_" + difficulty;
         if (PlayerPrefs.HasKey(key))
         {
             string savedString = PlayerPrefs.GetString(key);
@@ -254,11 +254,11 @@ private void TryPressPin(int pinIndex)
 
     private void SaveCombo()
     {
-        string key = "SafeCombo_" + safeID;
+        string key = "SafeCombo_" + safeID + "_" + difficulty;
         string comboString = string.Join(",", correctOrder);
         PlayerPrefs.SetString(key, comboString);
-        PlayerPrefs.Save(); // ensures data is written to disk
-        Debug.Log($"Saved combo for {safeID}: {comboString}");
+        PlayerPrefs.Save();
+        Debug.Log($"Saved combo for {safeID} at {difficulty}: {comboString}");
     }
 
     private bool ReduceAttempt()
