@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class LockPicking : MonoBehaviour
 {
-    // ADD THESE FIELDS:
     public Button[] pins;
     public RectTransform[] pinTransforms;
     public Color correctColor = Color.green;
@@ -111,6 +110,14 @@ public class LockPicking : MonoBehaviour
     {
         isLockpicking = false;
         PlayerManager.Instance.unlockRotation();
+        if (currentSafe != null)
+        {
+            currentSafe.isLockpickingOpen = false;
+        }
+
+        LockPickTrigger.anyLockpickingOpen = false;
+
+
 
         SetCursorState(false);
 
@@ -133,8 +140,13 @@ public class LockPicking : MonoBehaviour
     {
         if (isLocked) return; // Prevent spam clicking
 
+        // Log which pin was clicked and which one is currently expected
+        Debug.Log($"[LockPicking] Pin pressed: {pinIndex}, " + $"expected pin index: {correctOrder[currentIndex]} (currentIndex = {currentIndex})");
+
+
         if (pinIndex == correctOrder[currentIndex])
         {
+            Debug.Log($"[LockPicking] Pin {pinIndex} is CORRECT! Moving on to the next pin.");
             StartCoroutine(CorrectPinEffect(pinIndex));
             currentIndex++; // Move to next pin
 
@@ -149,9 +161,15 @@ public class LockPicking : MonoBehaviour
                 Debug.Log("Lock is picked successfully!");
                 Exit();
             }
+            else 
+            {
+                // Now the puzzle expects correctOrder[currentIndex]
+                Debug.Log($"[LockPicking] Next expected pin index is now: {correctOrder[currentIndex]} " + $"(currentIndex = {currentIndex}).");
+            }
         }
         else
         {
+            Debug.Log($"[LockPicking] Pin {pinIndex} is WRONG! The puzzle still expects pin index {correctOrder[currentIndex]}.");
             // Wrong pin pressed: reduce an attempt on the safe.
             if (currentSafe != null)
             {
@@ -254,5 +272,4 @@ public class LockPicking : MonoBehaviour
         Cursor.lockState = visible ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = visible;
     }
-
 }

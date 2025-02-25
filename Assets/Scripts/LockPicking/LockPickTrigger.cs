@@ -20,6 +20,9 @@ public class LockPickTrigger : MonoBehaviour
     public int currentAttempts;
     private List<int> savedOrder;
 
+    public bool isLockpickingOpen = false;
+    public static bool anyLockpickingOpen = false; // Tracks if ANY safe is being lockpicked
+
     private void Start()
     {
         if (string.IsNullOrEmpty(safeID))
@@ -32,11 +35,12 @@ public class LockPickTrigger : MonoBehaviour
     // Interaction code remains unchanged except for using currentAttempts directly.
     private void Update()
     {
-        if (isNearSafe && !isUnlocked && Input.GetMouseButtonDown(0) && !FindObjectOfType<InventoryUI>().isInventoryOpen)
+        if (isNearSafe && !isUnlocked && Input.GetMouseButtonDown(0) && !FindObjectOfType<InventoryUI>().isInventoryOpen && !isLockpickingOpen)
         {
             if (currentAttempts > 0)
             {
                 Debug.Log("Lock Picking Started");
+                isLockpickingOpen = true;
                 OpenLockpicking();
             }
             else
@@ -68,6 +72,7 @@ public class LockPickTrigger : MonoBehaviour
     {
         PlayerManager.Instance.lockRotation();
         SetCursorState(true);
+        anyLockpickingOpen = true;
 
         if (lockpickingUI != null)
         {
