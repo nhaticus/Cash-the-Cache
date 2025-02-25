@@ -19,11 +19,29 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
+        // Left-click
         if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract)
         {
-            Interact(objRef);
+            // If any lockpicking is open, skip normal logic
+            if (LockPicking.anyLockpickingOpen)
+                return;
+
+            // Check if the object has LockPicking
+            LockPicking safeLock = objRef.GetComponent<LockPicking>();
+            if (safeLock != null && !safeLock.isUnlocked)
+            {
+                // It's a safe, open lockpicking
+                safeLock.OpenLockpicking();
+            }
+            else
+            {
+                // Normal Interact
+                Interact(objRef);
+            }
         }
-        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract && !FindObjectOfType<LockPicking>().isLockpicking)
+
+        // Right-click: open inventory if not lockpicking
+        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract && !LockPicking.anyLockpickingOpen)
         {
             RevealInventory();
         }
