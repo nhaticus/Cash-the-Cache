@@ -30,6 +30,7 @@ public class NPCsBehavior : MonoBehaviour
 
     /*  Detection  */
     [Header("Detection Settings")]
+    public float stunDuration;
     public float sightDistance;
     private bool withinSight;
     private bool detectedPlayer = false;
@@ -43,6 +44,10 @@ public class NPCsBehavior : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.speed = agentDefaultSpeed;
         player = GameObject.Find("Player").transform;
+        if (stunDuration == 0f)
+        {
+            stunDuration = 1.0f; // default stun duration
+        }
     }
 
     void Update()
@@ -169,4 +174,20 @@ public class NPCsBehavior : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sightDistance);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.CompareTag("Bat"))
+        {
+            Debug.Log("Stunned!");
+            StartCoroutine(Stun());
+        }
+    }
+
+    private IEnumerator Stun()
+    {
+        agent.isStopped = true;
+        yield return new WaitForSeconds(stunDuration);
+        agent.isStopped = false;
+    }
 }

@@ -30,6 +30,7 @@ public class PoliceBehavior : MonoBehaviour
 
     /*  Detection  */
     [Header("Detection Settings")]
+    public float stunDuration;
     public float sightDistance;
     public float reachDistance;
     private bool withinSight, withinReach;
@@ -47,6 +48,10 @@ public class PoliceBehavior : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
         player = GameObject.Find("Player").transform;
+        if (stunDuration == 0f)
+        {
+            stunDuration = 1.0f; // default stun duration
+        }
     }
 
     void Update()
@@ -73,7 +78,8 @@ public class PoliceBehavior : MonoBehaviour
                 {
                     withinSight = true;
                     break;
-                } else
+                }
+                else
                 {
                     withinSight = false;
                 }
@@ -81,7 +87,7 @@ public class PoliceBehavior : MonoBehaviour
         }
         withinReach = Physics.CheckSphere(transform.position, reachDistance, playerLayer);
 
-        Debug.Log("Within Sight: " + withinSight + " Within Reach: " + withinReach);
+        // Debug.Log("Within Sight: " + withinSight + " Within Reach: " + withinReach);
 
         if (withinSight)
         {
@@ -184,4 +190,19 @@ public class PoliceBehavior : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sightDistance);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bat"))
+        {
+            Debug.Log("Stunned!");
+            StartCoroutine(Stun());
+        }
+    }
+
+    private IEnumerator Stun()
+    {
+        agent.isStopped = true;
+        yield return new WaitForSeconds(stunDuration);
+        agent.isStopped = false;
+    }
 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ItemTemplate : MonoBehaviour
 {
-    public Item itemData;
+    public Items itemData;
     public TMP_Text itemName;
     public TMP_Text itemDescription;
     public TMP_Text itemLevel;
