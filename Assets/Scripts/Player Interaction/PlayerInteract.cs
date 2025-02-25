@@ -7,34 +7,25 @@ using UnityEngine.EventSystems;
 
 public class PlayerInteract : MonoBehaviour
 {
-    GameObject objRef;
-    Renderer objRenderer;
-    Color originalColor; // Store the original color of the object
-    [SerializeField] float highlightIntensity = 3f; // How much lighter the object should get
+    private GameObject objRef;
+    private Renderer objRenderer;
+    private Material originalMaterial; // Store the original material of the object
+    [SerializeField] private Material highlightMaterial; // Material to highlight object
 
-    public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary of item name as key, (number owned, Loot info)
-
-    [SerializeField] float raycastDistance = 3.0f;
+    [SerializeField] private float raycastDistance = 3.0f;
     public GameObject camera;
+
+    public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract)
         {
-            // If any lockpicking is open, skip
-            if (LockPicking.anyLockpickingOpen)
-                return;
-
-            LockPicking safeLock = objRef.GetComponent<LockPicking>();
-            if (safeLock != null && !safeLock.isUnlocked)
-            {
-                safeLock.OpenLockpicking();  // Single-script approach
-            }
-            else
-            {
-                // Normal Interact
-                Interact(objRef);
-            }
+            Interact(objRef);
+        }
+        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract && !FindObjectOfType<LockPicking>().isLockpicking)
+        {
+            RevealInventory();
         }
     }
 
@@ -47,55 +38,25 @@ public class PlayerInteract : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, raycastDistance))
         {
-            // Check if it's a safe with LockPicking script
-            LockPicking safeLock = hit.transform.GetComponent<LockPicking>();
-            if (safeLock != null)
+            if (hit.transform.CompareTag("Selectable"))
             {
-                // Highlight if not already highlighting this object
-                if (objRef != safeLock.gameObject)
+                if (objRef != hit.transform.gameObject) // Only update if a new object is hit
                 {
-                    ResetHighlight();
-                    objRef = safeLock.gameObject;
+                    ResetHighlight(); // Reset previous object's material
+
+                    objRef = hit.transform.gameObject;
                     objRenderer = objRef.GetComponent<Renderer>();
+
                     if (objRenderer != null)
                     {
-                        originalColor = objRenderer.material.color;
-                        Color highlightedColor = originalColor * highlightIntensity;
-                        highlightedColor.a = originalColor.a;
-                        objRenderer.material.color = highlightedColor;
+                        originalMaterial = objRenderer.material; // Store original material
+                        objRenderer.material = highlightMaterial; // Apply highlight material
                     }
-                }
-
-                // If player left-clicks on the safe, try to open lockpicking
-                if (Input.GetMouseButtonDown(0) && PlayerManager.Instance.ableToInteract)
-                {
-                    safeLock.OpenLockpicking();
                 }
             }
             else
             {
-                // If it's not a safe, maybe it's a normal "Selectable" or StealableObject
-                if (hit.transform.CompareTag("Selectable"))
-                {
-                    // The old highlight logic
-                    if (objRef != hit.transform.gameObject)
-                    {
-                        ResetHighlight();
-                        objRef = hit.transform.gameObject;
-                        objRenderer = objRef.GetComponent<Renderer>();
-                        if (objRenderer != null)
-                        {
-                            originalColor = objRenderer.material.color;
-                            Color highlightedColor = originalColor * highlightIntensity;
-                            highlightedColor.a = originalColor.a;
-                            objRenderer.material.color = highlightedColor;
-                        }
-                    }
-                }
-                else
-                {
-                    ResetHighlight();
-                }
+                ResetHighlight();
             }
         }
         else
@@ -106,9 +67,9 @@ public class PlayerInteract : MonoBehaviour
 
     private void ResetHighlight()
     {
-        if (objRef != null && objRenderer != null)
+        if (objRef != null && objRenderer != null && originalMaterial != null)
         {
-            objRenderer.material.color = originalColor; // Restore original color
+            objRenderer.material = originalMaterial; // Restore original material
         }
         objRef = null;
         objRenderer = null;
@@ -136,8 +97,7 @@ public class PlayerInteract : MonoBehaviour
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
                 WeightChangeSpeed();
-
-                ItemTaken.Invoke(); // send event saying an item was taken
+                ItemTaken.Invoke(); // Send event saying an item was taken
             }
         }
         else
@@ -148,7 +108,10 @@ public class PlayerInteract : MonoBehaviour
 
     public void WeightChangeSpeed()
     {
-        float ChangeSpeedByPercent(float percent){ return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);}
+        float ChangeSpeedByPercent(float percent) 
+        { 
+            return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);
+        }
 
         float weightPercentage = (float) PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
         float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
@@ -162,11 +125,9 @@ public class PlayerInteract : MonoBehaviour
         PlayerManager.Instance.setMoveSpeed(newSpeed);
     }
 
-    
-
     [HideInInspector] public UnityEvent ShowInventory;
     private void RevealInventory()
     {
-        ShowInventory.Invoke(); // send event saying to show inventory menu
+        ShowInventory.Invoke(); // Send event to show inventory menu
     }
 }

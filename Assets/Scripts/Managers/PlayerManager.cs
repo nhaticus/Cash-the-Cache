@@ -10,6 +10,8 @@ public class PlayerManager : MonoBehaviour
     private PlayerCam playerCameraScript;
     private PlayerMovement playerMovementScript;
 
+    private List<Renderer> visualRenderers = new List<Renderer>(); //For changing the color of van outline when player has something
+
     //Player Stats
     [SerializeField]
     private int weight = 0;
@@ -43,6 +45,18 @@ public class PlayerManager : MonoBehaviour
         //Finds reference to playerCamera 
         playerCameraScript = GameObject.Find("Main Camera").GetComponent<PlayerCam>();
         playerMovementScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
+
+        // Find all renderers in the visual area
+        GameObject visualArea = GameObject.Find("Visual area");
+        if (visualArea != null)
+        {
+            // Get all child renderers
+            Renderer[] renderers = visualArea.GetComponentsInChildren<Renderer>();
+            foreach (Renderer rend in renderers)
+            {
+                visualRenderers.Add(rend);
+            }
+        }
 
         SceneManager.sceneLoaded += OnSceneChanged;
     }
@@ -109,16 +123,19 @@ public class PlayerManager : MonoBehaviour
     public void addWeight(int itemWeight)
     {
         this.weight += itemWeight;
+        UpdateVisualAreaColor(); // Update color when weight changes
     }
 
     public void subWeight(int itemWeight)
     {
         this.weight -= itemWeight;
+        UpdateVisualAreaColor(); // Update color when weight changes
     }
 
     public void setWeight(int newWeight)
     {
         this.weight = newWeight;
+        UpdateVisualAreaColor();
     }
 
     public int getWeight()
@@ -169,6 +186,16 @@ public class PlayerManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+        }
+    }
+
+    private void UpdateVisualAreaColor()
+    {
+        Color newColor = (weight > 0) ? Color.green : Color.red;
+
+        foreach (Renderer rend in visualRenderers)
+        {
+            rend.material.color = newColor;
         }
     }
 }

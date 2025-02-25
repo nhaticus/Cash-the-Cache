@@ -36,9 +36,7 @@ public class ShopManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        openShopPrompt = GameObject.Find("OpenShopPrompt txt").GetComponent<TMP_Text>();
         openShopPrompt.gameObject.SetActive(false);
-        moneyText = GameObject.Find("Money txt").GetComponent<TMP_Text>();
         PopulateShop();
         shopUI.SetActive(false);
     }
