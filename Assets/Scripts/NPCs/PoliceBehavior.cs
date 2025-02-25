@@ -30,6 +30,7 @@ public class PoliceBehavior : MonoBehaviour
 
     /*  Detection  */
     [Header("Detection Settings")]
+    public float stunDuration;
     public float sightDistance;
     public float reachDistance;
     private bool withinSight, withinReach;
@@ -47,6 +48,10 @@ public class PoliceBehavior : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
         player = GameObject.Find("Player").transform;
+        if (stunDuration == 0f)
+        {
+            stunDuration = 1.0f; // default stun duration
+        }
     }
 
     void Update()
@@ -63,26 +68,24 @@ public class PoliceBehavior : MonoBehaviour
 
     private void DetectPlayer()
     {
-        withinReach = Physics.CheckSphere(transform.position, reachDistance, playerLayer);
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sightDistance, playerLayer);
-        if (hitColliders.Length == 0)
+        for (int i = -45; i <= 45; i += 5)
         {
-            withinSight = false;
-        }
-        else
-        {
-            foreach (var hitCollider in hitColliders)
+            Vector3 direction = Quaternion.Euler(0, i, 0) * transform.forward;
+            Debug.DrawRay(transform.position, direction * sightDistance, Color.red);
+            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, sightDistance))
             {
-                Vector3 directionToPlayer = (hitCollider.transform.position - transform.position).normalized;
-                float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-
-                if (angleToPlayer <= 45)
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("playerLayer"))
                 {
                     withinSight = true;
                     break;
                 }
+                else
+                {
+                    withinSight = false;
+                }
             }
         }
+        withinReach = Physics.CheckSphere(transform.position, reachDistance, playerLayer);
 
         // Debug.Log("Within Sight: " + withinSight + " Within Reach: " + withinReach);
 
@@ -117,12 +120,12 @@ public class PoliceBehavior : MonoBehaviour
             // If within reach, attack or something
             AttackPlayer();
         }
+
         else
         {
             // Idle
             PathingDefault();
         }
-
     }
 
     private void ChasePlayer()
@@ -187,4 +190,19 @@ public class PoliceBehavior : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sightDistance);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bat"))
+        {
+            Debug.Log("Stunned!");
+            StartCoroutine(Stun());
+        }
+    }
+
+    private IEnumerator Stun()
+    {
+        agent.isStopped = true;
+        yield return new WaitForSeconds(stunDuration);
+        agent.isStopped = false;
+    }
 }
