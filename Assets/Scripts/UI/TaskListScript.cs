@@ -27,24 +27,24 @@ public class TaskListScript : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI task4Text;
 
-    private void triggerTask1()
+    public void triggerTask1()
     {
         task1BG.color = new Color32(0, 198, 0, 255);
         task1Text.color = new Color32(0, 198, 0, 255);
         task1Text.fontStyle = FontStyles.Strikethrough;
     }
 
-    private void triggerTask2()
+    public void triggerTask2()
     {
 
     }
 
-    private void triggerTask3()
+    public void triggerTask3()
     {
 
     }
 
-    private void triggerTask4()
+    public void triggerTask4()
     {
 
     }
