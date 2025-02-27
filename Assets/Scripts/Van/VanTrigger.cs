@@ -13,10 +13,6 @@ public class VanTrigger : MonoBehaviour
     PlayerInteract playerInventory;
     [SerializeField] GameObject vanText;
 
-    private void Awake()
-    {
-        vanText.SetActive(false);
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
