@@ -10,7 +10,7 @@ public class PlayerInteract : MonoBehaviour
 {
     GameObject objRef;
     Renderer objRenderer;
-    Material originalMaterial; // Store the original material of the object
+    public Material originalMaterial; // Store the original material of the object
     [SerializeField] Material highlightMaterial; // Material to highlight object
 
     [SerializeField] float raycastDistance = 2.5f;
@@ -38,7 +38,6 @@ public class PlayerInteract : MonoBehaviour
             else
             {
                 // Normal Interact
-                //Checks if there is an existing task list
                 if(TaskManager.Instance != null)
                 {
                     TaskManager.Instance.task1Complete();
@@ -55,6 +54,7 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
+    Color origColor;
     void FixedUpdate()
     {
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
@@ -65,22 +65,28 @@ public class PlayerInteract : MonoBehaviour
         bool gotSelectable = false;
         for (int i = 0; i < hits.Length; i++)
         {
-            if (hits[i].transform.CompareTag("Selectable"))
+            GameObject hit = hits[i].transform.gameObject;
+            if (hit.CompareTag("Selectable"))
             {
-                if(objRef != hits[i].transform.gameObject)
+                gotSelectable = true;
+                if (objRef == hit)
+                    break;
+                if (objRef != hit)
                 {
                     ResetHighlight(); // Reset previous object's material
 
-                    objRef = hits[i].transform.gameObject;
+                    objRef = hit;
                     objRenderer = objRef.GetComponent<Renderer>();
-
-                    if (objRenderer != null)
+                    originalMaterial = objRenderer.material;
+                    origColor = originalMaterial.color;
+                    
+                    if (originalMaterial != null)
                     {
-                        originalMaterial = objRenderer.material; // Store original material
-                        objRenderer.material = highlightMaterial; // Apply highlight material
+                        Material newMat = objRenderer.material;
+                        newMat.color = Color.red;
+                        objRenderer.material = newMat; // Apply highlight material
                     }
                 }
-                gotSelectable = true;
                 break;
             }
         }
@@ -92,12 +98,14 @@ public class PlayerInteract : MonoBehaviour
 
     private void ResetHighlight()
     {
-        if (objRef != null && objRenderer != null && originalMaterial != null)
+        if (objRef && objRenderer && originalMaterial)
         {
             objRenderer.material = originalMaterial; // Restore original material
+            objRenderer.material.color = origColor;
         }
         objRef = null;
         objRenderer = null;
+        originalMaterial = null;
     }
 
     [HideInInspector] public UnityEvent ItemTaken;
