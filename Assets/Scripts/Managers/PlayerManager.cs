@@ -63,8 +63,17 @@ public class PlayerManager : MonoBehaviour
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode)
     {
-        playerCameraScript = GameObject.Find("Main Camera").GetComponent<PlayerCam>();
-        playerMovementScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        GameObject mainCamera = GameObject.Find("Main Camera");
+        if (mainCamera != null)
+        {
+            playerCameraScript = mainCamera.GetComponent<PlayerCam>();
+        }
+
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            playerMovementScript = player.GetComponent<PlayerMovement>();
+        }
     }
     private void Start()
     {

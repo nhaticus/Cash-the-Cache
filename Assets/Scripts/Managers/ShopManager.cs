@@ -12,8 +12,6 @@ public class ShopManager : MonoBehaviour
 {
     public static ShopManager Instance { get; private set; }
 
-    public Items[] items;   // Array of items pulled from scriptable object
-
     public GameObject shopUI;
 
     public GameObject itemTemplate;
@@ -51,9 +49,8 @@ public class ShopManager : MonoBehaviour
 
     public void PopulateShop()
     {
-        foreach (Items item in items)
+        foreach (Items itemScriptableObject in UpgradeManager.Instance.items)
         {
-            Items itemScriptableObject = Instantiate(item);
             GameObject itemGameObject = Instantiate(itemTemplate, shopPanel);
             itemsInShop.Add(itemGameObject);
             UpdateItem(itemScriptableObject, itemGameObject);
@@ -87,7 +84,7 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateItem(Items itemScriptableObject, GameObject itemGameObject)
     {
-        itemGameObject.GetComponent<ItemTemplate>().itemName.text = itemScriptableObject.item;
+        itemGameObject.GetComponent<ItemTemplate>().itemName.text = itemScriptableObject.itemName;
         itemGameObject.GetComponent<ItemTemplate>().itemDescription.text = itemScriptableObject.description;
         itemGameObject.GetComponent<ItemTemplate>().itemLevel.text = "Level: " + itemScriptableObject.level.ToString();
         itemGameObject.GetComponent<ItemTemplate>().itemStats.text = itemScriptableObject.stats;
@@ -101,7 +98,7 @@ public class ShopManager : MonoBehaviour
         itemScriptableObject.price += itemScriptableObject.level * 100;
         UpdateItem(itemScriptableObject, itemGameObject);
 
-        switch (itemScriptableObject.item)
+        switch (itemScriptableObject.itemName)
         {
             case "Backpack":
                 UpgradeManager.Instance.upgradeMaxWeight();
