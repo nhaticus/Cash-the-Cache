@@ -1,18 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private GameObject objRef;
-    private Renderer objRenderer;
-    private Material originalMaterial; // Store the original material of the object
-    [SerializeField] private Material highlightMaterial; // Material to highlight object
+    GameObject objRef;
+    Renderer objRenderer;
+    Material originalMaterial; // Store the original material of the object
+    [SerializeField] Material highlightMaterial; // Material to highlight object
 
-    [SerializeField] private float raycastDistance = 3.0f;
+    [SerializeField] float raycastDistance = 2.5f;
     public GameObject camera;
 
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
@@ -60,16 +61,17 @@ public class PlayerInteract : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(screenCenter);
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
 
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, raycastDistance))
+        RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction * raycastDistance, raycastDistance);
+        bool gotSelectable = false;
+        for (int i = 0; i < hits.Length; i++)
         {
-            if (hit.transform.CompareTag("Selectable"))
+            if (hits[i].transform.CompareTag("Selectable"))
             {
-                if (objRef != hit.transform.gameObject) // Only update if a new object is hit
+                if(objRef != hits[i].transform.gameObject)
                 {
                     ResetHighlight(); // Reset previous object's material
 
-                    objRef = hit.transform.gameObject;
+                    objRef = hits[i].transform.gameObject;
                     objRenderer = objRef.GetComponent<Renderer>();
 
                     if (objRenderer != null)
@@ -78,13 +80,11 @@ public class PlayerInteract : MonoBehaviour
                         objRenderer.material = highlightMaterial; // Apply highlight material
                     }
                 }
-            }
-            else
-            {
-                ResetHighlight();
+                gotSelectable = true;
+                break;
             }
         }
-        else
+        if (!gotSelectable)
         {
             ResetHighlight();
         }
