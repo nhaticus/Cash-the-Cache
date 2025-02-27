@@ -20,7 +20,8 @@ public class PlayerInteract : MonoBehaviour
     private void Update()
     {
         // Left-click
-        if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract)
+        if (Input.GetMouseButtonDown(0) && objRef != null &&
+            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)))
         {
             // If any lockpicking is open, skip normal logic
             if (LockPicking.anyLockpickingOpen)
@@ -46,7 +47,8 @@ public class PlayerInteract : MonoBehaviour
         }
 
         // Right-click: open inventory if not lockpicking
-        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract && !LockPicking.anyLockpickingOpen)
+        if (Input.GetMouseButtonDown(1) && (PlayerManager.Instance == null ||
+            (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)) && !LockPicking.anyLockpickingOpen)
         {
             RevealInventory();
         }

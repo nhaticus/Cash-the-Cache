@@ -137,12 +137,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (isMoving && !isPlayingFootsteps) {
             //Debug.Log("playing footstep sound");
-            AudioManager.Instance.PlaySFX("footstep_sound", true);
+            if (AudioManager.Instance)
+                AudioManager.Instance.PlaySFX("footstep_sound", true);
             isPlayingFootsteps = true;
         }
         else if (!isMoving && isPlayingFootsteps) {
             //Debug.Log("stopping footstep sound");
-            AudioManager.Instance.StopSFX("footstep_sound");
+            if (AudioManager.Instance)
+                AudioManager.Instance.StopSFX("footstep_sound");
             isPlayingFootsteps = false;
         }
     }
