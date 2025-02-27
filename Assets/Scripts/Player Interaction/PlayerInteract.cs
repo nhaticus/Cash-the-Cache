@@ -36,6 +36,11 @@ public class PlayerInteract : MonoBehaviour
             else
             {
                 // Normal Interact
+                //Checks if there is an existing task list
+                if(TaskManager.Instance != null)
+                {
+                    TaskManager.Instance.task1Complete();
+                }
                 Interact(objRef);
             }
         }
