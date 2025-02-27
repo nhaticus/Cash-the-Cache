@@ -13,6 +13,12 @@ public class VanTrigger : MonoBehaviour
     PlayerInteract playerInventory;
     [SerializeField] GameObject vanText;
 
+
+    private float depositTimer = 0f;
+    private bool depositCompleted = false;
+    private float baseLoadingTime = 1.0f;    // Base time required to deposit
+    private float extraTimePerItem = 0.5f;     // Additional time required per item
+
     private void Awake()
     {
         vanText.SetActive(false);
@@ -37,15 +43,42 @@ public class VanTrigger : MonoBehaviour
             playerInventory = null;
 
             vanText.SetActive(false);
+            depositTimer = 0f;
+            depositCompleted = false;
         }
     }
 
     private void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (playerInRange && playerInventory != null) 
         {
-            DepositItems();
+            if (Input.GetKey(KeyCode.E)) 
+            {
+                //Calc required hold time based on player's item count
+                int itemCount = playerInventory.inventory.Count;
+                float requiredHoldTime = baseLoadingTime + (itemCount * extraTimePerItem);
+
+                depositTimer += Time.deltaTime;
+
+                int progressPercent = Mathf.Clamp((int)((depositTimer / requiredHoldTime) * 100), 0, 100);
+                vanText.GetComponent<TMP_Text>().text = "Depositing... " + progressPercent + "%";
+
+                if (depositTimer >= requiredHoldTime && !depositCompleted)
+                {
+                    DepositItems();
+                    depositCompleted = true;
+                }
+            }
+            else
+            {
+                // If the player releases E, reset the deposit process
+                depositTimer = 0f;
+                depositCompleted = false;
+                vanText.GetComponent<TMP_Text>().text = "Press E to Deposit";
+            }
         }
+
+
     }
 
     private void DepositItems()
@@ -53,6 +86,7 @@ public class VanTrigger : MonoBehaviour
         if (VanInventory.Instance != null && playerInventory != null)
         {
             VanInventory.Instance.TransferItemsFromPlayer(playerInventory);
+            vanText.GetComponent<TMP_Text>().text = "Items Deposited!";
         }
         else
         {
