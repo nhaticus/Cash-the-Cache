@@ -22,7 +22,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            paused = true;
+            paused = !paused;
             GetComponent<CanvasGroup>().alpha = paused ? 1 : 0;
             Time.timeScale = paused ? 0 : 1;
             if (paused)
