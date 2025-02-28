@@ -7,8 +7,8 @@ using UnityEngine;
  * 
  * keeps searching for player and once found gives following items a reference to player:
  * items:
- * weight
- * player inventory
+ *  weight
+ *  player inventory
  */
 
 public class PlayerUI : MonoBehaviour
