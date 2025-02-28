@@ -13,10 +13,6 @@ public class LeaveAreaTrigger : MonoBehaviour
     [SerializeField] GameObject vanText;
     [SerializeField] GameObject resultScreen;
 
-    private void Awake()
-    {
-        vanText.SetActive(false);
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -42,8 +38,10 @@ public class LeaveAreaTrigger : MonoBehaviour
         {
             PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
 
-            if (VanInventory.Instance != null && playerInventory != null)
+            if (VanInventory.Instance && playerInventory)
             {
+                PlayerManager.Instance.ableToInteract = false; // stop movement
+                PlayerManager.Instance.lockRotation();
                 VanInventory.Instance.TransferItemsFromPlayer(playerInventory);
             }
             else

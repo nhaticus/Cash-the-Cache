@@ -13,7 +13,7 @@ public class PlayerHealth : MonoBehaviour
     public int health = 1;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Finish"))
+        if (other.GetComponent<PoliceBehavior>()) // bad way of checking if enemy
         {
             OnDamage(1);
         }
@@ -26,10 +26,12 @@ public class PlayerHealth : MonoBehaviour
 
         if(health <= 0)
         {
-            Debug.Log("dead");
-            PlayerManager.Instance.setMoveSpeed(0);
-            PlayerManager.Instance.ableToInteract = false;
-
+            if (PlayerManager.Instance)
+            {
+                PlayerManager.Instance.setMoveSpeed(0);
+                PlayerManager.Instance.ableToInteract = false;
+                PlayerManager.Instance.lockRotation();
+            }
             Death.Invoke(); // send dead signal for GameOver
         }
     }
