@@ -955,6 +955,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character_SchoolBoy_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1052995327280890, guid: 7340936ca1fe0c14e88d905904049120, type: 3}
+      propertyPath: m_TagString
+      value: Shop Keeper
+      objectReference: {fileID: 0}
     - target: {fileID: 4068098954291790, guid: 7340936ca1fe0c14e88d905904049120, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.3673569
@@ -1036,8 +1040,18 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1052995327280890, guid: 7340936ca1fe0c14e88d905904049120,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 578790891}
   m_SourcePrefab: {fileID: 100100000, guid: 7340936ca1fe0c14e88d905904049120, type: 3}
+--- !u!1 &534690489 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1052995327280890, guid: 7340936ca1fe0c14e88d905904049120,
+    type: 3}
+  m_PrefabInstance: {fileID: 534690488}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &564734639 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8625289537083279516, guid: 37424e32a30aa6743bbeb08d7388e713,
@@ -1155,6 +1169,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 534690488}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &578790891
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534690489}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 2.6014802, z: 1}
+  m_Center: {x: 0, y: 0.80073935, z: 0}
 --- !u!1 &589317784
 GameObject:
   m_ObjectHideFlags: 0
