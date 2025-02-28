@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour
 
     //Player Stats
     [SerializeField]
+    public float mouseSensitivity;
+    [SerializeField]
     private int weight = 0;
 
     [SerializeField]
@@ -43,8 +45,17 @@ public class PlayerManager : MonoBehaviour
         }
 
         //Finds reference to playerCamera 
-        playerCameraScript = GameObject.Find("Main Camera").GetComponent<PlayerCam>();
-        playerMovementScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        GameObject mainCamera = GameObject.Find("Main Camera");
+        if (mainCamera != null)
+        {
+            playerCameraScript = mainCamera.GetComponent<PlayerCam>();
+        }
+
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            playerMovementScript = player.GetComponent<PlayerMovement>();
+        }
 
         // Find all renderers in the visual area
         GameObject visualArea = GameObject.Find("Visual area");
@@ -63,14 +74,28 @@ public class PlayerManager : MonoBehaviour
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode)
     {
-        playerCameraScript = GameObject.Find("Main Camera").GetComponent<PlayerCam>();
-        playerMovementScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        GameObject mainCamera = GameObject.Find("Main Camera");
+        if (mainCamera != null)
+        {
+            playerCameraScript = mainCamera.GetComponent<PlayerCam>();
+        }
+
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            playerMovementScript = player.GetComponent<PlayerMovement>();
+        }
     }
     private void Start()
     {
-        this.currentSpeed = playerMovementScript.moveSpeed;
-        this.maxSpeed = playerMovementScript.moveSpeed;
+        if (playerMovementScript != null)
+        {
+            this.currentSpeed = playerMovementScript.moveSpeed;
+            this.maxSpeed = playerMovementScript.moveSpeed;
+        }
         this.ableToInteract = true;
+
+        mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 1);
     }
 
     public float getSlowAmt()
@@ -197,5 +222,11 @@ public class PlayerManager : MonoBehaviour
         {
             rend.material.color = newColor;
         }
+    }
+
+    public void SetSensitivity(int sensitivity)
+    {
+        PlayerPrefs.SetFloat("Sensitivity", sensitivity);
+        mouseSensitivity = sensitivity;
     }
 }

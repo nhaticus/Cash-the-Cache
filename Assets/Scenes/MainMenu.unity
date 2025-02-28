@@ -426,7 +426,7 @@ GameObject:
   - component: {fileID: 147506347}
   - component: {fileID: 147506349}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Credits txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -471,7 +471,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Credit
+  m_text: 'Credits
 
 '
   m_isRightToLeft: 0
@@ -3594,6 +3594,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f149ab14c1b785c418fdd8b664371583, type: 3}
+--- !u!1001 &1671277917
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 604122323528547955, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.8600006
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.9308262
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -14.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329389519125565031, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3fd786accc7b0904382627bd3590fb2c, type: 3}
 --- !u!1 &1746288901
 GameObject:
   m_ObjectHideFlags: 0
@@ -4409,10 +4477,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 69964574230892033}
   m_HandleRect: {fileID: 7353557877898042237}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MinValue: 1
+  m_MaxValue: 1000
+  m_WholeNumbers: 1
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -5090,7 +5158,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 753315933}
         m_TargetAssemblyTypeName: Settings, Assembly-CSharp
         m_MethodName: Reset
         m_Mode: 1
@@ -7098,4 +7166,5 @@ SceneRoots:
   - {fileID: 1851667680}
   - {fileID: 110778134}
   - {fileID: 1650582684}
+  - {fileID: 1671277917}
   - {fileID: 1947060132}
