@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +11,7 @@ public class GameOver : MonoBehaviour
 {
     GameObject player;
     PlayerHealth playerHealth;
+
     private void Start()
     {
         GetComponent<CanvasGroup>().alpha = 0;
@@ -33,8 +31,9 @@ public class GameOver : MonoBehaviour
 
     private void ShowGameOver()
     {
-        Debug.Log("show canvas");
         GetComponent<CanvasGroup>().alpha = 1;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void SwitchScene(string gameScene)

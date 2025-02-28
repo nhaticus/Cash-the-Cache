@@ -1,18 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class PlayerInteract : MonoBehaviour
 {
-    private GameObject objRef;
-    private Renderer objRenderer;
-    private Material originalMaterial; // Store the original material of the object
-    [SerializeField] private Material highlightMaterial; // Material to highlight object
+    GameObject objRef;
+    Renderer objRenderer;
+    public Material originalMaterial; // Store the original material of the object
+    [SerializeField] Material highlightMaterial; // Material to highlight object
 
-    [SerializeField] private float raycastDistance = 3.0f;
+    [SerializeField] float raycastDistance = 2.5f;
     public GameObject camera;
 
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
@@ -20,7 +21,8 @@ public class PlayerInteract : MonoBehaviour
     private void Update()
     {
         // Left-click
-        if (Input.GetMouseButtonDown(0) && objRef != null && PlayerManager.Instance.ableToInteract)
+        if (Input.GetMouseButtonDown(0) && objRef != null &&
+            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)))
         {
             // If any lockpicking is open, skip normal logic
             if (LockPicking.anyLockpickingOpen)
@@ -36,7 +38,6 @@ public class PlayerInteract : MonoBehaviour
             else
             {
                 // Normal Interact
-                //Checks if there is an existing task list
                 if(TaskManager.Instance != null)
                 {
                     TaskManager.Instance.task1Complete();
@@ -46,43 +47,50 @@ public class PlayerInteract : MonoBehaviour
         }
 
         // Right-click: open inventory if not lockpicking
-        if (Input.GetMouseButtonDown(1) && PlayerManager.Instance.ableToInteract && !LockPicking.anyLockpickingOpen)
+        if (Input.GetMouseButtonDown(1) && (PlayerManager.Instance == null ||
+            (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)) && !LockPicking.anyLockpickingOpen)
         {
             RevealInventory();
         }
     }
 
+    Color origColor;
     void FixedUpdate()
     {
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         Ray ray = Camera.main.ScreenPointToRay(screenCenter);
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
 
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, raycastDistance))
+        RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction * raycastDistance, raycastDistance);
+        bool gotSelectable = false;
+        for (int i = 0; i < hits.Length; i++)
         {
-            if (hit.transform.CompareTag("Selectable"))
+            GameObject hit = hits[i].transform.gameObject;
+            if (hit.CompareTag("Selectable"))
             {
-                if (objRef != hit.transform.gameObject) // Only update if a new object is hit
+                gotSelectable = true;
+                if (objRef == hit)
+                    break;
+                if (objRef != hit)
                 {
                     ResetHighlight(); // Reset previous object's material
 
-                    objRef = hit.transform.gameObject;
+                    objRef = hit;
                     objRenderer = objRef.GetComponent<Renderer>();
-
-                    if (objRenderer != null)
+                    originalMaterial = objRenderer.material;
+                    origColor = originalMaterial.color;
+                    
+                    if (originalMaterial != null)
                     {
-                        originalMaterial = objRenderer.material; // Store original material
-                        objRenderer.material = highlightMaterial; // Apply highlight material
+                        Material newMat = objRenderer.material;
+                        newMat.color = Color.red;
+                        objRenderer.material = newMat; // Apply highlight material
                     }
                 }
-            }
-            else
-            {
-                ResetHighlight();
+                break;
             }
         }
-        else
+        if (!gotSelectable)
         {
             ResetHighlight();
         }
@@ -90,12 +98,14 @@ public class PlayerInteract : MonoBehaviour
 
     private void ResetHighlight()
     {
-        if (objRef != null && objRenderer != null && originalMaterial != null)
+        if (objRef && objRenderer && originalMaterial)
         {
             objRenderer.material = originalMaterial; // Restore original material
+            objRenderer.material.color = origColor;
         }
         objRef = null;
         objRenderer = null;
+        originalMaterial = null;
     }
 
     [HideInInspector] public UnityEvent ItemTaken;

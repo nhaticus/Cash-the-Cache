@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 
 /*
  * Results screen that shows when you leave a level
- * Maybe a different one if you lose
+ * Maybe show a different one if you lose/have less time
  * 
- * Should be called by Van and is given reference to Van's inventory
+ * Called by Van and given reference to Van's inventory
  */
 
 public class ResultScreen : MonoBehaviour

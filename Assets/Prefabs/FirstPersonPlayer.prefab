@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1873143518731278612}
   m_Layer: 8
   m_Name: FirstPersonPlayer
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6916905942442012316}
-  - {fileID: 6074390365094023320}
   - {fileID: 7990494941105492045}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -376,12 +375,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6908905133764905729}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.18, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1873143518731278612}
+  m_Father: {fileID: 6916905942442012316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6747965511330394498
 MonoBehaviour:
@@ -470,7 +469,7 @@ GameObject:
   - component: {fileID: 7454732649243971403}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -490,6 +489,7 @@ Transform:
   m_Children:
   - {fileID: 959259248682064107}
   - {fileID: 1457556848841141975}
+  - {fileID: 6074390365094023320}
   m_Father: {fileID: 1873143518731278612}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &598923838321118576
@@ -628,7 +628,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c37be8952f31a73438124d017159c529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightIntensity: 3
+  originalMaterial: {fileID: 0}
+  highlightMaterial: {fileID: 0}
   raycastDistance: 3
   camera: {fileID: 2311025618755957177}
   ItemTaken:
