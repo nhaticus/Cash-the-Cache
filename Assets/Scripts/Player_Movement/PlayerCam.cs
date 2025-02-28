@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
-    public float sens = 50;
+    public float sens;
     // public float sensY;
 
     public bool lockRotation = false;
@@ -16,8 +16,6 @@ public class PlayerCam : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        sens = PlayerManager.Instance.mouseSensitivity;
-
     }
 
     private void Update()

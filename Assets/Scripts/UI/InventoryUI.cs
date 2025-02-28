@@ -30,6 +30,14 @@ public class InventoryUI : MonoBehaviour
         playerInteract.ShowInventory.AddListener(SwitchInventoryView);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            HideInventory();
+        }
+    }
+
     bool show = false;
     public void SwitchInventoryView()
     {

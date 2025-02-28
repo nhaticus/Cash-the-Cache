@@ -86,6 +86,7 @@ public class VanTrigger : MonoBehaviour
         if (VanInventory.Instance != null && playerInventory != null)
         {
             VanInventory.Instance.TransferItemsFromPlayer(playerInventory);
+            PlayerManager.Instance.setWeight(0);
             vanText.GetComponent<TMP_Text>().text = "Items Deposited!";
         }
         else

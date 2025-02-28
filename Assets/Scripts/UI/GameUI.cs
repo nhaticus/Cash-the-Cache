@@ -1,14 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
+/*
+ * Pause Menu and GameOver spawner
+ */
 public class GameUI : MonoBehaviour
 {
     [SerializeField] GameObject pausePrefab;
     [SerializeField] GameObject gameOverPrefab;
-    GameObject pauseRef;
-    bool paused = false;
 
     private void Start()
     {
@@ -33,22 +32,27 @@ public class GameUI : MonoBehaviour
         player.GetComponentInChildren<PlayerHealth>().Death.AddListener(GameOver);
     }
 
+    // creates pause menu but doesn't pause
+    // pausing happens in PauseMenu.cs on Start()
+    GameObject pauseRef;
+    bool paused = false;
     void Pause()
     {
         paused = !paused;
-        Time.timeScale = paused ? 0 : 1;
         if (paused)
         {
             pauseRef = Instantiate(pausePrefab, transform);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            pauseRef.GetComponentInChildren<PauseMenu>().UnPause.AddListener(UnPause);
         }
         else
         {
-            Destroy(pauseRef);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            pauseRef.GetComponent<PauseMenu>().ReturnToGame();
         }
+    }
+
+    void UnPause()
+    {
+        paused = false;
     }
 
     void GameOver()
