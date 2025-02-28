@@ -84,6 +84,8 @@ public class PlayerManager : MonoBehaviour
         if (player != null)
         {
             playerMovementScript = player.GetComponent<PlayerMovement>();
+            ableToInteract = true;
+            unlockRotation();
         }
     }
     private void Start()
@@ -186,6 +188,7 @@ public class PlayerManager : MonoBehaviour
     //Locks rotation of player camera
     public void lockRotation()
     {
+        Debug.Log("lock");
         playerCameraScript.lockRotation = true;
     }
 
@@ -197,6 +200,7 @@ public class PlayerManager : MonoBehaviour
 
     public void ToggleRotation()
     {
+        Debug.Log("toggle");
         playerCameraScript.lockRotation = !playerCameraScript.lockRotation;
     }
 
