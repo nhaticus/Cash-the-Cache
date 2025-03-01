@@ -29,6 +29,7 @@ public class LockPicking : MonoBehaviour
     public Color wrongColor = Color.red;
     public TextMeshProUGUI attemptsText;
     public GameObject failedText;
+    public GameObject findCombinationText;
 
     private Button[] pins;
     private RectTransform[] pinTransforms;
@@ -133,8 +134,13 @@ public class LockPicking : MonoBehaviour
 
         // Show attempts
         if (attemptsText != null)
+        {
             attemptsText.gameObject.SetActive(true);
+        }
         UpdateAttemptsUI();
+
+        if (findCombinationText) findCombinationText.SetActive(true);
+       // Debug.LogWarning("Find Combination Text not set!");
 
         currentIndex = 0;
         isLocked = false;
@@ -298,6 +304,7 @@ private void TryPressPin(int pinIndex)
     {
         isLockpickingOpen = false;
         anyLockpickingOpen = false;
+        if (findCombinationText) findCombinationText.SetActive(true);
 
         if (lockpickingUI) lockpickingUI.SetActive(false);
         ResetAllPins();
