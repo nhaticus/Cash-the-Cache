@@ -98,8 +98,11 @@ public class PlayerManager : MonoBehaviour
         ableToInteract = true;
 
         mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
-        if(playerCameraScript)
+        if (playerCameraScript)
+        {
+            Debug.Log(mouseSensitivity);
             playerCameraScript.sens = mouseSensitivity;
+        }
     }
 
     
