@@ -48,7 +48,7 @@ public class PlayerInteract : MonoBehaviour
 
         // Right-click: open inventory if not lockpicking
         if (Input.GetMouseButtonDown(1) && (PlayerManager.Instance == null ||
-            (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)) && !LockPicking.anyLockpickingOpen)
+            (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)) && !LockPicking.anyLockpickingOpen && Time.timeScale > 0)
         {
             RevealInventory();
         }

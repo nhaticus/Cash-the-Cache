@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
-    public float sensX;
-    public float sensY;
+    public float sens;
+    // public float sensY;
 
     public bool lockRotation = false;
 
@@ -23,8 +23,8 @@ public class PlayerCam : MonoBehaviour
         if (!lockRotation)
         {
             // get mouse input
-            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sens;
+            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sens;
 
 
             yRotation += mouseX;

@@ -65,6 +65,11 @@ public class VanTrigger : MonoBehaviour
 
                 if (depositTimer >= requiredHoldTime && !depositCompleted)
                 {
+                    //Checks if task Manager is present then checks off task 2
+                    if (TaskManager.Instance != null)
+                    {
+                        TaskManager.Instance.task2Complete();
+                    }
                     DepositItems();
                     depositCompleted = true;
                 }
@@ -86,6 +91,7 @@ public class VanTrigger : MonoBehaviour
         if (VanInventory.Instance != null && playerInventory != null)
         {
             VanInventory.Instance.TransferItemsFromPlayer(playerInventory);
+            PlayerManager.Instance.setWeight(0);
             vanText.GetComponent<TMP_Text>().text = "Items Deposited!";
         }
         else

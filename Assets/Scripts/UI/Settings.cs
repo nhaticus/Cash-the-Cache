@@ -14,12 +14,12 @@ public class Settings : MonoBehaviour
     private const float maxVolume = 1f;
 
     [Header("Sensitivity")]
-    private const float defaultSensitivity = 1f;
+    private const float defaultSensitivity = 400f;
     public TextMeshProUGUI sensText;
     public Slider sensSlider;
     // min and max to be set in inspector
-    private const float minSens = 0.01f;
-    private const float maxSens = 10f;
+    private const float minSens = 1f;
+    private const float maxSens = 1000f;
 
     private void Start()
     {
@@ -44,7 +44,7 @@ public class Settings : MonoBehaviour
         sensSlider.minValue = minSens;
         sensSlider.maxValue = maxSens;
         sensSlider.value = sensitivity;
-        sensText.text = $"Sensitivity: {sensitivity:0.00}";
+        sensText.text = $"Sensitivity: {sensitivity / 100:0.00}";
     }
 
     public void SetMusic(float volume)
@@ -65,25 +65,23 @@ public class Settings : MonoBehaviour
     public void SetSensitivity(float sensitivity)
     {
         // Debug.Log($"Sensitivity: {sensitivity}");
+        PlayerManager.Instance.mouseSensitivity = sensitivity;
         PlayerPrefs.SetFloat("Sensitivity", sensitivity);
-        sensText.text = $"Sensitivity: {sensitivity:0.00}";
+        sensText.text = $"Sensitivity: {sensitivity / 100:0.00}";
     }
     public void Reset()
     {
         // Reset Music
-        PlayerPrefs.SetFloat("Music", defaultVolume);
+        SetMusic(defaultVolume);
         musicSlider.value = defaultVolume;
-        musicText.text = $"Music Volume: {defaultVolume * 100f:0}%";
 
         // Reset SFX
-        PlayerPrefs.SetFloat("SFX", defaultVolume);
+        SetSFX(defaultVolume);
         SFXSlider.value = defaultVolume;
-        SFXText.text = $"SFX Volume: {defaultVolume * 100f:0}%";
 
         // Reset Sensitivity
-        PlayerPrefs.SetFloat("Sensitivity", defaultSensitivity);
+        SetSensitivity(defaultSensitivity);
         sensSlider.value = defaultSensitivity;
-        sensText.text = $"Sensitivity: {defaultSensitivity:0.00}";
     }
 
 }
