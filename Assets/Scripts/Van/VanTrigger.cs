@@ -56,6 +56,15 @@ public class VanTrigger : MonoBehaviour
             {
                 //Calc required hold time based on player's item count
                 int itemCount = playerInventory.inventory.Count;
+                if (itemCount == 0)
+                {
+                    // No items -> Skip deposit logic and show message
+                    depositTimer = 0f;
+                    depositCompleted = false;
+                    vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
+                    return; 
+                }
+
                 float requiredHoldTime = baseLoadingTime + (itemCount * extraTimePerItem);
 
                 depositTimer += Time.deltaTime;
@@ -79,7 +88,7 @@ public class VanTrigger : MonoBehaviour
                 // If the player releases E, reset the deposit process
                 depositTimer = 0f;
                 depositCompleted = false;
-                vanText.GetComponent<TMP_Text>().text = "Press E to Deposit";
+                vanText.GetComponent<TMP_Text>().text = "Hold E to Deposit";
             }
         }
 

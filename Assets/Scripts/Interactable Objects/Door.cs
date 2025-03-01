@@ -19,13 +19,15 @@ public class Door : MonoBehaviour, InteractEvent
         Vector3 currentRot = door.transform.localEulerAngles;
         if (opening)
         {
-            if(currentRot.y < openRot)
+            Debug.Log("Opening door");
+            if (currentRot.y < openRot)
             {
                 door.transform.localEulerAngles = Vector3.Lerp(currentRot, new Vector3(currentRot.x, openRot, currentRot.z), speed * Time.deltaTime);
             }
         }
         else // closing
         {
+            Debug.Log("Closing door");
             if (currentRot.y > closeRot)
             {
                 door.transform.localEulerAngles = Vector3.Lerp(currentRot, new Vector3(currentRot.x, closeRot, currentRot.z), speed * Time.deltaTime);
@@ -36,5 +38,6 @@ public class Door : MonoBehaviour, InteractEvent
     {
         Debug.Log("Door Interacted! Current state: " + opening);
         opening = !opening;
+        Debug.Log("Door state after toggle: " + opening);
     }
 }
