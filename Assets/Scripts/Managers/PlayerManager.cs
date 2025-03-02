@@ -7,25 +7,25 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
-    private PlayerCam playerCameraScript;
-    private PlayerMovement playerMovementScript;
+    PlayerCam playerCameraScript;
+    PlayerMovement playerMovementScript;
 
-    private List<Renderer> visualRenderers = new List<Renderer>(); //For changing the color of van outline when player has something
+    List<Renderer> visualRenderers = new List<Renderer>(); //For changing the color of van outline when player has something
 
     //Player Stats
+    public float mouseSensitivity;
     [SerializeField]
-    private int weight = 0;
+    int weight = 0;
 
     [SerializeField]
-    private int maxWeight = 30;
+    int maxWeight = 30;
 
     [SerializeField]
-    private float slowdownAmount = 9;
-
+    float slowdownAmount = 0.2f; // 0.2 = 80% slower
     [SerializeField]
-    private float currentSpeed;
+    float currentSpeed;
     [SerializeField]
-    private float maxSpeed;
+    float maxSpeed;
 
     public bool ableToInteract = true;
 
@@ -43,19 +43,16 @@ public class PlayerManager : MonoBehaviour
         }
 
         //Finds reference to playerCamera 
-        playerCameraScript = GameObject.Find("Main Camera").GetComponent<PlayerCam>();
-        playerMovementScript = GameObject.Find("Player").GetComponent<PlayerMovement>();
-
-        // Find all renderers in the visual area
-        GameObject visualArea = GameObject.Find("Visual area");
-        if (visualArea != null)
+        GameObject mainCamera = GameObject.Find("Main Camera");
+        if (mainCamera != null)
         {
-            // Get all child renderers
-            Renderer[] renderers = visualArea.GetComponentsInChildren<Renderer>();
-            foreach (Renderer rend in renderers)
-            {
-                visualRenderers.Add(rend);
-            }
+            playerCameraScript = mainCamera.GetComponent<PlayerCam>();
+        }
+
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            playerMovementScript = player.GetComponent<PlayerMovement>();
         }
 
         SceneManager.sceneLoaded += OnSceneChanged;
@@ -73,97 +70,122 @@ public class PlayerManager : MonoBehaviour
         if (player != null)
         {
             playerMovementScript = player.GetComponent<PlayerMovement>();
+            ableToInteract = true;
+            unlockRotation();
+        }
+
+        // Find all renderers in the visual area
+        visualRenderers.Clear();
+        GameObject visualArea = GameObject.Find("Visual area");
+        if (visualArea != null)
+        {
+            // Get all child renderers
+            Renderer[] renderers = visualArea.GetComponentsInChildren<Renderer>();
+            foreach (Renderer rend in renderers)
+            {
+                visualRenderers.Add(rend);
+            }
         }
     }
     private void Start()
     {
-        this.currentSpeed = playerMovementScript.moveSpeed;
-        this.maxSpeed = playerMovementScript.moveSpeed;
-        this.ableToInteract = true;
+        if (playerMovementScript != null)
+        {
+            currentSpeed = playerMovementScript.moveSpeed;
+            maxSpeed = playerMovementScript.moveSpeed;
+        }
+        ableToInteract = true;
+
+        mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
+        if (playerCameraScript)
+        {
+            playerCameraScript.sens = mouseSensitivity;
+        }
     }
 
-    public float getSlowAmt()
-    {
-        return this.slowdownAmount;
-    }
+    
 
     public void increaseMoveSpeed(float speedIncrease)
     {
-        this.maxSpeed += speedIncrease;
-        this.slowdownAmount += speedIncrease;
+        maxSpeed += speedIncrease;
         Debug.Log("increasing Move speed");
     }
 
     public void decreaseMoveSpeed(float speedDecrease)
     {
-        this.maxSpeed -= speedDecrease;
-        this.slowdownAmount -= speedDecrease;
+        maxSpeed -= speedDecrease;
         Debug.Log("decreasing Move speed");
     }
 
     public float getMoveSpeed()
     {
-        return this.currentSpeed;
+        return currentSpeed;
     }
 
     public void setMoveSpeed(float newSpeed)
     {
-        this.currentSpeed = newSpeed;
+        currentSpeed = newSpeed;
         playerMovementScript.moveSpeed = newSpeed;
     }
 
     public float getMaxMoveSpeed()
     {
-        return this.maxSpeed;
+        return maxSpeed;
     }
 
     public void slowPlayer()
     {
-        this.currentSpeed -= this.slowdownAmount;
-        playerMovementScript.moveSpeed -= this.slowdownAmount;
+        currentSpeed = maxSpeed * slowdownAmount;
+        if(currentSpeed < 0)
+            currentSpeed = 0;
+        playerMovementScript.moveSpeed = currentSpeed;
     }
 
     public void unSlowPlayer()
     {
-        this.currentSpeed = this.maxSpeed;
-        playerMovementScript.moveSpeed = maxSpeed;
+        currentSpeed = maxSpeed;
+        playerMovementScript.moveSpeed = currentSpeed;
+    }
+    public float getSlowAmt()
+    {
+        return slowdownAmount;
     }
 
     public void addWeight(int itemWeight)
     {
-        this.weight += itemWeight;
+        weight += itemWeight;
         UpdateVisualAreaColor(); // Update color when weight changes
     }
 
     public void subWeight(int itemWeight)
     {
-        this.weight -= itemWeight;
+        weight -= itemWeight;
         UpdateVisualAreaColor(); // Update color when weight changes
     }
 
     public void setWeight(int newWeight)
     {
-        this.weight = newWeight;
+        weight = newWeight;
         UpdateVisualAreaColor();
     }
 
     public int getWeight()
     {
-        return this.weight;
+        return weight;
     }
 
     public void increaseMaxWeight(int increase)
     {
-        this.maxWeight += increase;
+        maxWeight += increase;
     }
     public void decreaseMaxWeight(int decrease)
     {
-        this.maxWeight -= decrease;
+        maxWeight -= decrease;
     }
 
     public int getMaxWeight()
     {
-        return this.maxWeight;
+        return maxWeight;
     }
 
 
@@ -206,5 +228,35 @@ public class PlayerManager : MonoBehaviour
         {
             rend.material.color = newColor;
         }
+    }
+
+    public void SetSensitivity(int sensitivity)
+    {
+        PlayerPrefs.SetFloat("Sensitivity", sensitivity);
+        mouseSensitivity = sensitivity;
+        if (playerCameraScript)
+            playerCameraScript.sens = mouseSensitivity;
+    }
+
+    public void WeightChangeSpeed()
+    {
+        float ChangeSpeedByPercent(float percent)
+        {
+            return getMaxMoveSpeed() - (getMaxMoveSpeed() * percent / 100);
+        }
+
+        float weightPercentage = (float) getWeight() / getMaxWeight();
+        float newSpeed = getMaxMoveSpeed();
+        if (weightPercentage >= 0.9)
+            newSpeed = ChangeSpeedByPercent(35); // 35% slower
+        else if (weightPercentage > 0.8)
+            newSpeed = ChangeSpeedByPercent(20); // 20% slower
+        else if (weightPercentage > 0.6)
+            newSpeed = ChangeSpeedByPercent(10); // 10% slower
+        else
+            newSpeed = ChangeSpeedByPercent(0); //Player Inventory is empty
+
+        Debug.Log("Player Speed set to: " + newSpeed.ToString());
+        setMoveSpeed(newSpeed);
     }
 }

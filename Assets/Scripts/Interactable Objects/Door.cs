@@ -19,7 +19,7 @@ public class Door : MonoBehaviour, InteractEvent
         Vector3 currentRot = door.transform.localEulerAngles;
         if (opening)
         {
-            if(currentRot.y < openRot)
+            if (currentRot.y < openRot)
             {
                 door.transform.localEulerAngles = Vector3.Lerp(currentRot, new Vector3(currentRot.x, openRot, currentRot.z), speed * Time.deltaTime);
             }
@@ -34,7 +34,9 @@ public class Door : MonoBehaviour, InteractEvent
     }
     public void Interact()
     {
+        AudioManager.Instance.PlaySFX("door_open");
         Debug.Log("Door Interacted! Current state: " + opening);
         opening = !opening;
+        Debug.Log("Door state after toggle: " + opening);
     }
 }

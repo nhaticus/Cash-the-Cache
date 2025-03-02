@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-/*
- * Collider for player to deposit items
- */
-
 public class VanTrigger : MonoBehaviour
 {
     bool playerInRange = false;
     PlayerInteract playerInventory;
     [SerializeField] GameObject vanText;
 
+    private Coroutine depositCoroutine;
+
+    [Header("Deposit Timing")]
+    [SerializeField] private float baseLoadingTime = 1.0f; // Time before first item is deposited
+    [SerializeField] private float extraTimePerItem = 0.5f; // Time per item
+
     private void Awake()
     {
         vanText.SetActive(false);
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -25,7 +28,7 @@ public class VanTrigger : MonoBehaviour
             playerInventory = other.GetComponent<PlayerInteract>();
 
             vanText.SetActive(true);
-            vanText.GetComponent<TMP_Text>().text = "Press E to Deposit";
+            vanText.GetComponent<TMP_Text>().text = "Hold E to Deposit";
         }
     }
 
@@ -35,28 +38,159 @@ public class VanTrigger : MonoBehaviour
         {
             playerInRange = false;
             playerInventory = null;
-
             vanText.SetActive(false);
+
+            // If we're depositing, stop immediately
+            if (depositCoroutine != null)
+            {
+                StopCoroutine(depositCoroutine);
+                depositCoroutine = null;
+            }
         }
     }
 
     private void Update()
     {
-        if (playerInRange && Input.GetKeyDown(KeyCode.E))
+        if (!playerInRange || playerInventory == null) return;
+
+        // Player holds E to deposit
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            DepositItems();
+            // If we're not already depositing, start the coroutine
+            if (depositCoroutine == null)
+            {
+                // If no items, just show message
+                if (GetTotalItemCount() == 0)
+                {
+                    vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
+                }
+                else
+                {
+                    depositCoroutine = StartCoroutine(DepositItemsOverTime());
+                }
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.E))
+        {
+            // If player releases E, stop partial deposit
+            if (depositCoroutine != null)
+            {
+                StopCoroutine(depositCoroutine);
+                depositCoroutine = null;
+                vanText.GetComponent<TMP_Text>().text = "Deposit canceled. Some items may have been deposited.";
+            }
         }
     }
 
-    private void DepositItems()
+    // ------------------------------------------------------
+    // Coroutine: Deposit items one-by-one over time
+    // ------------------------------------------------------
+    private IEnumerator DepositItemsOverTime()
     {
-        if (VanInventory.Instance != null && playerInventory != null)
+        // Flatten or count your items first:
+        List<(string, LootInfo)> allItems = FlattenInventory(playerInventory);
+        int totalItems = allItems.Count;
+        if (totalItems == 0)
         {
-            VanInventory.Instance.TransferItemsFromPlayer(playerInventory);
+            vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
+            yield break;
+        }
+
+        // Calculate total time = (items * extraTimePerItem)
+        float totalTime = totalItems * extraTimePerItem;
+        float depositTimer = 0f;
+
+        // Deposit items one by one
+        for (int i = 0; i < totalItems; i++)
+        {
+            float itemTimer = 0f;
+            while (itemTimer < extraTimePerItem)
+            {
+                // If player releases E, stop immediately
+                if (!Input.GetKey(KeyCode.E))
+                    yield break; // canceled
+
+                itemTimer += Time.deltaTime;
+                depositTimer += Time.deltaTime;
+
+                // Convert depositTimer to a single 0-100% for the entire operation
+                float progressFraction = depositTimer / totalTime;
+                int percent = Mathf.Clamp((int)(progressFraction * 100f), 0, 100);
+                vanText.GetComponent<TMP_Text>().text = $"Depositing... {percent}%";
+                yield return null;
+            }
+
+            // After waiting 1 second (extraTimePerItem), deposit this item
+            var (itemName, info) = allItems[i];
+            RemoveOneItemFromPlayer(playerInventory, itemName, info);
+        }
+
+        // Done depositing everything
+        depositCoroutine = null;
+        if (TaskManager.Instance != null)
+        {
+            TaskManager.Instance.task2Complete();
+        }
+        vanText.GetComponent<TMP_Text>().text = "All items deposited!";
+    }
+
+    // ------------------------------------------------------
+    // Inventory Helpers
+    // ------------------------------------------------------
+
+    private int GetTotalItemCount()
+    {
+        int total = 0;
+        foreach (var kvp in playerInventory.inventory)
+        {
+            total += kvp.Value.Item1; // (int quantity, LootInfo info)
+        }
+        return total;
+    }
+
+    // Convert dictionary { itemName -> (count, lootInfo) } into a list of items
+    private List<(string, LootInfo)> FlattenInventory(PlayerInteract pInv)
+    {
+        var result = new List<(string, LootInfo)>();
+        foreach (var kvp in pInv.inventory)
+        {
+            string itemName = kvp.Key;
+            int quantity = kvp.Value.Item1;
+            LootInfo info = kvp.Value.Item2;
+            for (int i = 0; i < quantity; i++)
+            {
+                result.Add((itemName, info));
+            }
+        }
+        return result;
+    }
+
+    // Remove one item from player's dictionary and add to VanInventory
+    private void RemoveOneItemFromPlayer(PlayerInteract pInv, string itemName, LootInfo info)
+    {
+        if (!pInv.inventory.ContainsKey(itemName)) return;
+
+        var (count, loot) = pInv.inventory[itemName];
+        count--;
+        // Remove from player's dictionary
+        if (count <= 0)
+        {
+            pInv.inventory.Remove(itemName);
         }
         else
         {
-            Debug.LogError("VanInventory or PlayerInventory is NULL!");
+            pInv.inventory[itemName] = (count, loot);
+        }
+
+        // Adjust player's weight
+        int newWeight = PlayerManager.Instance.getWeight() - loot.weight;
+        PlayerManager.Instance.setWeight(Mathf.Max(0, newWeight));
+        PlayerManager.Instance.WeightChangeSpeed();
+
+        // Actually deposit into van
+        if (VanInventory.Instance != null)
+        {
+            VanInventory.Instance.DepositSingleItem(itemName, info);
         }
     }
 }

@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 /*
@@ -14,12 +14,14 @@ using UnityEngine.UI;
 public class InventoryUI : MonoBehaviour
 {
     PlayerInteract playerInteract;
-    public bool isInventoryOpen = false;
     private void Start()
     {
-        GetComponent<CanvasGroup>().alpha = 0;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        PlayerManager.Instance.lockRotation();
+        PlayerManager.Instance.ableToInteract = false;
+        PlayerManager.Instance.slowPlayer();
 
         ChangeItemInfo(null);
     }
@@ -27,41 +29,27 @@ public class InventoryUI : MonoBehaviour
     public void Initialize(GameObject player)
     {
         playerInteract = player.GetComponentInChildren<PlayerInteract>();
-        playerInteract.ShowInventory.AddListener(SwitchInventoryView);
-    }
-
-    bool show = false;
-    public void SwitchInventoryView()
-    {
-        show = !show;
-        if (show)
-            ShowInventory();
-        else
-            HideInventory();
-    }
-
-    private void ShowInventory()
-    {
-        isInventoryOpen = true;
-        PlayerManager.Instance.lockRotation();
-        PlayerManager.Instance.ableToInteract = false;
-        PlayerManager.Instance.slowPlayer();
-        GetComponent<CanvasGroup>().alpha = 1;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
         FillInventoryGrid();
     }
 
-    private void HideInventory() // on exit button
+    private void Update()
     {
-        isInventoryOpen = false;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Hide();
+        }
+    }
+
+    [HideInInspector] public UnityEvent HideInventory;
+    public void Hide() // on exit button
+    {
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.ableToInteract = true;
         PlayerManager.Instance.unSlowPlayer();
-        GetComponent<CanvasGroup>().alpha = 0;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        HideInventory.Invoke();
+        Destroy(gameObject);
     }
 
     // Get player's current inventory and fill grid with grid elements
@@ -116,8 +104,8 @@ public class InventoryUI : MonoBehaviour
         o.SetInfo(selectedItem);
 
         PlayerManager.Instance.subWeight(selectedItem.weight); //decrease weight
-        playerInteract.WeightChangeSpeed(); // change player speed
-        playerInteract.ItemTaken.Invoke(); // update weight UI
+        PlayerManager.Instance.WeightChangeSpeed(); // change player speed
+        playerInteract.ItemTaken.Invoke(true); // update weight UI
 
         // remove from inventory
         playerInteract.inventory[selectedItem.itemName] = (playerInteract.inventory[selectedItem.itemName].Item1 - 1, selectedItem);

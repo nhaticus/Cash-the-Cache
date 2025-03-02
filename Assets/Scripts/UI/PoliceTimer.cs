@@ -44,6 +44,7 @@ public class PoliceTimer : MonoBehaviour
 
     void onTimerUp(){
         // Send in police at random spawn positions
+        AudioManager.Instance.PlaySFX("police_radio");
         for(int i = 0; i < numPoliceToSpawn; i++)
         {
             Instantiate(police, spawnPos[Random.Range(0, spawnPos.Length)]);

@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -32,6 +32,7 @@ public class AudioManager : MonoBehaviour
     }
 
     private void Start() {
+        //AudioManager.Instance.musicSource.Stop();
         PlayMusic("idle_music");
         // make the music loop
         musicSource.loop = true;
