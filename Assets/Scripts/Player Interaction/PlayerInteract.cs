@@ -159,6 +159,7 @@ public class PlayerInteract : MonoBehaviour
         else if (weightPercentage > 0.6)
             newSpeed = ChangeSpeedByPercent(10); // 10% slower
 
+        Debug.Log("Player Speed set to: " + newSpeed.ToString());
         PlayerManager.Instance.setMoveSpeed(newSpeed);
     }
 

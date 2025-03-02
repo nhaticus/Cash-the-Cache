@@ -62,22 +62,15 @@ public class PlayerMovement : MonoBehaviour
     {
         // ground check 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-        //Debug.Log(grounded);
 
+        rb.drag = groundDrag;
         MyInput();
         SpeedControl();
 
         HandleFootstepSound();
     
-        // handle drag
-        if (grounded)
-        {
-            rb.drag = groundDrag;
-        }
-        else
-        {
-            rb.drag = 0;
-        }
+
+
     }
 
     private void FixedUpdate()
