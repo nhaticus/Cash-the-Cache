@@ -107,7 +107,7 @@ public class PlayerInteract : MonoBehaviour
         originalMaterial = null;
     }
 
-    [HideInInspector] public UnityEvent ItemTaken;
+    [HideInInspector] public UnityEvent<bool> ItemTaken;
     private void Interact(GameObject obj)
     {
         StealableObject stealObj = obj.GetComponent<StealableObject>();
@@ -129,7 +129,11 @@ public class PlayerInteract : MonoBehaviour
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
                 WeightChangeSpeed();
-                ItemTaken.Invoke(); // Send event saying an item was taken
+                ItemTaken.Invoke(true); // Send event saying an item was taken
+            }
+            else
+            {
+                ItemTaken.Invoke(false); // too heavy, show weight UI jiggle
             }
         }
         else

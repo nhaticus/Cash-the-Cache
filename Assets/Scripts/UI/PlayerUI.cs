@@ -43,7 +43,6 @@ public class PlayerUI : MonoBehaviour
             && Time.timeScale > 0)
         {
             inventoryOpen = !inventoryOpen;
-            Debug.Log("CREATE");
             if (inventoryOpen)
                 CreateInventory();
             else

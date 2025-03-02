@@ -21,7 +21,7 @@ public class PlayerManager : MonoBehaviour
     int maxWeight = 30;
 
     [SerializeField]
-    float slowdownAmount;
+    float slowdownAmount = 0.2f; // 0.2 = 80% slower
     [SerializeField]
     float currentSpeed;
     [SerializeField]
@@ -92,7 +92,6 @@ public class PlayerManager : MonoBehaviour
         {
             currentSpeed = playerMovementScript.moveSpeed;
             maxSpeed = playerMovementScript.moveSpeed;
-            slowdownAmount = maxSpeed * 0.8f;
         }
         ableToInteract = true;
 
@@ -109,14 +108,12 @@ public class PlayerManager : MonoBehaviour
     public void increaseMoveSpeed(float speedIncrease)
     {
         maxSpeed += speedIncrease;
-        slowdownAmount += speedIncrease;
         Debug.Log("increasing Move speed");
     }
 
     public void decreaseMoveSpeed(float speedDecrease)
     {
         maxSpeed -= speedDecrease;
-        slowdownAmount -= speedDecrease;
         Debug.Log("decreasing Move speed");
     }
 
@@ -138,7 +135,7 @@ public class PlayerManager : MonoBehaviour
 
     public void slowPlayer()
     {
-        currentSpeed -= slowdownAmount;
+        currentSpeed = maxSpeed * slowdownAmount;
         if(currentSpeed < 0)
             playerMovementScript.moveSpeed = 0;
         else
