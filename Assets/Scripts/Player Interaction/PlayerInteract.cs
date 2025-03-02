@@ -122,7 +122,7 @@ public class PlayerInteract : MonoBehaviour
                 PlayerManager.Instance.addWeight(stealObj.lootInfo.weight);
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
-                WeightChangeSpeed();
+                PlayerManager.Instance.WeightChangeSpeed();
                 ItemTaken.Invoke(true); // Send event saying an item was taken
             }
             else
