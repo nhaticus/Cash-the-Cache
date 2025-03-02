@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -24,6 +23,7 @@ public class PlayerInteract : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && objRef != null &&
             (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)))
         {
+            Debug.Log(objRef.name);
             // If any lockpicking is open, skip normal logic
             if (LockPicking.anyLockpickingOpen)
                 return;
@@ -108,7 +108,7 @@ public class PlayerInteract : MonoBehaviour
         originalMaterial = null;
     }
 
-    [HideInInspector] public UnityEvent ItemTaken;
+    [HideInInspector] public UnityEvent<bool> ItemTaken;
     private void Interact(GameObject obj)
     {
         StealableObject stealObj = obj.GetComponent<StealableObject>();
@@ -132,8 +132,12 @@ public class PlayerInteract : MonoBehaviour
                 PlayerManager.Instance.addWeight(stealObj.lootInfo.weight);
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
-                WeightChangeSpeed();
-                ItemTaken.Invoke(); // Send event saying an item was taken
+                PlayerManager.Instance.WeightChangeSpeed();
+                ItemTaken.Invoke(true); // Send event saying an item was taken
+            }
+            else
+            {
+                ItemTaken.Invoke(false); // too heavy, show weight UI jiggle
             }
         }
         else
@@ -142,24 +146,6 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    public void WeightChangeSpeed()
-    {
-        float ChangeSpeedByPercent(float percent) 
-        { 
-            return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);
-        }
-
-        float weightPercentage = (float) PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
-        float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
-        if (weightPercentage >= 0.9)
-            newSpeed = ChangeSpeedByPercent(35); // 35% slower
-        else if (weightPercentage > 0.8)
-            newSpeed = ChangeSpeedByPercent(20); // 20% slower
-        else if (weightPercentage > 0.6)
-            newSpeed = ChangeSpeedByPercent(10); // 10% slower
-
-        PlayerManager.Instance.setMoveSpeed(newSpeed);
-    }
 
     [HideInInspector] public UnityEvent ShowInventory;
     private void RevealInventory()

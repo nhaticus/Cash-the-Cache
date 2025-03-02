@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
@@ -22,7 +21,7 @@ public class PlayerManager : MonoBehaviour
     int maxWeight = 30;
 
     [SerializeField]
-    float slowdownAmount;
+    float slowdownAmount = 0.2f; // 0.2 = 80% slower
     [SerializeField]
     float currentSpeed;
     [SerializeField]
@@ -56,18 +55,6 @@ public class PlayerManager : MonoBehaviour
             playerMovementScript = player.GetComponent<PlayerMovement>();
         }
 
-        // Find all renderers in the visual area
-        GameObject visualArea = GameObject.Find("Visual area");
-        if (visualArea != null)
-        {
-            // Get all child renderers
-            Renderer[] renderers = visualArea.GetComponentsInChildren<Renderer>();
-            foreach (Renderer rend in renderers)
-            {
-                visualRenderers.Add(rend);
-            }
-        }
-
         SceneManager.sceneLoaded += OnSceneChanged;
     }
 
@@ -86,6 +73,19 @@ public class PlayerManager : MonoBehaviour
             ableToInteract = true;
             unlockRotation();
         }
+
+        // Find all renderers in the visual area
+        visualRenderers.Clear();
+        GameObject visualArea = GameObject.Find("Visual area");
+        if (visualArea != null)
+        {
+            // Get all child renderers
+            Renderer[] renderers = visualArea.GetComponentsInChildren<Renderer>();
+            foreach (Renderer rend in renderers)
+            {
+                visualRenderers.Add(rend);
+            }
+        }
     }
     private void Start()
     {
@@ -93,14 +93,12 @@ public class PlayerManager : MonoBehaviour
         {
             currentSpeed = playerMovementScript.moveSpeed;
             maxSpeed = playerMovementScript.moveSpeed;
-            slowdownAmount = maxSpeed * 0.8f;
         }
         ableToInteract = true;
 
         mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
         if (playerCameraScript)
         {
-            Debug.Log(mouseSensitivity);
             playerCameraScript.sens = mouseSensitivity;
         }
     }
@@ -110,14 +108,12 @@ public class PlayerManager : MonoBehaviour
     public void increaseMoveSpeed(float speedIncrease)
     {
         maxSpeed += speedIncrease;
-        slowdownAmount += speedIncrease;
         Debug.Log("increasing Move speed");
     }
 
     public void decreaseMoveSpeed(float speedDecrease)
     {
         maxSpeed -= speedDecrease;
-        slowdownAmount -= speedDecrease;
         Debug.Log("decreasing Move speed");
     }
 
@@ -139,7 +135,7 @@ public class PlayerManager : MonoBehaviour
 
     public void slowPlayer()
     {
-        currentSpeed -= slowdownAmount;
+        currentSpeed = maxSpeed * slowdownAmount;
         if(currentSpeed < 0)
             playerMovementScript.moveSpeed = 0;
         else
@@ -241,5 +237,27 @@ public class PlayerManager : MonoBehaviour
         mouseSensitivity = sensitivity;
         if (playerCameraScript)
             playerCameraScript.sens = mouseSensitivity;
+    }
+
+    public void WeightChangeSpeed()
+    {
+        float ChangeSpeedByPercent(float percent)
+        {
+            return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);
+        }
+
+        float weightPercentage = (float)PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
+        float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
+        if (weightPercentage >= 0.9)
+            newSpeed = ChangeSpeedByPercent(35); // 35% slower
+        else if (weightPercentage > 0.8)
+            newSpeed = ChangeSpeedByPercent(20); // 20% slower
+        else if (weightPercentage > 0.6)
+            newSpeed = ChangeSpeedByPercent(10); // 10% slower
+        else
+            newSpeed = ChangeSpeedByPercent(0); //Player Inventory is empty
+
+            Debug.Log("Player Speed set to: " + newSpeed.ToString());
+        PlayerManager.Instance.setMoveSpeed(newSpeed);
     }
 }

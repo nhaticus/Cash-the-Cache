@@ -2549,6 +2549,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5120375059096336776, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120375059096336776, guid: 3fd786accc7b0904382627bd3590fb2c,
+        type: 3}
+      propertyPath: slowdownAmount
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5321,11 +5331,28 @@ PrefabInstance:
       propertyPath: groundDrag
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8634966362672565611, guid: 9f2312d32bfabda47aedea375adc49d3,
+        type: 3}
+      propertyPath: playerCameraScript
+      value: 
+      objectReference: {fileID: 1893062062}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f2312d32bfabda47aedea375adc49d3, type: 3}
+--- !u!114 &1893062062 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3859982539312117676, guid: 9f2312d32bfabda47aedea375adc49d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1893062061}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d626bc496d40e4d42bfed4606a3548cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1949338887
 GameObject:
   m_ObjectHideFlags: 0

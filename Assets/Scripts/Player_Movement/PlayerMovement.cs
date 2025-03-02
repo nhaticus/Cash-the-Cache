@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     public
      KeyCode jumpKey = KeyCode.Space;
 
+    [Header("Camera")]
+    public PlayerCam playerCameraScript;
 
     public Transform orientation;
 
@@ -49,28 +51,26 @@ public class PlayerMovement : MonoBehaviour
         ResetJump();
         grounded = true;
         touchingWall = false;
+
+        if (playerCameraScript)
+        {
+            playerCameraScript.sens = PlayerPrefs.GetFloat("Sensitivity", 120);
+        }
     }
 
     private void Update()
     {
         // ground check 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-        //Debug.Log(grounded);
 
+        rb.drag = groundDrag;
         MyInput();
         SpeedControl();
 
         HandleFootstepSound();
     
-        // handle drag
-        if (grounded)
-        {
-            rb.drag = groundDrag;
-        }
-        else
-        {
-            rb.drag = 0;
-        }
+
+
     }
 
     private void FixedUpdate()
