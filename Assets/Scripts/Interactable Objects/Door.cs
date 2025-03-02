@@ -36,6 +36,7 @@ public class Door : MonoBehaviour, InteractEvent
     }
     public void Interact()
     {
+        AudioManager.Instance.PlaySFX("door_open");
         Debug.Log("Door Interacted! Current state: " + opening);
         opening = !opening;
         Debug.Log("Door state after toggle: " + opening);

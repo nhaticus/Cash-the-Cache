@@ -114,6 +114,9 @@ public class PlayerInteract : MonoBehaviour
         StealableObject stealObj = obj.GetComponent<StealableObject>();
         if (stealObj != null)
         {
+            if (PlayerManager.Instance.getWeight() +stealObj.lootInfo.weight > PlayerManager.Instance.getMaxWeight()){
+                AudioManager.Instance.PlaySFX("inventory_full");
+            }
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
                 AudioManager.Instance.PlaySFX("collect_item_sound");
