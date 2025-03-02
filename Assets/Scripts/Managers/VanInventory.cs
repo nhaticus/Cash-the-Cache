@@ -51,10 +51,32 @@ public class VanInventory : MonoBehaviour
             weightUI.UpdateWeightDisplay();
         }
     }
+
+
+
     public void ClearVan()
     {
         stolenItems.Clear();
     }
 
+    public void DepositSingleItem(string itemName, LootInfo info)
+    {
+        if (stolenItems.ContainsKey(itemName))
+        {
+            // Increase the existing count by 1
+            stolenItems[itemName] = (stolenItems[itemName].Item1 + 1, info);
+        }
+        else
+        {
+            // Create a new entry with count = 1
+            stolenItems.Add(itemName, (1, info));
+        }
 
+        // (Optional) If you want to update a UI element after each item deposit:
+        WeightUI weightUI = FindObjectOfType<WeightUI>();
+        if (weightUI != null)
+        {
+            weightUI.UpdateWeightDisplay();
+        }
+    }
 }
