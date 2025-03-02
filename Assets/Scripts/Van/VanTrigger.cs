@@ -13,7 +13,7 @@ public class VanTrigger : MonoBehaviour
 
     [Header("Deposit Timing")]
     [SerializeField] private float baseLoadingTime = 1.0f; // Time before first item is deposited
-    [SerializeField] private float extraTimePerItem = 0f; // Time per item
+    [SerializeField] private float extraTimePerItem = 0.5f; // Time per item
 
     private void Awake()
     {
