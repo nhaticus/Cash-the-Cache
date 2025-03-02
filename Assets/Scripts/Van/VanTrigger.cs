@@ -185,6 +185,7 @@ public class VanTrigger : MonoBehaviour
         // Adjust player's weight
         int newWeight = PlayerManager.Instance.getWeight() - loot.weight;
         PlayerManager.Instance.setWeight(Mathf.Max(0, newWeight));
+        PlayerManager.Instance.WeightChangeSpeed();
 
         // Actually deposit into van
         if (VanInventory.Instance != null)
