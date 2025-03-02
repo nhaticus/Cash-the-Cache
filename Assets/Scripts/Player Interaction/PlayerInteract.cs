@@ -45,13 +45,6 @@ public class PlayerInteract : MonoBehaviour
                 Interact(objRef);
             }
         }
-
-        // Right-click: open inventory if not lockpicking
-        if (Input.GetMouseButtonDown(1) && (PlayerManager.Instance == null ||
-            (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)) && !LockPicking.anyLockpickingOpen && Time.timeScale > 0)
-        {
-            RevealInventory();
-        }
     }
 
     Color origColor;
@@ -161,11 +154,5 @@ public class PlayerInteract : MonoBehaviour
 
         Debug.Log("Player Speed set to: " + newSpeed.ToString());
         PlayerManager.Instance.setMoveSpeed(newSpeed);
-    }
-
-    [HideInInspector] public UnityEvent ShowInventory;
-    private void RevealInventory()
-    {
-        ShowInventory.Invoke(); // Send event to show inventory menu
     }
 }

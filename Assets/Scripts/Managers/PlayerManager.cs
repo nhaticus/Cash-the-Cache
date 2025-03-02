@@ -137,9 +137,8 @@ public class PlayerManager : MonoBehaviour
     {
         currentSpeed = maxSpeed * slowdownAmount;
         if(currentSpeed < 0)
-            playerMovementScript.moveSpeed = 0;
-        else
-            playerMovementScript.moveSpeed = currentSpeed;
+            currentSpeed = 0;
+        playerMovementScript.moveSpeed = currentSpeed;
     }
 
     public void unSlowPlayer()
