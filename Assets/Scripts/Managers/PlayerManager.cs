@@ -238,4 +238,26 @@ public class PlayerManager : MonoBehaviour
         if (playerCameraScript)
             playerCameraScript.sens = mouseSensitivity;
     }
+
+    public void WeightChangeSpeed()
+    {
+        float ChangeSpeedByPercent(float percent)
+        {
+            return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);
+        }
+
+        float weightPercentage = (float)PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
+        float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
+        if (weightPercentage >= 0.9)
+            newSpeed = ChangeSpeedByPercent(35); // 35% slower
+        else if (weightPercentage > 0.8)
+            newSpeed = ChangeSpeedByPercent(20); // 20% slower
+        else if (weightPercentage > 0.6)
+            newSpeed = ChangeSpeedByPercent(10); // 10% slower
+        else
+            newSpeed = ChangeSpeedByPercent(0); //Player Inventory is empty
+
+            Debug.Log("Player Speed set to: " + newSpeed.ToString());
+        PlayerManager.Instance.setMoveSpeed(newSpeed);
+    }
 }

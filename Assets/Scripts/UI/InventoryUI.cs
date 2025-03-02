@@ -104,7 +104,7 @@ public class InventoryUI : MonoBehaviour
         o.SetInfo(selectedItem);
 
         PlayerManager.Instance.subWeight(selectedItem.weight); //decrease weight
-        playerInteract.WeightChangeSpeed(); // change player speed
+        PlayerManager.Instance.WeightChangeSpeed(); // change player speed
         playerInteract.ItemTaken.Invoke(true); // update weight UI
 
         // remove from inventory
