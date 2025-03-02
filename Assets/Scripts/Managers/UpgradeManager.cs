@@ -1,23 +1,6 @@
 using UnityEngine;
 using System.IO;
-
-// public class UpgradeData
-// {
-//     public string itemName;
-//     public string description;
-//     public int level;
-//     public string stats;
-//     public int price;
-
-//     public UpgradeData(Items item)
-//     {
-//         itemName = item.itemName;
-//         description = item.description;
-//         level = item.level;
-//         stats = item.stats;
-//         price = item.price;
-//     }
-// }
+using System.Collections.Generic;
 public class UpgradeManager : MonoBehaviour
 {
     // CREATING A SINGLETON
@@ -29,7 +12,10 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField]
     private int maxWeightUpgradeIncrement = 3;
 
-    public Items[] items;
+    [SerializeField]
+    private List<Items> items;
+
+    public List<Items> loadedItems;
 
     private void Awake()
     {
@@ -41,12 +27,12 @@ public class UpgradeManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        string path = Application.persistentDataPath + "/items.dat";
-        // if (!File.Exists(path))
-        // {
-        //     SaveItems(items);
-        // }
-        // LoadItems();
+        loadedItems = LoadItems();
+    }
+
+    void OnDestroy()
+    {
+        SaveItems(loadedItems);
     }
 
     public void upgradeSpeed()
@@ -58,20 +44,55 @@ public class UpgradeManager : MonoBehaviour
     {
         PlayerManager.Instance.increaseMaxWeight(maxWeightUpgradeIncrement);
     }
-    public void SaveItems(Items[] items)
+    public void SaveItems(List<Items> items)
     {
         DataSystem.SaveItems(items);
     }
 
-    public void LoadItems()
+    public List<Items> LoadItems()
     {
-        Items[] data = DataSystem.LoadItems();
-        if (data != null)
+        List<ItemData> loadedDatas = DataSystem.LoadItems();
+        if (loadedDatas != null)
         {
-            foreach (Items item in data)
+            foreach (ItemData item in loadedDatas)
             {
-                Debug.Log(item.itemName);
+                // Debug.Log("Trying to load " + item.itemName);
+                Items newItem = ScriptableObject.CreateInstance<Items>();
+                newItem.Initialize(item); // Assuming you have an Initialize method to set item data
+                loadedItems.Add(newItem);
+                // Debug.Log("Loaded " + loadedItems[loadedItems.Count - 1].itemName);
+            }
+            // Debug.Log("Loaded " + loadedItems.Count + " items");
+
+            foreach (Items defaultItem in items)
+            {
+                bool itemExists = false;
+                foreach (Items loadedItem in loadedItems)
+                {
+                    if (loadedItem.itemName == defaultItem.itemName)
+                    {
+                        itemExists = true;
+                        break;
+                    }
+                }
+                if (!itemExists)
+                {
+                    loadedItems.Add(defaultItem);
+                }
             }
         }
+        else
+        {
+            loadedItems = items;    // Default list of items
+        }
+
+        return loadedItems;
+    }
+
+    public void ResetData()
+    {
+        File.Delete(Application.persistentDataPath + "/items.dat");
+        loadedItems = LoadItems();
+        GameManager.Instance.SpendMoney(GameManager.Instance.playerMoney);
     }
 }

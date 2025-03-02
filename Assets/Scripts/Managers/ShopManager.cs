@@ -1,5 +1,5 @@
 /* Script is attached to the ShopUI prefab
- * This script is used to populate the shop with items from the scriptable object
+ * This script is used to populate the shop with items from the scriptable object via UpgradeManager
  * It will populate the shop with the item name, description, level, stats, and price
  * To add items, create a new scriptable object and filling it out via the inspector panel then drag it into the items array
  */
@@ -16,12 +16,12 @@ public class ShopManager : MonoBehaviour
 
     public GameObject itemTemplate;
     public Transform shopPanel;
-    private List<GameObject> itemsInShop = new List<GameObject>();
+    private readonly List<GameObject> itemsInShop = new();
     [SerializeField] private TMP_Text moneyText;
 
     [SerializeField] private TMP_Text openShopPrompt;
 
-    public bool shopActive { get; private set; } = false;
+    public bool shopActive = false;
 
     void Awake()
     {
@@ -37,26 +37,30 @@ public class ShopManager : MonoBehaviour
         openShopPrompt.gameObject.SetActive(false);
         PopulateShop();
         shopUI.SetActive(false);
+
+        GameManager.Instance.OnMoneyChanged += UpdateMoneyText;
     }
 
     void Update()
     {
         ShopCheck();
-        CheckPurchaseable();
-        moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
     }
 
 
     public void PopulateShop()
     {
-        foreach (Items itemScriptableObject in UpgradeManager.Instance.items)
+        foreach (Items itemScriptableObject in UpgradeManager.Instance.loadedItems)
         {
             GameObject itemGameObject = Instantiate(itemTemplate, shopPanel);
             itemsInShop.Add(itemGameObject);
             UpdateItem(itemScriptableObject, itemGameObject);
-            itemGameObject.GetComponent<ItemTemplate>().itemData = itemScriptableObject;
-            itemGameObject.GetComponent<ItemTemplate>().buyButton.onClick.AddListener(() => BuyItem(itemScriptableObject, itemGameObject));
+
+            ItemTemplate templateComponent = itemGameObject.GetComponent<ItemTemplate>();
+            templateComponent.itemData = itemScriptableObject;
+            templateComponent.buyButton.onClick.AddListener(() => BuyItem(itemScriptableObject, itemGameObject));
         }
+        UpdateMoneyText();
+        CheckPurchaseable();
     }
 
     private void CheckPurchaseable()
@@ -65,14 +69,8 @@ public class ShopManager : MonoBehaviour
         {
             foreach (GameObject item in itemsInShop)
             {
-                if (CanBuyItem(item.GetComponent<ItemTemplate>().itemData))
-                {
-                    item.GetComponent<ItemTemplate>().buyButton.interactable = true;
-                }
-                else
-                {
-                    item.GetComponent<ItemTemplate>().buyButton.interactable = false;
-                }
+                ItemTemplate templateComponent = item.GetComponent<ItemTemplate>();
+                templateComponent.buyButton.interactable = CanBuyItem(templateComponent.itemData);
             }
         }
     }
@@ -84,19 +82,21 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateItem(Items itemScriptableObject, GameObject itemGameObject)
     {
-        itemGameObject.GetComponent<ItemTemplate>().itemName.text = itemScriptableObject.itemName;
-        itemGameObject.GetComponent<ItemTemplate>().itemDescription.text = itemScriptableObject.description;
-        itemGameObject.GetComponent<ItemTemplate>().itemLevel.text = "Level: " + itemScriptableObject.level.ToString();
-        itemGameObject.GetComponent<ItemTemplate>().itemStats.text = itemScriptableObject.stats;
-        itemGameObject.GetComponent<ItemTemplate>().itemPrice.text = "Price: " + itemScriptableObject.price.ToString();
+        ItemTemplate templateComponent = itemGameObject.GetComponent<ItemTemplate>();
+        templateComponent.itemName.text = itemScriptableObject.itemName;
+        templateComponent.itemDescription.text = itemScriptableObject.description;
+        templateComponent.itemLevel.text = "Level: " + itemScriptableObject.level.ToString();
+        templateComponent.itemStats.text = itemScriptableObject.stats;
+        templateComponent.itemPrice.text = "Price: " + itemScriptableObject.price.ToString();
     }
 
     public void BuyItem(Items itemScriptableObject, GameObject itemGameObject)
     {
-        GameManager.Instance.playerMoney -= itemScriptableObject.price;
+        GameManager.Instance.SpendMoney(itemScriptableObject.price);
         itemScriptableObject.level++;
         itemScriptableObject.price += itemScriptableObject.level * 100;
         UpdateItem(itemScriptableObject, itemGameObject);
+        CheckPurchaseable();
 
         switch (itemScriptableObject.itemName)
         {
@@ -110,6 +110,7 @@ public class ShopManager : MonoBehaviour
                 Debug.Log("Item not found");
                 break;
         }
+        DataSystem.SaveItems(UpgradeManager.Instance.loadedItems);
     }
     private void ShopCheck()
     {
@@ -142,12 +143,18 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-
     public void ToggleShop()
     {
         shopActive = !shopActive;
         PlayerManager.Instance.ToggleRotation();
         PlayerManager.Instance.ToggleCursor();
         shopUI.SetActive(!shopUI.activeSelf);
+        CheckPurchaseable();
+    }
+
+    private void UpdateMoneyText()
+    {
+        CheckPurchaseable();
+        moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
     }
 }
