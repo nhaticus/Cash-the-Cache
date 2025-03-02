@@ -137,9 +137,8 @@ public class PlayerManager : MonoBehaviour
     {
         currentSpeed = maxSpeed * slowdownAmount;
         if(currentSpeed < 0)
-            playerMovementScript.moveSpeed = 0;
-        else
-            playerMovementScript.moveSpeed = currentSpeed;
+            currentSpeed = 0;
+        playerMovementScript.moveSpeed = currentSpeed;
     }
 
     public void unSlowPlayer()
@@ -243,11 +242,11 @@ public class PlayerManager : MonoBehaviour
     {
         float ChangeSpeedByPercent(float percent)
         {
-            return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);
+            return getMaxMoveSpeed() - (getMaxMoveSpeed() * percent / 100);
         }
 
-        float weightPercentage = (float)PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
-        float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
+        float weightPercentage = (float) getWeight() / getMaxWeight();
+        float newSpeed = getMaxMoveSpeed();
         if (weightPercentage >= 0.9)
             newSpeed = ChangeSpeedByPercent(35); // 35% slower
         else if (weightPercentage > 0.8)
@@ -257,7 +256,7 @@ public class PlayerManager : MonoBehaviour
         else
             newSpeed = ChangeSpeedByPercent(0); //Player Inventory is empty
 
-            Debug.Log("Player Speed set to: " + newSpeed.ToString());
-        PlayerManager.Instance.setMoveSpeed(newSpeed);
+        Debug.Log("Player Speed set to: " + newSpeed.ToString());
+        setMoveSpeed(newSpeed);
     }
 }

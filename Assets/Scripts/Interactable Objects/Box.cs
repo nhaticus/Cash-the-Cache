@@ -13,20 +13,19 @@ public class Box : MonoBehaviour, InteractEvent
     [SerializeField] GameObject[] obj;
     [SerializeField] int difficulty = 4; // difficulty determines amount of clicks (difficulty * 1.5) and number of screws
 
-    [SerializeField] GameObject canvas, background;
+    [SerializeField] GameObject boxCanvas;
     [SerializeField] GameObject screw;
     int screwsLeft = 0;
 
     private void Start()
     {
-        canvas.SetActive(false);
         screwsLeft = difficulty;
     }
 
     // Create difficulty amount of screws and connect their event to ScrewOff
     public void Interact()
     {
-        canvas.SetActive(true);
+        GameObject canvas = Instantiate(boxCanvas, transform);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
@@ -38,7 +37,7 @@ public class Box : MonoBehaviour, InteractEvent
         for (int i = 0; i < screwsLeft; i++)
         {
             GameObject screwObj = Instantiate(screw);
-            screwObj.transform.SetParent(background.transform);
+            screwObj.transform.SetParent(canvas.transform);
             screwObj.transform.localPosition = new Vector3(Random.Range(-620, 620), Random.Range(-320, 320), 0);
             Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
             screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.5f);
@@ -55,7 +54,6 @@ public class Box : MonoBehaviour, InteractEvent
 
     void OpenBox()
     {
-        canvas.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 

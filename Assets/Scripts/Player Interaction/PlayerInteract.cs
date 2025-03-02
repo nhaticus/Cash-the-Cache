@@ -23,7 +23,6 @@ public class PlayerInteract : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && objRef != null &&
             (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)))
         {
-            Debug.Log(objRef.name);
             // If any lockpicking is open, skip normal logic
             if (LockPicking.anyLockpickingOpen)
                 return;
@@ -44,13 +43,6 @@ public class PlayerInteract : MonoBehaviour
                 }
                 Interact(objRef);
             }
-        }
-
-        // Right-click: open inventory if not lockpicking
-        if (Input.GetMouseButtonDown(1) && (PlayerManager.Instance == null ||
-            (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)) && !LockPicking.anyLockpickingOpen && Time.timeScale > 0)
-        {
-            RevealInventory();
         }
     }
 
@@ -146,10 +138,23 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-
-    [HideInInspector] public UnityEvent ShowInventory;
-    private void RevealInventory()
+    public void WeightChangeSpeed()
     {
-        ShowInventory.Invoke(); // Send event to show inventory menu
+        float ChangeSpeedByPercent(float percent) 
+        { 
+            return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);
+        }
+
+        float weightPercentage = (float) PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
+        float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
+        if (weightPercentage >= 0.9)
+            newSpeed = ChangeSpeedByPercent(35); // 35% slower
+        else if (weightPercentage > 0.8)
+            newSpeed = ChangeSpeedByPercent(20); // 20% slower
+        else if (weightPercentage > 0.6)
+            newSpeed = ChangeSpeedByPercent(10); // 10% slower
+
+        Debug.Log("Player Speed set to: " + newSpeed.ToString());
+        PlayerManager.Instance.setMoveSpeed(newSpeed);
     }
 }
