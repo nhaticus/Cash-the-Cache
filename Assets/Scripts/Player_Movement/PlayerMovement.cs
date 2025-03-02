@@ -26,6 +26,8 @@ public class PlayerMovement : MonoBehaviour
     public
      KeyCode jumpKey = KeyCode.Space;
 
+    [Header("Camera")]
+    public PlayerCam playerCameraScript;
 
     public Transform orientation;
 
@@ -49,6 +51,11 @@ public class PlayerMovement : MonoBehaviour
         ResetJump();
         grounded = true;
         touchingWall = false;
+
+        if (playerCameraScript)
+        {
+            playerCameraScript.sens = PlayerPrefs.GetFloat("Sensitivity", 120);
+        }
     }
 
     private void Update()
