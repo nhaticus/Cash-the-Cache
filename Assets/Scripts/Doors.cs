@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Doors : MonoBehaviour
+public class Doors : MonoBehaviour, InteractEvent
 {
     [Header("Door Mesh/Pivot")]
     public Transform door;            // The door mesh or pivot
