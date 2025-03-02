@@ -55,18 +55,6 @@ public class PlayerManager : MonoBehaviour
             playerMovementScript = player.GetComponent<PlayerMovement>();
         }
 
-        // Find all renderers in the visual area
-        GameObject visualArea = GameObject.Find("Visual area");
-        if (visualArea != null)
-        {
-            // Get all child renderers
-            Renderer[] renderers = visualArea.GetComponentsInChildren<Renderer>();
-            foreach (Renderer rend in renderers)
-            {
-                visualRenderers.Add(rend);
-            }
-        }
-
         SceneManager.sceneLoaded += OnSceneChanged;
     }
 
@@ -85,6 +73,19 @@ public class PlayerManager : MonoBehaviour
             ableToInteract = true;
             unlockRotation();
         }
+
+        // Find all renderers in the visual area
+        visualRenderers.Clear();
+        GameObject visualArea = GameObject.Find("Visual area");
+        if (visualArea != null)
+        {
+            // Get all child renderers
+            Renderer[] renderers = visualArea.GetComponentsInChildren<Renderer>();
+            foreach (Renderer rend in renderers)
+            {
+                visualRenderers.Add(rend);
+            }
+        }
     }
     private void Start()
     {
@@ -98,7 +99,6 @@ public class PlayerManager : MonoBehaviour
         mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
         if (playerCameraScript)
         {
-            Debug.Log(mouseSensitivity);
             playerCameraScript.sens = mouseSensitivity;
         }
     }

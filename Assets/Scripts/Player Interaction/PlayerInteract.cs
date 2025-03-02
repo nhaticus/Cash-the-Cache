@@ -23,6 +23,7 @@ public class PlayerInteract : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && objRef != null &&
             (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)))
         {
+            Debug.Log(objRef.name);
             // If any lockpicking is open, skip normal logic
             if (LockPicking.anyLockpickingOpen)
                 return;
