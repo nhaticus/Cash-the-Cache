@@ -21,28 +21,10 @@ public class PlayerInteract : MonoBehaviour
     {
         // Left-click
         if (Input.GetMouseButtonDown(0) && objRef != null &&
-            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)))
+            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
+            && Time.timeScale > 0)
         {
-            // If any lockpicking is open, skip normal logic
-            if (LockPicking.anyLockpickingOpen)
-                return;
-
-            // Check if the object has LockPicking
-            LockPicking safeLock = objRef.GetComponent<LockPicking>();
-            if (safeLock != null && !safeLock.isUnlocked)
-            {
-                // It's a safe, open lockpicking
-                safeLock.OpenLockpicking();
-            }
-            else
-            {
-                // Normal Interact
-                if(TaskManager.Instance != null)
-                {
-                    TaskManager.Instance.task1Complete();
-                }
-                Interact(objRef);
-            }
+            Interact(objRef);
         }
     }
 
@@ -126,6 +108,8 @@ public class PlayerInteract : MonoBehaviour
 
                 PlayerManager.Instance.WeightChangeSpeed();
                 ItemTaken.Invoke(true); // Send event saying an item was taken
+
+                if (TaskManager.Instance != null) TaskManager.Instance.task1Complete();
             }
             else
             {

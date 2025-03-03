@@ -133,12 +133,14 @@ public class PlayerManager : MonoBehaviour
 
     public void increaseMoveSpeed(float speedIncrease)
     {
+        currentSpeed += speedIncrease;
         maxSpeed += speedIncrease;
         // Debug.Log("increasing Move speed");
     }
 
     public void decreaseMoveSpeed(float speedDecrease)
     {
+        currentSpeed -= speedDecrease;
         maxSpeed -= speedDecrease;
         // Debug.Log("decreasing Move speed");
     }

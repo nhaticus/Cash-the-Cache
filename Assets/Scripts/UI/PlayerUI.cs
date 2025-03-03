@@ -35,7 +35,7 @@ public class PlayerUI : MonoBehaviour
         weightUI.Initialize(player);
     }
 
-    bool inventoryOpen = false;
+    bool inventoryOpen = false; // check for if inventory or lock picking is open
     private void Update()
     {
         if (Input.GetMouseButtonDown(1) && !inventoryOpen && (PlayerManager.Instance == null ||
