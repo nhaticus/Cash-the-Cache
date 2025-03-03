@@ -24,10 +24,6 @@ public class PlayerInteract : MonoBehaviour
             (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)
         {
-            if (TaskManager.Instance != null)
-            {
-                TaskManager.Instance.task1Complete();
-            }
             Interact(objRef);
         }
     }
@@ -112,6 +108,8 @@ public class PlayerInteract : MonoBehaviour
 
                 PlayerManager.Instance.WeightChangeSpeed();
                 ItemTaken.Invoke(true); // Send event saying an item was taken
+
+                if (TaskManager.Instance != null) TaskManager.Instance.task1Complete();
             }
             else
             {
