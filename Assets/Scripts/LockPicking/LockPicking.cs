@@ -55,6 +55,8 @@ public class LockPicking : MonoBehaviour, InteractEvent
             Debug.Log($"No attempts left for safe!");
             return;
         }
+
+        isLockpickingOpen = true;
         PlayerManager.Instance.ableToInteract = false;
         PlayerManager.Instance.lockRotation();
         PlayerManager.Instance.setMoveSpeed(0);
@@ -90,13 +92,9 @@ public class LockPicking : MonoBehaviour, InteractEvent
             return;
         }
 
-        //Try to load saved combo, else generate
-        LoadCombo();
-
-        if (correctOrder.Count == 0) // means no saved data found
+        if (correctOrder.Count == 0)
         {
             GenerateShuffledOrder();
-            SaveCombo(); // store the new combo
         }
         else
         {
@@ -130,7 +128,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
     private void TryPressPin(int pinIndex)
     {
         Debug.Log($"Pin {pinIndex} clicked, expected: {correctOrder[currentIndex]} (step {currentIndex + 1}/{correctOrder.Count})");
-
+        currentAttempts--;
         if (pinIndex == correctOrder[currentIndex])
         {
             StartCoroutine(CorrectPinEffect(pinIndex));
@@ -143,9 +141,8 @@ public class LockPicking : MonoBehaviour, InteractEvent
         }
         else
         {
-            bool attemptLeft = ReduceAttempt();
             UpdateAttemptsUI();
-            if (!attemptLeft)
+            if (currentAttempts <= 0)
             {
                 StartCoroutine(ShowFailedMessage());
                 return;
@@ -200,47 +197,6 @@ public class LockPicking : MonoBehaviour, InteractEvent
         Debug.Log($"Generated Lock Combo: {string.Join(", ", correctOrder)}");
     }
 
-    // ============ Save & Load to PlayerPrefs ============
-
-    private void LoadCombo()
-    {
-        // e.g. key = "SafeCombo_" + safeID
-        string key = "SafeCombo: " + difficulty;
-        if (PlayerPrefs.HasKey(key))
-        {
-            string savedString = PlayerPrefs.GetString(key);
-            // "2,0,1,3"
-            string[] tokens = savedString.Split(',');
-            correctOrder.Clear();
-            foreach (string t in tokens)
-            {
-                if (int.TryParse(t, out int pinIndex))
-                    correctOrder.Add(pinIndex);
-            }
-        }
-    }
-
-    private void SaveCombo()
-    {
-        string key = "SafeCombo: " + difficulty;
-        string comboString = string.Join(",", correctOrder);
-        PlayerPrefs.SetString(key, comboString);
-        PlayerPrefs.Save();
-        Debug.Log($"Saved combo for at {difficulty}: {comboString}");
-    }
-
-    private bool ReduceAttempt()
-    {
-        currentAttempts--;
-        Debug.Log($"Attempts left: {currentAttempts}");
-        if (currentAttempts <= 0)
-        {
-            Debug.Log($"No attempts left!");
-            return false;
-        }
-        return true;
-    }
-
     private void UpdateAttemptsUI()
     {
         if (attemptsText != null)
@@ -275,7 +231,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
     private void ExitLockpicking()
     {
         isLockpickingOpen = false;
-        findCombinationText.SetActive(true);
+        findCombinationText.SetActive(false);
 
         lockpickingUI.SetActive(false);
         ResetAllPins();
@@ -285,6 +241,6 @@ public class LockPicking : MonoBehaviour, InteractEvent
 
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.setMoveSpeed(PlayerManager.Instance.getMaxMoveSpeed());
-        Debug.Log($"Lockpicking closed");
+        PlayerManager.Instance.ableToInteract = true;
     }
 }
