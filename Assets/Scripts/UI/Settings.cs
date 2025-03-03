@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
+    public GameObject settingsPanel;
     [Header("Audio")]
     public TextMeshProUGUI musicText;
     public Slider musicSlider;
@@ -14,12 +15,11 @@ public class Settings : MonoBehaviour
     private const float maxVolume = 1f;
 
     [Header("Sensitivity")]
-    private const float defaultSensitivity = 400f;
+    private const float defaultSensitivity = 120f;
+    private const float minSens = 10f;
+    private const float maxSens = 1000f;
     public TextMeshProUGUI sensText;
     public Slider sensSlider;
-    // min and max to be set in inspector
-    private const float minSens = 1f;
-    private const float maxSens = 1000f;
 
     private void Start()
     {
@@ -45,6 +45,7 @@ public class Settings : MonoBehaviour
         sensSlider.maxValue = maxSens;
         sensSlider.value = sensitivity;
         sensText.text = $"Sensitivity: {sensitivity / 100:0.00}";
+        settingsPanel.SetActive(false);
     }
 
     public void SetMusic(float volume)
@@ -65,7 +66,7 @@ public class Settings : MonoBehaviour
     public void SetSensitivity(float sensitivity)
     {
         // Debug.Log($"Sensitivity: {sensitivity}");
-        PlayerManager.Instance.mouseSensitivity = sensitivity;
+        PlayerManager.Instance.SetSensitivity(sensitivity);
         PlayerPrefs.SetFloat("Sensitivity", sensitivity);
         sensText.text = $"Sensitivity: {sensitivity / 100:0.00}";
     }
