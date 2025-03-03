@@ -1,8 +1,5 @@
-/* Generic class that holds the information of the items in the shop. */
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "shopItem", menuName = "Shop Scriptable Object/New Item")]
-public class Items : ScriptableObject
+[System.Serializable]
+public class ItemData
 {
     public string itemName;
     public string description;
@@ -11,7 +8,7 @@ public class Items : ScriptableObject
     public float statValue;
     public int price;
 
-    public void Initialize(ItemData item)
+    public ItemData(Items item)
     {
         itemName = item.itemName;
         description = item.description;
