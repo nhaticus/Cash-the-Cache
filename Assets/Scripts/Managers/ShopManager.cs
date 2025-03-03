@@ -54,7 +54,6 @@ public class ShopManager : MonoBehaviour
             GameObject itemGameObject = Instantiate(itemTemplate, shopPanel);
             itemsInShop.Add(itemGameObject);
             UpdateItem(itemScriptableObject, itemGameObject);
-
             ItemTemplate templateComponent = itemGameObject.GetComponent<ItemTemplate>();
             templateComponent.itemData = itemScriptableObject;
             templateComponent.buyButton.onClick.AddListener(() => BuyItem(itemScriptableObject, itemGameObject));

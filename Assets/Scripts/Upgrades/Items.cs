@@ -8,6 +8,7 @@ public class Items : ScriptableObject
     public string description;
     public int level;
     public string stats;
+    public float statValue;
     public int price;
 
     public void Initialize(ItemData item)
@@ -16,6 +17,7 @@ public class Items : ScriptableObject
         description = item.description;
         level = item.level;
         stats = item.stats;
+        statValue = item.statValue;
         price = item.price;
     }
 }

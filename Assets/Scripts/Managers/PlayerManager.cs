@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
@@ -13,19 +14,26 @@ public class PlayerManager : MonoBehaviour
     List<Renderer> visualRenderers = new List<Renderer>(); //For changing the color of van outline when player has something
 
     //Player Stats
+    [Header("Mouse Sensitivity")]
     public float mouseSensitivity;
+
+    [Header("Player Weight")]
     [SerializeField]
-    int weight = 0;
+    private int weight = 0;
+    private static int maxWeightDefault = 30;
+    [SerializeField]
+    private int maxWeight;
+
+    [Header("Player Speed")]
 
     [SerializeField]
-    int maxWeight = 30;
+    private float slowdownAmount = 0.2f; // 0.2 = 80% slower
+    [SerializeField]
+    private float currentSpeed;
+    [SerializeField]
+    private float maxSpeed;
 
-    [SerializeField]
-    float slowdownAmount = 0.2f; // 0.2 = 80% slower
-    [SerializeField]
-    float currentSpeed;
-    [SerializeField]
-    float maxSpeed;
+    private static float moveSpeedDefault = 5f;
 
     public bool ableToInteract = true;
 
@@ -58,20 +66,55 @@ public class PlayerManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneChanged;
     }
 
+    private void Start()
+    {
+        foreach (Items item in UpgradeManager.Instance.loadedItems)
+        {
+            if (item.itemName == "Running Shoes")
+            {
+                maxSpeed = moveSpeedDefault + item.level * item.statValue;
+                currentSpeed = maxSpeed;
+            }
+        }
+        if (playerMovementScript != null)
+        {
+            playerMovementScript.moveSpeed = maxSpeed;
+        }
+        ableToInteract = true;
+
+        mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
+        if (playerCameraScript)
+        {
+            playerCameraScript.sens = mouseSensitivity;
+        }
+
+        maxWeight = PlayerPrefs.GetInt("MaxWeight", maxWeightDefault);
+
+    }
+
+
     private void OnSceneChanged(Scene scene, LoadSceneMode mode)
     {
         GameObject mainCamera = GameObject.Find("Main Camera");
         if (mainCamera != null)
         {
             playerCameraScript = mainCamera.GetComponent<PlayerCam>();
+            if (playerCameraScript)
+            {
+                playerCameraScript.sens = mouseSensitivity;
+            }
         }
 
         GameObject player = GameObject.Find("Player");
         if (player != null)
         {
             playerMovementScript = player.GetComponent<PlayerMovement>();
-            ableToInteract = true;
-            unlockRotation();
+            if (playerMovementScript)
+            {
+                playerMovementScript.moveSpeed = maxSpeed;
+                ableToInteract = true;
+                unlockRotation();
+            }
         }
 
         // Find all renderers in the visual area
@@ -87,34 +130,17 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-    private void Start()
-    {
-        if (playerMovementScript != null)
-        {
-            currentSpeed = playerMovementScript.moveSpeed;
-            maxSpeed = playerMovementScript.moveSpeed;
-        }
-        ableToInteract = true;
-
-        mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
-        if (playerCameraScript)
-        {
-            playerCameraScript.sens = mouseSensitivity;
-        }
-    }
-
-    
 
     public void increaseMoveSpeed(float speedIncrease)
     {
         maxSpeed += speedIncrease;
-        Debug.Log("increasing Move speed");
+        // Debug.Log("increasing Move speed");
     }
 
     public void decreaseMoveSpeed(float speedDecrease)
     {
         maxSpeed -= speedDecrease;
-        Debug.Log("decreasing Move speed");
+        // Debug.Log("decreasing Move speed");
     }
 
     public float getMoveSpeed()
@@ -136,7 +162,7 @@ public class PlayerManager : MonoBehaviour
     public void slowPlayer()
     {
         currentSpeed = maxSpeed * slowdownAmount;
-        if(currentSpeed < 0)
+        if (currentSpeed < 0)
             currentSpeed = 0;
         playerMovementScript.moveSpeed = currentSpeed;
     }
@@ -177,10 +203,12 @@ public class PlayerManager : MonoBehaviour
     public void increaseMaxWeight(int increase)
     {
         maxWeight += increase;
+        PlayerPrefs.SetInt("MaxWeight", maxWeight);
     }
     public void decreaseMaxWeight(int decrease)
     {
         maxWeight -= decrease;
+        PlayerPrefs.SetInt("MaxWeight", maxWeight);
     }
 
     public int getMaxWeight()
@@ -230,9 +258,8 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void SetSensitivity(int sensitivity)
+    public void SetSensitivity(float sensitivity)
     {
-        PlayerPrefs.SetFloat("Sensitivity", sensitivity);
         mouseSensitivity = sensitivity;
         if (playerCameraScript)
             playerCameraScript.sens = mouseSensitivity;
@@ -245,7 +272,7 @@ public class PlayerManager : MonoBehaviour
             return getMaxMoveSpeed() - (getMaxMoveSpeed() * percent / 100);
         }
 
-        float weightPercentage = (float) getWeight() / getMaxWeight();
+        float weightPercentage = (float)getWeight() / getMaxWeight();
         float newSpeed = getMaxMoveSpeed();
         if (weightPercentage >= 0.9)
             newSpeed = ChangeSpeedByPercent(35); // 35% slower
@@ -258,5 +285,11 @@ public class PlayerManager : MonoBehaviour
 
         Debug.Log("Player Speed set to: " + newSpeed.ToString());
         setMoveSpeed(newSpeed);
+    }
+
+    public void ResetDefault()
+    {
+        maxWeight = maxWeightDefault;
+        PlayerPrefs.SetInt("MaxWeight", maxWeight);
     }
 }

@@ -15,7 +15,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField]
     private List<Items> items;
 
-    public List<Items> loadedItems;
+    public List<Items> loadedItems = new();
 
     private void Awake()
     {
@@ -78,13 +78,14 @@ public class UpgradeManager : MonoBehaviour
                 }
                 if (!itemExists)
                 {
-                    loadedItems.Add(defaultItem);
+                    loadedItems.Add(Instantiate(defaultItem));
                 }
             }
         }
         else
         {
             loadedItems = items;    // Default list of items
+            PlayerManager.Instance.ResetDefault();
         }
 
         return loadedItems;

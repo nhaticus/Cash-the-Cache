@@ -5,6 +5,7 @@ public class ItemData
     public string description;
     public int level;
     public string stats;
+    public float statValue;
     public int price;
 
     public ItemData(Items item)
@@ -13,6 +14,7 @@ public class ItemData
         description = item.description;
         level = item.level;
         stats = item.stats;
+        statValue = item.statValue;
         price = item.price;
     }
 }
