@@ -23,26 +23,11 @@ public class PlayerInteract : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && objRef != null &&
             (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)))
         {
-            // If any lockpicking is open, skip normal logic
-            if (LockPicking.anyLockpickingOpen)
-                return;
-
-            // Check if the object has LockPicking
-            LockPicking safeLock = objRef.GetComponent<LockPicking>();
-            if (safeLock != null && !safeLock.isUnlocked)
+            if (TaskManager.Instance != null)
             {
-                // It's a safe, open lockpicking
-                safeLock.OpenLockpicking();
+                TaskManager.Instance.task1Complete();
             }
-            else
-            {
-                // Normal Interact
-                if(TaskManager.Instance != null)
-                {
-                    TaskManager.Instance.task1Complete();
-                }
-                Interact(objRef);
-            }
+            Interact(objRef);
         }
     }
 
