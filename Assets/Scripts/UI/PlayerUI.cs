@@ -35,10 +35,10 @@ public class PlayerUI : MonoBehaviour
         weightUI.Initialize(player);
     }
 
-    [HideInInspector] public bool specialUIOpen = false; // check for if inventory or lock picking is open
+    bool inventoryOpen = false; // check for if inventory or lock picking is open
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1) && !specialUIOpen && (PlayerManager.Instance == null ||
+        if (Input.GetMouseButtonDown(1) && !inventoryOpen && (PlayerManager.Instance == null ||
             (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)
         {
@@ -48,7 +48,7 @@ public class PlayerUI : MonoBehaviour
 
     void CreateInventory()
     {
-        specialUIOpen = true;
+        inventoryOpen = true;
         GameObject inventory = Instantiate(inventoryPrefab, transform);
         inventory.GetComponent<InventoryUI>().Initialize(player);
         inventory.GetComponent<InventoryUI>().HideInventory.AddListener(HideInventory);
@@ -56,7 +56,7 @@ public class PlayerUI : MonoBehaviour
 
     void HideInventory()
     {
-        specialUIOpen = false;
+        inventoryOpen = false;
     }
 
 }

@@ -10,7 +10,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
     public bool isUnlocked = false;
     public Animator safeAnimator;
     public int maxAttempts = 3;
-    [HideInInspector] public int currentAttempts;
+    int currentAttempts;
 
     public string difficulty = "Easy";
     public GameObject easyPanel;
@@ -25,15 +25,13 @@ public class LockPicking : MonoBehaviour, InteractEvent
     public Color wrongColor = Color.red;
     public TextMeshProUGUI attemptsText;
     public GameObject failedText;
-    public GameObject findCombinationText;
 
-    private Button[] pins;
-    private RectTransform[] pinTransforms;
-    private Color defaultColor;
-    private Vector3[] originalPositions;
-    private bool canClick = false;
-    private int currentIndex = 0;
-    private List<int> correctOrder = new List<int>();
+    Button[] pins;
+    RectTransform[] pinTransforms;
+    Color defaultColor;
+    Vector3[] originalPositions;
+    int currentIndex = 0;
+    List<int> correctOrder = new List<int>();
 
     private void Start()
     {
@@ -61,9 +59,10 @@ public class LockPicking : MonoBehaviour, InteractEvent
         PlayerManager.Instance.lockRotation();
         PlayerManager.Instance.setMoveSpeed(0);
 
-        lockpickingUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        lockpickingUI.SetActive(true);
 
         // Choose difficulty panel
         GameObject chosenPanel = null;
@@ -72,8 +71,9 @@ public class LockPicking : MonoBehaviour, InteractEvent
         else if (difficulty == "Hard") chosenPanel = hardPanel;
 
         chosenPanel.SetActive(true);
-
         SetupPins(chosenPanel);
+
+        currentIndex = 0;
     }
 
     private void SetupPins(GameObject difficultyPanel)
@@ -101,14 +101,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
             Debug.Log($"Loaded saved combo: {string.Join(", ", correctOrder)}");
         }
 
-        // Show attempts
-        attemptsText.gameObject.SetActive(true);
         UpdateAttemptsUI();
-
-        findCombinationText.SetActive(true);
-
-        currentIndex = 0;
-        canClick = false;
 
         defaultColor = pins[0].GetComponent<Image>().color;
 
@@ -153,21 +146,17 @@ public class LockPicking : MonoBehaviour, InteractEvent
 
     private IEnumerator CorrectPinEffect(int pinIndex)
     {
-        canClick = true;
         pins[pinIndex].GetComponent<Image>().color = correctColor;
         pinTransforms[pinIndex].localPosition += new Vector3(0, 100f, 0);
         yield return new WaitForSeconds(0.3f);
-        canClick = false;
     }
 
     private IEnumerator WrongPinEffect(int pinIndex)
     {
-        canClick = true;
         Image pinImage = pins[pinIndex].GetComponent<Image>();
         pinImage.color = wrongColor;
         yield return new WaitForSeconds(1f);
         ResetAllPins();
-        canClick = false;
     }
 
     private void ResetAllPins()
@@ -231,7 +220,6 @@ public class LockPicking : MonoBehaviour, InteractEvent
     private void ExitLockpicking()
     {
         isLockpickingOpen = false;
-        findCombinationText.SetActive(false);
 
         lockpickingUI.SetActive(false);
         ResetAllPins();
@@ -240,7 +228,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
         Cursor.visible = false;
 
         PlayerManager.Instance.unlockRotation();
-        PlayerManager.Instance.setMoveSpeed(PlayerManager.Instance.getMaxMoveSpeed());
+        PlayerManager.Instance.WeightChangeSpeed();
         PlayerManager.Instance.ableToInteract = true;
     }
 }

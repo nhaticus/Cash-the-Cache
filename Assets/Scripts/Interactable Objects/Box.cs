@@ -59,7 +59,7 @@ public class Box : MonoBehaviour, InteractEvent
 
         PlayerManager.Instance.ableToInteract = true;
         PlayerManager.Instance.unlockRotation();
-        PlayerManager.Instance.setMoveSpeed(PlayerManager.Instance.getMaxMoveSpeed());
+        PlayerManager.Instance.WeightChangeSpeed();
 
         Instantiate(obj[Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
         Destroy(gameObject);

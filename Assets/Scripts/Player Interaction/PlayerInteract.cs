@@ -21,9 +21,9 @@ public class PlayerInteract : MonoBehaviour
     {
         // Left-click
         if (Input.GetMouseButtonDown(0) && objRef != null &&
-            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)))
+            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
+            && Time.timeScale > 0)
         {
-            Debug.Log("interact");
             if (TaskManager.Instance != null)
             {
                 TaskManager.Instance.task1Complete();
