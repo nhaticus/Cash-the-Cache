@@ -18,10 +18,12 @@ public class ResultScreen : MonoBehaviour
     [SerializeField] Transform resultGridTransform;
     [SerializeField] TMP_Text totalStolenText;
     [SerializeField] string shopSceneName = "Shop Scene";
+    [SerializeField] GameObject continueButton;
     public void Begin()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        continueButton.SetActive(false);
         StartCoroutine(CalculateTotalValue());
     }
 
@@ -42,6 +44,7 @@ public class ResultScreen : MonoBehaviour
             yield return new WaitForSeconds(0.4f);
         }
         GameManager.Instance.AddMoney(total);
+        continueButton.SetActive(true);
     }
 
     public void GoToShop() // used by Continue button to go to shop scene
