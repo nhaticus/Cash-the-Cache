@@ -15,17 +15,24 @@ public class PoliceTimer : MonoBehaviour
     [SerializeField] int numPoliceToSpawn = 1;
     [SerializeField] Transform[] spawnPos;
 
+    private Vector3 originalPosition;
+
     private void Start()
     {
         timeLeft = maxTime;
+        originalPosition = Timer_display.rectTransform.localPosition; // Store original position
     }
 
     void Update()
     {
-        if(timerOn){
-            if(timeLeft > 0){
+        if (timerOn)
+        {
+            if (timeLeft > 0)
+            {
                 timeLeft -= Time.deltaTime;
-            } else{
+            }
+            else
+            {
                 timeLeft = 0;
                 timerOn = false;
                 onTimerUp();
@@ -40,20 +47,40 @@ public class PoliceTimer : MonoBehaviour
         int seconds = Mathf.FloorToInt(timeLeft % 60);
 
         Timer_display.text = minutes + ":" + seconds.ToString("00");
+
+        // Change font size, color, and add shaking effect when less than 2 minutes remaining
+        if (timeLeft < 60)
+        {
+            Timer_display.fontSize = 60; // Increase font size
+            Timer_display.color = Color.red; // Change text color to red
+
+            // Apply shaking effect
+            float shakeAmount = 2f; // Adjust for more or less shaking
+            Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
+        }
+        else
+        {
+            Timer_display.fontSize = 36; // Default font size
+            Timer_display.color = Color.white; // Default text color
+
+            // Reset position when time is above 2 minutes
+            Timer_display.rectTransform.localPosition = originalPosition;
+        }
     }
 
-    void onTimerUp(){
+    void onTimerUp()
+    {
         // Send in police at random spawn positions
-        AudioManager.Instance.PlaySFX("police_radio");
-        for(int i = 0; i < numPoliceToSpawn; i++)
+        for (int i = 0; i < numPoliceToSpawn; i++)
         {
             Instantiate(police, spawnPos[Random.Range(0, spawnPos.Length)]);
         }
 
-        // lower next spawn time
+        // Lower next spawn time
         maxTime /= 1.75f;
-        if(maxTime < 30)
+        if (maxTime < 30)
             maxTime = 30;
+
         timeLeft = maxTime;
         timerOn = true;
     }
