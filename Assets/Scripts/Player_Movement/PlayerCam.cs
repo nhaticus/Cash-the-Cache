@@ -9,8 +9,8 @@ public class PlayerCam : MonoBehaviour
 
     public Transform orientation;
 
-    float xRotation;
-    float yRotation;
+    public float xRotation;
+    public float yRotation;
 
     private void Start()
     {
