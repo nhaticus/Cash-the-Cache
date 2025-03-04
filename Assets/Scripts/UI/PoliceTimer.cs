@@ -51,16 +51,16 @@ public class PoliceTimer : MonoBehaviour
         // Change font size, color, and add shaking effect when less than 2 minutes remaining
         if (timeLeft < 60)
         {
-            Timer_display.fontSize = 60; // Increase font size
+            Timer_display.fontSize = 70; // Increase font size
             Timer_display.color = Color.red; // Change text color to red
 
             // Apply shaking effect
-            float shakeAmount = 2f; // Adjust for more or less shaking
+            float shakeAmount = 5f; // Adjust for more or less shaking
             Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
         }
         else
         {
-            Timer_display.fontSize = 36; // Default font size
+            Timer_display.fontSize = 46; // Default font size
             Timer_display.color = Color.white; // Default text color
 
             // Reset position when time is above 2 minutes
