@@ -27,6 +27,7 @@ public class ResultScreen : MonoBehaviour
 
     IEnumerator CalculateTotalValue()
     {
+        yield return new WaitForSeconds(0.6f);
         int total = 0;
         foreach (var loot in inventoryRef)
         {
@@ -37,9 +38,9 @@ public class ResultScreen : MonoBehaviour
             result.GetComponent<ResultElement>().Initialize(lootInfo.sprite, lootInfo.name, amount, lootInfo.value);
 
             total += lootInfo.value * amount;
+            totalStolenText.text = "Total Stolen: " + total;
             yield return new WaitForSeconds(0.4f);
         }
-        totalStolenText.text = "Total Stolen: " + total;
         GameManager.Instance.AddMoney(total);
     }
 
