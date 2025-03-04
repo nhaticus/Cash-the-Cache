@@ -14918,6 +14918,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1218211357}
   - component: {fileID: 1218211358}
+  - component: {fileID: 1218211359}
   m_Layer: 8
   m_Name: Flashlight Holder
   m_TagString: Untagged
@@ -14954,6 +14955,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashlightPosition: {fileID: 668540515}
+--- !u!114 &1218211359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218211356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 384ff74c87317f14ea26e52cec0b14e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1224511823
 GameObject:
   m_ObjectHideFlags: 0
@@ -21472,7 +21485,7 @@ GameObject:
   - component: {fileID: 1677197642}
   - component: {fileID: 1677197644}
   m_Layer: 8
-  m_Name: Spot Light
+  m_Name: Flashlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26862,6 +26875,11 @@ PrefabInstance:
     - target: {fileID: 8367173844683251790, guid: 6c534c012b0531342a43a034c78c9675,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8659300102781235987, guid: 6c534c012b0531342a43a034c78c9675,
+        type: 3}
+      propertyPath: hasFlashlight
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
