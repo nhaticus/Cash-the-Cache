@@ -132,9 +132,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleFootstepSound()
     {
+        if (Time.timeScale <= 0) // prevent sound when paused
+        {
+            if (AudioManager.Instance)
+                AudioManager.Instance.StopSFX("footstep_sound");
+            return;
+        }
+
         // Check if player is moving horizontally
         bool isMoving = rb.velocity.magnitude > 0.1f;
-
         if (isMoving && !isPlayingFootsteps) {
             //Debug.Log("playing footstep sound");
             if (AudioManager.Instance)
