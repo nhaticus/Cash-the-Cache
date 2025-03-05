@@ -1,25 +1,24 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Settings : MonoBehaviour
 {
-    public GameObject settingsPanel;
     [Header("Audio")]
-    public TextMeshProUGUI musicText;
-    public Slider musicSlider;
-    public TextMeshProUGUI SFXText;
-    public Slider SFXSlider;
-    private const float defaultVolume = 1f;
-    private const float minVolume = 0f;
-    private const float maxVolume = 1f;
+    [SerializeField] TextMeshProUGUI musicText;
+    [SerializeField] Slider musicSlider;
+    [SerializeField] TextMeshProUGUI SFXText;
+    [SerializeField] Slider SFXSlider;
+    const float defaultVolume = 1f;
+    const float minVolume = 0f;
+    const float maxVolume = 1f;
 
     [Header("Sensitivity")]
-    private const float defaultSensitivity = 120f;
-    private const float minSens = 10f;
-    private const float maxSens = 1000f;
-    public TextMeshProUGUI sensText;
-    public Slider sensSlider;
+    const float defaultSensitivity = 120f;
+    const float minSens = 5f;
+    const float maxSens = 500f;
+    [SerializeField] TextMeshProUGUI sensText;
+    [SerializeField] Slider sensSlider;
 
     private void Start()
     {
@@ -43,14 +42,16 @@ public class Settings : MonoBehaviour
         float sensitivity = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
         sensSlider.minValue = minSens;
         sensSlider.maxValue = maxSens;
+        if (sensitivity > maxSens)
+            sensitivity = maxSens;
+        else if (sensitivity < minSens)
+            sensitivity = minSens;
         sensSlider.value = sensitivity;
-        sensText.text = $"Sensitivity: {sensitivity / 100:0.00}";
-        settingsPanel.SetActive(false);
+        sensText.text = $"Sensitivity: {sensitivity / 5:0.00}";
     }
 
     public void SetMusic(float volume)
     {
-        // Debug.Log($"Music: {volume}");
         AudioManager.Instance.MusicVolume(volume);
         PlayerPrefs.SetFloat("Music", volume);
         musicText.text = $"Music Volume: {volume * 100f:0}%";
@@ -58,14 +59,12 @@ public class Settings : MonoBehaviour
 
     public void SetSFX(float volume)
     {
-        // Debug.Log($"SFX: {volume}");
         AudioManager.Instance.SFXVolume(volume);
         PlayerPrefs.SetFloat("SFX", volume);
         SFXText.text = $"SFX Volume: {volume * 100f:0}%";
     }
     public void SetSensitivity(float sensitivity)
     {
-        // Debug.Log($"Sensitivity: {sensitivity}");
         PlayerManager.Instance.SetSensitivity(sensitivity);
         PlayerPrefs.SetFloat("Sensitivity", sensitivity);
         sensText.text = $"Sensitivity: {sensitivity / 100:0.00}";
@@ -84,5 +83,5 @@ public class Settings : MonoBehaviour
         SetSensitivity(defaultSensitivity);
         sensSlider.value = defaultSensitivity;
     }
-
+    
 }
