@@ -15,8 +15,8 @@ public class Settings : MonoBehaviour
 
     [Header("Sensitivity")]
     const float defaultSensitivity = 120f;
-    const float minSens = 10f;
-    const float maxSens = 1000f;
+    const float minSens = 5f;
+    const float maxSens = 500f;
     [SerializeField] TextMeshProUGUI sensText;
     [SerializeField] Slider sensSlider;
 
@@ -42,8 +42,12 @@ public class Settings : MonoBehaviour
         float sensitivity = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
         sensSlider.minValue = minSens;
         sensSlider.maxValue = maxSens;
+        if (sensitivity > maxSens)
+            sensitivity = maxSens;
+        else if (sensitivity < minSens)
+            sensitivity = minSens;
         sensSlider.value = sensitivity;
-        sensText.text = $"Sensitivity: {sensitivity / 100:0.00}";
+        sensText.text = $"Sensitivity: {sensitivity / 5:0.00}";
     }
 
     public void SetMusic(float volume)
