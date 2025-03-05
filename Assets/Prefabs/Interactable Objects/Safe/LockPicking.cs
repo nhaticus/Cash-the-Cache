@@ -218,12 +218,15 @@ public class LockPicking : MonoBehaviour, InteractEvent
         Instantiate(obj[UnityEngine.Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
         GetComponent<Renderer>().material.color = Color.green;
         safe.material.color = Color.green;
+
+        gameObject.tag = "Untagged"; // to show it is not interactable anymore
     }
 
     private void MarkLocked()
     {
         GetComponent<Renderer>().material.color = Color.yellow;
         safe.material.color = Color.yellow;
+        gameObject.tag = "Untagged"; // to show it is not interactable anymore
     }
 
     private void ExitLockpicking()
