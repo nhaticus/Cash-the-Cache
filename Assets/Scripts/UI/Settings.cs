@@ -67,7 +67,7 @@ public class Settings : MonoBehaviour
     {
         PlayerManager.Instance.SetSensitivity(sensitivity);
         PlayerPrefs.SetFloat("Sensitivity", sensitivity);
-        sensText.text = $"Sensitivity: {sensitivity / 100:0.00}";
+        sensText.text = $"Sensitivity: {sensitivity / 5:0.00}";
     }
     public void Reset()
     {
