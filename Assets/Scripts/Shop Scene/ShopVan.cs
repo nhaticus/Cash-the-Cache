@@ -15,7 +15,7 @@ public class ShopVan : MonoBehaviour, InteractEvent
     IEnumerator LeaveLevel()
     {
         Instantiate(canvasPrefab, transform);
-        yield return new WaitForSeconds(1.8f);
+        yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(levelScene);
     }
 }

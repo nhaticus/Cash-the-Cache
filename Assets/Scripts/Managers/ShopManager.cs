@@ -5,7 +5,6 @@
  */
 using UnityEngine;
 using TMPro;
-using Unity.VisualScripting;
 using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
@@ -62,7 +61,7 @@ public class ShopManager : MonoBehaviour
         CheckPurchaseable();
     }
 
-    private void CheckPurchaseable()
+    private void CheckPurchaseable() // toggling item buttons to be interactable if have enough money
     {
         if (itemsInShop.Count != 0)
         {
@@ -120,13 +119,15 @@ public class ShopManager : MonoBehaviour
         {
             if (hit.transform.CompareTag("Shop Keeper"))
             {
-                if (!ShopManager.Instance.shopActive)
+                if (!shopActive)
                 {
                     AudioManager.Instance.PlaySFX("shop_owner");
                     openShopPrompt.gameObject.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        ShopManager.Instance.ToggleShop();
+                        ToggleShop();
+                        PlayerManager.Instance.setMoveSpeed(0);
+                        UpdateMoneyText();
                         openShopPrompt.gameObject.SetActive(false);
                     }
                 }
@@ -147,6 +148,7 @@ public class ShopManager : MonoBehaviour
         shopActive = !shopActive;
         PlayerManager.Instance.ToggleRotation();
         PlayerManager.Instance.ToggleCursor();
+        PlayerManager.Instance.setMoveSpeed(PlayerManager.Instance.getMaxMoveSpeed());
         shopUI.SetActive(!shopUI.activeSelf);
         CheckPurchaseable();
     }
