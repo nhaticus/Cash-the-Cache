@@ -18,15 +18,18 @@ public class ResultScreen : MonoBehaviour
     [SerializeField] Transform resultGridTransform;
     [SerializeField] TMP_Text totalStolenText;
     [SerializeField] string shopSceneName = "Shop Scene";
+    [SerializeField] GameObject continueButton;
     public void Begin()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        continueButton.SetActive(false);
         StartCoroutine(CalculateTotalValue());
     }
 
     IEnumerator CalculateTotalValue()
     {
+        yield return new WaitForSeconds(0.6f);
         int total = 0;
         foreach (var loot in inventoryRef)
         {
@@ -37,10 +40,11 @@ public class ResultScreen : MonoBehaviour
             result.GetComponent<ResultElement>().Initialize(lootInfo.sprite, lootInfo.name, amount, lootInfo.value);
 
             total += lootInfo.value * amount;
+            totalStolenText.text = "Total Stolen: " + total;
             yield return new WaitForSeconds(0.4f);
         }
-        totalStolenText.text = "Total Stolen: " + total;
         GameManager.Instance.AddMoney(total);
+        continueButton.SetActive(true);
     }
 
     public void GoToShop() // used by Continue button to go to shop scene

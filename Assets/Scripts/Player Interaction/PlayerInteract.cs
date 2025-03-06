@@ -21,36 +21,10 @@ public class PlayerInteract : MonoBehaviour
     {
         // Left-click
         if (Input.GetMouseButtonDown(0) && objRef != null &&
-            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)))
+            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
+            && Time.timeScale > 0)
         {
-            Debug.Log(objRef.name);
-            // If any lockpicking is open, skip normal logic
-            if (LockPicking.anyLockpickingOpen)
-                return;
-
-            // Check if the object has LockPicking
-            LockPicking safeLock = objRef.GetComponent<LockPicking>();
-            if (safeLock != null && !safeLock.isUnlocked)
-            {
-                // It's a safe, open lockpicking
-                safeLock.OpenLockpicking();
-            }
-            else
-            {
-                // Normal Interact
-                if(TaskManager.Instance != null)
-                {
-                    TaskManager.Instance.task1Complete();
-                }
-                Interact(objRef);
-            }
-        }
-
-        // Right-click: open inventory if not lockpicking
-        if (Input.GetMouseButtonDown(1) && (PlayerManager.Instance == null ||
-            (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract)) && !LockPicking.anyLockpickingOpen && Time.timeScale > 0)
-        {
-            RevealInventory();
+            Interact(objRef);
         }
     }
 
@@ -134,6 +108,8 @@ public class PlayerInteract : MonoBehaviour
 
                 PlayerManager.Instance.WeightChangeSpeed();
                 ItemTaken.Invoke(true); // Send event saying an item was taken
+
+                if (TaskManager.Instance != null) TaskManager.Instance.task1Complete();
             }
             else
             {
@@ -146,10 +122,23 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-
-    [HideInInspector] public UnityEvent ShowInventory;
-    private void RevealInventory()
+    public void WeightChangeSpeed()
     {
-        ShowInventory.Invoke(); // Send event to show inventory menu
+        float ChangeSpeedByPercent(float percent) 
+        { 
+            return PlayerManager.Instance.getMaxMoveSpeed() - (PlayerManager.Instance.getMaxMoveSpeed() * percent / 100);
+        }
+
+        float weightPercentage = (float) PlayerManager.Instance.getWeight() / PlayerManager.Instance.getMaxWeight();
+        float newSpeed = PlayerManager.Instance.getMaxMoveSpeed();
+        if (weightPercentage >= 0.9)
+            newSpeed = ChangeSpeedByPercent(35); // 35% slower
+        else if (weightPercentage > 0.8)
+            newSpeed = ChangeSpeedByPercent(20); // 20% slower
+        else if (weightPercentage > 0.6)
+            newSpeed = ChangeSpeedByPercent(10); // 10% slower
+
+        Debug.Log("Player Speed set to: " + newSpeed.ToString());
+        PlayerManager.Instance.setMoveSpeed(newSpeed);
     }
 }

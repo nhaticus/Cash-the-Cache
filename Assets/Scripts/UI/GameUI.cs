@@ -50,7 +50,7 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    void UnPause()
+    void UnPause() // Return to Game in Pause Menu
     {
         paused = false;
     }
