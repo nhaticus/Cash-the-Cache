@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 4340366666848756}
   - component: {fileID: 33850371585450210}
   - component: {fileID: 23434507869060898}
-  - component: {fileID: 64231824516096850}
-  - component: {fileID: 64368112165940038}
+  - component: {fileID: 8009437555007442971}
   m_Layer: 0
   m_Name: SM_Env_Tree_03_Framed
   m_TagString: Untagged
@@ -27,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865941648782808}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33850371585450210
 MeshFilter:
@@ -85,31 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64231824516096850
-MeshCollider:
+--- !u!65 &8009437555007442971
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865941648782808}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43725720217971948, guid: d4d0ce267ea3c6748a99eda9bb7e6718, type: 2}
---- !u!64 &64368112165940038
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1865941648782808}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43165785674284438, guid: d4d0ce267ea3c6748a99eda9bb7e6718, type: 2}
+  serializedVersion: 3
+  m_Size: {x: 0.6, y: 3, z: 0.5}
+  m_Center: {x: 0, y: 1.6, z: 0}

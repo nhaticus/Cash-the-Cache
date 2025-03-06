@@ -116,6 +116,7 @@ public class PlayerManager : MonoBehaviour
                 unlockRotation();
             }
         }
+        weight = 0;
 
         // Find all renderers in the visual area
         visualRenderers.Clear();

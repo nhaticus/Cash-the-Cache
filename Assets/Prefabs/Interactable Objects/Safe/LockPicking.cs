@@ -32,6 +32,9 @@ public class LockPicking : MonoBehaviour, InteractEvent
     Vector3[] originalPositions;
     int currentIndex = 0;
     List<int> correctOrder = new List<int>();
+    bool canClick = true;
+
+    [SerializeField] GameObject[] obj;
 
     private void Start()
     {
@@ -120,6 +123,8 @@ public class LockPicking : MonoBehaviour, InteractEvent
     }
     private void TryPressPin(int pinIndex)
     {
+        if (!canClick)
+            return;
         Debug.Log($"Pin {pinIndex} clicked, expected: {correctOrder[currentIndex]} (step {currentIndex + 1}/{correctOrder.Count})");
         currentAttempts--;
         if (pinIndex == correctOrder[currentIndex])
@@ -146,17 +151,20 @@ public class LockPicking : MonoBehaviour, InteractEvent
 
     private IEnumerator CorrectPinEffect(int pinIndex)
     {
+        canClick = false;
         pins[pinIndex].GetComponent<Image>().color = correctColor;
         pinTransforms[pinIndex].localPosition += new Vector3(0, 100f, 0);
         yield return new WaitForSeconds(0.3f);
+        canClick = true;
     }
 
     private IEnumerator WrongPinEffect(int pinIndex)
     {
-        Image pinImage = pins[pinIndex].GetComponent<Image>();
-        pinImage.color = wrongColor;
+        canClick = false;
+        pins[pinIndex].GetComponent<Image>().color = wrongColor;
         yield return new WaitForSeconds(1f);
         ResetAllPins();
+        canClick = true;
     }
 
     private void ResetAllPins()
@@ -207,14 +215,18 @@ public class LockPicking : MonoBehaviour, InteractEvent
         isUnlocked = true;
         if (safeAnimator) safeAnimator.SetTrigger("OpenSafe");
 
+        Instantiate(obj[UnityEngine.Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
         GetComponent<Renderer>().material.color = Color.green;
         safe.material.color = Color.green;
+
+        gameObject.tag = "Untagged"; // to show it is not interactable anymore
     }
 
     private void MarkLocked()
     {
         GetComponent<Renderer>().material.color = Color.yellow;
         safe.material.color = Color.yellow;
+        gameObject.tag = "Untagged"; // to show it is not interactable anymore
     }
 
     private void ExitLockpicking()

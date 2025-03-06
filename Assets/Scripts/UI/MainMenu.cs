@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject settingPanel;
+    private void Start()
+    {
+        settingPanel.SetActive(false);
+    }
     public void SwitchScene(string gameScene)
     {
         Time.timeScale = 1;
@@ -15,5 +20,5 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
-    
+
 }
