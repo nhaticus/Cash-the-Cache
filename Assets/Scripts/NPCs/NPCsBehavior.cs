@@ -108,6 +108,7 @@ public class NPCsBehavior : MonoBehaviour
 
     private void Runaway()
     {
+        agent.SetDestination(exit.transform.position);
         Vector3 distanceToExit = transform.position - exit.position;
         if (agent.speed == agentDefaultSpeed)
         {
@@ -117,12 +118,11 @@ public class NPCsBehavior : MonoBehaviour
         if (distanceToExit.magnitude < 2.0f)
         {
             Destroy(transform.parent.gameObject);
+            GameManager.Instance.NPCLeaving();
             // Debug.Log("NPC has escaped!");
         }
-        agent.SetDestination(exit.transform.position);
 
         // Debug.Log("Player is in sight! RUN!");
-        // trigger police here...
     }
 
     private void PathingDefault()
