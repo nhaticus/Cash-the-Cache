@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int playerMoney;
 
-    public event Action OnMoneyChanged;
     public event Action OnNPCLeaving;
 
     private void Awake()
@@ -41,7 +40,6 @@ public class GameManager : MonoBehaviour
     {
         playerMoney += amount;
         PlayerPrefs.SetInt("Money", playerMoney);
-        OnMoneyChanged?.Invoke();
     }
 
     public void SpendMoney(int amount)
@@ -50,7 +48,6 @@ public class GameManager : MonoBehaviour
         {
             playerMoney -= amount;
             PlayerPrefs.SetInt("Money", playerMoney);
-            OnMoneyChanged?.Invoke();
         }
     }
     
