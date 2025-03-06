@@ -5,10 +5,7 @@ using TMPro;
 
 public class PoliceTimer : MonoBehaviour
 {
-    public float maxTime = 180f;
-    public float minTime = 80;
-    public float timeToDecrease = 25;
-
+    public float maxTime = 300f;
     float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
@@ -18,18 +15,17 @@ public class PoliceTimer : MonoBehaviour
     [SerializeField] int numPoliceToSpawn = 1;
     [SerializeField] Transform[] spawnPos;
 
-    private Vector3 originalPosition;
-
     private void Awake()
     {
         GameManager.Instance.OnNPCLeaving += TickDownTimer;
     }
 
+    private Vector3 originalPosition;
+
+
     private void Start()
     {
-        timeLeft = maxTime - GameManager.Instance.numRuns * timeToDecrease;
-        if (timeLeft < minTime)
-            timeLeft = minTime;
+        timeLeft = maxTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position
     }
 
@@ -80,10 +76,10 @@ public class PoliceTimer : MonoBehaviour
 
     void onTimerUp()
     {
-        AudioManager.Instance.PlaySFX("police_radio");
         // Send in police at random spawn positions
         for (int i = 0; i < numPoliceToSpawn; i++)
         {
+            AudioManager.Instance.PlaySFX("police_radio");
             Instantiate(police, spawnPos[Random.Range(0, spawnPos.Length)]);
         }
 
@@ -95,7 +91,6 @@ public class PoliceTimer : MonoBehaviour
         timeLeft = maxTime;
         timerOn = true;
     }
-
     void TickDownTimer()
     {
         int timeOff = 30;

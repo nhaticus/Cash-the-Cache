@@ -13,6 +13,9 @@ public class UpgradeManager : MonoBehaviour
     private int maxWeightUpgradeIncrement = 3;
 
     [SerializeField]
+    private bool hasFlashlight = true;
+
+    [SerializeField]
     private List<Items> items;
 
     public List<Items> loadedItems = new();
@@ -44,6 +47,16 @@ public class UpgradeManager : MonoBehaviour
     public void upgradeMaxWeight()
     {
         PlayerManager.Instance.increaseMaxWeight(maxWeightUpgradeIncrement);
+    }
+
+    public void upgradeFlashlight()
+    {
+        hasFlashlight = true;
+    }
+
+    public bool checkFlashlight()
+    {
+        return hasFlashlight;
     }
     public void SaveItems(List<Items> items)
     {
