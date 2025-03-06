@@ -15,6 +15,11 @@ public class PoliceTimer : MonoBehaviour
     [SerializeField] int numPoliceToSpawn = 1;
     [SerializeField] Transform[] spawnPos;
 
+    private void Awake()
+    {
+        GameManager.Instance.OnNPCLeaving += TickDownTimer;
+    }
+
     private void Start()
     {
         timeLeft = maxTime;
@@ -22,10 +27,14 @@ public class PoliceTimer : MonoBehaviour
 
     void Update()
     {
-        if(timerOn){
-            if(timeLeft > 0){
+        if (timerOn)
+        {
+            if (timeLeft > 0)
+            {
                 timeLeft -= Time.deltaTime;
-            } else{
+            }
+            else
+            {
                 timeLeft = 0;
                 timerOn = false;
                 onTimerUp();
@@ -42,19 +51,33 @@ public class PoliceTimer : MonoBehaviour
         Timer_display.text = minutes + ":" + seconds.ToString("00");
     }
 
-    void onTimerUp(){
+    void onTimerUp()
+    {
         // Send in police at random spawn positions
         AudioManager.Instance.PlaySFX("police_radio");
-        for(int i = 0; i < numPoliceToSpawn; i++)
+        for (int i = 0; i < numPoliceToSpawn; i++)
         {
             Instantiate(police, spawnPos[Random.Range(0, spawnPos.Length)]);
         }
 
         // lower next spawn time
         maxTime /= 1.75f;
-        if(maxTime < 30)
+        if (maxTime < 30)
             maxTime = 30;
         timeLeft = maxTime;
         timerOn = true;
+    }
+
+    void TickDownTimer()
+    {
+        int timeOff = 30;
+        if (timeLeft - timeOff > timeOff)
+        {
+            timeLeft -= timeOff;
+        }
+        else if (timeLeft - timeOff <= timeOff && timeLeft >= timeOff)
+        {
+            timeLeft = timeOff;
+        }
     }
 }

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public int playerMoney;
 
     public event Action OnMoneyChanged;
+    public event Action OnNPCLeaving;
 
     private void Awake()
     {
@@ -51,6 +52,11 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("Money", playerMoney);
             OnMoneyChanged?.Invoke();
         }
+    }
+    
+    public void NPCLeaving()
+    {
+        OnNPCLeaving?.Invoke();
     }
 }
 
