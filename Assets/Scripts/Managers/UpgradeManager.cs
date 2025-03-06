@@ -95,6 +95,6 @@ public class UpgradeManager : MonoBehaviour
     {
         File.Delete(Application.persistentDataPath + "/items.dat");
         loadedItems = LoadItems();
-        GameManager.Instance.SpendMoney(GameManager.Instance.playerMoney);
+        GameManager.Instance.playerMoney = 0;
     }
 }
