@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public event Action OnMoneyChanged;
     public event Action OnNPCLeaving;
 
+    public int numRuns = 0; // number of times replayed to reduce max time
+
     private void Awake()
     {
         if (Instance == null)

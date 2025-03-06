@@ -5,7 +5,9 @@ using TMPro;
 
 public class PoliceTimer : MonoBehaviour
 {
-    public float maxTime = 300f;
+    public float maxTime = 180f;
+    public float minTime = 80;
+    public float timeChangeByRun = 20;
     float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
@@ -22,7 +24,9 @@ public class PoliceTimer : MonoBehaviour
 
     private void Start()
     {
-        timeLeft = maxTime;
+        timeLeft = maxTime - (GameManager.Instance.numRuns * timeChangeByRun);
+        if (timeLeft < minTime)
+            timeLeft = minTime;
     }
 
     void Update()
