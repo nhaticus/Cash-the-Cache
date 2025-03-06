@@ -13,7 +13,7 @@ public class UpgradeManager : MonoBehaviour
     private int maxWeightUpgradeIncrement = 3;
 
     [SerializeField]
-    private bool hasFlashlight = false;
+    private bool hasFlashlight = true;
 
     [SerializeField]
     private List<Items> items;
