@@ -6,25 +6,25 @@ using TMPro;
 public class PoliceTimer : MonoBehaviour
 {
     public float maxTime = 180f;
-    public float minTime = 60f;
-    public float timeDecrease = 30f;
+    public float minTime = 80f;
+    public float timeDecrease = 25f;
     float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
-    float defaultTextSize;
 
     // police stuff
     [SerializeField] GameObject police;
     [SerializeField] int numPoliceToSpawn = 1;
     [SerializeField] Transform[] spawnPos;
 
+    private Vector3 originalPosition;
+    private bool isTimerPaused = false; // Track timer pause state
+    private Coroutine pauseCoroutine; // Store coroutine reference
+
     private void Awake()
     {
         GameManager.Instance.OnNPCLeaving += TickDownTimer;
     }
-
-    private Vector3 originalPosition;
-
 
     private void Start()
     {
@@ -32,12 +32,11 @@ public class PoliceTimer : MonoBehaviour
         if (timeLeft < minTime)
             timeLeft = minTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position
-        defaultTextSize = Timer_display.fontSize;
     }
 
     void Update()
     {
-        if (timerOn)
+        if (timerOn && !isTimerPaused)
         {
             if (timeLeft > 0)
             {
@@ -63,21 +62,19 @@ public class PoliceTimer : MonoBehaviour
         // Change font size, color, and add shaking effect when less than 1 minute remaining
         if (timeLeft < 60)
         {
-            Timer_display.fontSize = defaultTextSize * 1.2f; // Increase font size
-            Timer_display.color = Color.red; // Change text color to red
+            Timer_display.fontSize = 70;
+            Timer_display.color = Color.red;
 
             // Apply shaking effect
-            float shakeAmount = 6 / (timeLeft / 10); // Adjust for more or less shaking
-            if (shakeAmount > 8)
-                shakeAmount = 8;
+            float shakeAmount = 5f;
             Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
         }
         else
         {
-            Timer_display.fontSize = defaultTextSize; // Default font size
-            Timer_display.color = Color.white; // Default text color
+            Timer_display.fontSize = 46;
+            Timer_display.color = Color.white;
 
-            // Reset position
+            // Reset position when time is above 1 minute
             Timer_display.rectTransform.localPosition = originalPosition;
         }
     }
@@ -85,6 +82,7 @@ public class PoliceTimer : MonoBehaviour
     void onTimerUp()
     {
         AudioManager.Instance.PlaySFX("police_radio");
+
         // Send in police at random spawn positions
         for (int i = 0; i < numPoliceToSpawn; i++)
         {
@@ -99,6 +97,7 @@ public class PoliceTimer : MonoBehaviour
         timeLeft = maxTime;
         timerOn = true;
     }
+
     void TickDownTimer()
     {
         int timeOff = 30;
@@ -110,5 +109,32 @@ public class PoliceTimer : MonoBehaviour
         {
             timeLeft = timeOff;
         }
+    }
+
+    // **NEW: Stop Timer for 3 Minutes when Player enters a collider**
+    public void StopTimerFor3Minutes()
+    {
+        if (!isTimerPaused)
+        {
+            if (pauseCoroutine != null)
+                StopCoroutine(pauseCoroutine);
+
+            pauseCoroutine = StartCoroutine(PauseTimerForDuration(180f)); 
+        }
+    }
+
+    public void ResumeTimer()
+    {
+        if (pauseCoroutine != null)
+            StopCoroutine(pauseCoroutine);
+
+        isTimerPaused = false;
+    }
+
+    private IEnumerator PauseTimerForDuration(float duration)
+    {
+        isTimerPaused = true;
+        yield return new WaitForSeconds(duration);
+        isTimerPaused = false;
     }
 }
