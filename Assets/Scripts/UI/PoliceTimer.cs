@@ -6,11 +6,12 @@ using TMPro;
 public class PoliceTimer : MonoBehaviour
 {
     public float maxTime = 180f;
-    public float minTime = 80f;
-    public float timeDecrease = 25f;
+    public float minTime = 60f;
+    public float timeDecrease = 30f;
     float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
+    float defaultTextSize;
 
     // police stuff
     [SerializeField] GameObject police;
@@ -31,6 +32,7 @@ public class PoliceTimer : MonoBehaviour
         if (timeLeft < minTime)
             timeLeft = minTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position
+        defaultTextSize = Timer_display.fontSize;
     }
 
     void Update()
@@ -58,22 +60,24 @@ public class PoliceTimer : MonoBehaviour
 
         Timer_display.text = minutes + ":" + seconds.ToString("00");
 
-        // Change font size, color, and add shaking effect when less than 2 minutes remaining
+        // Change font size, color, and add shaking effect when less than 1 minute remaining
         if (timeLeft < 60)
         {
-            Timer_display.fontSize = 70; // Increase font size
+            Timer_display.fontSize = defaultTextSize * 1.2f; // Increase font size
             Timer_display.color = Color.red; // Change text color to red
 
             // Apply shaking effect
-            float shakeAmount = 5f; // Adjust for more or less shaking
+            float shakeAmount = 6 / (timeLeft / 10); // Adjust for more or less shaking
+            if (shakeAmount > 8)
+                shakeAmount = 8;
             Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
         }
         else
         {
-            Timer_display.fontSize = 46; // Default font size
+            Timer_display.fontSize = defaultTextSize; // Default font size
             Timer_display.color = Color.white; // Default text color
 
-            // Reset position when time is above 2 minutes
+            // Reset position
             Timer_display.rectTransform.localPosition = originalPosition;
         }
     }
