@@ -5,7 +5,9 @@ using TMPro;
 
 public class PoliceTimer : MonoBehaviour
 {
-    public float maxTime = 300f;
+    public float maxTime = 180f;
+    public float minTime = 80f;
+    public float timeDecrease = 25f;
     float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
@@ -25,7 +27,9 @@ public class PoliceTimer : MonoBehaviour
 
     private void Start()
     {
-        timeLeft = maxTime;
+        timeLeft = maxTime - (GameManager.Instance.numRuns * timeDecrease);
+        if (timeLeft < minTime)
+            timeLeft = minTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position
     }
 
@@ -76,10 +80,10 @@ public class PoliceTimer : MonoBehaviour
 
     void onTimerUp()
     {
+        AudioManager.Instance.PlaySFX("police_radio");
         // Send in police at random spawn positions
         for (int i = 0; i < numPoliceToSpawn; i++)
         {
-            AudioManager.Instance.PlaySFX("police_radio");
             Instantiate(police, spawnPos[Random.Range(0, spawnPos.Length)]);
         }
 
