@@ -18,8 +18,7 @@ public class PoliceTimer : MonoBehaviour
     [SerializeField] Transform[] spawnPos;
 
     private Vector3 originalPosition;
-    private bool isTimerPaused = false; // Track timer pause state
-    private Coroutine pauseCoroutine; // Store coroutine reference
+    private bool isTimerPaused = false; // Track if timer is paused
 
     private void Awake()
     {
@@ -111,30 +110,15 @@ public class PoliceTimer : MonoBehaviour
         }
     }
 
-    // **NEW: Stop Timer for 3 Minutes when Player enters a collider**
-    public void StopTimerFor3Minutes()
-    {
-        if (!isTimerPaused)
-        {
-            if (pauseCoroutine != null)
-                StopCoroutine(pauseCoroutine);
-
-            pauseCoroutine = StartCoroutine(PauseTimerForDuration(180f)); 
-        }
-    }
-
-    public void ResumeTimer()
-    {
-        if (pauseCoroutine != null)
-            StopCoroutine(pauseCoroutine);
-
-        isTimerPaused = false;
-    }
-
-    private IEnumerator PauseTimerForDuration(float duration)
+    // **Pause Timer when Player enters collider**
+    public void PauseTimer()
     {
         isTimerPaused = true;
-        yield return new WaitForSeconds(duration);
+    }
+
+    // **Resume Timer when Player exits collider**
+    public void ResumeTimer()
+    {
         isTimerPaused = false;
     }
 }

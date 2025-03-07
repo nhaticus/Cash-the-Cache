@@ -6,7 +6,7 @@ public class PoliceTimerTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            FindObjectOfType<PoliceTimer>().StopTimerFor3Minutes();
+            FindObjectOfType<PoliceTimer>().PauseTimer();
         }
     }
 
