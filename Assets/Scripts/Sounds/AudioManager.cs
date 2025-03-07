@@ -76,7 +76,7 @@ public class AudioManager : MonoBehaviour
         if (sfxSource.clip != null) {
             //Debug.Log($"Current clip name: {sfxSource.clip.name}");
         } else {
-            Debug.Log("No clip assigned to sfxSource");
+            //Debug.Log("No clip assigned to sfxSource");
         }
 
         //Debug.Log("Stopping SFX: " + name);
