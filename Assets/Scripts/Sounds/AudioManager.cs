@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 /*
@@ -23,7 +24,7 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -31,10 +32,21 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Start() {
-        //AudioManager.Instance.musicSource.Stop();
-        PlayMusic("idle_music");
-        // make the music loop
+    void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneChanged;
+    }
+
+    void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneChanged;
+    }
+
+    private void OnSceneChanged(Scene scene, LoadSceneMode mode){
+        if(scene.name == "Shop"){
+            PlayMusic("shop_music");
+        }
+        else {
+            PlayMusic("idle_music");
+        }
         musicSource.loop = true;
     }
 
@@ -76,7 +88,7 @@ public class AudioManager : MonoBehaviour
         if (sfxSource.clip != null) {
             //Debug.Log($"Current clip name: {sfxSource.clip.name}");
         } else {
-            //Debug.Log("No clip assigned to sfxSource");
+            Debug.Log("No clip assigned to sfxSource");
         }
 
         //Debug.Log("Stopping SFX: " + name);
