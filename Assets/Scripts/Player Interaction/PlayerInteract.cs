@@ -13,7 +13,7 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] Material highlightMaterial; // Material to highlight object
 
     [SerializeField] float raycastDistance = 2.5f;
-    public GameObject mainCamera;
+    public GameObject camera;
 
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
 

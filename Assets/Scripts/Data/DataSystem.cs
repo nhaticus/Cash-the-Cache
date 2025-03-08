@@ -37,7 +37,7 @@ public static class DataSystem
         }
         else
         {
-            Debug.Log("Save file not found in " + path);
+            Debug.LogError("Save file not found in " + path);
             return null;
         }
     }

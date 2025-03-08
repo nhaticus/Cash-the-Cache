@@ -8,10 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int playerMoney;
 
-    public event Action OnNPCLeaving;
-
-    public int numRuns = 0; // number of times replayed to reduce max time
-                            // Shop Van increases when go to level
+    public event Action OnMoneyChanged;
 
     private void Awake()
     {
@@ -43,6 +40,7 @@ public class GameManager : MonoBehaviour
     {
         playerMoney += amount;
         PlayerPrefs.SetInt("Money", playerMoney);
+        OnMoneyChanged?.Invoke();
     }
 
     public void SpendMoney(int amount)
@@ -51,12 +49,8 @@ public class GameManager : MonoBehaviour
         {
             playerMoney -= amount;
             PlayerPrefs.SetInt("Money", playerMoney);
+            OnMoneyChanged?.Invoke();
         }
-    }
-    
-    public void NPCLeaving()
-    {
-        OnNPCLeaving?.Invoke();
     }
 }
 

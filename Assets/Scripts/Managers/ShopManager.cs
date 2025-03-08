@@ -34,12 +34,11 @@ public class ShopManager : MonoBehaviour
         }
 
         openShopPrompt.gameObject.SetActive(false);
-        shopUI.SetActive(false);
-    }
-    void Start()
-    {
         PopulateShop();
-    } 
+        shopUI.SetActive(false);
+
+        GameManager.Instance.OnMoneyChanged += UpdateMoneyText;
+    }
 
     void Update()
     {
@@ -93,7 +92,7 @@ public class ShopManager : MonoBehaviour
     {
         GameManager.Instance.SpendMoney(itemScriptableObject.price);
         itemScriptableObject.level++;
-        itemScriptableObject.price = itemScriptableObject.level * 100;
+        itemScriptableObject.price += itemScriptableObject.level * 100;
         UpdateItem(itemScriptableObject, itemGameObject);
         CheckPurchaseable();
 

@@ -48,8 +48,7 @@ public class LeaveAreaTrigger : MonoBehaviour
             {
                 Debug.LogError("VanInventory or PlayerInventory is NULL!");
             }
-            if(GameManager.Instance)
-                GameManager.Instance.numRuns++;
+
             ShowSummary();
         }
     }
