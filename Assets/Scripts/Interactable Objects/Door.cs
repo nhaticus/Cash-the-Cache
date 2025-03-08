@@ -32,6 +32,8 @@ public class Door : MonoBehaviour, InteractEvent
             }
         }
     }
+
+    // Doors within the house don't use this interact?
     public void Interact()
     {
         AudioManager.Instance.PlaySFX("door_open");
