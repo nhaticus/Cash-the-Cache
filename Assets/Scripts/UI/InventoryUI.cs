@@ -99,8 +99,8 @@ public class InventoryUI : MonoBehaviour
     public void DropItem()
     {
         // create prefab
-        Vector3 newObjectLocation = (playerInteract.camera.transform.forward * 2.5f) + playerInteract.transform.position + new Vector3(0, 1, 0);
-        StealableObject o = Instantiate(selectedItem.Prefab.GetComponent<StealableObject>(), newObjectLocation, playerInteract.camera.transform.rotation);
+        Vector3 newObjectLocation = (playerInteract.mainCamera.transform.forward * 2.5f) + playerInteract.transform.position + new Vector3(0, 1, 0);
+        StealableObject o = Instantiate(selectedItem.Prefab.GetComponent<StealableObject>(), newObjectLocation, playerInteract.mainCamera.transform.rotation);
         o.SetInfo(selectedItem);
 
         PlayerManager.Instance.subWeight(selectedItem.weight); //decrease weight

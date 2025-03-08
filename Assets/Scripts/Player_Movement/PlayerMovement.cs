@@ -133,7 +133,7 @@ public class PlayerMovement : MonoBehaviour
     private void HandleFootstepSound()
     {
         if (Time.timeScale <= 0) // prevent sound when paused
-        {
+        { // WORKS but it will continue to try to stop sfx so might not be efficient
             if (AudioManager.Instance)
                 AudioManager.Instance.StopSFX("footstep_sound");
             return;
