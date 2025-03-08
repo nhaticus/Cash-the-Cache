@@ -42,6 +42,7 @@ public class AudioManager : MonoBehaviour
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode){
         if(scene.name == "Shop"){
+            musicSource.volume = 0.6f;
             PlayMusic("shop_music");
         }
         else {
