@@ -5,6 +5,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class NPCsBehavior : MonoBehaviour
 {
@@ -35,6 +36,9 @@ public class NPCsBehavior : MonoBehaviour
     private bool withinSight;
     private bool detectedPlayer = false;
 
+ 
+
+    [Header("Detection Settings")]
     /*  Timers  */
     public float sightCountdown = 2.0f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
     private float sightTimer = 0.0f;
@@ -59,6 +63,7 @@ public class NPCsBehavior : MonoBehaviour
         else
         {
             DetectPlayer();
+            
         }
     }
 
@@ -117,6 +122,7 @@ public class NPCsBehavior : MonoBehaviour
 
         if (distanceToExit.magnitude < 2.0f)
         {
+
             Destroy(transform.parent.gameObject);
             GameManager.Instance.NPCLeaving();
             // Debug.Log("NPC has escaped!");
@@ -189,5 +195,11 @@ public class NPCsBehavior : MonoBehaviour
         agent.isStopped = true;
         yield return new WaitForSeconds(stunDuration);
         agent.isStopped = false;
+    }
+
+    public float GetDetectionRatio()
+    {
+        // Avoid division by zero if sightCountdown = 0
+        return (sightCountdown > 0f) ? (sightTimer / sightCountdown) : 0f;
     }
 }
