@@ -25,6 +25,7 @@ public class LeaveAreaTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        //AudioManager.Instance.PlaySFX("drive_away");
         if (other.CompareTag("Player"))
         {
             playerInLeaveArea = false;
@@ -56,6 +57,7 @@ public class LeaveAreaTrigger : MonoBehaviour
 
     void ShowSummary()
     {
+        AudioManager.Instance.PlaySFX("drive_away");
         resultScreen.SetActive(true);
         resultScreen.GetComponent<ResultScreen>().inventoryRef = VanInventory.Instance.stolenItems;
         resultScreen.GetComponent<ResultScreen>().Begin();
