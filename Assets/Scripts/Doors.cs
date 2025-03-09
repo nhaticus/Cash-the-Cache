@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
 public class Doors : MonoBehaviour, InteractEvent
 {
+    public NavMeshObstacle obstacle;
     [Header("Door Mesh/Pivot")]
     public Transform door;            // The door mesh or pivot
 
@@ -19,6 +21,13 @@ public class Doors : MonoBehaviour, InteractEvent
     private int frontCount = 0;    // How many NPCs are in the front trigger
     private int backCount = 0;    // How many NPCs are in the back trigger
 
+    private void Awake()
+    {
+        obstacle = GetComponent<NavMeshObstacle>();
+        obstacle.carveOnlyStationary = false;
+        obstacle.enabled = isOpen;
+        obstacle.carving = isOpen;
+    }
     // ----------------------------------------------------------------------
     // Methods Called By DoorSideTrigger
     // ----------------------------------------------------------------------
@@ -97,6 +106,8 @@ public class Doors : MonoBehaviour, InteractEvent
         isOpen = true;
         float currentAngle = door.localEulerAngles.y;
         float targetAngle = lastSideFront ? frontOpenAngle : backOpenAngle;
+        obstacle.enabled = true;
+        obstacle.carving = true;
 
         while (Mathf.Abs(Mathf.DeltaAngle(currentAngle, targetAngle)) > 0.1f)
         {
@@ -110,6 +121,8 @@ public class Doors : MonoBehaviour, InteractEvent
     {
         isOpen = false;
         float currentAngle = door.localEulerAngles.y;
+        obstacle.enabled = false;
+        obstacle.carving = false;
 
         while (Mathf.Abs(Mathf.DeltaAngle(currentAngle, closeAngle)) > 0.1f)
         {
