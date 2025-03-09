@@ -8,6 +8,7 @@ public class PoliceTimer : MonoBehaviour
     public float maxTime = 180f;
     public float minTime = 80f;
     public float timeDecrease = 25f;
+    float defaultFontSize;
     float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
@@ -31,6 +32,7 @@ public class PoliceTimer : MonoBehaviour
         if (timeLeft < minTime)
             timeLeft = minTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position
+        defaultFontSize = Timer_display.fontSize;
     }
 
     void Update()
@@ -61,16 +63,18 @@ public class PoliceTimer : MonoBehaviour
         // Change font size, color, and add shaking effect when less than 1 minute remaining
         if (timeLeft < 60)
         {
-            Timer_display.fontSize = 70;
+            Timer_display.fontSize = defaultFontSize * 1.2f;
             Timer_display.color = Color.red;
 
             // Apply shaking effect
-            float shakeAmount = 5f;
+            float shakeAmount = 5 / (timeLeft / 30);
+            if(shakeAmount > 9)
+                shakeAmount = 9;
             Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
         }
         else
         {
-            Timer_display.fontSize = 46;
+            Timer_display.fontSize = defaultFontSize;
             Timer_display.color = Color.white;
 
             // Reset position when time is above 1 minute
