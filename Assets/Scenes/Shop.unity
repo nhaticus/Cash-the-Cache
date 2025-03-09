@@ -3046,31 +3046,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3685084829145304290, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
-        type: 3}
-      propertyPath: sfxSounds.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3685084829145304290, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
-        type: 3}
-      propertyPath: sfxSounds.Array.data[2].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 9b88ef8986e41d04c94c74acfa303615, type: 3}
-    - target: {fileID: 3685084829145304290, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
-        type: 3}
-      propertyPath: sfxSounds.Array.data[2].name
-      value: shop_owner
-      objectReference: {fileID: 0}
-    - target: {fileID: 3685084829145304290, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
-        type: 3}
-      propertyPath: musicSounds.Array.data[0].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 3d3635b160c4d874cb1dc9c63b5cc5b6, type: 3}
-    - target: {fileID: 3685084829145304290, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
-        type: 3}
-      propertyPath: musicSounds.Array.data[0].name
-      value: idle_music
-      objectReference: {fileID: 0}
     - target: {fileID: 3711366128753751346, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3120,21 +3095,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4221894486544225977, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
-        type: 3}
-      propertyPath: m_PlayOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268903705760395967, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
-        type: 3}
-      propertyPath: Priority
-      value: 191
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268903705760395967, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.079
       objectReference: {fileID: 0}
     - target: {fileID: 6996528978842348389, guid: 46d3a9598bbc24c4b8054657fd0a24f7,
         type: 3}
@@ -5619,18 +5579,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fd786accc7b0904382627bd3590fb2c, type: 3}
---- !u!114 &1205008407 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5120375059096336776, guid: 3fd786accc7b0904382627bd3590fb2c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1205008406}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7096c77ee1ea0c54c9907ad40779e011, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1209221755
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7686,30 +7634,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1552216034}
         m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
         m_MethodName: ToggleShop
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1205008407}
-        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
-        m_MethodName: ToggleCursor
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1205008407}
-        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
-        m_MethodName: ToggleRotation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

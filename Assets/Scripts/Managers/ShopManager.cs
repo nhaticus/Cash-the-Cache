@@ -6,6 +6,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class ShopManager : MonoBehaviour
     void Start()
     {
         PopulateShop();
-    } 
+    }
 
     void Update()
     {
@@ -68,8 +69,7 @@ public class ShopManager : MonoBehaviour
         {
             foreach (GameObject item in itemsInShop)
             {
-                ItemTemplate templateComponent = item.GetComponent<ItemTemplate>();
-                templateComponent.buyButton.interactable = CanBuyItem(templateComponent.itemData);
+                item.GetComponent<Image>().color = CanBuyItem(item.GetComponent<ItemTemplate>().itemData) ? Color.white : new Color(200f / 255f, 200f / 255f, 200f / 255f);
             }
         }
     }
@@ -91,6 +91,11 @@ public class ShopManager : MonoBehaviour
 
     public void BuyItem(Items itemScriptableObject, GameObject itemGameObject)
     {
+        if (!CanBuyItem(itemScriptableObject))
+        {
+            AudioManager.Instance.PlaySFX("deny");
+            return;
+        }
         GameManager.Instance.SpendMoney(itemScriptableObject.price);
         itemScriptableObject.level++;
         itemScriptableObject.price = itemScriptableObject.level * 100;
