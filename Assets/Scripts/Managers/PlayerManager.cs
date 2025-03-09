@@ -21,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private int weight = 0;
     private static int maxWeightDefault = 30;
+    private static int maxLockPicksDefault = 2;
     [SerializeField]
     private int maxWeight;
 
