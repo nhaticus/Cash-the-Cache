@@ -12,7 +12,7 @@ public class PlayerInteract : MonoBehaviour
     public Material originalMaterial; // Store the original material of the object
     [SerializeField] Material highlightMaterial; // Material to highlight object
 
-    [SerializeField] float raycastDistance = 2.5f;
+    [SerializeField] float raycastDistance = 2.8f;
     public GameObject mainCamera;
 
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
@@ -36,37 +36,40 @@ public class PlayerInteract : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
 
         RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction * raycastDistance, raycastDistance);
-        bool gotSelectable = false;
+        GameObject closestObj = null; float closestDist = raycastDistance;
         for (int i = 0; i < hits.Length; i++)
         {
             GameObject hit = hits[i].transform.gameObject;
             if (hit.CompareTag("Selectable"))
             {
-                gotSelectable = true;
-                if (objRef == hit)
-                    break;
-                if (objRef != hit)
+                float distance = Vector3.Distance(ray.origin, hit.transform.position);
+                Debug.Log(raycastDistance + " - " + distance);
+                if(distance < closestDist)
                 {
-                    ResetHighlight(); // Reset previous object's material
-
-                    objRef = hit;
-                    objRenderer = objRef.GetComponent<Renderer>();
-                    originalMaterial = objRenderer.material;
-                    origColor = originalMaterial.color;
-                    
-                    if (originalMaterial != null)
-                    {
-                        Material newMat = objRenderer.material;
-                        newMat.color = Color.red;
-                        objRenderer.material = newMat; // Apply highlight material
-                    }
+                    closestDist = distance;
+                    closestObj = hit;
                 }
-                break;
             }
         }
-        if (!gotSelectable)
+        if (closestObj == null)
         {
             ResetHighlight();
+        }
+        else if (closestObj != null && closestObj != objRef)
+        {
+            ResetHighlight(); // Reset previous object's material
+
+            objRef = closestObj;
+            objRenderer = objRef.GetComponent<Renderer>();
+            originalMaterial = objRenderer.material;
+            origColor = originalMaterial.color;
+
+            if (originalMaterial != null)
+            {
+                Material newMat = objRenderer.material;
+                newMat.color = Color.red;
+                objRenderer.material = newMat; // Apply highlight material
+            }
         }
     }
 

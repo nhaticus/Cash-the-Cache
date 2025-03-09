@@ -34,7 +34,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
     List<int> correctOrder = new List<int>();
     bool canClick = true;
 
-    [SerializeField] GameObject[] obj;
+    [SerializeField] GameObject gold;
 
     private void Start()
     {
@@ -126,7 +126,6 @@ public class LockPicking : MonoBehaviour, InteractEvent
         if (!canClick)
             return;
         Debug.Log($"Pin {pinIndex} clicked, expected: {correctOrder[currentIndex]} (step {currentIndex + 1}/{correctOrder.Count})");
-        currentAttempts--;
         if (pinIndex == correctOrder[currentIndex])
         {
             StartCoroutine(CorrectPinEffect(pinIndex));
@@ -139,6 +138,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
         }
         else
         {
+            currentAttempts--;
             UpdateAttemptsUI();
             if (currentAttempts <= 0)
             {
@@ -210,12 +210,23 @@ public class LockPicking : MonoBehaviour, InteractEvent
     }
 
     [SerializeField] Renderer safe;
+    [SerializeField] Transform spawnPos;
     private void MarkSafeUnlocked()
     {
         isUnlocked = true;
         if (safeAnimator) safeAnimator.SetTrigger("OpenSafe");
 
-        Instantiate(obj[UnityEngine.Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
+        int spawnAmount = 0;
+        if(difficulty == "Easy")
+            spawnAmount = 1;
+        else if (difficulty == "Medium")
+            spawnAmount = 2;
+        else
+            spawnAmount = 3;
+        for(int i = 0; i < spawnAmount; i++)
+        {
+            Instantiate(gold, spawnPos.position, transform.rotation);
+        }
         GetComponent<Renderer>().material.color = Color.green;
         safe.material.color = Color.green;
 
