@@ -36,14 +36,13 @@ public class PlayerInteract : MonoBehaviour
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
 
         RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction * raycastDistance, raycastDistance);
-        GameObject closestObj = null; float closestDist = raycastDistance;
+        GameObject closestObj = null; float closestDist = 10;
         for (int i = 0; i < hits.Length; i++)
         {
             GameObject hit = hits[i].transform.gameObject;
             if (hit.CompareTag("Selectable"))
             {
                 float distance = Vector3.Distance(ray.origin, hit.transform.position);
-                Debug.Log(raycastDistance + " - " + distance);
                 if(distance < closestDist)
                 {
                     closestDist = distance;
