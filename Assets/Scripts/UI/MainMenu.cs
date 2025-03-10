@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject settingPanel;
+    // public GameObject settingPanel;
     private void Start()
     {
-        settingPanel.SetActive(false);
+        // settingPanel.SetActive(false);
     }
     public void SwitchScene(string gameScene)
     {

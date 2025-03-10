@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 8574110885106386901}
   m_Layer: 0
   m_Name: Police
-  m_TagString: Untagged
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -258,9 +258,10 @@ MonoBehaviour:
     m_Bits: 256
   groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 512
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
+  stunDuration: 0
   sightDistance: 10
   reachDistance: 2
   sightCountdown: 2
@@ -290,7 +291,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!1 &2429827700065436772
 GameObject:

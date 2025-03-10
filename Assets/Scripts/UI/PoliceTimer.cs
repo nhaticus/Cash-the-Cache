@@ -21,13 +21,9 @@ public class PoliceTimer : MonoBehaviour
     private Vector3 originalPosition;
     private bool isTimerPaused = false; // Track if timer is paused
 
-    private void Awake()
-    {
-        GameManager.Instance.OnNPCLeaving += TickDownTimer;
-    }
-
     private void Start()
     {
+        GameManager.Instance.OnNPCLeaving += TickDownTimer;
         timeLeft = maxTime - (GameManager.Instance.numRuns * timeDecrease);
         if (timeLeft < minTime)
             timeLeft = minTime;
