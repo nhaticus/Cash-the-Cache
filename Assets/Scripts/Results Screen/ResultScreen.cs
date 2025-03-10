@@ -21,6 +21,7 @@ public class ResultScreen : MonoBehaviour
     [SerializeField] GameObject continueButton;
     public void Begin()
     {
+        AudioManager.Instance.PlaySFX("drive_away");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         continueButton.SetActive(false);

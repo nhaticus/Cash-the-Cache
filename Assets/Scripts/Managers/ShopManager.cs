@@ -23,6 +23,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] SingleAudio shopAudio;
 
     public bool shopActive = false;
+    private bool shopOwnerVoicePlayed = false;
+
 
     void Awake()
     {
@@ -128,7 +130,13 @@ public class ShopManager : MonoBehaviour
             {
                 if (!shopActive)
                 {
-                    shopAudio.PlaySFX("shop_owner");
+                    // stop voiceline from being played mulitple times:
+                    if (!shopOwnerVoicePlayed)
+                    {
+                        shopAudio.PlaySFX("shop_owner");
+                        shopOwnerVoicePlayed = true;
+                    }
+                    
                     openShopPrompt.gameObject.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.E))
                     {
