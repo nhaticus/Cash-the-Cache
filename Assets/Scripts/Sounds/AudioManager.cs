@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 
@@ -30,6 +31,7 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        musicSource.volume = PlayerPrefs.GetFloat("Music");
     }
 
     void OnEnable() {
@@ -42,9 +44,7 @@ public class AudioManager : MonoBehaviour
 
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode){
-        musicSource.volume = 0.6f;
         if(scene.name == "Shop"){
-            //musicSource.volume = 0.6f;
             PlayMusic("shop_music");
         }
         else {
