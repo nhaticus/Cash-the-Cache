@@ -20,6 +20,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TMP_Text moneyText;
 
     [SerializeField] private TMP_Text openShopPrompt;
+    [SerializeField] SingleAudio shopAudio;
 
     public bool shopActive = false;
 
@@ -93,7 +94,7 @@ public class ShopManager : MonoBehaviour
     {
         if (!CanBuyItem(itemScriptableObject))
         {
-            AudioManager.Instance.PlaySFX("deny");
+            shopAudio.PlaySFX("deny");
             return;
         }
         GameManager.Instance.SpendMoney(itemScriptableObject.price);
@@ -127,7 +128,7 @@ public class ShopManager : MonoBehaviour
             {
                 if (!shopActive)
                 {
-                    AudioManager.Instance.PlaySFX("shop_owner");
+                    shopAudio.PlaySFX("shop_owner");
                     openShopPrompt.gameObject.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.E))
                     {

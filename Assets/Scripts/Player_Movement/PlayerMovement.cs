@@ -1,30 +1,16 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class PlayerMovement : MonoBehaviour
 {
-
     [Header("Movement")]
     public float moveSpeed;
     public float groundDrag;
 
-    [Header("Jump")]
-    public float jumpForce;
-    public float jumpCooldown;
-    public float airMultiplier;
-    bool readyToJump;
-    private float jumpBoost = 1.0f;
-
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
-    bool grounded;
-
-    [Header("Keybinds")]
-    public
-     KeyCode jumpKey = KeyCode.Space;
 
     [Header("Camera")]
     public PlayerCam playerCameraScript;
@@ -48,8 +34,6 @@ public class PlayerMovement : MonoBehaviour
         tf = GetComponent<Transform>();
         rb.freezeRotation = true;
 
-        ResetJump();
-        grounded = true;
         touchingWall = false;
 
         if (playerCameraScript)
@@ -60,23 +44,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        // ground check 
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
-
         rb.drag = groundDrag;
         MyInput();
         SpeedControl();
 
         HandleFootstepSound();
     
-
-
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
-
     }
 
     private void MyInput()
@@ -84,38 +62,14 @@ public class PlayerMovement : MonoBehaviour
 
         verticalInput = Input.GetAxisRaw("Vertical");
         horizontalInput = Input.GetAxisRaw("Horizontal");
-
-
-
-        // when to jump
-        if (Input.GetKey(jumpKey) && readyToJump && grounded)
-        {
-            readyToJump = false;
-
-            Jump();
-
-            Invoke(nameof(ResetJump), jumpCooldown);
-        }
     }
 
     private void MovePlayer()
     {
-        //AudioManager.Instance.PlaySFX("footstep_sound");
-
         // calculate movement Direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (grounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-        }
-        else if (!grounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
-        }
-
-
-
+        rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
     }
 
     private void SpeedControl()
@@ -142,33 +96,16 @@ public class PlayerMovement : MonoBehaviour
         // Check if player is moving horizontally
         bool isMoving = rb.velocity.magnitude > 0.1f;
         if (isMoving && !isPlayingFootsteps) {
-            //Debug.Log("playing footstep sound");
             if (AudioManager.Instance)
                 AudioManager.Instance.PlaySFX("footstep_sound", true);
             isPlayingFootsteps = true;
         }
         else if (!isMoving && isPlayingFootsteps) {
-            //Debug.Log("stopping footstep sound");
             if (AudioManager.Instance)
                 AudioManager.Instance.StopSFX("footstep_sound");
             isPlayingFootsteps = false;
         }
     }
-
-
-    private void Jump()
-    {
-        // reset y velocity
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
-        rb.AddForce(transform.up * jumpForce * jumpBoost, ForceMode.Impulse);
-    }
-
-    private void ResetJump()
-    {
-        readyToJump = true;
-    }
-
 
     // Resets orientation of the player to face original rotation. This causes camera to also reset position.
     public void resetOrientation()
@@ -177,7 +114,4 @@ public class PlayerMovement : MonoBehaviour
         tf.eulerAngles = new Vector3(0f, 0f, 0f);
     }
 
- 
 }
-
-

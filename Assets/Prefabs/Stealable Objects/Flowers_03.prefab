@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 8769028550948032058}
   - component: {fileID: 4351931941803462694}
   - component: {fileID: 5967758023609327091}
-  - component: {fileID: 6597995950685531944}
   - component: {fileID: 6227419143592485481}
   - component: {fileID: 2507102657861262633}
   - component: {fileID: 7107850859823421107}
+  - component: {fileID: 5067005300203206412}
   m_Layer: 0
   m_Name: Flowers_03
   m_TagString: Selectable
@@ -87,28 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6597995950685531944
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8538477391093854014}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43395019484508384, guid: ed256fdb89522f6479511055c41e9ed5, type: 2}
 --- !u!114 &6227419143592485481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,3 +139,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &5067005300203206412
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538477391093854014}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.15, y: 0.26, z: 0.15}
+  m_Center: {x: 0, y: 0.12, z: 0.007339418}
