@@ -169,26 +169,21 @@ public class LockPicking : MonoBehaviour, InteractEvent
         canClick = true;
     }
 
-    IEnumerator ShowPinOrder(int pinIndex, int order, float waitTime)
+    IEnumerator ShowPinOrder(int pinIndex, int order)
     {
-        if (pins[pinIndex].GetComponent<Image>().color == correctColor) // if pin is correct don't do effect
-            yield break;
-
-        yield return new WaitForSeconds(waitTime);
         for (int i = 0; i <= order; i++)
         {
             pins[pinIndex].GetComponent<Image>().color = Color.grey;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.25f);
             pins[pinIndex].GetComponent<Image>().color = defaultColor;
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.25f);
         }
-
-        StartCoroutine(ShowPinOrder(pinIndex, order, waitTime));
     }
 
     IEnumerator AssignPinOrderEffect()
     {
-        for(int i = 0; i < pins.Length; i++)
+        yield return new WaitForSeconds(1); // wait first 1 second
+        for (int i = 0; i < pins.Length; i++)
         {
             // find order of pins[i]
             int order = 0;
@@ -200,8 +195,8 @@ public class LockPicking : MonoBehaviour, InteractEvent
                     break;
                 }
             }
-            StartCoroutine(ShowPinOrder(i, order, UnityEngine.Random.Range(1.8f, 4f)));
-            yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 2f));
+            StartCoroutine(ShowPinOrder(i, order));
+            yield return new WaitForSeconds((order * 0.5f) + 1.2f); // wait extra 1.2 seconds
         }
     }
 
