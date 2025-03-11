@@ -200,8 +200,8 @@ public class LockPicking : MonoBehaviour, InteractEvent
                     break;
                 }
             }
-            StartCoroutine(ShowPinOrder(i, order, UnityEngine.Random.Range(1.7f, 4f)));
-            yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 1.7f));
+            StartCoroutine(ShowPinOrder(i, order, UnityEngine.Random.Range(1.8f, 4f)));
+            yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 2f));
         }
     }
 
