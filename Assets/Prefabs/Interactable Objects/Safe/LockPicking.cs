@@ -177,6 +177,9 @@ public class LockPicking : MonoBehaviour, InteractEvent
             yield return new WaitForSeconds(0.25f);
             pins[pinIndex].GetComponent<Image>().color = defaultColor;
             yield return new WaitForSeconds(0.25f);
+            if (currentIndex > order) { // correct dont flash
+                yield break;
+            }
         }
     }
 
@@ -198,6 +201,10 @@ public class LockPicking : MonoBehaviour, InteractEvent
             StartCoroutine(ShowPinOrder(i, order));
             yield return new WaitForSeconds((order * 0.5f) + 1.2f); // wait extra 1.2 seconds
         }
+        if (isUnlocked)
+            yield break;
+        yield return new WaitForSeconds(1); // wait 1 second before begin again
+        StartCoroutine(AssignPinOrderEffect());
     }
 
     private void ResetAllPins()
