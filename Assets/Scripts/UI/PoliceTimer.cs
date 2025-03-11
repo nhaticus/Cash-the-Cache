@@ -108,6 +108,20 @@ public class PoliceTimer : MonoBehaviour
         {
             timeLeft = timeOff;
         }
+        StartCoroutine(TimerChangeEffect());
+    }
+
+    IEnumerator TimerChangeEffect()
+    {
+        float shakeAmount = 4;
+        float shakeTime = 0.8f;
+        while (shakeTime > 0)
+        {
+            shakeTime -= Time.deltaTime;
+            Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
+            yield return null;
+        }
+        Timer_display.rectTransform.localPosition = originalPosition;
     }
 
     // **Pause Timer when Player enters collider**
