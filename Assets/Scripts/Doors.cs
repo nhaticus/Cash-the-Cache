@@ -15,6 +15,10 @@ public class Doors : MonoBehaviour, InteractEvent
     public float closeAngle = 0f;   // Angle when closed
     public float speed = 3f;   // Rotation speed
 
+    [Header("Audio Settings")]
+    public AudioClip doorCloseClip;     // Assign the door closing sound in the Inspector
+    private AudioSource doorAudioSource;  // Local reference to AudioSource
+
     private bool isOpen = false;
     private bool lastSideFront = true;
 
@@ -27,6 +31,15 @@ public class Doors : MonoBehaviour, InteractEvent
         obstacle.carveOnlyStationary = false;
         obstacle.enabled = isOpen;
         obstacle.carving = isOpen;
+
+        doorAudioSource = GetComponent<AudioSource>();
+        if (doorAudioSource == null)
+        {
+            doorAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+        doorAudioSource.spatialBlend = 1f; // Set to 3D sound
+        doorAudioSource.maxDistance = 10f;   // Lower max distance
+        doorAudioSource.rolloffMode = AudioRolloffMode.Linear; 
     }
     // ----------------------------------------------------------------------
     // Methods Called By DoorSideTrigger
@@ -119,10 +132,14 @@ public class Doors : MonoBehaviour, InteractEvent
 
     private IEnumerator CloseDoor()
     {
+        Debug.Log("Closing door in CloseDoor()");
         isOpen = false;
         float currentAngle = door.localEulerAngles.y;
         obstacle.enabled = false;
         obstacle.carving = false;
+
+            Debug.Log("Playing door close sound");
+            doorAudioSource.PlayOneShot(doorCloseClip);
 
         while (Mathf.Abs(Mathf.DeltaAngle(currentAngle, closeAngle)) > 0.1f)
         {

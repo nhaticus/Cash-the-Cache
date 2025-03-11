@@ -20,6 +20,7 @@ public class AudioManager : MonoBehaviour
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
 
+
     public void Awake()
     {
         if (Instance == null)
@@ -44,10 +45,18 @@ public class AudioManager : MonoBehaviour
     }
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode){
+        //float musicVolume = PlayerPrefs.GetFloat("Music");
         if(scene.name == "Shop"){
+            musicSource.volume = 0.1f;
             PlayMusic("shop_music");
         }
+        else if(scene.name == "Main Level"){
+            // Reduce volume by 20%
+            //musicSource.volume = Mathf.Clamp(musicVolume * 0.8f, 0f, 1f);
+            PlayMusic("idle_music");
+        }
         else {
+            // :)
             PlayMusic("idle_music");
         }
         musicSource.loop = true;
@@ -85,6 +94,19 @@ public class AudioManager : MonoBehaviour
             sfxSource.Play();
         }
     }
+
+    public void PlaySFXOneShot(string name)
+    {
+        Sound s = System.Array.Find(sfxSounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.Log("Sound: " + name + " not found!");
+            return;
+        }
+        Debug.Log("Playing SFX: " + name);
+        sfxSource.PlayOneShot(s.clip);
+    }
+
 
     public void StopSFX(string name){
         //Debug.Log("Stopping SFX: " + name);
