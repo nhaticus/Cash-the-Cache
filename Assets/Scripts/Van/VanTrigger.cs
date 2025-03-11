@@ -103,6 +103,7 @@ public class VanTrigger : MonoBehaviour
         // Deposit items one by one
         for (int i = 0; i < totalItems; i++)
         {
+            AudioManager.Instance.PlaySFX("deposit_sound");
             float itemTimer = 0f;
             while (itemTimer < extraTimePerItem)
             {
