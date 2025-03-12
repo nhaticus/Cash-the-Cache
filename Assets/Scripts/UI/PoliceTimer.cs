@@ -18,6 +18,8 @@ public class PoliceTimer : MonoBehaviour
     [SerializeField] int numPoliceToSpawn = 1;
     [SerializeField] Transform[] spawnPos;
 
+    [SerializeField] private SingleAudio policeAudio;
+
     private Vector3 originalPosition;
     private bool isTimerPaused = false; // Track if timer is paused
 
@@ -80,7 +82,7 @@ public class PoliceTimer : MonoBehaviour
 
     void onTimerUp()
     {
-        AudioManager.Instance.PlaySFX("police_radio");
+        policeAudio.PlaySFX("police_radio");
 
         // Send in police at random spawn positions
         for (int i = 0; i < numPoliceToSpawn; i++)
