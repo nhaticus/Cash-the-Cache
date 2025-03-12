@@ -120,6 +120,8 @@ public class LockPicking : MonoBehaviour, InteractEvent
             pins[i].onClick.RemoveAllListeners();
             pins[i].onClick.AddListener(() => TryPressPin(index));
         }
+
+        StartCoroutine(AssignPinOrderEffect());
     }
     private void TryPressPin(int pinIndex)
     {
@@ -165,6 +167,44 @@ public class LockPicking : MonoBehaviour, InteractEvent
         yield return new WaitForSeconds(1f);
         ResetAllPins();
         canClick = true;
+    }
+
+    IEnumerator ShowPinOrder(int pinIndex, int order)
+    {
+        for (int i = 0; i <= order; i++)
+        {
+            pins[pinIndex].GetComponent<Image>().color = Color.grey;
+            yield return new WaitForSeconds(0.25f);
+            pins[pinIndex].GetComponent<Image>().color = defaultColor;
+            yield return new WaitForSeconds(0.25f);
+            if (currentIndex > order) { // correct dont flash
+                yield break;
+            }
+        }
+    }
+
+    IEnumerator AssignPinOrderEffect()
+    {
+        yield return new WaitForSeconds(1); // wait first 1 second
+        for (int i = 0; i < pins.Length; i++)
+        {
+            // find order of pins[i]
+            int order = 0;
+            for (int j = 0; j < pins.Length; j++)
+            {
+                if (correctOrder[j] == i)
+                {
+                    order = j;
+                    break;
+                }
+            }
+            StartCoroutine(ShowPinOrder(i, order));
+            yield return new WaitForSeconds((order * 0.5f) + 1.2f); // wait extra 1.2 seconds
+        }
+        if (isUnlocked)
+            yield break;
+        yield return new WaitForSeconds(1); // wait 1 second before begin again
+        StartCoroutine(AssignPinOrderEffect());
     }
 
     private void ResetAllPins()

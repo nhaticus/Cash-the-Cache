@@ -45,7 +45,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 15915.494
+  m_Intensity: 23.873241
   m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 200000
+  m_Intensity: 300
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -355,6 +355,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dd2f1181c0e608746a1c935e37919933,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: 478509730426231698}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dd2f1181c0e608746a1c935e37919933,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 142420523499108953}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: dd2f1181c0e608746a1c935e37919933,
         type: 3}
@@ -394,6 +398,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.16, y: 0.38822493, z: 0.16}
   m_Center: {x: 0, y: 0.19411246, z: 0}
+--- !u!54 &478509730426231698
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758892315740968850}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &142420523499108953
 MonoBehaviour:
   m_ObjectHideFlags: 0

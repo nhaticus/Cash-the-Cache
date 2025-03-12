@@ -25,7 +25,6 @@ public class LeaveAreaTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        //AudioManager.Instance.PlaySFX("drive_away");
         if (other.CompareTag("Player"))
         {
             playerInLeaveArea = false;

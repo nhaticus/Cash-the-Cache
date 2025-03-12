@@ -52,8 +52,7 @@ public class AudioManager : MonoBehaviour
         }
         else if(scene.name == "Main Level"){
             // Reduce volume by 20%
-            //musicSource.volume = Mathf.Clamp(musicVolume * 0.8f, 0f, 1f);
-            PlayMusic("idle_music");
+            PlayMusic("level_music");
         }
         else {
             // :)

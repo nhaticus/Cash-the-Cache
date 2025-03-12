@@ -4,10 +4,8 @@ using UnityEngine;
 
 
 /*
-HOW TO USE SFX:
-upon collision/movement call: AudioManager.Instance.PlaySFX("name_of_clip");
-HOW TO STOP IDLE MUSIC:
-upon start game, etc. call: AudioManager.Instance.musicSOurce.Stop();
+Same as AudioManager but for individual game objects
+Basically, if you do not want the component to persist between scenes
 */
 
 public class SingleAudio : MonoBehaviour
