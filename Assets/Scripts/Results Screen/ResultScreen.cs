@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /*
  * Results screen that shows when you leave a level
@@ -19,9 +20,11 @@ public class ResultScreen : MonoBehaviour
     [SerializeField] TMP_Text totalStolenText;
     [SerializeField] string shopSceneName = "Shop Scene";
     [SerializeField] GameObject continueButton;
+
+    [SerializeField] Scrollbar scrollbar;
+    bool scrollClicked = false;
     public void Begin()
     {
-        AudioManager.Instance.PlaySFXOneShot("drive_away");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         continueButton.SetActive(false);
@@ -30,7 +33,7 @@ public class ResultScreen : MonoBehaviour
 
     IEnumerator CalculateTotalValue()
     {
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.8f);
         int total = 0;
         foreach (var loot in inventoryRef)
         {
@@ -42,10 +45,18 @@ public class ResultScreen : MonoBehaviour
 
             total += lootInfo.value * amount;
             totalStolenText.text = "Total Stolen: " + total;
+
+            if (!scrollClicked)
+                scrollbar.value = 0;
             yield return new WaitForSeconds(0.4f);
         }
         GameManager.Instance.AddMoney(total);
         continueButton.SetActive(true);
+    }
+
+    public void ScrollBarClicked()
+    {
+        scrollClicked = true;
     }
 
     public void GoToShop() // used by Continue button to go to shop scene

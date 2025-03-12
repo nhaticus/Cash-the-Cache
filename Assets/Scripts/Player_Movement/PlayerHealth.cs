@@ -10,10 +10,11 @@ using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public bool canHurt = true;
     public int health = 1;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PoliceBehavior>()) // bad way of checking if enemy
+        if (other.GetComponent<PoliceBehavior>() && canHurt) // weird/bad way of checking if enemy (if enemy script changed or different enemy)
         {
             OnDamage(1);
         }
