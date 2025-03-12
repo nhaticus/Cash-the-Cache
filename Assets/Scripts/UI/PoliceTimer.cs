@@ -6,7 +6,7 @@ using TMPro;
 public class PoliceTimer : MonoBehaviour
 {
     public float maxTime = 180f;
-    public float minTime = 80f;
+    public float minTime = 105f;
     public float timeDecrease = 25f;
     float defaultFontSize;
     float timeLeft;
@@ -114,7 +114,7 @@ public class PoliceTimer : MonoBehaviour
     IEnumerator TimerChangeEffect()
     {
         float shakeAmount = 4;
-        float shakeTime = 0.8f;
+        float shakeTime = 1f;
         while (shakeTime > 0)
         {
             shakeTime -= Time.deltaTime;

@@ -185,7 +185,9 @@ public class LockPicking : MonoBehaviour, InteractEvent
 
     IEnumerator AssignPinOrderEffect()
     {
+        canClick = false;
         yield return new WaitForSeconds(1); // wait first 1 second
+        canClick = true;
         for (int i = 0; i < pins.Length; i++)
         {
             // find order of pins[i]
@@ -199,7 +201,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
                 }
             }
             StartCoroutine(ShowPinOrder(i, order));
-            yield return new WaitForSeconds((order * 0.5f) + 1.2f); // wait extra 1.2 seconds
+            yield return new WaitForSeconds((order * 0.5f) + 1f); // wait extra 1 seconds
         }
         if (isUnlocked)
             yield break;

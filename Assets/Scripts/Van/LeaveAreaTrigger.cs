@@ -42,7 +42,6 @@ public class LeaveAreaTrigger : MonoBehaviour
             {
                 PlayerManager.Instance.ableToInteract = false; // stop movement
                 PlayerManager.Instance.lockRotation();
-                VanInventory.Instance.TransferItemsFromPlayer(playerInventory);
             }
             else
             {

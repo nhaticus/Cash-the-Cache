@@ -21,7 +21,6 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private int weight = 0;
     private static int maxWeightDefault = 30;
-    private static int maxLockPicksDefault = 2;
     [SerializeField]
     private int maxWeight;
 
@@ -73,7 +72,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (item.itemName == "Running Shoes")
             {
-                maxSpeed = moveSpeedDefault + item.level * item.statValue;
+                maxSpeed = moveSpeedDefault + (item.level * item.statValue);
                 currentSpeed = maxSpeed;
             }
         }
@@ -279,9 +278,9 @@ public class PlayerManager : MonoBehaviour
         float weightPercentage = (float)getWeight() / getMaxWeight();
         float newSpeed = getMaxMoveSpeed();
         if (weightPercentage >= 0.9)
-            newSpeed = ChangeSpeedByPercent(35); // 35% slower
+            newSpeed = ChangeSpeedByPercent(40); // 40% slower
         else if (weightPercentage > 0.8)
-            newSpeed = ChangeSpeedByPercent(20); // 20% slower
+            newSpeed = ChangeSpeedByPercent(25); // 25% slower
         else if (weightPercentage > 0.6)
             newSpeed = ChangeSpeedByPercent(10); // 10% slower
         else

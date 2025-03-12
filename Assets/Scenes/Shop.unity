@@ -19970,7 +19970,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 9.69}
-  m_LocalScale: {x: 24, y: 4, z: 0.4}
+  m_LocalScale: {x: 18.5, y: 4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 618067076}
@@ -21917,7 +21917,7 @@ GameObject:
   - component: {fileID: 1270904240}
   - component: {fileID: 1270904241}
   m_Layer: 0
-  m_Name: Top (1)
+  m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21933,7 +21933,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: -18.5}
-  m_LocalScale: {x: 24, y: 4, z: 0.4}
+  m_LocalScale: {x: 18.5, y: 4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 618067076}
@@ -28119,7 +28119,7 @@ Transform:
   m_GameObject: {fileID: 1582912684}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.78, y: 2, z: 0}
+  m_LocalPosition: {x: 9.6, y: 2, z: -3.17}
   m_LocalScale: {x: 0.4, y: 4, z: 32}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -32155,7 +32155,7 @@ Transform:
   m_GameObject: {fileID: 1827899839}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.41, y: 2, z: -3.17}
+  m_LocalPosition: {x: -8, y: 2, z: -3.17}
   m_LocalScale: {x: 0.4, y: 4, z: 32}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -36280,6 +36280,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4851888238788980, guid: 35929e51da1a27e4596769c6a2b89ae0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 23937923954030572, guid: 35929e51da1a27e4596769c6a2b89ae0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a42d40093a06b634cb49e6bfda441946, type: 2}
+    - target: {fileID: 23937923954030572, guid: 35929e51da1a27e4596769c6a2b89ae0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 28646867ddcf90a4989276acd313ea43, type: 2}
+    - target: {fileID: 23999732263835396, guid: 35929e51da1a27e4596769c6a2b89ae0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 28646867ddcf90a4989276acd313ea43, type: 2}
+    - target: {fileID: 23999732263835396, guid: 35929e51da1a27e4596769c6a2b89ae0,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a42d40093a06b634cb49e6bfda441946, type: 2}
     - target: {fileID: 65044751117473082, guid: 35929e51da1a27e4596769c6a2b89ae0,
         type: 3}
       propertyPath: m_IsTrigger
@@ -36349,8 +36373,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacle: {fileID: 2013061959}
   door: {fileID: 2013061953}
-  frontOpenAngle: -90
-  backOpenAngle: 90
+  frontOpenAngle: -95
+  backOpenAngle: 95
   closeAngle: 0
   speed: 3
   doorCloseClip: {fileID: 0}
@@ -36384,8 +36408,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacle: {fileID: 2013061963}
   door: {fileID: 2013061957}
-  frontOpenAngle: 90
-  backOpenAngle: -90
+  frontOpenAngle: 95
+  backOpenAngle: -95
   closeAngle: 0
   speed: 3
   doorCloseClip: {fileID: 0}
