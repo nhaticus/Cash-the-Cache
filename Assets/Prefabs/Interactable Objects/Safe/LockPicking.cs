@@ -173,7 +173,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
     {
         for (int i = 0; i <= order; i++)
         {
-            pins[pinIndex].GetComponent<Image>().color = Color.grey;
+            pins[pinIndex].GetComponent<Image>().color = new Color(0.3f, 0.3f, 0.3f, 1);
             yield return new WaitForSeconds(0.25f);
             pins[pinIndex].GetComponent<Image>().color = defaultColor;
             yield return new WaitForSeconds(0.25f);

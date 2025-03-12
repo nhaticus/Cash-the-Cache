@@ -38,6 +38,7 @@ public class PlayerUI : MonoBehaviour
     bool inventoryOpen = false; // check for if inventory or lock picking is open
     private void Update()
     {
+        // right click: open inventory
         if (Input.GetMouseButtonDown(1) && !inventoryOpen && (PlayerManager.Instance == null ||
             (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)
