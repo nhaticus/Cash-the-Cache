@@ -1,9 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Localization.Components;
+using Unity.VisualScripting;
 
 public class Settings : MonoBehaviour
 {
+    public LocalizeStringEvent musicLocalizeStringEvent;
+    public LocalizeStringEvent SFXLocalizeStringEvent;
+    public LocalizeStringEvent sensLocalizeStringEvent;
+
     [Header("Audio")]
     [SerializeField] TextMeshProUGUI musicText;
     [SerializeField] Slider musicSlider;
@@ -28,7 +34,7 @@ public class Settings : MonoBehaviour
         musicSlider.maxValue = maxVolume;
         musicSlider.value = musicVolume;
         AudioManager.Instance.MusicVolume(musicVolume);
-        musicText.text = $"Music Volume: {musicVolume * 100f:0}%";
+        UpdateMusicText(Mathf.RoundToInt(musicVolume * 100f));
 
         //SFX
         float sfxVolume = PlayerPrefs.GetFloat("SFX", defaultVolume);
@@ -36,7 +42,7 @@ public class Settings : MonoBehaviour
         SFXSlider.maxValue = maxVolume;
         SFXSlider.value = sfxVolume;
         AudioManager.Instance.SFXVolume(sfxVolume);
-        SFXText.text = $"SFX Volume: {sfxVolume * 100f:0}%";
+        UpdateSFXText(Mathf.RoundToInt(sfxVolume * 100f));
 
         //Sensitivity
         float sensitivity = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
@@ -47,28 +53,46 @@ public class Settings : MonoBehaviour
         else if (sensitivity < minSens)
             sensitivity = minSens;
         sensSlider.value = sensitivity;
-        sensText.text = $"Sensitivity: {sensitivity / 5:0.00}";
+        UpdateSensitivityText(sensitivity);
     }
 
     public void SetMusic(float volume)
     {
         AudioManager.Instance.MusicVolume(volume);
         PlayerPrefs.SetFloat("Music", volume);
-        musicText.text = $"Music Volume: {volume * 100f:0}%";
+        UpdateMusicText(Mathf.RoundToInt(volume * 100f));
+    }
+    public void UpdateMusicText(float volume)
+    {
+        musicLocalizeStringEvent.StringReference["volumeValue"] = new UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable { Value = volume.ToString("F0") };
+        musicLocalizeStringEvent.RefreshString();
     }
 
     public void SetSFX(float volume)
     {
         AudioManager.Instance.SFXVolume(volume);
         PlayerPrefs.SetFloat("SFX", volume);
-        SFXText.text = $"SFX Volume: {volume * 100f:0}%";
+        UpdateSFXText(Mathf.RoundToInt(volume * 100f));
+    }
+
+    public void UpdateSFXText(float volume)
+    {
+        SFXLocalizeStringEvent.StringReference["volumeValue"] = new UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable { Value = volume.ToString("F0") };
+        SFXLocalizeStringEvent.RefreshString();
     }
     public void SetSensitivity(float sensitivity)
     {
         PlayerManager.Instance.SetSensitivity(sensitivity);
         PlayerPrefs.SetFloat("Sensitivity", sensitivity);
-        sensText.text = $"Sensitivity: {sensitivity / 5:0.00}";
+        UpdateSensitivityText(sensitivity);
+        
     }
+    public void UpdateSensitivityText(float sensitivity)
+    {
+        sensLocalizeStringEvent.StringReference["sensitivityValue"] = new UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable { Value = (sensitivity / 5).ToString("F2") };
+        sensLocalizeStringEvent.RefreshString();
+    }
+
     public void Reset()
     {
         // Reset Music
