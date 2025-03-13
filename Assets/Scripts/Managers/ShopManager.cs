@@ -7,10 +7,11 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 public class ShopManager : MonoBehaviour
 {
-    public static ShopManager Instance { get; private set; }
+    // public static ShopManager Instance { get; private set; }
 
     public GameObject shopUI;
 
@@ -28,15 +29,6 @@ public class ShopManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         openShopPrompt.gameObject.SetActive(false);
         shopUI.SetActive(false);
     }
@@ -47,7 +39,17 @@ public class ShopManager : MonoBehaviour
 
     void Update()
     {
+        if (shopActive)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
         ShopCheck();
+        if (Input.GetKeyDown(KeyCode.Backslash))
+        {
+            ResetShop();
+        }
     }
 
 
@@ -101,9 +103,9 @@ public class ShopManager : MonoBehaviour
         }
         GameManager.Instance.SpendMoney(itemScriptableObject.price);
         itemScriptableObject.level++;
-        itemScriptableObject.price = itemScriptableObject.level * 100;
+        itemScriptableObject.price = Mathf.RoundToInt(itemScriptableObject.price * 1.5f);
         UpdateItem(itemScriptableObject, itemGameObject);
-        CheckPurchaseable();
+        UpdateMoneyText();
 
         switch (itemScriptableObject.itemName)
         {
@@ -136,7 +138,7 @@ public class ShopManager : MonoBehaviour
                         shopAudio.PlaySFX("shop_owner");
                         shopOwnerVoicePlayed = true;
                     }
-                    
+
                     openShopPrompt.gameObject.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.E))
                     {
@@ -172,5 +174,19 @@ public class ShopManager : MonoBehaviour
     {
         CheckPurchaseable();
         moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
+    }
+
+    private void ResetShop()
+    {
+        PlayerPrefs.DeleteAll();
+        UpgradeManager.Instance.ResetData();
+        GameManager.Instance.numRuns = 0;
+        foreach (GameObject item in itemsInShop)
+        {
+            Destroy(item);
+        }
+        itemsInShop.Clear();
+
+        PopulateShop();
     }
 }
