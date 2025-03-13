@@ -39,7 +39,7 @@ public class PauseMenu : MonoBehaviour
         }
         UnPause.Invoke();
         Time.timeScale = 1;
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
         Destroy(gameObject);
     }

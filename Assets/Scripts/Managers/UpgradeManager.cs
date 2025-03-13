@@ -70,13 +70,10 @@ public class UpgradeManager : MonoBehaviour
         {
             foreach (ItemData item in loadedDatas)
             {
-                // Debug.Log("Trying to load " + item.itemName);
                 Items newItem = ScriptableObject.CreateInstance<Items>();
                 newItem.Initialize(item); // Assuming you have an Initialize method to set item data
                 loadedItems.Add(newItem);
-                // Debug.Log("Loaded " + loadedItems[loadedItems.Count - 1].itemName);
             }
-            // Debug.Log("Loaded " + loadedItems.Count + " items");
 
             foreach (Items defaultItem in items)
             {

@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerCam : MonoBehaviour
 {
     public float sens;
-    // public float sensY;
 
     public bool lockRotation = false;
 

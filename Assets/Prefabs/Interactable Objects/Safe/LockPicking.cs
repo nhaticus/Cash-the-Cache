@@ -120,7 +120,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
             pins[i].onClick.RemoveAllListeners();
             pins[i].onClick.AddListener(() => TryPressPin(index));
         }
-
+        StartCoroutine(WaitToGiveControl());
         StartCoroutine(AssignPinOrderEffect());
     }
     private void TryPressPin(int pinIndex)
@@ -171,12 +171,13 @@ public class LockPicking : MonoBehaviour, InteractEvent
 
     IEnumerator ShowPinOrder(int pinIndex, int order)
     {
+        Color faded = new Color(0.25f, 0.25f, 0.25f, 1);
         for (int i = 0; i <= order; i++)
         {
-            pins[pinIndex].GetComponent<Image>().color = Color.grey;
-            yield return new WaitForSeconds(0.25f);
+            pins[pinIndex].GetComponent<Image>().color = faded;
+            yield return new WaitForSeconds(0.22f);
             pins[pinIndex].GetComponent<Image>().color = defaultColor;
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.22f);
             if (currentIndex > order) { // correct dont flash
                 yield break;
             }
@@ -199,12 +200,19 @@ public class LockPicking : MonoBehaviour, InteractEvent
                 }
             }
             StartCoroutine(ShowPinOrder(i, order));
-            yield return new WaitForSeconds((order * 0.5f) + 1.2f); // wait extra 1.2 seconds
+            yield return new WaitForSeconds((order * 0.5f) + 1f); // wait extra 1 seconds
         }
         if (isUnlocked)
             yield break;
         yield return new WaitForSeconds(1); // wait 1 second before begin again
         StartCoroutine(AssignPinOrderEffect());
+    }
+
+    IEnumerator WaitToGiveControl()
+    {
+        canClick = false;
+        yield return new WaitForSeconds(1.5f);
+        canClick = true;
     }
 
     private void ResetAllPins()
@@ -280,7 +288,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
         gameObject.tag = "Untagged"; // to show it is not interactable anymore
     }
 
-    private void ExitLockpicking()
+    public void ExitLockpicking()
     {
         isLockpickingOpen = false;
 

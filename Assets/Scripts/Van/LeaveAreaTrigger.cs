@@ -42,7 +42,6 @@ public class LeaveAreaTrigger : MonoBehaviour
             {
                 PlayerManager.Instance.ableToInteract = false; // stop movement
                 PlayerManager.Instance.lockRotation();
-                VanInventory.Instance.TransferItemsFromPlayer(playerInventory);
             }
             else
             {
@@ -56,6 +55,10 @@ public class LeaveAreaTrigger : MonoBehaviour
 
     void ShowSummary()
     {
+        // make player invincible or freeze game
+        PlayerHealth player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerHealth>();
+        if (player)
+            player.canHurt = false;
         AudioManager.Instance.PlaySFX("drive_away");
         resultScreen.SetActive(true);
         resultScreen.GetComponent<ResultScreen>().inventoryRef = VanInventory.Instance.stolenItems;
