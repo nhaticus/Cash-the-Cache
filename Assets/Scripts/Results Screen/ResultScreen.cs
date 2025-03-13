@@ -19,9 +19,10 @@ public class ResultScreen : MonoBehaviour
     [SerializeField] TMP_Text totalStolenText;
     [SerializeField] string shopSceneName = "Shop Scene";
     [SerializeField] GameObject continueButton;
+    [SerializeField] private SingleAudio skrtAudio;
     public void Begin()
     {
-        AudioManager.Instance.PlaySFXOneShot("drive_away");
+        skrtAudio.PlaySFX("drive_away");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         continueButton.SetActive(false);
