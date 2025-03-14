@@ -12,6 +12,7 @@ public class PoliceTimer : MonoBehaviour
     float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
+    public TMP_Text policeMessageText;
 
     // police stuff
     [SerializeField] GameObject police;
@@ -84,6 +85,11 @@ public class PoliceTimer : MonoBehaviour
     {
         policeAudio.PlaySFX("police_radio");
 
+        if (policeMessageText != null)
+        {
+            StartCoroutine(FlashWarningText());
+        }
+
         // Send in police at random spawn positions
         for (int i = 0; i < numPoliceToSpawn; i++)
         {
@@ -124,6 +130,34 @@ public class PoliceTimer : MonoBehaviour
             yield return null;
         }
         Timer_display.rectTransform.localPosition = originalPosition;
+    }
+    IEnumerator FlashWarningText()
+    {
+        float flashDuration = 3f;    // Total duration for flashing
+        float flashInterval = 0.3f;  // Time interval between color changes
+        float elapsed = 0f;
+
+        // Set initial text message
+        policeMessageText.text = "Police are coming!";
+
+        while (elapsed < flashDuration)
+        {
+            // Alternate between blue and red
+            if (Mathf.FloorToInt(elapsed / flashInterval) % 2 == 0)
+            {
+                policeMessageText.color = Color.blue;
+            }
+            else
+            {
+                policeMessageText.color = Color.red;
+            }
+            yield return new WaitForSeconds(flashInterval);
+            elapsed += flashInterval;
+        }
+
+        // Clear message and reset color after flashing
+        policeMessageText.text = "";
+        policeMessageText.color = Color.white;
     }
 
     // **Pause Timer when Player enters collider**
