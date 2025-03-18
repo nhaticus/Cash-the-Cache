@@ -89,6 +89,7 @@ public class PoliceTimer : MonoBehaviour
 
     void onTimerUp()
     {
+        Timer_display.rectTransform.localPosition = originalPosition;
         StartCoroutine(PoliceAlert());
         StartCoroutine(FlashWarningText());
 
@@ -131,8 +132,6 @@ public class PoliceTimer : MonoBehaviour
 
         blueSquare.SetActive(false);
         redSquare.SetActive(false);
-
-        yield return new WaitForSeconds(1);
 
         maxTime /= 1.75f;
         if (maxTime < 30)

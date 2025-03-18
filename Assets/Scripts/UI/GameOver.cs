@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class GameOver : MonoBehaviour
 {
+
+    public void PlayerLose()
+    {
+        GameManager.Instance.playerMoney -= 200;
+        if (GameManager.Instance.playerMoney < 0)
+            GameManager.Instance.playerMoney = 0;
+    }
 
     public void SwitchScene(string gameScene)
     {
@@ -16,5 +23,4 @@ public class MainMenu : MonoBehaviour
     {
         Application.Quit();
     }
-
 }

@@ -57,7 +57,8 @@ public class GameUI : MonoBehaviour
 
     void GameOver()
     {
-        Instantiate(gameOverPrefab, transform);
+        GameObject gameOver = Instantiate(gameOverPrefab, transform);
+        gameOver.GetComponent<GameOver>().PlayerLose();
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
