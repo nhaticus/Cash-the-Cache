@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class PoliceTimer : MonoBehaviour
@@ -19,7 +20,9 @@ public class PoliceTimer : MonoBehaviour
     [SerializeField] int numPoliceToSpawn = 1;
     [SerializeField] Transform[] spawnPos;
 
-    [SerializeField] private SingleAudio policeAudio;
+    [SerializeField] SingleAudio policeAudio;
+
+    [SerializeField] GameObject blueSquare, redSquare;
 
     private Vector3 originalPosition;
     private bool isTimerPaused = false; // Track if timer is paused
@@ -32,6 +35,9 @@ public class PoliceTimer : MonoBehaviour
             timeLeft = minTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position
         defaultFontSize = Timer_display.fontSize;
+
+        blueSquare.SetActive(false);
+        redSquare.SetActive(false);
     }
 
     void Update()
@@ -83,24 +89,54 @@ public class PoliceTimer : MonoBehaviour
 
     void onTimerUp()
     {
-        policeAudio.PlaySFX("police_radio");
-
-        if (policeMessageText != null)
-        {
-            StartCoroutine(FlashWarningText());
-        }
+        StartCoroutine(PoliceAlert());
+        StartCoroutine(FlashWarningText());
 
         // Send in police at random spawn positions
         for (int i = 0; i < numPoliceToSpawn; i++)
         {
             Instantiate(police, spawnPos[Random.Range(0, spawnPos.Length)]);
         }
+    }
 
-        // Lower next spawn time
+    IEnumerator PoliceAlert()
+    {
+        policeAudio.PlaySFX("police_radio");
+
+        Color blueOn = blueSquare.GetComponent<Image>().color;
+        blueOn.a = 0.9f;
+        Color blueOff = blueSquare.GetComponent<Image>().color;
+        blueOff.a = 0.4f;
+
+        Color redOn = redSquare.GetComponent<Image>().color;
+        redOn.a = 0.9f;
+        Color redOff = redSquare.GetComponent<Image>().color;
+        redOff.a = 0.4f;
+
+        Image blueImage = blueSquare.GetComponent<Image>();
+        Image redImage = redSquare.GetComponent<Image>();
+        blueSquare.SetActive(true);
+        redSquare.SetActive(true);
+
+        timerOn = false;
+        for(int i = 0; i < 5; i++)
+        {
+            blueImage.color = blueOn;
+            redImage.color = redOff;
+            yield return new WaitForSeconds(0.3f);
+            blueImage.color = blueOff;
+            redImage.color = redOn;
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        blueSquare.SetActive(false);
+        redSquare.SetActive(false);
+
+        yield return new WaitForSeconds(1);
+
         maxTime /= 1.75f;
         if (maxTime < 30)
             maxTime = 30;
-
         timeLeft = maxTime;
         timerOn = true;
     }
@@ -116,10 +152,10 @@ public class PoliceTimer : MonoBehaviour
         {
             timeLeft = timeOff;
         }
-        StartCoroutine(TimerChangeEffect());
+        StartCoroutine(TimerDecreaseEffect());
     }
 
-    IEnumerator TimerChangeEffect()
+    IEnumerator TimerDecreaseEffect()
     {
         float shakeAmount = 4;
         float shakeTime = 1f;
