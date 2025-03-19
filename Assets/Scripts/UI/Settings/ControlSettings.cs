@@ -15,6 +15,11 @@ public class ControlSettings : MonoBehaviour
     [SerializeField] GameObject keyboardButton, controllerButton;
     GameObject selectedButton;
 
+    private void Start()
+    {
+        OpenKeyboard();
+    }
+
     public void OpenKeyboard()
     {
         keyboardConfig.SetActive(true);

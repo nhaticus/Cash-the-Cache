@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.Components;
 
-public class KeyboardSettings : MonoBehaviour
+public class KeyboardConfig : MonoBehaviour
 {
     [Header("Language")]
     public LocalizeStringEvent sensLocalizeStringEvent;
