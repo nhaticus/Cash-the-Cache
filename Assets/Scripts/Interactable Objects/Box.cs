@@ -11,7 +11,7 @@ using UnityEngine;
 public class Box : MonoBehaviour, InteractEvent
 {
     [SerializeField] GameObject[] obj;
-    [SerializeField] int difficulty = 4; // difficulty determines amount of clicks (difficulty * 1.5) and number of screws
+    [SerializeField] int difficulty = 4; // difficulty determines amount of clicks (difficulty * 1.7) and number of screws
 
     [SerializeField] GameObject boxCanvas;
 

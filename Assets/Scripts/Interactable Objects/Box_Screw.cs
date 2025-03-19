@@ -7,18 +7,18 @@ using UnityEngine.Events;
 public class Box_Screw : MonoBehaviour
 {
 
-    [HideInInspector] public int clicksRequired = 0;
-    int clicks = 0;
+    [HideInInspector] public float clicksRequired = 0;
+    float clicks = 0;
 
     [HideInInspector] public UnityEvent removeScrew;
     public void Clicked()
     {
-        clicks++;
+        clicks += PlayerManager.Instance.GetBoxOpening();
         transform.Rotate(new Vector3(0, 0, Random.Range(20, 40)));
         Color c = GetComponent<Image>().color;
-        c.a -= 1 * (1 / (clicksRequired * 1.3f));
+        c.a = 1 / (clicks/clicksRequired * 1.2f);
         GetComponent<Image>().color = c;
-        if (clicks == clicksRequired)
+        if (clicks >= clicksRequired)
         {
             removeScrew.Invoke();
             Destroy(gameObject);

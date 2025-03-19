@@ -132,13 +132,11 @@ public class Doors : MonoBehaviour, InteractEvent
 
     private IEnumerator CloseDoor()
     {
-        Debug.Log("Closing door in CloseDoor()");
         isOpen = false;
         float currentAngle = door.localEulerAngles.y;
         obstacle.enabled = false;
         obstacle.carving = false;
 
-            Debug.Log("Playing door close sound");
             doorAudioSource.PlayOneShot(doorCloseClip);
 
         while (Mathf.Abs(Mathf.DeltaAngle(currentAngle, closeAngle)) > 0.1f)

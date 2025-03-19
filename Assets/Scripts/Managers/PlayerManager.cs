@@ -35,6 +35,9 @@ public class PlayerManager : MonoBehaviour
 
     private static float moveSpeedDefault = 5f;
 
+    // STATS
+    float boxOpening = 1;
+
     public bool ableToInteract = true;
 
     //Create a Singleton
@@ -89,6 +92,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         maxWeight = PlayerPrefs.GetInt("MaxWeight", maxWeightDefault);
+        boxOpening = PlayerPrefs.GetInt("BoxOpening", 1);
 
     }
 
@@ -219,6 +223,17 @@ public class PlayerManager : MonoBehaviour
         return maxWeight;
     }
 
+    public void IncreaseBoxOpening(float increase)
+    {
+        boxOpening += increase;
+        PlayerPrefs.SetFloat("BoxOpening", boxOpening);
+    }
+
+    public float GetBoxOpening()
+    {
+        return boxOpening;
+    }
+
 
     //Locks rotation of player camera
     public void lockRotation()
@@ -293,6 +308,7 @@ public class PlayerManager : MonoBehaviour
     public void ResetDefault()
     {
         maxWeight = maxWeightDefault;
+        boxOpening = 1;
         PlayerPrefs.SetInt("MaxWeight", maxWeight);
     }
 }

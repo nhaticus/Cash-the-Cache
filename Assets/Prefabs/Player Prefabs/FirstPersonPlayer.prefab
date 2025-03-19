@@ -26,7 +26,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6916905942442012316}
@@ -396,6 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9987b83eae6b649abcb43e8a3db9c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canHurt: 1
   health: 1
   Death:
     m_PersistentCalls:
@@ -609,14 +610,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 9
   groundDrag: 5
-  jumpForce: 5
-  jumpCooldown: 0.25
-  airMultiplier: 0.5
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
-  jumpKey: 32
   playerCameraScript: {fileID: 0}
   orientation: {fileID: 959259248682064107}
   touchingWall: 0

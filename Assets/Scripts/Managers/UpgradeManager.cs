@@ -13,7 +13,7 @@ public class UpgradeManager : MonoBehaviour
     private int maxWeightUpgradeIncrement = 3;
 
     [SerializeField]
-    private bool hasFlashlight = true;
+    bool hasFlashlight = false;
 
     [SerializeField]
     private List<Items> items;
@@ -49,15 +49,21 @@ public class UpgradeManager : MonoBehaviour
         PlayerManager.Instance.increaseMaxWeight(maxWeightUpgradeIncrement);
     }
 
-    public void upgradeFlashlight()
+    public void SetFlashlight(bool set)
     {
-        hasFlashlight = true;
+        hasFlashlight = set;
     }
 
     public bool checkFlashlight()
     {
         return hasFlashlight;
     }
+
+    public void UpgradeScrewdriver(float increase)
+    {
+        PlayerManager.Instance.IncreaseBoxOpening(increase);
+    }
+
     public void SaveItems(List<Items> items)
     {
         DataSystem.SaveItems(items);
@@ -106,5 +112,6 @@ public class UpgradeManager : MonoBehaviour
         File.Delete(Application.persistentDataPath + "/items.dat");
         loadedItems = LoadItems();
         GameManager.Instance.playerMoney = 0;
+        hasFlashlight = false;
     }
 }

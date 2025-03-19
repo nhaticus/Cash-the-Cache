@@ -18,7 +18,7 @@ public class BoxCanvas : MonoBehaviour
             screwObj.transform.SetParent(transform);
             screwObj.transform.localPosition = new Vector3(Random.Range(-620, 620), Random.Range(-320, 320), 0);
             Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
-            screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.5f);
+            screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.7f);
             screwScript.removeScrew.AddListener(ScrewOff);
         }
     }

@@ -34,6 +34,7 @@ public class ShopManager : MonoBehaviour
     }
     void Start()
     {
+        UpgradeManager.Instance.SetFlashlight(false);
         PopulateShop();
     }
 
@@ -102,24 +103,38 @@ public class ShopManager : MonoBehaviour
             return;
         }
         GameManager.Instance.SpendMoney(itemScriptableObject.price);
-        itemScriptableObject.level++;
-        itemScriptableObject.price = Mathf.RoundToInt(itemScriptableObject.price * 1.5f);
-        UpdateItem(itemScriptableObject, itemGameObject);
-        UpdateMoneyText();
-
+        
         switch (itemScriptableObject.itemName)
         {
             case "Backpack":
                 UpgradeManager.Instance.upgradeMaxWeight();
+                itemScriptableObject.level++;
+                itemScriptableObject.price = Mathf.RoundToInt(itemScriptableObject.price * 1.5f);
                 break;
             case "Running Shoes":
                 UpgradeManager.Instance.upgradeSpeed();
+                itemScriptableObject.level++;
+                itemScriptableObject.price = Mathf.RoundToInt(itemScriptableObject.price * 1.5f);
+                break;
+            case "Screwdriver":
+                UpgradeManager.Instance.UpgradeScrewdriver(0.5f);
+                itemScriptableObject.level++;
+                itemScriptableObject.price = Mathf.RoundToInt(itemScriptableObject.price * 1.5f);
+                break;
+            case "Flashlight":
+                UpgradeManager.Instance.SetFlashlight(true);
+                ItemTemplate templateComponent = itemGameObject.GetComponent<ItemTemplate>();
+                templateComponent.itemStats.text = "purchased";
+                templateComponent.buyButton.interactable = false;
                 break;
             default:
                 Debug.Log("Item not found");
                 break;
         }
         DataSystem.SaveItems(UpgradeManager.Instance.loadedItems);
+
+        UpdateItem(itemScriptableObject, itemGameObject);
+        UpdateMoneyText();
     }
     private void ShopCheck()
     {
