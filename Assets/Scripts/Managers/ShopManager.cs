@@ -36,6 +36,8 @@ public class ShopManager : MonoBehaviour
     {
         UpgradeManager.Instance.SetFlashlight(false);
         PopulateShop();
+
+        shopAudio.PlayMusic("shop music");
     }
 
     void Update()

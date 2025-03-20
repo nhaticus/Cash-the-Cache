@@ -89,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         if (Time.timeScale <= 0) // prevent sound when paused
         { // WORKS but it will continue to try to stop sfx so might not be efficient
             if (AudioManager.Instance)
-                AudioManager.Instance.StopSFX("footstep_sound");
+                AudioManager.Instance.StopSFX();
             return;
         }
 
@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!isMoving && isPlayingFootsteps) {
             if (AudioManager.Instance)
-                AudioManager.Instance.StopSFX("footstep_sound");
+                AudioManager.Instance.StopSFX();
             isPlayingFootsteps = false;
         }
     }

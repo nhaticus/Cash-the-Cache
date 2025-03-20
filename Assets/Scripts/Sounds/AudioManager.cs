@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 
 
 /*
+ * Just stores general sound effects for player instead of music
+ * 
 HOW TO USE SFX:
 upon collision/movement call: AudioManager.Instance.PlaySFX("name_of_clip");
 HOW TO STOP IDLE MUSIC:
-upon start game, etc. call: AudioManager.Instance.musicSOurce.Stop();
+upon start game, etc. call: AudioManager.Instance.musicSource.Stop();
 */
 
 public class AudioManager : MonoBehaviour
@@ -34,31 +34,6 @@ public class AudioManager : MonoBehaviour
         }
         musicSource.volume = PlayerPrefs.GetFloat("Music");
         sfxSource.volume = PlayerPrefs.GetFloat("SFX");
-    }
-
-    void OnEnable() {
-        SceneManager.sceneLoaded += OnSceneChanged;
-    }
-
-    void OnDisable() {
-        SceneManager.sceneLoaded -= OnSceneChanged;
-    }
-
-    private void OnSceneChanged(Scene scene, LoadSceneMode mode){
-        //float musicVolume = PlayerPrefs.GetFloat("Music");
-        if(scene.name == "Shop"){
-            musicSource.volume = 0.1f;
-            PlayMusic("shop_music");
-        }
-        else if(scene.name == "Main Level"){
-            // Reduce volume by 20%
-            PlayMusic("level_music");
-        }
-        else {
-            // :)
-            PlayMusic("idle_music");
-        }
-        musicSource.loop = true;
     }
 
     public void PlayMusic(string name){
@@ -107,8 +82,7 @@ public class AudioManager : MonoBehaviour
     }
 
 
-    public void StopSFX(string name){
-        //Debug.Log("Stopping SFX: " + name);
+    public void StopSFX(){
         sfxSource.Stop();
         sfxSource.loop = false;
         sfxSource.clip = null; // Force reset
