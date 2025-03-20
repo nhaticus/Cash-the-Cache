@@ -21,7 +21,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private TMP_Text moneyText;
 
     [SerializeField] private TMP_Text openShopPrompt;
-    [SerializeField] SingleAudio shopAudio;
+    SingleAudio singleAudio;
 
     public bool shopActive = false;
     private bool shopOwnerVoicePlayed = false;
@@ -37,7 +37,7 @@ public class ShopManager : MonoBehaviour
         UpgradeManager.Instance.SetFlashlight(false);
         PopulateShop();
 
-        shopAudio.PlayMusic("shop music");
+        singleAudio = GetComponent<SingleAudio>();
     }
 
     void Update()
@@ -101,7 +101,7 @@ public class ShopManager : MonoBehaviour
     {
         if (!CanBuyItem(itemScriptableObject))
         {
-            shopAudio.PlaySFX("deny");
+            singleAudio.PlaySFX("deny");
             return;
         }
         GameManager.Instance.SpendMoney(itemScriptableObject.price);
@@ -152,7 +152,7 @@ public class ShopManager : MonoBehaviour
                     // stop voiceline from being played mulitple times:
                     if (!shopOwnerVoicePlayed)
                     {
-                        shopAudio.PlaySFX("shop_owner");
+                        singleAudio.PlaySFX("shop_owner");
                         shopOwnerVoicePlayed = true;
                     }
 
