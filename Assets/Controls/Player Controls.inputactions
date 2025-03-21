@@ -54,10 +54,28 @@
                     "name": "Camera",
                     "type": "Value",
                     "id": "0daa022f-e83c-409a-9f1a-5c40a555e0bb",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Analog",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Cam X",
+                    "type": "PassThrough",
+                    "id": "118a86d4-842d-4798-9bfc-1a32bc11e170",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cam Y",
+                    "type": "PassThrough",
+                    "id": "216db987-7170-428e-9020-c6edd3f2d4e8",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -261,23 +279,34 @@
                 },
                 {
                     "name": "",
-                    "id": "18565ee7-a146-4d80-aeb8-3a4d90b1e0b3",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c1755a96-800d-4363-90fb-b150cfc37cb9",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Controller",
                     "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2554b52-8b63-411b-aeda-10217c4bb48c",
+                    "path": "<Mouse>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Cam X",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8cfcdea7-736d-47ce-bedc-66c01ac3d424",
+                    "path": "<Mouse>/delta/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "Cam Y",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

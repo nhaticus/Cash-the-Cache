@@ -1,3 +1,4 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,23 +25,11 @@ public class PlayerCam : MonoBehaviour
     {
         if (!lockRotation)
         {
-            // get mouse input
-            float camX, camY;
-            if (UserInput.Instance)
-            {
-                camX = UserInput.Instance.CameraInput.x * Time.deltaTime * sens;
-                camY = UserInput.Instance.CameraInput.y * Time.deltaTime * sens;
-            }
-            else
-            {
-                camX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sens;
-                camY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sens;
-            }
+            float camX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sens;
+            float camY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sens;
             
-
             yRotation += camX;
             xRotation -= camY;
-
 
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
