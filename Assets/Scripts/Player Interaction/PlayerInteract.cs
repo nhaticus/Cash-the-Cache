@@ -18,12 +18,24 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        // Left-click
-        if (UserInput.Instance.Interact && objRef != null &&
+        // Interact
+        if (UserInput.Instance)
+        {
+            if (UserInput.Instance.Interact && objRef != null &&
             (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)
+            {
+                Interact(objRef);
+            }
+        }
+        else
         {
-            Interact(objRef);
+            if (Input.GetMouseButtonDown(0) && objRef != null &&
+            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
+            && Time.timeScale > 0)
+            {
+                Interact(objRef);
+            }
         }
     }
 
