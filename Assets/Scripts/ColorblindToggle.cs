@@ -27,9 +27,6 @@ public class ColorblindToggle : MonoBehaviour
             return;
         }
 
-        // Apply saved colorblind mode at start
-        int mode = PlayerPrefs.GetInt(colorblindModeKey, 0);
-        SetColorblindMode(mode);
     }
 
     void Update()
@@ -61,7 +58,6 @@ public class ColorblindToggle : MonoBehaviour
 
         // Save the selected mode
         PlayerPrefs.SetInt(colorblindModeKey, mode);
-        PlayerPrefs.Save();
     }
 
     void OnEnable()
