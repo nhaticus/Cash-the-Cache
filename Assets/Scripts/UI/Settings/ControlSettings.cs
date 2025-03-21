@@ -3,50 +3,41 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Localization.Components;
+
+/*
+ * Holder for Control Mapping settings
+ */
 
 public class ControlSettings : MonoBehaviour
 {
-    [Header("Language")]
-    public LocalizeStringEvent sensLocalizeStringEvent;
+    [SerializeField] GameObject keyboardConfig, controllerConfig;
 
-    [Header("Sensitivity")]
-    const float defaultSensitivity = 120f;
-    const float minSens = 25f;
-    const float maxSens = 250f;
-    [SerializeField] TextMeshProUGUI sensText;
-    [SerializeField] Slider sensSlider;
+    [SerializeField] GameObject keyboardButton, controllerButton;
+    GameObject selectedButton;
 
     private void Start()
     {
-        //Sensitivity
-        float sensitivity = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
-        sensSlider.minValue = minSens;
-        sensSlider.maxValue = maxSens;
-        if (sensitivity > maxSens)
-            sensitivity = maxSens;
-        else if (sensitivity < minSens)
-            sensitivity = minSens;
-        sensSlider.value = sensitivity;
-        UpdateSensitivityText(sensitivity);
+        OpenKeyboard();
     }
 
-    public void SetSensitivity(float sensitivity)
+    public void OpenKeyboard()
     {
-        PlayerManager.Instance.SetSensitivity(sensitivity);
-        PlayerPrefs.SetFloat("Sensitivity", sensitivity);
-        UpdateSensitivityText(sensitivity);
-    }
-    public void UpdateSensitivityText(float sensitivity)
-    {
-        sensLocalizeStringEvent.StringReference["sensitivityValue"] = new UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable { Value = (sensitivity / 25).ToString("F2") };
-        sensLocalizeStringEvent.RefreshString();
+        keyboardConfig.SetActive(true);
+        controllerConfig.SetActive(false);
+        if (selectedButton)
+            selectedButton.GetComponent<Image>().color = Color.white;// reset previous selected button
+        selectedButton = keyboardButton;
+        selectedButton.GetComponent<Image>().color = Color.blue; // change to look selected
     }
 
-    public void ResetControls()
+    public void OpenController()
     {
-        // Reset Sensitivity
-        SetSensitivity(defaultSensitivity);
-        sensSlider.value = defaultSensitivity;
+        keyboardConfig.SetActive(false);
+        controllerConfig.SetActive(true);
+        if (selectedButton)
+            selectedButton.GetComponent<Image>().color = Color.white;// reset previous selected button
+        selectedButton = controllerButton;
+        selectedButton.GetComponent<Image>().color = Color.blue; // change to look selected
     }
+
 }

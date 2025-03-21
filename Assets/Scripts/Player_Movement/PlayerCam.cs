@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class PlayerCam : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        sens = PlayerPrefs.GetFloat("KeyboardCam Sensitivity", 120);
     }
 
     private void Update()
@@ -22,12 +25,11 @@ public class PlayerCam : MonoBehaviour
         if (!lockRotation)
         {
             // get mouse input
-            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sens;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sens;
+            float camX = UserInput.Instance.CameraInput.x * Time.deltaTime * sens;
+            float camY = UserInput.Instance.CameraInput.y * Time.deltaTime * sens;
 
-
-            yRotation += mouseX;
-            xRotation -= mouseY;
+            yRotation += camX;
+            xRotation -= camY;
 
 
             xRotation = Mathf.Clamp(xRotation, -90f, 90f);
