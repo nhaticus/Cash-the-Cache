@@ -9,11 +9,11 @@ public class VanTrigger : MonoBehaviour
     PlayerInteract playerInventory;
     [SerializeField] GameObject vanText;
 
-    private Coroutine depositCoroutine;
+    Coroutine depositCoroutine;
 
     [Header("Deposit Timing")]
-    [SerializeField] private float baseLoadingTime = 1.0f; // Time before first item is deposited
-    [SerializeField] private float extraTimePerItem = 0.5f; // Time per item
+    [SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
+    [SerializeField] float extraTimePerItem = 0.5f; // Time per item
 
     private void Awake()
     {

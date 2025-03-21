@@ -39,7 +39,7 @@ public class PlayerUI : MonoBehaviour
     private void Update()
     {
         // right click: open inventory
-        if (Input.GetMouseButtonDown(1) && !inventoryOpen && (PlayerManager.Instance == null ||
+        if (UserInput.Instance.Inventory && !inventoryOpen && (PlayerManager.Instance == null ||
             (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)
         {

@@ -9,8 +9,7 @@ public class PlayerInteract : MonoBehaviour
 {
     GameObject objRef;
     Renderer objRenderer;
-    public Material originalMaterial; // Store the original material of the object
-    [SerializeField] Material highlightMaterial; // Material to highlight object
+    Material originalMaterial; // Store the original material of the object
 
     [SerializeField] float raycastDistance = 2.8f;
     public GameObject mainCamera;
@@ -20,7 +19,7 @@ public class PlayerInteract : MonoBehaviour
     private void Update()
     {
         // Left-click
-        if (Input.GetMouseButtonDown(0) && objRef != null &&
+        if (UserInput.Instance.Interact && objRef != null &&
             (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)
         {

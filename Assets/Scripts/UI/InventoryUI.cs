@@ -34,7 +34,7 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (UserInput.Instance.Inventory || UserInput.Instance.Pause)
         {
             Hide();
         }
