@@ -51,16 +51,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-        if (UserInput.Instance)
-        {
-            verticalInput = UserInput.Instance.MoveInput.y;
-            horizontalInput = UserInput.Instance.MoveInput.x;
-        }
-        else
-        {
-            verticalInput = Input.GetAxis("Vertical");
-            horizontalInput = Input.GetAxis("Horizontal");
-        }
+        verticalInput = Input.GetAxis("Vertical");
+        horizontalInput = Input.GetAxis("Horizontal");
     }
 
     private void MovePlayer()

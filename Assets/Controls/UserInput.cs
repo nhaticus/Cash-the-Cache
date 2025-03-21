@@ -13,8 +13,6 @@ public class UserInput : MonoBehaviour
     public static UserInput Instance;
     
     // controls to detect
-    public Vector2 MoveInput { get; private set; }
-    public Vector2 CameraInput { get; private set; }
     public bool Interact { get; private set; }
     public bool Inventory { get; private set; }
     public bool MenuExit { get; private set; }
@@ -22,7 +20,6 @@ public class UserInput : MonoBehaviour
 
     PlayerInput playerInput;
     InputAction moveAction;
-    InputAction cameraAction;
     InputAction interactAction;
     InputAction inventoryAction;
     InputAction exitAction;
@@ -50,8 +47,6 @@ public class UserInput : MonoBehaviour
 
     void SetupInputActions()
     {
-        moveAction = playerInput.actions["Move"];
-        cameraAction = playerInput.actions["Camera"];
         interactAction = playerInput.actions["Interact"];
         inventoryAction = playerInput.actions["Inventory"];
         exitAction = playerInput.actions["Menu Exit"];
@@ -60,8 +55,6 @@ public class UserInput : MonoBehaviour
 
     void UpdateInput()
     {
-        MoveInput = moveAction.ReadValue<Vector2>();
-        CameraInput = cameraAction.ReadValue<Vector2>();
         Interact = interactAction.WasPressedThisFrame();
         Inventory = inventoryAction.WasPressedThisFrame();
         MenuExit = exitAction.WasPressedThisFrame();

@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Move",
-                    "type": "PassThrough",
-                    "id": "fc8115f6-92c9-44d9-88ca-3820b878d84a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Inventory",
                     "type": "Button",
                     "id": "ae97600a-ef9f-4fb2-88ad-ac17305b057a",
@@ -46,33 +37,6 @@
                     "type": "Button",
                     "id": "6c6d01db-4137-4ee4-85f0-553d0d450201",
                     "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Camera",
-                    "type": "Value",
-                    "id": "0daa022f-e83c-409a-9f1a-5c40a555e0bb",
-                    "expectedControlType": "Analog",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "Cam X",
-                    "type": "PassThrough",
-                    "id": "118a86d4-842d-4798-9bfc-1a32bc11e170",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Cam Y",
-                    "type": "PassThrough",
-                    "id": "216db987-7170-428e-9020-c6edd3f2d4e8",
-                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -100,116 +64,6 @@
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "Keyboard WASD",
-                    "id": "77ef16f6-f175-4127-b498-98567f6a3e4a",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "608fea9d-cf44-48c3-9d9e-69487f511137",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "fe06fa87-ab6d-4c26-940a-18b671cdd928",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "7a181de1-01f7-4761-84ad-1898e55ffc95",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "3f55e49b-7655-4040-a31a-e99b45d6a277",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Controller Analog",
-                    "id": "8ee6f996-4d95-4cc4-8a21-1c9d250ee230",
-                    "path": "2DVector(mode=2)",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "1ba9cdb4-020c-4c2c-91ee-8fb36a31f1e4",
-                    "path": "<Gamepad>/leftStick/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Controller",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "e4966ac0-4f5f-4820-9d8e-03222353fc92",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Controller",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "c05df7e7-b962-4dcb-94d1-e3473fd119f7",
-                    "path": "<Gamepad>/leftStick/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Controller",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "bc0f313e-4d27-4773-84dd-1662d37fd9cd",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Controller",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
@@ -274,39 +128,6 @@
                     "processors": "",
                     "groups": ";Controller",
                     "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c1755a96-800d-4363-90fb-b150cfc37cb9",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Controller",
-                    "action": "Camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d2554b52-8b63-411b-aeda-10217c4bb48c",
-                    "path": "<Mouse>/delta/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Cam X",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8cfcdea7-736d-47ce-bedc-66c01ac3d424",
-                    "path": "<Mouse>/delta/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
-                    "action": "Cam Y",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
