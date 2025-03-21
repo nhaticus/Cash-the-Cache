@@ -25,8 +25,18 @@ public class PlayerCam : MonoBehaviour
         if (!lockRotation)
         {
             // get mouse input
-            float camX = UserInput.Instance.CameraInput.x * Time.deltaTime * sens;
-            float camY = UserInput.Instance.CameraInput.y * Time.deltaTime * sens;
+            float camX, camY;
+            if (UserInput.Instance)
+            {
+                camX = UserInput.Instance.CameraInput.x * Time.deltaTime * sens;
+                camY = UserInput.Instance.CameraInput.y * Time.deltaTime * sens;
+            }
+            else
+            {
+                camX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sens;
+                camY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sens;
+            }
+            
 
             yRotation += camX;
             xRotation -= camY;
