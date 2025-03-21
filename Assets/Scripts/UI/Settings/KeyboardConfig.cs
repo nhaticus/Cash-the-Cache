@@ -19,7 +19,7 @@ public class KeyboardConfig : MonoBehaviour
 
     private void Start()
     {
-        float sensitivity = PlayerPrefs.GetFloat("Sensitivity", defaultSensitivity);
+        float sensitivity = PlayerPrefs.GetFloat("KeyboardCam Sensitivity", defaultSensitivity);
         sensSlider.minValue = minSens;
         sensSlider.maxValue = maxSens;
         if (sensitivity > maxSens)
@@ -33,7 +33,7 @@ public class KeyboardConfig : MonoBehaviour
     public void SetSensitivity(float sensitivity)
     {
         PlayerManager.Instance.SetSensitivity(sensitivity);
-        PlayerPrefs.SetFloat("Sensitivity", sensitivity);
+        PlayerPrefs.SetFloat("KeyboardCam Sensitivity", sensitivity);
         UpdateSensitivityText(sensitivity);
     }
     public void UpdateSensitivityText(float sensitivity)
@@ -44,7 +44,7 @@ public class KeyboardConfig : MonoBehaviour
 
     public void ResetControls()
     {
-        SetSensitivity(defaultSensitivity);
+        PlayerPrefs.SetFloat("KeyboardCam Sensitivity", defaultSensitivity);
         sensSlider.value = defaultSensitivity;
     }
 }

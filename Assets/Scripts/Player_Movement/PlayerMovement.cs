@@ -12,9 +12,6 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
 
-    [Header("Camera")]
-    public PlayerCam playerCameraScript;
-
     public Transform orientation;
 
     float horizontalInput;
@@ -35,11 +32,6 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         touchingWall = false;
-
-        if (playerCameraScript)
-        {
-            playerCameraScript.sens = PlayerPrefs.GetFloat("Sensitivity", 120);
-        }
     }
 
     private void Update()
@@ -59,9 +51,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {
-
-        verticalInput = Input.GetAxisRaw("Vertical");
-        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = UserInput.Instance.MoveInput.y;
+        horizontalInput = UserInput.Instance.MoveInput.x;
     }
 
     private void MovePlayer()
