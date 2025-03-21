@@ -8,6 +8,7 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class ShopManager : MonoBehaviour
 {
@@ -62,7 +63,7 @@ public class ShopManager : MonoBehaviour
         {
             GameObject itemGameObject = Instantiate(itemTemplate, shopPanel);
             itemsInShop.Add(itemGameObject);
-            UpdateItem(itemScriptableObject, itemGameObject);
+            CreateItem(itemScriptableObject, itemGameObject);
             ItemTemplate templateComponent = itemGameObject.GetComponent<ItemTemplate>();
             templateComponent.itemData = itemScriptableObject;
             templateComponent.buyButton.onClick.AddListener(() => BuyItem(itemScriptableObject, itemGameObject));
@@ -87,14 +88,23 @@ public class ShopManager : MonoBehaviour
         return GameManager.Instance.playerMoney >= item.price;
     }
 
+    private void CreateItem(Items itemScriptableObject, GameObject itemGameObject)
+    {
+        ItemTemplate templateComponent = itemGameObject.GetComponent<ItemTemplate>();
+        templateComponent.localizeName.SetEntry(itemScriptableObject.itemName);
+        templateComponent.localizeLevel.StringReference["level"] = new StringVariable { Value = itemScriptableObject.level.ToString() };
+        templateComponent.localizeDescription.SetEntry(itemScriptableObject.itemName + " Description");
+        templateComponent.localizeStats.SetEntry(itemScriptableObject.itemName + " Stats");
+        templateComponent.itemPrice.text = "Price: " + itemScriptableObject.price.ToString();
+    }
+
     private void UpdateItem(Items itemScriptableObject, GameObject itemGameObject)
     {
         ItemTemplate templateComponent = itemGameObject.GetComponent<ItemTemplate>();
-        templateComponent.itemName.text = itemScriptableObject.itemName;
-        templateComponent.itemDescription.text = itemScriptableObject.description;
-        templateComponent.itemLevel.text = "Level: " + itemScriptableObject.level.ToString();
-        templateComponent.itemStats.text = itemScriptableObject.stats;
+        templateComponent.localizeLevel.StringReference["level"] = new StringVariable { Value = itemScriptableObject.level.ToString() };
+        templateComponent.localizeLevel.RefreshString();
         templateComponent.itemPrice.text = "Price: " + itemScriptableObject.price.ToString();
+        
     }
 
     public void BuyItem(Items itemScriptableObject, GameObject itemGameObject)
@@ -126,7 +136,7 @@ public class ShopManager : MonoBehaviour
             case "Flashlight":
                 UpgradeManager.Instance.SetFlashlight(true);
                 ItemTemplate templateComponent = itemGameObject.GetComponent<ItemTemplate>();
-                templateComponent.itemStats.text = "purchased";
+                templateComponent.localizeStats.SetEntry("Purchased");
                 templateComponent.buyButton.interactable = false;
                 break;
             default:
@@ -187,7 +197,7 @@ public class ShopManager : MonoBehaviour
         CheckPurchaseable();
     }
 
-    private void UpdateMoneyText()
+    public void UpdateMoneyText()
     {
         CheckPurchaseable();
         moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();

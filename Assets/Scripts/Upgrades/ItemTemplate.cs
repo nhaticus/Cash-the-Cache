@@ -3,14 +3,16 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Localization.Components;
+using UnityEditor.Localization.Editor;
 
 public class ItemTemplate : MonoBehaviour
 {
     public Items itemData;
-    public TMP_Text itemName;
-    public TMP_Text itemDescription;
-    public TMP_Text itemLevel;
-    public TMP_Text itemStats;
+    public LocalizeStringEvent localizeName;
+    public LocalizeStringEvent localizeLevel;
+    public LocalizeStringEvent localizeDescription;
+    public LocalizeStringEvent localizeStats;
     public TMP_Text itemPrice;
     public Button buyButton;
 

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 /*
  * Changes music, sfx volume and language
@@ -52,7 +53,7 @@ public class VolumeSettings : MonoBehaviour
 
     public void UpdateMusicText(float volume)
     {
-        musicLocalizeStringEvent.StringReference["volumeValue"] = new UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable { Value = volume.ToString("F0") };
+        musicLocalizeStringEvent.StringReference["volumeValue"] = new StringVariable { Value = volume.ToString("F0") };
         musicLocalizeStringEvent.RefreshString();
     }
 
@@ -65,7 +66,7 @@ public class VolumeSettings : MonoBehaviour
 
     public void UpdateSFXText(float volume)
     {
-        SFXLocalizeStringEvent.StringReference["volumeValue"] = new UnityEngine.Localization.SmartFormat.PersistentVariables.StringVariable { Value = volume.ToString("F0") };
+        SFXLocalizeStringEvent.StringReference["volumeValue"] = new StringVariable { Value = volume.ToString("F0") };
         SFXLocalizeStringEvent.RefreshString();
     }
     public void ResetVolume()
