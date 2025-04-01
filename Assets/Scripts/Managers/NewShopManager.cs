@@ -2,13 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
-using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 /*
  * Opens up shop UI
- * Item Templates have their own purchase code (OnPurchase) which sends message to this to decrease money and show if purchasable
+ * Contains list of upgrades that when purchased do upgrading in their own scripts
  */
 
 public class NewShopManager : MonoBehaviour
