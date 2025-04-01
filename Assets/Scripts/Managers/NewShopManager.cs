@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 /*
@@ -11,14 +12,13 @@ using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class NewShopManager : MonoBehaviour
 {
-    public GameObject shopUI;
-    public GameObject itemTemplate;
-    public Transform shopPanelTransform;
-
-    List<GameObject> itemsInShop = new List<GameObject>();
+    [SerializeField] GameObject shopUI;
+    [SerializeField] Transform shopPanelTransform;
 
     [SerializeField] TMP_Text moneyText;
     [SerializeField] TMP_Text openShopPrompt;
+
+    public GameObject[] itemsInShop; // list of prefabs for each upgrade
 
     bool shopActive = false;
 
@@ -26,7 +26,6 @@ public class NewShopManager : MonoBehaviour
     {
         openShopPrompt.gameObject.SetActive(false);
         shopUI.SetActive(false);
-        PopulateShop();
     }
 
     void Update()
@@ -73,31 +72,22 @@ public class NewShopManager : MonoBehaviour
     {
         PlayerManager.Instance.ToggleRotation();
         PlayerManager.Instance.ToggleCursor();
-        PlayerManager.Instance.setMoveSpeed(PlayerManager.Instance.getMaxMoveSpeed());
+        PlayerManager.Instance.setMoveSpeed(0);
 
         shopUI.SetActive(true);
         openShopPrompt.gameObject.SetActive(false);
+        shopActive = true;
+
         PopulateShop();
     }
 
     void PopulateShop() // fill in shop UI
     {
-        foreach (Items itemScriptableObject in UpgradeManager.Instance.loadedItems)
+        foreach (GameObject item in itemsInShop)
         {
-            GameObject itemGameObject = Instantiate(itemTemplate, shopPanelTransform);
-            itemsInShop.Add(itemGameObject);
-            InitializeItem(itemScriptableObject, itemGameObject);
+            GameObject created = Instantiate(item, shopPanelTransform);
             // connect signal to button to change money
         }
 
-    }
-    void InitializeItem(Items itemScriptableObject, GameObject itemGameObject)
-    {
-        ItemTemplate templateComponent = itemGameObject.GetComponent<ItemTemplate>();
-        templateComponent.localizeName.SetEntry(itemScriptableObject.itemName);
-        templateComponent.localizeLevel.StringReference["level"] = new StringVariable { Value = itemScriptableObject.level.ToString() };
-        templateComponent.localizeDescription.SetEntry(itemScriptableObject.itemName + " Description");
-        templateComponent.localizeStats.SetEntry(itemScriptableObject.itemName + " Stats");
-        templateComponent.itemPrice.text = "Price: " + itemScriptableObject.price.ToString();
     }
 }

@@ -241,7 +241,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Level:'
+  m_text: 'Level: 0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -620,7 +620,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Description:'
+  m_text: Open box screws faster
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -874,9 +874,9 @@ GameObject:
   - component: {fileID: 1326541910337022890}
   - component: {fileID: 9199042241875493171}
   - component: {fileID: 7201702725492087784}
-  - component: {fileID: 8809098262446365791}
+  - component: {fileID: 5234834782397292477}
   m_Layer: 5
-  m_Name: New ShopItem
+  m_Name: ScrewDriver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -945,7 +945,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8809098262446365791
+--- !u!114 &5234834782397292477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -954,16 +954,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 6493604764299950295}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88c0978c289bc2d448425896e791e3ea, type: 3}
+  m_Script: {fileID: 11500000, guid: be1b972d3bff3d14faac867d0e604411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shopManager: {fileID: 0}
   itemData: {fileID: 0}
-  localizeName: {fileID: 5220430902692720215}
-  localizeLevel: {fileID: 5298233701893881844}
-  localizeDescription: {fileID: 3352923682244617567}
+  localizeName: {fileID: 0}
+  localizeLevel: {fileID: 0}
+  localizeDescription: {fileID: 0}
   localizeStats: {fileID: 0}
-  itemPrice: {fileID: 8162157396033417991}
-  buyButton: {fileID: 6042142307319041931}
+  itemPrice: {fileID: 0}
+  buyButton: {fileID: 0}
 --- !u!1 &9047518121092192558
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,9 +1031,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Item name
-
-'
+  m_text: ScrewDriver
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -24296,7 +24296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4248649573387652, guid: bd78557a344fe8f45aac36b3d3575c01, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.93
+      value: -0.913
       objectReference: {fileID: 0}
     - target: {fileID: 4248649573387652, guid: bd78557a344fe8f45aac36b3d3575c01, type: 3}
       propertyPath: m_LocalPosition.y
@@ -24304,7 +24304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4248649573387652, guid: bd78557a344fe8f45aac36b3d3575c01, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.33
+      value: 5.418
       objectReference: {fileID: 0}
     - target: {fileID: 4248649573387652, guid: bd78557a344fe8f45aac36b3d3575c01, type: 3}
       propertyPath: m_LocalRotation.w
@@ -28034,6 +28034,7 @@ GameObject:
   - component: {fileID: 1552216035}
   - component: {fileID: 1552216034}
   - component: {fileID: 1552216036}
+  - component: {fileID: 1552216037}
   m_Layer: 0
   m_Name: ShopManager
   m_TagString: Untagged
@@ -28048,7 +28049,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552216033}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e642429e8c3ec9f4cb34886874944bd4, type: 3}
   m_Name: 
@@ -28097,6 +28098,25 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d4d067f21e169c2419ba90fe855b68a4, type: 3}
   musicSource: {fileID: 395883496}
   sfxSource: {fileID: 2104881304}
+--- !u!114 &1552216037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552216033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1889cfb2086e7d14c949f3e29bcefebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopUI: {fileID: 513173084}
+  shopPanelTransform: {fileID: 1491798987}
+  moneyText: {fileID: 1380269755}
+  openShopPrompt: {fileID: 1986677928}
+  itemsInShop:
+  - {fileID: 6493604764299950295, guid: bdc6edad270aad24c92deccc83481618, type: 3}
+  - {fileID: 6493604764299950295, guid: fce65207dd1882244bb25c2a22201fb5, type: 3}
 --- !u!1001 &1553462178
 PrefabInstance:
   m_ObjectHideFlags: 0
