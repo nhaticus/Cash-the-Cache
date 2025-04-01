@@ -35,9 +35,19 @@ public class NewShopManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            if (UserInput.Instance && UserInput.Instance.Pause)
+            {
+                CloseShop();
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                CloseShop();
+            }
         }
-
-        ShopCheck();
+        else
+        {
+            ShopCheck();
+        }
     }
 
     void ShopCheck()
@@ -84,15 +94,23 @@ public class NewShopManager : MonoBehaviour
         PopulateShop();
     }
 
+    void CloseShop()
+    {
+        PlayerManager.Instance.ToggleRotation();
+        PlayerManager.Instance.ToggleCursor();
+        PlayerManager.Instance.setMoveSpeed(PlayerManager.Instance.getMaxMoveSpeed());
+        shopUI.SetActive(false);
+        shopActive = false;
+    }
+
     void PopulateShop() // fill in shop UI
     {
         foreach (GameObject item in itemsInShop)
         {
             GameObject created = Instantiate(item, shopPanelTransform);
-            // connect signal to button to change money
             created.GetComponent<UpgradeInfo>().shopManager = this;
-            
         }
-
     }
+
+    
 }

@@ -7,7 +7,6 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using System;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class ShopManager : MonoBehaviour

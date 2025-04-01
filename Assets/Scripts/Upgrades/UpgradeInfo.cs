@@ -7,9 +7,9 @@ using UnityEngine.Localization.Components;
 
 public class UpgradeInfo : MonoBehaviour
 {
-    public NewShopManager shopManager;
+    [HideInInspector] public NewShopManager shopManager;
+    [HideInInspector] public Items itemData;
 
-    public Items itemData;
     public LocalizeStringEvent localizeName;
     public TMP_Text itemPrice;
     public LocalizeStringEvent localizeLevel;
