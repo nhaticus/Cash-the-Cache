@@ -19,7 +19,7 @@ public class FlashlightUpgrade : MonoBehaviour
         if(PlayerPrefs.GetInt("Flashlight") == 1)
         {
             purchased = true;
-            UpgradeManager.Instance.SetFlashlight(true);
+            PlayerManager.Instance.hasFlashlight = true;
             GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
         }
     }
@@ -28,7 +28,7 @@ public class FlashlightUpgrade : MonoBehaviour
     {
         if (!purchased && GameManager.Instance.playerMoney >= price)
         {
-            UpgradeManager.Instance.SetFlashlight(true);
+            PlayerManager.Instance.hasFlashlight = true;
             GameManager.Instance.SpendMoney(price);
             PlayerPrefs.SetInt("Flashlight", 1);
 

@@ -36,6 +36,7 @@ public class PlayerManager : MonoBehaviour
     private static float moveSpeedDefault = 5f;
 
     // STATS
+    public bool hasFlashlight = false;
     float boxOpening = 1;
 
     public bool ableToInteract = true;
@@ -71,18 +72,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (Items item in UpgradeManager.Instance.loadedItems)
-        {
-            if (item.itemName == "Running Shoes")
-            {
-                maxSpeed = moveSpeedDefault + (item.level * item.statValue);
-                currentSpeed = maxSpeed;
-            }
-        }
-        if (playerMovementScript != null)
-        {
-            playerMovementScript.moveSpeed = maxSpeed;
-        }
+        maxSpeed = moveSpeedDefault + PlayerPrefs.GetInt("RunningShoe") * 0.5f;
+        currentSpeed = maxSpeed;
+        playerMovementScript.moveSpeed = maxSpeed;
         ableToInteract = true;
 
         mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
@@ -91,8 +83,8 @@ public class PlayerManager : MonoBehaviour
             playerCameraScript.sens = mouseSensitivity;
         }
 
-        maxWeight = PlayerPrefs.GetInt("MaxWeight", maxWeightDefault);
-        boxOpening = PlayerPrefs.GetInt("BoxOpening", 1);
+        maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 3;
+        boxOpening = PlayerPrefs.GetInt("Screwdriver", 0) + 1;
 
     }
 
@@ -122,7 +114,8 @@ public class PlayerManager : MonoBehaviour
         }
         weight = 0;
 
-        // Find all renderers in the visual area
+        // NOT USED: Find all renderers in the visual area
+        /*
         visualRenderers.Clear();
         GameObject visualArea = GameObject.Find("Visual area");
         if (visualArea != null)
@@ -134,20 +127,19 @@ public class PlayerManager : MonoBehaviour
                 visualRenderers.Add(rend);
             }
         }
+        */
     }
 
     public void increaseMoveSpeed(float speedIncrease)
     {
         currentSpeed += speedIncrease;
         maxSpeed += speedIncrease;
-        // Debug.Log("increasing Move speed");
     }
 
     public void decreaseMoveSpeed(float speedDecrease)
     {
         currentSpeed -= speedDecrease;
         maxSpeed -= speedDecrease;
-        // Debug.Log("decreasing Move speed");
     }
 
     public float getMoveSpeed()

@@ -5,24 +5,24 @@ using UnityEngine.Experimental.GlobalIllumination;
 
 public class FlashlightScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] PlayerCam playerCam;
+    [SerializeField] GameObject light;
 
-    [SerializeField]
-    private GameObject flashlight;
     void Start()
     {
-        if (!UpgradeManager.Instance.checkFlashlight())
-        {
-            flashlight.SetActive(false);
-        }
+        light.SetActive(PlayerManager.Instance.hasFlashlight);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && UpgradeManager.Instance.checkFlashlight())
+        if (!playerCam.lockRotation) //rotates flashlight based on camera rotation
         {
-            Debug.Log("flashliht boom");
-            flashlight.SetActive(!flashlight.activeSelf);
+            transform.rotation = Quaternion.Euler(playerCam.xRotation, playerCam.yRotation, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && PlayerManager.Instance.hasFlashlight)
+        {
+            light.SetActive(!light.activeSelf);
         }
     }
 
