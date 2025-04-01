@@ -15,5 +15,4 @@ public class UpgradeInfo : MonoBehaviour
     public LocalizeStringEvent localizeLevel;
     public LocalizeStringEvent localizeDescription;
     public LocalizeStringEvent localizeStats;
-    public Button buyButton;
 }
