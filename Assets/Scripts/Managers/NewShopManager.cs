@@ -27,6 +27,8 @@ public class NewShopManager : MonoBehaviour
     {
         openShopPrompt.gameObject.SetActive(false);
         shopUI.SetActive(false);
+
+        PopulateShop();
     }
 
     void Update()
@@ -90,11 +92,9 @@ public class NewShopManager : MonoBehaviour
         shopActive = true;
 
         moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
-
-        PopulateShop();
     }
 
-    void CloseShop()
+    public void CloseShop()
     {
         PlayerManager.Instance.ToggleRotation();
         PlayerManager.Instance.ToggleCursor();

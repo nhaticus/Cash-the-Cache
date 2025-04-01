@@ -19495,6 +19495,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5064519773381072784, guid: f149ab14c1b785c418fdd8b664371583,
+        type: 3}
+      propertyPath: numRuns
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 8407543154572281978, guid: f149ab14c1b785c418fdd8b664371583,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -27677,7 +27682,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1527067663}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1552216037}
+        m_TargetAssemblyTypeName: NewShopManager, Assembly-CSharp
+        m_MethodName: CloseShop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1527067663
 MonoBehaviour:
   m_ObjectHideFlags: 0
