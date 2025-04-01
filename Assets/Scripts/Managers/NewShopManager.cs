@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 /*
@@ -15,7 +16,7 @@ public class NewShopManager : MonoBehaviour
     [SerializeField] GameObject shopUI;
     [SerializeField] Transform shopPanelTransform;
 
-    [SerializeField] TMP_Text moneyText;
+    public TMP_Text moneyText;
     [SerializeField] TMP_Text openShopPrompt;
 
     public GameObject[] itemsInShop; // list of prefabs for each upgrade
@@ -78,6 +79,8 @@ public class NewShopManager : MonoBehaviour
         openShopPrompt.gameObject.SetActive(false);
         shopActive = true;
 
+        moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
+
         PopulateShop();
     }
 
@@ -87,6 +90,8 @@ public class NewShopManager : MonoBehaviour
         {
             GameObject created = Instantiate(item, shopPanelTransform);
             // connect signal to button to change money
+            created.GetComponent<UpgradeInfo>().shopManager = this;
+            
         }
 
     }
