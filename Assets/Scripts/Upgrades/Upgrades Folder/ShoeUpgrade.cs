@@ -25,7 +25,7 @@ public class ShoeUpgrade : MonoBehaviour
     {
         if(GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.increaseMoveSpeed(moveSpeedUpgradeIncrement);
+            PlayerManager.Instance.increaseMaxMoveSpeed(moveSpeedUpgradeIncrement);
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
@@ -113,26 +112,16 @@ public class PlayerManager : MonoBehaviour
             }
         }
         weight = 0;
-
-        // NOT USED: Find all renderers in the visual area
-        /*
-        visualRenderers.Clear();
-        GameObject visualArea = GameObject.Find("Visual area");
-        if (visualArea != null)
-        {
-            // Get all child renderers
-            Renderer[] renderers = visualArea.GetComponentsInChildren<Renderer>();
-            foreach (Renderer rend in renderers)
-            {
-                visualRenderers.Add(rend);
-            }
-        }
-        */
     }
 
     public void increaseMoveSpeed(float speedIncrease)
     {
         currentSpeed += speedIncrease;
+        maxSpeed += speedIncrease;
+    }
+
+    public void increaseMaxMoveSpeed(float speedIncrease)
+    {
         maxSpeed += speedIncrease;
     }
 
