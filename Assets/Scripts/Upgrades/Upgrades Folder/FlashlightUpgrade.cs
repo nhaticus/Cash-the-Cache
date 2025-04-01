@@ -15,6 +15,13 @@ public class FlashlightUpgrade : MonoBehaviour
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
         GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+
+        if(PlayerPrefs.GetInt("Flashlight") == 1)
+        {
+            purchased = true;
+            UpgradeManager.Instance.SetFlashlight(true);
+            GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
+        }
     }
 
     public void OnPurchase()
@@ -23,8 +30,9 @@ public class FlashlightUpgrade : MonoBehaviour
         {
             UpgradeManager.Instance.SetFlashlight(true);
             GameManager.Instance.SpendMoney(price);
-            // change text to purchased
+            PlayerPrefs.SetInt("Flashlight", 1);
 
+            // change text to purchased
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
             purchased = true;
 

@@ -13,6 +13,10 @@ public class BackpackUpgrade : MonoBehaviour
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
+
+        price = Mathf.RoundToInt((1.5f * PlayerPrefs.GetInt("Screwdriver")) + price);
+        // change level text
+
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
         GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
     }
@@ -25,6 +29,9 @@ public class BackpackUpgrade : MonoBehaviour
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
+            PlayerPrefs.SetInt("Backpack", PlayerPrefs.GetInt("Backpack") + 1);
+            // change level text
+
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
             GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
