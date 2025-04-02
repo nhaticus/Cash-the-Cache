@@ -10,8 +10,6 @@ public class PlayerManager : MonoBehaviour
     PlayerCam playerCameraScript;
     PlayerMovement playerMovementScript;
 
-    List<Renderer> visualRenderers = new List<Renderer>(); //For changing the color of van outline when player has something
-
     //Player Stats
     [Header("Mouse Sensitivity")]
     public float mouseSensitivity;
@@ -45,6 +43,18 @@ public class PlayerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        GameObject mainCamera = GameObject.Find("Main Camera");
+        if (mainCamera != null)
+        {
+            playerCameraScript = mainCamera.GetComponent<PlayerCam>();
+        }
+
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            playerMovementScript = player.GetComponent<PlayerMovement>();
+        }
     }
 
     private void Start()
@@ -56,7 +66,9 @@ public class PlayerManager : MonoBehaviour
         maxSpeed = moveSpeedDefault + PlayerPrefs.GetInt("RunningShoe") * 0.5f;
         currentSpeed = maxSpeed;
         maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 3;
-        boxOpening = PlayerPrefs.GetInt("Screwdriver", 0) + 1;
+
+        hasFlashlight = PlayerPrefs.GetInt("Flashlight") == 1;
+        boxOpening = 1 + (PlayerPrefs.GetInt("Screwdriver", 0) * 0.3f);
 
         mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
         if (playerCameraScript)
@@ -65,7 +77,6 @@ public class PlayerManager : MonoBehaviour
         }
 
     }
-
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode)
     {
@@ -147,19 +158,16 @@ public class PlayerManager : MonoBehaviour
     public void addWeight(int itemWeight)
     {
         weight += itemWeight;
-        UpdateVisualAreaColor(); // Update color when weight changes
     }
 
     public void subWeight(int itemWeight)
     {
         weight -= itemWeight;
-        UpdateVisualAreaColor(); // Update color when weight changes
     }
 
     public void setWeight(int newWeight)
     {
         weight = newWeight;
-        UpdateVisualAreaColor();
     }
 
     public int getWeight()
@@ -226,16 +234,6 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void UpdateVisualAreaColor()
-    {
-        Color newColor = (weight > 0) ? Color.green : Color.red;
-
-        foreach (Renderer rend in visualRenderers)
-        {
-            rend.material.color = newColor;
-        }
-    }
-
     public void SetSensitivity(float sensitivity)
     {
         mouseSensitivity = sensitivity;
@@ -257,7 +255,7 @@ public class PlayerManager : MonoBehaviour
         else if (weightPercentage > 0.8)
             newSpeed = ChangeSpeedByPercent(25); // 25% slower
         else if (weightPercentage > 0.6)
-            newSpeed = ChangeSpeedByPercent(10); // 10% slower
+            newSpeed = ChangeSpeedByPercent(12); // 12% slower
         else
             newSpeed = ChangeSpeedByPercent(0); //Player Inventory is empty
 
@@ -268,7 +266,9 @@ public class PlayerManager : MonoBehaviour
     public void ResetDefault()
     {
         maxWeight = maxWeightDefault;
-        boxOpening = 1;
         PlayerPrefs.SetInt("MaxWeight", maxWeight);
+        maxSpeed = moveSpeedDefault;
+        currentSpeed = maxSpeed;
+        boxOpening = 1;
     }
 }

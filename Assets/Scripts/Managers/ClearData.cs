@@ -9,5 +9,6 @@ public class ClearData : MonoBehaviour
         PlayerPrefs.DeleteAll();
         UpgradeManager.Instance.ResetData();
         GameManager.Instance.numRuns = 0;
+        GameManager.Instance.playerMoney = 0;
     }
 }

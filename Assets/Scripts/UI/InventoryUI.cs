@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -18,6 +19,10 @@ public class InventoryUI : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        if (PlayerManager.Instance)
+            Debug.Log("exists");
+        else
+            Debug.Log("nope");
 
         PlayerManager.Instance.lockRotation();
         PlayerManager.Instance.ableToInteract = false;
@@ -34,7 +39,7 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
-        if (UserInput.Instance && (UserInput.Instance.Inventory || UserInput.Instance.Pause))
+        if ((UserInput.Instance && (UserInput.Instance.Inventory || UserInput.Instance.Pause)) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
         {
             Hide();
         }
@@ -99,6 +104,9 @@ public class InventoryUI : MonoBehaviour
 
     public void DropItem()
     {
+        if (selectedItem == null)
+            return;
+
         // create prefab
         Vector3 newObjectLocation = (playerInteract.mainCamera.transform.forward * 2.5f) + playerInteract.transform.position + new Vector3(0, 1, 0);
         StealableObject o = Instantiate(selectedItem.Prefab.GetComponent<StealableObject>(), newObjectLocation, playerInteract.mainCamera.transform.rotation);

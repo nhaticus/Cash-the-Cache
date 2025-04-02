@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerInteract : MonoBehaviour
 {
-    GameObject objRef;
+    GameObject objRef = null;
     Renderer objRenderer;
     Material originalMaterial; // Store the original material of the object
 
@@ -19,23 +19,11 @@ public class PlayerInteract : MonoBehaviour
     private void Update()
     {
         // Interact
-        if (UserInput.Instance)
-        {
-            if (UserInput.Instance.Interact && objRef != null &&
-            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
+        if (((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0)))
+            && objRef != null && (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)
-            {
-                Interact(objRef);
-            }
-        }
-        else
         {
-            if (Input.GetMouseButtonDown(0) && objRef != null &&
-            (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
-            && Time.timeScale > 0)
-            {
-                Interact(objRef);
-            }
+            Interact(objRef);
         }
     }
 

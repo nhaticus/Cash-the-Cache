@@ -43,7 +43,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
 
     private void Update()
     {
-        if (UserInput.Instance.Pause && isLockpickingOpen)
+        if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)) && isLockpickingOpen)
         {
             ExitLockpicking();
         }

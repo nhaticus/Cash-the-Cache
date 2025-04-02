@@ -24,8 +24,6 @@ public class NewShopManager : MonoBehaviour
     {
         openShopPrompt.gameObject.SetActive(false);
         shopUI.SetActive(false);
-
-        PopulateShop();
     }
 
     void Update()
@@ -34,11 +32,7 @@ public class NewShopManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            if (UserInput.Instance && UserInput.Instance.Pause)
-            {
-                CloseShop();
-            }
-            else if (Input.GetKeyDown(KeyCode.Escape))
+            if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
             {
                 CloseShop();
             }
@@ -89,10 +83,17 @@ public class NewShopManager : MonoBehaviour
         shopActive = true;
 
         moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
+
+        PopulateShop();
     }
 
     public void CloseShop()
     {
+        foreach (Transform obj in shopPanelTransform)
+        {
+            Destroy(obj.gameObject);
+        }
+
         PlayerManager.Instance.ToggleRotation();
         PlayerManager.Instance.ToggleCursor();
         PlayerManager.Instance.setMoveSpeed(PlayerManager.Instance.getMaxMoveSpeed());
@@ -108,6 +109,5 @@ public class NewShopManager : MonoBehaviour
             created.GetComponent<UpgradeInfo>().shopManager = this;
         }
     }
-
     
 }
