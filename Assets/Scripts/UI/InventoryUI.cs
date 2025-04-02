@@ -34,14 +34,14 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
-        if (UserInput.Instance.Inventory || UserInput.Instance.Pause)
+        if (UserInput.Instance && (UserInput.Instance.Inventory || UserInput.Instance.Pause))
         {
             Hide();
         }
     }
 
     [HideInInspector] public UnityEvent HideInventory;
-    public void Hide() // on exit button
+    public void Hide() // Exit button
     {
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.ableToInteract = true;
@@ -50,6 +50,7 @@ public class InventoryUI : MonoBehaviour
         Cursor.visible = false;
         HideInventory.Invoke();
         Destroy(gameObject);
+
     }
 
     // Get player's current inventory and fill grid with grid elements

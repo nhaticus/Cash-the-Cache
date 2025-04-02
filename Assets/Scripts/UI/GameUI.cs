@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /*
  * Pause Menu and GameOver spawner
@@ -16,11 +17,12 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
         {
             Pause();
         }
     }
+
     GameObject player;
     IEnumerator FindPlayer()
     {
@@ -32,7 +34,7 @@ public class GameUI : MonoBehaviour
         player.GetComponentInChildren<PlayerHealth>().Death.AddListener(GameOver);
     }
 
-    // creates pause menu but doesn't pause
+    // creates pause menu
     // pausing happens in PauseMenu.cs on Start()
     GameObject pauseRef;
     bool paused = false;

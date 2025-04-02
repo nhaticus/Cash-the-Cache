@@ -17,8 +17,6 @@ public class PlayerCam : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
-        sens = PlayerPrefs.GetFloat("KeyboardCam Sensitivity", 120);
     }
 
     private void Update()
