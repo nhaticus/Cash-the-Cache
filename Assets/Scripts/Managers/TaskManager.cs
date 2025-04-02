@@ -6,8 +6,6 @@ public class TaskManager : MonoBehaviour
 {
     public static TaskManager Instance;
     public TaskListScript taskList;
-    // Start is called before the first frame update
-
 
     private void Awake()
     {

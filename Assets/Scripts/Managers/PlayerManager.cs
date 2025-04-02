@@ -17,20 +17,14 @@ public class PlayerManager : MonoBehaviour
     public float mouseSensitivity;
 
     [Header("Player Weight")]
-    [SerializeField]
-    private int weight = 0;
-    private static int maxWeightDefault = 30;
-    [SerializeField]
-    private int maxWeight;
+    [SerializeField] int weight = 0;
+    static int maxWeightDefault = 30;
+    [SerializeField] int maxWeight;
 
     [Header("Player Speed")]
-
-    [SerializeField]
-    private float slowdownAmount = 0.2f; // 0.2 = 80% slower
-    [SerializeField]
-    private float currentSpeed;
-    [SerializeField]
-    private float maxSpeed;
+    [SerializeField] float slowdownAmount = 0.2f; // 0.2 = 80% slower
+    [SerializeField] float currentSpeed;
+    [SerializeField] float maxSpeed;
 
     private static float moveSpeedDefault = 5f;
 
@@ -40,7 +34,6 @@ public class PlayerManager : MonoBehaviour
 
     public bool ableToInteract = true;
 
-    //Create a Singleton
     private void Awake()
     {
         if (Instance == null)
@@ -52,38 +45,24 @@ public class PlayerManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        //Finds reference to playerCamera 
-        GameObject mainCamera = GameObject.Find("Main Camera");
-        if (mainCamera != null)
-        {
-            playerCameraScript = mainCamera.GetComponent<PlayerCam>();
-        }
-
-        GameObject player = GameObject.Find("Player");
-        if (player != null)
-        {
-            playerMovementScript = player.GetComponent<PlayerMovement>();
-        }
-
-        SceneManager.sceneLoaded += OnSceneChanged;
     }
 
     private void Start()
     {
+        SceneManager.sceneLoaded += OnSceneChanged;
+
+        ableToInteract = true;
+
         maxSpeed = moveSpeedDefault + PlayerPrefs.GetInt("RunningShoe") * 0.5f;
         currentSpeed = maxSpeed;
-        playerMovementScript.moveSpeed = maxSpeed;
-        ableToInteract = true;
+        maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 3;
+        boxOpening = PlayerPrefs.GetInt("Screwdriver", 0) + 1;
 
         mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
         if (playerCameraScript)
         {
             playerCameraScript.sens = mouseSensitivity;
         }
-
-        maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 3;
-        boxOpening = PlayerPrefs.GetInt("Screwdriver", 0) + 1;
 
     }
 
