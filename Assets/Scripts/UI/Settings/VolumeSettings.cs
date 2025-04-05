@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
+using UnityEngine.Audio;
 
 /*
  * Changes music, sfx volume and language
@@ -13,64 +14,95 @@ using UnityEngine.Localization.SmartFormat.PersistentVariables;
 public class VolumeSettings : MonoBehaviour
 {
     [Header("Language")]
+    public LocalizeStringEvent masterLocalizeStringEvent;
     public LocalizeStringEvent musicLocalizeStringEvent;
     public LocalizeStringEvent SFXLocalizeStringEvent;
 
     [Header("Audio")]
+    [SerializeField] TextMeshProUGUI masterText;
+    [SerializeField] Slider masterSlider;
     [SerializeField] TextMeshProUGUI musicText;
     [SerializeField] Slider musicSlider;
     [SerializeField] TextMeshProUGUI SFXText;
     [SerializeField] Slider SFXSlider;
     const float defaultVolume = 1f;
-    const float minVolume = 0f;
+    const float minVolume = 0.001f;
     const float maxVolume = 1f;
+
+    [SerializeField] AudioMixer audioMixer;
 
     private void Start()
     {
+        //Master
+        float masterVolume = PlayerPrefs.GetFloat("Master", defaultVolume);
+        masterSlider.minValue = minVolume;
+        masterSlider.maxValue = maxVolume;
+        masterSlider.value = masterVolume;
+        SetMaster(masterVolume);
+
         //Music
         float musicVolume = PlayerPrefs.GetFloat("Music", defaultVolume);
         musicSlider.minValue = minVolume;
         musicSlider.maxValue = maxVolume;
         musicSlider.value = musicVolume;
-        AudioManager.Instance.MusicVolume(musicVolume);
-        UpdateMusicText(Mathf.RoundToInt(musicVolume * 100f));
+        SetMusic(musicVolume);
 
         //SFX
         float sfxVolume = PlayerPrefs.GetFloat("SFX", defaultVolume);
         SFXSlider.minValue = minVolume;
         SFXSlider.maxValue = maxVolume;
         SFXSlider.value = sfxVolume;
-        AudioManager.Instance.SFXVolume(sfxVolume);
-        UpdateSFXText(Mathf.RoundToInt(sfxVolume * 100f));
+        SetSFX(sfxVolume);
+    }
+
+    public void SetMaster(float volume)
+    {
+        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20f);
+        PlayerPrefs.SetFloat("Master", volume);
+        UpdateMasterText(volume);
+    }
+
+    public void UpdateMasterText(float volume)
+    {
+        float adjVol = Mathf.RoundToInt(volume * 100f);
+        masterLocalizeStringEvent.StringReference["volumeValue"] = new StringVariable { Value = adjVol.ToString("F0") };
+        masterLocalizeStringEvent.RefreshString();
     }
 
     public void SetMusic(float volume)
     {
-        AudioManager.Instance.MusicVolume(volume);
+        audioMixer.SetFloat("Music", Mathf.Log10(volume) * 20f);
         PlayerPrefs.SetFloat("Music", volume);
-        UpdateMusicText(Mathf.RoundToInt(volume * 100f));
+        UpdateMusicText(volume);
     }
 
     public void UpdateMusicText(float volume)
     {
-        musicLocalizeStringEvent.StringReference["volumeValue"] = new StringVariable { Value = volume.ToString("F0") };
+        float adjVol = Mathf.RoundToInt(volume * 100f);
+        musicLocalizeStringEvent.StringReference["volumeValue"] = new StringVariable { Value = adjVol.ToString("F0") };
         musicLocalizeStringEvent.RefreshString();
     }
 
     public void SetSFX(float volume)
     {
-        AudioManager.Instance.SFXVolume(volume);
+        audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20f);
         PlayerPrefs.SetFloat("SFX", volume);
-        UpdateSFXText(Mathf.RoundToInt(volume * 100f));
+        UpdateSFXText(volume);
     }
 
     public void UpdateSFXText(float volume)
     {
-        SFXLocalizeStringEvent.StringReference["volumeValue"] = new StringVariable { Value = volume.ToString("F0") };
+        float adjVol = Mathf.RoundToInt(volume * 100f);
+        SFXLocalizeStringEvent.StringReference["volumeValue"] = new StringVariable { Value = adjVol.ToString("F0") };
         SFXLocalizeStringEvent.RefreshString();
     }
+
     public void ResetVolume()
     {
+        // Reset Master
+        SetMaster(defaultVolume);
+        masterSlider.value = defaultVolume;
+
         // Reset Music
         SetMusic(defaultVolume);
         musicSlider.value = defaultVolume;

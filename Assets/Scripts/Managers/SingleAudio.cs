@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 /*
 Same as AudioManager but for individual game objects
 Basically, if you do not want the component to persist between scenes
@@ -22,7 +21,7 @@ public class SingleAudio : MonoBehaviour
             sfxSource.volume = PlayerPrefs.GetFloat("SFX");
     }
 
-    public void PlayMusic(string name)
+    public void PlayMusic(string name, bool _loop = false)
     {
         Sound s = System.Array.Find(musicSounds, sound => sound.name == name);
         if (s == null)
@@ -33,6 +32,7 @@ public class SingleAudio : MonoBehaviour
         else
         {
             musicSource.clip = s.clip;
+            sfxSource.loop = _loop;
             musicSource.Play();
         }
 
