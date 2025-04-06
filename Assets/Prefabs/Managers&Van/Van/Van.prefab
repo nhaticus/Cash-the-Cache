@@ -559,7 +559,9 @@ MonoBehaviour:
   musicSounds: []
   sfxSounds:
   - name: deposit_sound
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 68ce9de33d431e94e83bb0ae075004c9, type: 3}
+  - name: drive_away
+    clip: {fileID: 8300000, guid: 7679d42f05d98cb4ebffc01fa34134a1, type: 3}
   musicSource: {fileID: 0}
   sfxSource: {fileID: 3513015043625753519}
 --- !u!1 &2647243754849957526
@@ -1790,6 +1792,11 @@ PrefabInstance:
       objectReference: {fileID: 635748352375077923}
     - target: {fileID: 8627462406798870249, guid: a543a79d7b773eb4e886c3361cabb852,
         type: 3}
+      propertyPath: singleAudio
+      value: 
+      objectReference: {fileID: 8118634744333105374}
+    - target: {fileID: 8627462406798870249, guid: a543a79d7b773eb4e886c3361cabb852,
+        type: 3}
       propertyPath: resultScreen
       value: 
       objectReference: {fileID: 5598130053283918879}
@@ -1817,6 +1824,11 @@ PrefabInstance:
       propertyPath: vanText
       value: 
       objectReference: {fileID: 635748352375077923}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: singleAudio
+      value: 
+      objectReference: {fileID: 8118634744333105374}
     - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
         type: 3}
       propertyPath: extraTimePerItem

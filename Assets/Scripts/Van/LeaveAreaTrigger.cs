@@ -9,9 +9,11 @@ using TMPro;
 
 public class LeaveAreaTrigger : MonoBehaviour
 {
-    bool playerInLeaveArea = false;
     [SerializeField] GameObject vanText;
     [SerializeField] GameObject resultScreen;
+    [SerializeField] SingleAudio singleAudio;
+
+    bool playerInLeaveArea = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -59,7 +61,7 @@ public class LeaveAreaTrigger : MonoBehaviour
         PlayerHealth player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerHealth>();
         if (player)
             player.canHurt = false;
-        AudioManager.Instance.PlaySFX("drive_away");
+        singleAudio.PlaySFX("drive_away");
         resultScreen.SetActive(true);
         resultScreen.GetComponent<ResultScreen>().inventoryRef = VanInventory.Instance.stolenItems;
         resultScreen.GetComponent<ResultScreen>().Begin();

@@ -19,11 +19,6 @@ public class InventoryUI : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        if (PlayerManager.Instance)
-            Debug.Log("exists");
-        else
-            Debug.Log("nope");
-
         PlayerManager.Instance.lockRotation();
         PlayerManager.Instance.ableToInteract = false;
         PlayerManager.Instance.slowPlayer();

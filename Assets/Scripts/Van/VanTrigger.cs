@@ -9,6 +9,8 @@ public class VanTrigger : MonoBehaviour
     PlayerInteract playerInventory;
     [SerializeField] GameObject vanText;
 
+    [SerializeField] SingleAudio singleAudio;
+
     Coroutine depositCoroutine;
 
     [Header("Deposit Timing")]
@@ -103,7 +105,7 @@ public class VanTrigger : MonoBehaviour
         // Deposit items one by one
         for (int i = 0; i < totalItems; i++)
         {
-            AudioManager.Instance.PlaySFX("deposit_sound");
+            singleAudio.PlaySFX("deposit_sound");
             float itemTimer = 0f;
             while (itemTimer < extraTimePerItem)
             {

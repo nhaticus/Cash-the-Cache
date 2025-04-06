@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ShoeUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
+
+    [SerializeField] SingleAudio singleAudio;
 
     [SerializeField] float moveSpeedUpgradeIncrement = 0.5f;
     public int price = 40;
@@ -21,6 +24,7 @@ public class ShoeUpgrade : MonoBehaviour
         GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
     }
 
+    [HideInInspector] public UnityEvent upgradePurchased;
     public void OnPurchase()
     {
         if(GameManager.Instance.playerMoney >= price)
@@ -34,11 +38,18 @@ public class ShoeUpgrade : MonoBehaviour
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
-            GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+            singleAudio.PlaySFX("purchase upgrade");
+            upgradeInfo.upgradePurchased.Invoke();
+            CheckPurchasable();
         }
         else
         {
-            AudioManager.Instance.PlaySFX("deny");
+            singleAudio.PlaySFX("deny");
         }
+    }
+
+    public void CheckPurchasable()
+    {
+        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
     }
 }

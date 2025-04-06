@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class BackpackUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
+
+    [SerializeField] SingleAudio singleAudio;
 
     [SerializeField] int upgradeIncrement = 3;
     public int price = 40;
@@ -34,11 +37,17 @@ public class BackpackUpgrade : MonoBehaviour
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
-            GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+            singleAudio.PlaySFX("purchase upgrade");
+            upgradeInfo.upgradePurchased.Invoke();
+            CheckPurchasable();
         }
         else
         {
-            AudioManager.Instance.PlaySFX("deny");
+            singleAudio.PlaySFX("deny");
         }
+    }
+    public void CheckPurchasable()
+    {
+        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
     }
 }

@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class FlashlightUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
+
+    [SerializeField] SingleAudio singleAudio;
 
     public int price = 60;
     bool purchased = false;
@@ -32,15 +35,21 @@ public class FlashlightUpgrade : MonoBehaviour
             GameManager.Instance.SpendMoney(price);
             PlayerPrefs.SetInt("Flashlight", 1);
 
-            // change text to purchased
+            // upgradeInfo.__.text = "Purchased"; // change text to purchased
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
             purchased = true;
 
+            singleAudio.PlaySFX("purchase upgrade");
+            upgradeInfo.upgradePurchased.Invoke();
             GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
         }
         else
         {
-            AudioManager.Instance.PlaySFX("deny");
+            singleAudio.PlaySFX("deny");
         }
+    }
+    public void CheckPurchasable()
+    {
+        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
     }
 }
