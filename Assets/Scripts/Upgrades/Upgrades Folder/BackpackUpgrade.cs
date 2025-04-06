@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.HighDefinition.ScalableSettingLevelParameter;
 
 public class BackpackUpgrade : MonoBehaviour
 {
@@ -15,9 +17,12 @@ public class BackpackUpgrade : MonoBehaviour
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
-        price = Mathf.RoundToInt((1.5f * PlayerPrefs.GetInt("Backpack")) + price);
+        upgradeInfo.updateItem.AddListener(CheckPurchasable);
+        int level = PlayerPrefs.GetInt("Backpack");
+        if (level > 0)
+            price = Mathf.RoundToInt(price * 1.5f * level);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-        // change level text
+        upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         CheckPurchasable();
     }
 
@@ -30,7 +35,7 @@ public class BackpackUpgrade : MonoBehaviour
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
             PlayerPrefs.SetInt("Backpack", PlayerPrefs.GetInt("Backpack") + 1);
-            // change level text
+            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = PlayerPrefs.GetInt("Backpack").ToString() };
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 

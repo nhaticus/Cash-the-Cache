@@ -16,4 +16,11 @@ public class UpgradeInfo : MonoBehaviour
     public LocalizeStringEvent localizeLevel;
     public LocalizeStringEvent localizeDescription;
     public LocalizeStringEvent localizeStats;
+
+    [HideInInspector] public UnityEvent updateItem;
+
+    public void UpdateItem()
+    {
+        updateItem.Invoke();
+    }
 }

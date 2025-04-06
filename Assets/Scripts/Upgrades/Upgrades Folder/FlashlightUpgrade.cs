@@ -15,6 +15,7 @@ public class FlashlightUpgrade : MonoBehaviour
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
+        upgradeInfo.updateItem.AddListener(CheckPurchasable);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
         CheckPurchasable();
 

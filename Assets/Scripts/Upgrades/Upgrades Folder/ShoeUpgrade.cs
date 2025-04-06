@@ -15,7 +15,10 @@ public class ShoeUpgrade : MonoBehaviour
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
-        price = Mathf.RoundToInt((1.5f * PlayerPrefs.GetInt("RunningShoe")) + price);
+        upgradeInfo.updateItem.AddListener(CheckPurchasable);
+        int level = PlayerPrefs.GetInt("Backpack");
+        if (level > 0)
+            price = Mathf.RoundToInt(price * 1.5f * level);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
         // change level text
         CheckPurchasable();

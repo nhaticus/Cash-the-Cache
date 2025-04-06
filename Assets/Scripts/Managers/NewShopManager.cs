@@ -121,9 +121,9 @@ public class NewShopManager : MonoBehaviour
 
     void CheckUpgrades()
     {
-        foreach (GameObject upgrade in shopPanelTransform)
+        foreach (Transform item in shopPanelTransform)
         {
-            
+            item.gameObject.GetComponent<UpgradeInfo>().UpdateItem();
         }
     }
     
