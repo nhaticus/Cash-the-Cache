@@ -14,6 +14,8 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] float raycastDistance = 2.8f;
     public GameObject mainCamera;
 
+    [SerializeField] SingleAudio singleAudio;
+
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
 
     private void Update()
@@ -89,12 +91,12 @@ public class PlayerInteract : MonoBehaviour
         StealableObject stealObj = obj.GetComponent<StealableObject>();
         if (stealObj != null)
         {
-            if (PlayerManager.Instance.getWeight() +stealObj.lootInfo.weight > PlayerManager.Instance.getMaxWeight()){
-                AudioManager.Instance.PlaySFX("inventory_full");
+            if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight > PlayerManager.Instance.getMaxWeight()){
+                singleAudio.PlaySFX("inventory_full");
             }
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
-                AudioManager.Instance.PlaySFX("collect_item_sound");
+                singleAudio.PlaySFX("collect_item_sound");
                 if (inventory.ContainsKey(stealObj.lootInfo.itemName))
                 {
                     inventory[stealObj.lootInfo.itemName] = (inventory[stealObj.lootInfo.itemName].Item1 + 1, stealObj.lootInfo);

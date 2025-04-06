@@ -14,6 +14,8 @@ public class Door : MonoBehaviour, InteractEvent
     [SerializeField] float speed;
     [SerializeField] bool opening;
 
+    [SerializeField] SingleAudio singleAudio;
+
     void Update()
     {
         Vector3 currentRot = door.transform.localEulerAngles;
@@ -36,7 +38,7 @@ public class Door : MonoBehaviour, InteractEvent
     // Doors within the house don't use this interact?
     public void Interact()
     {
-        AudioManager.Instance.PlaySFX("door_open");
+        singleAudio.PlaySFX("door_open");
         opening = !opening;
     }
 }
