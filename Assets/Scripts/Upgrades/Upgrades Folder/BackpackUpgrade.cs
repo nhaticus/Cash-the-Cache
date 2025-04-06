@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class BackpackUpgrade : MonoBehaviour
@@ -16,12 +15,10 @@ public class BackpackUpgrade : MonoBehaviour
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
-
         price = Mathf.RoundToInt((1.5f * PlayerPrefs.GetInt("Backpack")) + price);
-        // change level text
-
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+        // change level text
+        CheckPurchasable();
     }
 
     public void OnPurchase()
@@ -46,6 +43,7 @@ public class BackpackUpgrade : MonoBehaviour
             singleAudio.PlaySFX("deny");
         }
     }
+
     public void CheckPurchasable()
     {
         GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;

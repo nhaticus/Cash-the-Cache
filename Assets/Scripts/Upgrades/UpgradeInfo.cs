@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Localization.Components;
 using UnityEngine.Events;
 
@@ -17,6 +16,4 @@ public class UpgradeInfo : MonoBehaviour
     public LocalizeStringEvent localizeLevel;
     public LocalizeStringEvent localizeDescription;
     public LocalizeStringEvent localizeStats;
-
-    public extern void CheckPurchasable();
 }

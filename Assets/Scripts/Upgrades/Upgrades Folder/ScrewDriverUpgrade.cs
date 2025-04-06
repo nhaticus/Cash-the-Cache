@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ScrewDriverUpgrade : MonoBehaviour
@@ -16,15 +15,12 @@ public class ScrewDriverUpgrade : MonoBehaviour
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
-
-        price = Mathf.RoundToInt((1.5f * PlayerPrefs.GetInt("Screwdriver")) + price); 
-        // change level text
-
+        price = Mathf.RoundToInt((1.5f * PlayerPrefs.GetInt("Screwdriver")) + price);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+        // change level text
+        CheckPurchasable();
     }
 
-    [HideInInspector] public UnityEvent upgradePurchased;
     public void OnPurchase()
     {
         if (GameManager.Instance.playerMoney >= price)

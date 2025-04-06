@@ -123,7 +123,7 @@ public class NewShopManager : MonoBehaviour
     {
         foreach (GameObject upgrade in shopPanelTransform)
         {
-            //upgrade.GetComponent<>().CheckPurchasable();
+            
         }
     }
     

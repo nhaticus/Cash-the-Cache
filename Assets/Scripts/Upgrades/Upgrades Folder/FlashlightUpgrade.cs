@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class FlashlightUpgrade : MonoBehaviour
@@ -17,9 +16,9 @@ public class FlashlightUpgrade : MonoBehaviour
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+        CheckPurchasable();
 
-        if(PlayerPrefs.GetInt("Flashlight") == 1)
+        if (PlayerPrefs.GetInt("Flashlight") == 1)
         {
             purchased = true;
             PlayerManager.Instance.hasFlashlight = true;
