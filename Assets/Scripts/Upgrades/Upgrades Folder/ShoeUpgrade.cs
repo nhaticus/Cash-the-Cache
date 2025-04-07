@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class ShoeUpgrade : MonoBehaviour
 {
@@ -33,7 +34,8 @@ public class ShoeUpgrade : MonoBehaviour
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
             PlayerPrefs.SetInt("RunningShoe", PlayerPrefs.GetInt("RunningShoe") + 1);
-            // change level text
+            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = PlayerPrefs.GetInt("RunningShoe").ToString() };
+            upgradeInfo.localizeLevel.RefreshString();
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 

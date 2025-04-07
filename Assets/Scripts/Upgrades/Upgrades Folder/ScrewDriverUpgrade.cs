@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class ScrewDriverUpgrade : MonoBehaviour
 {
@@ -33,7 +34,8 @@ public class ScrewDriverUpgrade : MonoBehaviour
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
             PlayerPrefs.SetInt("Screwdriver", PlayerPrefs.GetInt("Screwdriver") + 1);
-            // change level text
+            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = PlayerPrefs.GetInt("Screwdriver").ToString() };
+            upgradeInfo.localizeLevel.RefreshString();
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 

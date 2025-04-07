@@ -36,6 +36,7 @@ public class BackpackUpgrade : MonoBehaviour
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
             PlayerPrefs.SetInt("Backpack", PlayerPrefs.GetInt("Backpack") + 1);
             upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = PlayerPrefs.GetInt("Backpack").ToString() };
+            upgradeInfo.localizeLevel.RefreshString();
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
