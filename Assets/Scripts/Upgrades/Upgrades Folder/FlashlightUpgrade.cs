@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.HighDefinition.ScalableSettingLevelParameter;
 
 public class FlashlightUpgrade : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class FlashlightUpgrade : MonoBehaviour
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
+        upgradeInfo.localizeLevel.gameObject.SetActive(false);
         CheckPurchasable();
 
         if (PlayerPrefs.GetInt("Flashlight") == 1)
@@ -24,6 +27,7 @@ public class FlashlightUpgrade : MonoBehaviour
             purchased = true;
             PlayerManager.Instance.hasFlashlight = true;
             GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
+            upgradeInfo.localizeLevel.gameObject.SetActive(true); // show purchased
         }
     }
 
@@ -35,7 +39,7 @@ public class FlashlightUpgrade : MonoBehaviour
             GameManager.Instance.SpendMoney(price);
             PlayerPrefs.SetInt("Flashlight", 1);
 
-            // upgradeInfo.__.text = "Purchased"; // change text to purchased
+            upgradeInfo.localizeLevel.gameObject.SetActive(true); // purchased text
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
             purchased = true;
 

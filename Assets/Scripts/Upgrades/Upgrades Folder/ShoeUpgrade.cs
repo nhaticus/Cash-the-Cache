@@ -21,7 +21,8 @@ public class ShoeUpgrade : MonoBehaviour
         if (level > 0)
             price = Mathf.RoundToInt(price * 1.5f * level);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-        // change level text
+        upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
+        upgradeInfo.localizeLevel.RefreshString();
         CheckPurchasable();
     }
 
