@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿// This script manages the player's ability to deposit items into the van when they enter the trigger area and hold 'E'.
+// The items are deposited one by one over time with progress displayed on the UI.
+
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
