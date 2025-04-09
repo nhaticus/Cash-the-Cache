@@ -251,7 +251,7 @@ public class LockPicking : MonoBehaviour, InteractEvent
     private IEnumerator ShowFailedMessage()
     {
         if (failedText) failedText.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         if (failedText) failedText.SetActive(false);
         MarkLocked();
         ExitLockpicking();
