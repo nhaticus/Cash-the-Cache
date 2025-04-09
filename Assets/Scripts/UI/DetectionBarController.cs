@@ -9,7 +9,6 @@ public class DetectionBarController : MonoBehaviour
     [Header("UI")]
     public Image detectionBar;         // The Filled Image
     public Color flashColor = Color.yellow;
-    public TMP_Text playerSpottedText;
 
     [Header("Detection Values")]
     public float currentDetection = 0f;
@@ -51,12 +50,6 @@ public class DetectionBarController : MonoBehaviour
     {
         isFlashing = true;
 
-        if (playerSpottedText != null)
-        {
-            playerSpottedText.text = "Spotted!";
-        }
-
-
         // Store the original color
         Color originalColor = detectionBar.color;
 
@@ -79,11 +72,6 @@ public class DetectionBarController : MonoBehaviour
         detectionBar.color = originalColor;
         detectionBar.fillAmount = 0f;
         currentDetection = 0f;
-
-        if (playerSpottedText != null)
-        {
-            playerSpottedText.text = "";
-        }
 
         isFlashing = false;
     }
