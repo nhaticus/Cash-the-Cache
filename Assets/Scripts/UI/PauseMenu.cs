@@ -9,11 +9,6 @@ public class PauseMenu : MonoBehaviour
     void Start()
     {
         Time.timeScale = 0;
-        // check if audio is playing:
-        if (AudioManager.Instance && AudioManager.Instance.musicSource.isPlaying)
-        {
-            AudioManager.Instance.musicSource.Pause();
-        }
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -33,10 +28,6 @@ public class PauseMenu : MonoBehaviour
     public void ReturnToGame()
     {
         // Play sound again:
-        if (AudioManager.Instance)
-        {
-            AudioManager.Instance.musicSource.UnPause();
-        }
         UnPause.Invoke();
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
