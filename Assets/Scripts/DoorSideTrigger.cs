@@ -1,3 +1,5 @@
+//This script handles the detection of AI entering and exiting the door's trigger area on either the front or back of the door.
+//It communicates with the parent Doors script to open or close the door based on the side the AI is on.
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]

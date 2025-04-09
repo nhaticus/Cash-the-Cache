@@ -1,11 +1,9 @@
-﻿using System.Collections;
+﻿// This script handles the collider where the player can leave the level. It displays a prompt to 
+// the player when they enter the trigger area and handles the actions when they press 'E' to leave.
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
-/*
- * Collider for player to leave level
- */
 
 public class LeaveAreaTrigger : MonoBehaviour
 {

@@ -1,3 +1,6 @@
+// This script manages the behavior of the door, including opening and closing it
+// based on interactions from NPCs or players. It uses coroutines to smoothly rotate
+// the door between open and closed states and handles obstacle carving for navigation.
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
