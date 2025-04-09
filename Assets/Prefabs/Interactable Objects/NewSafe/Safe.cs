@@ -111,8 +111,6 @@ public class Safe : MonoBehaviour, InteractEvent
     // Method to handle loot spawning when the safe is unlocked
     private void SpawnLoot()
     {
-        GameObject loot = null;
-
         // Spawn loot depending on difficulty level (example: gold, silver, etc.)?
         int spawnAmount = 0;
 

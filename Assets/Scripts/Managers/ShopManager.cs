@@ -8,7 +8,7 @@ using UnityEngine;
  * Contains list of upgrades that when purchased do upgrading in their own scripts
  */
 
-public class NewShopManager : MonoBehaviour
+public class ShopManager : MonoBehaviour
 {
     [SerializeField] GameObject shopUI;
     [SerializeField] Transform shopPanelTransform;
