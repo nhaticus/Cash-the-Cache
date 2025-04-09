@@ -12,12 +12,14 @@ public class NewShopManager : MonoBehaviour
 {
     [SerializeField] GameObject shopUI;
     [SerializeField] Transform shopPanelTransform;
+    [SerializeField] SingleAudio singleAudio;
 
     public TMP_Text moneyText;
     [SerializeField] TMP_Text openShopPrompt;
 
     public GameObject[] itemsInShop; // list of prefabs for each upgrade
 
+    bool voicePlayed = false;
     bool shopActive = false;
 
     void Start()
@@ -54,6 +56,12 @@ public class NewShopManager : MonoBehaviour
             {
                 if (!shopActive)
                 {
+                    if (!voicePlayed) // play voice once
+                    {
+                        singleAudio.PlaySFX("shop_owner");
+                        voicePlayed = true;
+                    }
+
                     openShopPrompt.gameObject.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.E))
                     {
@@ -107,6 +115,15 @@ public class NewShopManager : MonoBehaviour
         {
             GameObject created = Instantiate(item, shopPanelTransform);
             created.GetComponent<UpgradeInfo>().shopManager = this;
+            created.GetComponent<UpgradeInfo>().upgradePurchased.AddListener(CheckUpgrades);
+        }
+    }
+
+    void CheckUpgrades()
+    {
+        foreach (Transform item in shopPanelTransform)
+        {
+            item.gameObject.GetComponent<UpgradeInfo>().UpdateItem();
         }
     }
     

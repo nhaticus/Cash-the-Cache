@@ -6,9 +6,10 @@ public class ClearData : MonoBehaviour
 {
     public void Clear()
     {
+        int colorblind = PlayerPrefs.GetInt("ColorblindMode"); // keep colorblind
         PlayerPrefs.DeleteAll();
-        UpgradeManager.Instance.ResetData();
         GameManager.Instance.numRuns = 0;
         GameManager.Instance.playerMoney = 0;
+        PlayerPrefs.SetInt("ColorblindMode", colorblind); // restore colorblind
     }
 }

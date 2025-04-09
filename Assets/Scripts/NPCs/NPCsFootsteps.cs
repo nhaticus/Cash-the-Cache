@@ -3,28 +3,27 @@ using UnityEngine.AI;
 
 public class NPCFootsteps : MonoBehaviour
 {
+    [SerializeField] SingleAudio singleAudio;
     public string footstepClipName = "footstep_sound";
-    private AudioSource audioSource;
+
     private NavMeshAgent agent;
     private bool isPlayingFootsteps = false;
     public float velocityThreshold = 0.1f; 
 
-
-
     void Awake()
     {
         // Ensure the NPC has an AudioSource configured for 3D sound
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            audioSource = gameObject.AddComponent<AudioSource>();
+        AudioSource sfxSource = singleAudio.sfxSource;
+        if (sfxSource == null)
+            sfxSource = gameObject.AddComponent<AudioSource>();
 
-        audioSource.spatialBlend = 1f; // Full 3D sound
-        audioSource.loop = true;
-        audioSource.playOnAwake = false;
+        sfxSource.spatialBlend = 1f; // Full 3D sound
+        sfxSource.loop = true;
+        sfxSource.playOnAwake = false;
 
-        audioSource.minDistance = 2f;  // max volume at 2 units
-        audioSource.maxDistance = 8f;  // fades from 8
-        audioSource.rolloffMode = AudioRolloffMode.Linear; // Use linear falloff for consistent reduction
+        sfxSource.minDistance = 2f;  // max volume at 2 units
+        sfxSource.maxDistance = 8f;  // fades from 8
+        sfxSource.rolloffMode = AudioRolloffMode.Linear; // Use linear falloff for consistent reduction
 
         // Get the NavMeshAgent 
         agent = GetComponent<NavMeshAgent>();
@@ -54,10 +53,13 @@ public class NPCFootsteps : MonoBehaviour
 
     private void PlayFootsteps()
     {
-        
+        singleAudio.PlaySFX(footstepClipName);
+        isPlayingFootsteps = true;
+        /*
         Sound s = System.Array.Find(AudioManager.Instance.sfxSounds, sound => sound.name == footstepClipName);
         if (s != null)
         {
+            singleAudio.PlaySFX(footstepClipName);
             audioSource.clip = s.clip;
             audioSource.Play();
             isPlayingFootsteps = true;
@@ -66,12 +68,13 @@ public class NPCFootsteps : MonoBehaviour
         {
             Debug.LogWarning("Footstep sound not found in AudioManager.");
         }
+        */
     }
 
     private void StopFootsteps()
     {
-        if (audioSource.isPlaying)
-            audioSource.Stop();
+        if (singleAudio.sfxSource.isPlaying)
+            singleAudio.sfxSource.Stop();
         isPlayingFootsteps = false;
     }
 }

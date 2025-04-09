@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.HighDefinition.ScalableSettingLevelParameter;
 
 public class BackpackUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
+
+    [SerializeField] SingleAudio singleAudio;
 
     [SerializeField] int upgradeIncrement = 3;
     public int price = 40;
@@ -13,12 +17,14 @@ public class BackpackUpgrade : MonoBehaviour
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
-
-        price = Mathf.RoundToInt((1.5f * PlayerPrefs.GetInt("Backpack")) + price);
-        // change level text
-
+        upgradeInfo.updateItem.AddListener(CheckPurchasable);
+        int level = PlayerPrefs.GetInt("Backpack");
+        if (level > 0)
+            price = Mathf.RoundToInt(price * 1.5f * level);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+        upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
+        upgradeInfo.localizeLevel.RefreshString();
+        CheckPurchasable();
     }
 
     public void OnPurchase()
@@ -30,15 +36,23 @@ public class BackpackUpgrade : MonoBehaviour
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
             PlayerPrefs.SetInt("Backpack", PlayerPrefs.GetInt("Backpack") + 1);
-            // change level text
+            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = PlayerPrefs.GetInt("Backpack").ToString() };
+            upgradeInfo.localizeLevel.RefreshString();
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
-            GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+            singleAudio.PlaySFX("purchase upgrade");
+            upgradeInfo.upgradePurchased.Invoke();
+            CheckPurchasable();
         }
         else
         {
-            AudioManager.Instance.PlaySFX("deny");
+            singleAudio.PlaySFX("deny");
         }
+    }
+
+    public void CheckPurchasable()
+    {
+        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
     }
 }

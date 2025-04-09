@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.HighDefinition.ScalableSettingLevelParameter;
 
 public class FlashlightUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
+
+    [SerializeField] SingleAudio singleAudio;
 
     public int price = 60;
     bool purchased = false;
@@ -13,14 +17,17 @@ public class FlashlightUpgrade : MonoBehaviour
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
+        upgradeInfo.updateItem.AddListener(CheckPurchasable);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+        upgradeInfo.localizeLevel.gameObject.SetActive(false);
+        CheckPurchasable();
 
-        if(PlayerPrefs.GetInt("Flashlight") == 1)
+        if (PlayerPrefs.GetInt("Flashlight") == 1)
         {
             purchased = true;
             PlayerManager.Instance.hasFlashlight = true;
             GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
+            upgradeInfo.localizeLevel.gameObject.SetActive(true); // show purchased
         }
     }
 
@@ -32,15 +39,21 @@ public class FlashlightUpgrade : MonoBehaviour
             GameManager.Instance.SpendMoney(price);
             PlayerPrefs.SetInt("Flashlight", 1);
 
-            // change text to purchased
+            upgradeInfo.localizeLevel.gameObject.SetActive(true); // purchased text
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
             purchased = true;
 
+            singleAudio.PlaySFX("purchase upgrade");
+            upgradeInfo.upgradePurchased.Invoke();
             GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
         }
         else
         {
-            AudioManager.Instance.PlaySFX("deny");
+            singleAudio.PlaySFX("deny");
         }
+    }
+    public void CheckPurchasable()
+    {
+        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
     }
 }

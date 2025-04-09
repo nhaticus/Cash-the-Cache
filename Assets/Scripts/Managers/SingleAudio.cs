@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 /*
 Same as AudioManager but for individual game objects
 Basically, if you do not want the component to persist between scenes
@@ -10,19 +9,10 @@ Basically, if you do not want the component to persist between scenes
 
 public class SingleAudio : MonoBehaviour
 {
-
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
 
-    public void Awake()
-    {
-        if(musicSource)
-            musicSource.volume = PlayerPrefs.GetFloat("Music");
-        if (sfxSource)
-            sfxSource.volume = PlayerPrefs.GetFloat("SFX");
-    }
-
-    public void PlayMusic(string name)
+    public void PlayMusic(string name, bool _loop = false)
     {
         Sound s = System.Array.Find(musicSounds, sound => sound.name == name);
         if (s == null)
@@ -33,6 +23,7 @@ public class SingleAudio : MonoBehaviour
         else
         {
             musicSource.clip = s.clip;
+            musicSource.loop = _loop;
             musicSource.Play();
         }
 
@@ -46,17 +37,10 @@ public class SingleAudio : MonoBehaviour
             Debug.Log("Sound: " + name + " not found!");
             return;
         }
-
-        if (loop)
-        {
-            sfxSource.clip = s.clip;
-            sfxSource.loop = true;
-            sfxSource.Play();
-        }
         else
         {
             sfxSource.clip = s.clip;
-            sfxSource.loop = false;
+            sfxSource.loop = loop;
             sfxSource.Play();
         }
     }
@@ -66,7 +50,6 @@ public class SingleAudio : MonoBehaviour
         sfxSource.Stop();
         sfxSource.loop = false;
         sfxSource.clip = null; // Force reset
-
     }
 
     // USE THIS CODE FOR SOUND PANEL:
