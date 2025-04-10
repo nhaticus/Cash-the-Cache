@@ -4,7 +4,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.EventSystems;
 
 public class Doors : MonoBehaviour, InteractEvent
 {
@@ -19,8 +18,7 @@ public class Doors : MonoBehaviour, InteractEvent
     public float speed = 3f;   // Rotation speed
 
     [Header("Audio Settings")]
-    public AudioClip doorCloseClip;     // Assign the door closing sound in the Inspector
-    private AudioSource doorAudioSource;  // Local reference to AudioSource
+    [SerializeField] SingleAudio singleAudio;
 
     private bool isOpen = false;
     private bool lastSideFront = true;
@@ -35,11 +33,9 @@ public class Doors : MonoBehaviour, InteractEvent
         obstacle.enabled = isOpen;
         obstacle.carving = isOpen;
 
-        doorAudioSource = GetComponent<AudioSource>();
+        AudioSource doorAudioSource = singleAudio.sfxSource;
         if (doorAudioSource == null)
-        {
             doorAudioSource = gameObject.AddComponent<AudioSource>();
-        }
         doorAudioSource.spatialBlend = 1f; // Set to 3D sound
         doorAudioSource.maxDistance = 10f;   // Lower max distance
         doorAudioSource.rolloffMode = AudioRolloffMode.Linear; 
@@ -140,7 +136,7 @@ public class Doors : MonoBehaviour, InteractEvent
         obstacle.enabled = false;
         obstacle.carving = false;
 
-            doorAudioSource.PlayOneShot(doorCloseClip);
+        singleAudio.PlaySFX("close door");
 
         while (Mathf.Abs(Mathf.DeltaAngle(currentAngle, closeAngle)) > 0.1f)
         {

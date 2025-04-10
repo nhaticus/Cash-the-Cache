@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     Transform tf;
 
     public bool touchingWall;
+
+    [SerializeField] SingleAudio singleAudio;
     private bool isPlayingFootsteps = false;
 
     private void Start()
@@ -77,12 +79,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleFootstepSound()
     {
+        if (Time.timeScale <= 0 && isPlayingFootsteps) // prevent footstep sound when paused
+        {
+            singleAudio.StopSFX();
+            isPlayingFootsteps = false;
+            return;
+        }
         // Check if player is moving horizontally
         bool isMoving = rb.velocity.magnitude > 0.1f;
         if (isMoving && !isPlayingFootsteps) {
+            singleAudio.PlaySFX("footsteps", true);
             isPlayingFootsteps = true;
         }
         else if (!isMoving && isPlayingFootsteps) {
+            singleAudio.StopSFX();
             isPlayingFootsteps = false;
         }
     }

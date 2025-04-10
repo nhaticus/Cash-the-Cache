@@ -16,7 +16,6 @@ public class NPCFootsteps : MonoBehaviour
         AudioSource sfxSource = singleAudio.sfxSource;
         if (sfxSource == null)
             sfxSource = gameObject.AddComponent<AudioSource>();
-
         sfxSource.spatialBlend = 1f; // Full 3D sound
         sfxSource.loop = true;
         sfxSource.playOnAwake = false;
