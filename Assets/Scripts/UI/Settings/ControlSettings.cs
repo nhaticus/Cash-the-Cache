@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /*
  * Holder for Control Mapping settings
+ * https://www.youtube.com/watch?v=qXbjyzBlduY&ab_channel=SasquatchBStudios
  */
 
 public class ControlSettings : MonoBehaviour

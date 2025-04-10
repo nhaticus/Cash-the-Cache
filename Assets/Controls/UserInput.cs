@@ -13,6 +13,7 @@ public class UserInput : MonoBehaviour
     public static UserInput Instance;
     
     // controls to detect
+    public Vector2 Move { get; private set;  }
     public bool Interact { get; private set; }
     public bool Inventory { get; private set; }
     public bool MenuExit { get; private set; }
@@ -47,6 +48,7 @@ public class UserInput : MonoBehaviour
 
     void SetupInputActions()
     {
+        moveAction = playerInput.actions["Move"];
         interactAction = playerInput.actions["Interact"];
         inventoryAction = playerInput.actions["Inventory"];
         exitAction = playerInput.actions["Menu Exit"];
@@ -55,6 +57,7 @@ public class UserInput : MonoBehaviour
 
     void UpdateInput()
     {
+        Move = moveAction.ReadValue<Vector2>();
         Interact = interactAction.WasPressedThisFrame();
         Inventory = inventoryAction.WasPressedThisFrame();
         MenuExit = exitAction.WasPressedThisFrame();
