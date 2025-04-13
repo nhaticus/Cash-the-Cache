@@ -33,7 +33,7 @@ public class BoxCanvas : MonoBehaviour
 
     private void Update()
     {
-        if (UserInput.Instance && UserInput.Instance.Pause)
+        if (UserInput.Instance && (UserInput.Instance.Cancel || UserInput.Instance.Pause))
         {
             ExitBox();
         }

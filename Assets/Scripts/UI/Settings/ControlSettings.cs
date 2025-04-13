@@ -15,6 +15,8 @@ public class ControlSettings : MonoBehaviour
     [SerializeField] GameObject keyboardButton, controllerButton;
     GameObject selectedButton;
 
+    [SerializeField] Color selectionButtonSelected;
+
     private void Start()
     {
         OpenKeyboard();
@@ -27,7 +29,7 @@ public class ControlSettings : MonoBehaviour
         if (selectedButton)
             selectedButton.GetComponent<Image>().color = Color.white;// reset previous selected button
         selectedButton = keyboardButton;
-        selectedButton.GetComponent<Image>().color = Color.blue; // change to look selected
+        selectedButton.GetComponent<Image>().color = selectionButtonSelected; // change to look selected
     }
 
     public void OpenController()
@@ -37,7 +39,7 @@ public class ControlSettings : MonoBehaviour
         if (selectedButton)
             selectedButton.GetComponent<Image>().color = Color.white;// reset previous selected button
         selectedButton = controllerButton;
-        selectedButton.GetComponent<Image>().color = Color.blue; // change to look selected
+        selectedButton.GetComponent<Image>().color = selectionButtonSelected; // change to look selected
     }
 
 }
