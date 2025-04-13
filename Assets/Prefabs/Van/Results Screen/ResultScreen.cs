@@ -25,6 +25,8 @@ public class ResultScreen : MonoBehaviour
     bool scrollClicked = false;
     public void Begin()
     {
+        GameManager.Instance.SetGameState(GameManager.GameState.Over);
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         continueButton.SetActive(false);

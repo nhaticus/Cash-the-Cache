@@ -17,7 +17,11 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
-        if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
+        if (GameManager.Instance.CurrentState != GameManager.GameState.Play)
+        return;
+
+        if ((UserInput.Instance && UserInput.Instance.Pause) ||
+            (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
         {
             Pause();
         }
