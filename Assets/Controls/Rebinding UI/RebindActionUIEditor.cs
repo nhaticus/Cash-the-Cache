@@ -31,6 +31,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_DisplayStringOptionsProperty = serializedObject.FindProperty("m_DisplayStringOptions");
             m_ActionOverrideProperty = serializedObject.FindProperty("m_OverrideActionLabel");
             m_ActionOverrideStringProperty = serializedObject.FindProperty("m_ActionLabelString");
+            m_DuplicatePathProperty = serializedObject.FindProperty("m_duplicateTextFound");
 
             RefreshBindingOptions();
         }
@@ -68,6 +69,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 EditorGUILayout.PropertyField(m_BindingTextProperty);
                 EditorGUILayout.PropertyField(m_RebindOverlayProperty);
                 EditorGUILayout.PropertyField(m_RebindTextProperty);
+                EditorGUILayout.PropertyField(m_DuplicatePathProperty);
             }
 
             // Customize UI
@@ -177,6 +179,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         private SerializedProperty m_DisplayStringOptionsProperty;
         private SerializedProperty m_ActionOverrideProperty;
         private SerializedProperty m_ActionOverrideStringProperty;
+        private SerializedProperty m_DuplicatePathProperty;
 
         private GUIContent m_BindingLabel = new GUIContent("Binding");
         private GUIContent m_DisplayOptionsLabel = new GUIContent("Display Options");

@@ -41,5 +41,4 @@ public class ControlSettings : MonoBehaviour
         selectedButton = controllerButton;
         selectedButton.GetComponent<Image>().color = selectionButtonSelected; // change to look selected
     }
-
 }
