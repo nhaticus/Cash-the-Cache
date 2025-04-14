@@ -83,8 +83,8 @@ public class PlayerCam : MonoBehaviour
                 {
                     keyValueX = 0f;
                 }
-                float camX = keyValueX * Time.deltaTime * sens;
-                float camY = keyValueY * Time.deltaTime * sens;
+                float camX = keyValueX * Time.deltaTime * mouseSens;
+                float camY = keyValueY * Time.deltaTime * mouseSens;
                 yRotation += camX;
                 xRotation -= camY;
 
