@@ -8,6 +8,7 @@ public class PlayerCam : MonoBehaviour
     public float controllerSens;
 
     public bool lockRotation = false;
+    public bool singleHandControls = true;
 
     public Transform orientation;
 
@@ -27,29 +28,76 @@ public class PlayerCam : MonoBehaviour
     {
         if (!lockRotation)
         {
-            float camX = 0f;
-            float camY = 0f;
-            // Check for controller input otherwise use mouse sensitivity
-            if (Gamepad.current != null && Gamepad.current.rightStick.ReadValue() != Vector2.zero)
+            if (!singleHandControls)
             {
-                Vector2 stick = Gamepad.current.rightStick.ReadValue();
-                camX = stick.x * Time.deltaTime * controllerSens;
-                camY = stick.y * Time.deltaTime * controllerSens;
+                float camX = 0f;
+                float camY = 0f;
+                // Check for controller input otherwise use mouse sensitivity
+                if (Gamepad.current != null && Gamepad.current.rightStick.ReadValue() != Vector2.zero)
+                {
+                    Vector2 stick = Gamepad.current.rightStick.ReadValue();
+                    camX = stick.x * Time.deltaTime * controllerSens;
+                    camY = stick.y * Time.deltaTime * controllerSens;
+                }
+                else 
+                {
+                    camX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * mouseSens;
+                    camY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * mouseSens;
+                }
+                yRotation += camX;
+                xRotation -= camY;
+
+                xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+                //rotate cam and orientaton
+                transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+                orientation.rotation = Quaternion.Euler(0, yRotation, 0);
             }
-            else 
+            else
             {
-                camX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * mouseSens;
-                camY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * mouseSens;
+                float keyValueX;
+                float keyValueY;
+
+                if (Input.GetKey(KeyCode.Y))
+                {
+                    keyValueY = 0.5f;
+                }
+                else if (Input.GetKey(KeyCode.H))
+                {
+                    keyValueY = -0.5f;
+                }
+                else
+                {
+                    keyValueY = 0f;
+                }
+
+                if (Input.GetKey(KeyCode.J))
+                {
+                    keyValueX = 0.5f;
+                }
+                else if (Input.GetKey(KeyCode.G))
+                {
+                    keyValueX = -0.5f;
+                }
+                else
+                {
+                    keyValueX = 0f;
+                }
+                float camX = keyValueX * Time.deltaTime * sens;
+                float camY = keyValueY * Time.deltaTime * sens;
+                yRotation += camX;
+                xRotation -= camY;
+
+
+                xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+                //rotate cam and orientaton
+                transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+                orientation.rotation = Quaternion.Euler(0, yRotation, 0);
             }
-            yRotation += camX;
-            xRotation -= camY;
-
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-            //rotate cam and orientaton
-            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
         }
+
+       
 
     }
 }

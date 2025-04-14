@@ -72,7 +72,10 @@ public class LockPickingCanvas : MonoBehaviour
         for (int i = 0; i < difficulty; i++)
         {
             Button newPin = Instantiate(pinPrefab, pinsContainer).GetComponent<Button>();
-            newPin.transform.localPosition = new Vector3(i * pinSpacing, 0, 0); // Place pins with space between them
+            float totalWidth = (difficulty - 1) * pinSpacing;
+            float xOffset = -totalWidth / 2f; // Center the pins
+
+            newPin.transform.localPosition = new Vector3(xOffset + i * pinSpacing, 0, 0);
             pins.Add(newPin);
 
             // Add listener for when the pin is clicked
