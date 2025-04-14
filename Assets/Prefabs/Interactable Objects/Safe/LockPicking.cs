@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LockPicking : MonoBehaviour, InteractEvent
+public class LockPicking : MonoBehaviour
 {
     public bool isUnlocked = false;
     public Animator safeAnimator;
