@@ -229,8 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50ce7c242b738b429737197f3653efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footstepClipName: footstep_sound
   singleAudio: {fileID: 5236253442549926736}
+  footstepClipName: footstep_sound
   velocityThreshold: 0.1
 --- !u!1 &1143242481647542481
 GameObject:
@@ -411,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8052643865672798835
 Transform:
   m_ObjectHideFlags: 0
@@ -454,9 +454,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4350548536230807997}
     m_Modifications:
+    - target: {fileID: 1476668051342736, guid: 7726852b74327584980d2b8f88a12239, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1627468876766728, guid: 7726852b74327584980d2b8f88a12239, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1774380086634106, guid: 7726852b74327584980d2b8f88a12239, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1951130505052500, guid: 7726852b74327584980d2b8f88a12239, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1971421721505344, guid: 7726852b74327584980d2b8f88a12239, type: 3}
       propertyPath: m_Name
-      value: Character_Daughter_01
+      value: Character
       objectReference: {fileID: 0}
     - target: {fileID: 4002048977467014, guid: 7726852b74327584980d2b8f88a12239, type: 3}
       propertyPath: m_LocalScale.x

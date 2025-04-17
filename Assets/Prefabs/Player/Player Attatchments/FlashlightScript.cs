@@ -6,11 +6,11 @@ using UnityEngine.Experimental.GlobalIllumination;
 public class FlashlightScript : MonoBehaviour
 {
     [SerializeField] PlayerCam playerCam;
-    [SerializeField] GameObject light;
+    [SerializeField] GameObject lightObj;
 
     void Start()
     {
-        light.SetActive(PlayerManager.Instance.hasFlashlight);
+        lightObj.SetActive(PlayerManager.Instance.hasFlashlight);
     }
 
     private void Update()
@@ -22,7 +22,7 @@ public class FlashlightScript : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F) && PlayerManager.Instance.hasFlashlight)
         {
-            light.SetActive(!light.activeSelf);
+            lightObj.SetActive(!lightObj.activeSelf);
         }
     }
 

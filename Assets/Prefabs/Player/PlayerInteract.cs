@@ -38,24 +38,32 @@ public class PlayerInteract : MonoBehaviour
 
         RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction * raycastDistance, raycastDistance);
         GameObject closestObj = null; float closestDist = 10;
+        float wallDist = 10;
         for (int i = 0; i < hits.Length; i++)
         {
             GameObject hit = hits[i].transform.gameObject;
             if (hit.CompareTag("Selectable"))
             {
-                float distance = Vector3.Distance(ray.origin, hit.transform.position);
-                if(distance < closestDist)
+                float distance = hits[i].distance;
+                if (distance < closestDist)
                 {
                     closestDist = distance;
                     closestObj = hit;
                 }
             }
+            if (hit.CompareTag("Wall"))
+            {
+                float distance = hits[i].distance;
+                if (distance < wallDist)
+                {
+                    wallDist = distance;
+                }
+            }
         }
+
         if (closestObj == null)
-        {
             ResetHighlight();
-        }
-        else if (closestObj != null && closestObj != objRef)
+        else if (wallDist > closestDist && closestObj != null && closestObj != objRef)
         {
             ResetHighlight(); // Reset previous object's material
 
