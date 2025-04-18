@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/*
+ * Canvas that displays Building Info
+ */
+
 public class BuildingInfoCanvas : MonoBehaviour
 {
     public Transform playerCameraTransform; // maybe look at inbetween camera and van position
@@ -18,9 +22,11 @@ public class BuildingInfoCanvas : MonoBehaviour
             floorsText.text = "Difficulty: " + buildingInfo.floors;
         }
     }
-
+    
     void Update()
     {
-        transform.LookAt(playerCameraTransform);
+        transform.rotation = Quaternion.LookRotation(transform.position - playerCameraTransform.position);
     }
+    
+    
 }

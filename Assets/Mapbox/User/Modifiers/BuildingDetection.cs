@@ -17,14 +17,13 @@ public class BuildingDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("found: " + other.name + "  of tag: " + other.tag + "  at pos: " + other.transform.position);
         if(other.tag == "Wall") {
             BuildingInfo info = other.GetComponentInChildren<BuildingInfo>();
             if (info)
             {
                 // create a canvas at object position
-                Vector3 pos = other.transform.position;
-                pos.y += 13;
+                Vector3 pos = other.GetComponentInChildren<BuildingInfo>().gameObject.transform.position;
+                pos.y += 14;
                 GameObject infoCanvas = Instantiate(infoCanvasPrefab, pos, Quaternion.identity);
                 infoCanvas.GetComponent<BuildingInfoCanvas>().buildingInfo = info;
                 infoCanvas.GetComponent<BuildingInfoCanvas>().playerCameraTransform = playerCam.transform;
