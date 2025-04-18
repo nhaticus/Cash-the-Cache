@@ -1,8 +1,16 @@
+// Video used:https://www.youtube.com/watch?v=3xSYkFdQiZ0&t=70s
+
+// This script controls the speedometer of the car in Unity.
+// It updates the needle position based on the car's speed and creates speed labels on the speedometer.
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+
+
 
 public class Speedometer : MonoBehaviour
 {

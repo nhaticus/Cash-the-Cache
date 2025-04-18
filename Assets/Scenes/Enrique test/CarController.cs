@@ -1,3 +1,8 @@
+// Video used https://www.youtube.com/watch?v=DU-yminXEX0
+// Controls the driving behavior of the car using Unity's WheelCollider physics.
+// Handles player input for steering, acceleration, and braking, and syncs visual
+// wheel models with the physics wheels.
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -87,6 +92,6 @@ public class CarController : MonoBehaviour
 
     public float GetCurrentSpeedKMH()
     {
-        return rb.velocity.magnitude * 3.6f; // Converts from m/s to km/h
+        return rb.velocity.magnitude * 2.23694f; // Converts from m/s to mph
     }
 }
