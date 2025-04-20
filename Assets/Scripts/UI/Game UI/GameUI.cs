@@ -10,17 +10,26 @@ public class GameUI : MonoBehaviour
     [SerializeField] GameObject pausePrefab;
     [SerializeField] GameObject gameOverPrefab;
 
+    private PlayerUI playerUI;
+
     private void Start()
     {
+        playerUI = FindObjectOfType<PlayerUI>();
         StartCoroutine(FindPlayer());
     }
 
     private void Update()
     {
-        if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
-        {
+        if (GameManager.Instance.CurrentState == GameManager.GameState.Over)
+            return;
+        if (playerUI != null && playerUI.InventoryOpen)
+            return;
+            bool pausePressed =
+            (UserInput.Instance != null && UserInput.Instance.Pause) ||
+            (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape));
+
+        if (pausePressed)
             Pause();
-        }
     }
 
     GameObject player;

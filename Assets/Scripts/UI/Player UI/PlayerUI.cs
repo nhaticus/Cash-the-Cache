@@ -35,14 +35,21 @@ public class PlayerUI : MonoBehaviour
         weightUI.Initialize(player);
     }
 
+    [SerializeField] private GameObject hudPanel;
     bool inventoryOpen = false; // check for if inventory or lock picking is open
     private void Update()
     {
+        bool isPaused = Time.timeScale == 0f;
+        hudPanel.SetActive(!isPaused && !inventoryOpen);
         // Open inventory
-        if ((UserInput.Instance && UserInput.Instance.Inventory) || (UserInput.Instance == null && Input.GetMouseButtonDown(1))
-            && !inventoryOpen && (PlayerManager.Instance == null ||
-            (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
-            && Time.timeScale > 0)
+         bool openPressed =
+            (UserInput.Instance != null && UserInput.Instance.Inventory)
+            || (UserInput.Instance == null && Input.GetMouseButtonDown(1));
+
+        if (openPressed
+            && !inventoryOpen
+            && (PlayerManager.Instance == null || PlayerManager.Instance.ableToInteract)
+            && Time.timeScale > 0f)
         {
             CreateInventory();
         }
@@ -52,6 +59,8 @@ public class PlayerUI : MonoBehaviour
     void CreateInventory()
     {
         inventoryOpen = true;
+        Time.timeScale = 0f;
+        hudPanel.SetActive(false);
         GameObject inventory = Instantiate(inventoryPrefab, transform);
         inventory.GetComponent<InventoryUI>().Initialize(player);
         inventory.GetComponent<InventoryUI>().HideInventory.AddListener(HideInventory);
@@ -60,6 +69,10 @@ public class PlayerUI : MonoBehaviour
     void HideInventory()
     {
         inventoryOpen = false;
+        Time.timeScale = 1f;
+        hudPanel.SetActive(true);
     }
+
+    public bool InventoryOpen => inventoryOpen;
 
 }

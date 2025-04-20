@@ -16,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     public void SwitchScene(string gameScene)
     {
         Time.timeScale = 1;
+        GameManager.Instance.SetGameState(GameManager.GameState.Play);
         SceneManager.LoadScene(gameScene);
     }
 
@@ -30,6 +31,7 @@ public class PauseMenu : MonoBehaviour
         // Play sound again:
         UnPause.Invoke();
         Time.timeScale = 1;
+        GameManager.Instance.SetGameState(GameManager.GameState.Play);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
         Destroy(gameObject);

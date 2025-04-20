@@ -229,8 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c50ce7c242b738b429737197f3653efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  footstepClipName: footstep_sound
   singleAudio: {fileID: 5236253442549926736}
+  footstepClipName: footstep_sound
   velocityThreshold: 0.1
 --- !u!1 &1143242481647542481
 GameObject:
@@ -241,6 +241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7144547116123872470}
+  - component: {fileID: -331412028459495948}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -266,6 +267,32 @@ Transform:
   - {fileID: 8052643865672798835}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-331412028459495948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143242481647542481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af132675c046d7f43b4a5a591c86d582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundDetected: 0
+  perimeterAlert: 5
+  TagFilter: SoundEmitter
+  soundDetectAroundCorner: 2
+  distanceHearingAroundCorner: 3
+  distanceToObj: 0
+  highSoundLevel: 30
+  timeAlert: 5
+  alertTime: 0
+  targetObj: {x: 0, y: 0, z: 0}
+  soundTargetObj: []
+  targetDetected: 0
+  ObjectFiltered: []
+  ObjectsCloseAroundCorner: []
 --- !u!1 &3015201362566962870
 GameObject:
   m_ObjectHideFlags: 0

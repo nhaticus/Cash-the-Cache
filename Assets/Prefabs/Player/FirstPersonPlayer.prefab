@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1873143518731278612}
+  - component: {fileID: -8554462348603578531}
   m_Layer: 8
   m_Name: FirstPersonPlayer
-  m_TagString: Untagged
+  m_TagString: SoundEmitter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,6 +35,27 @@ Transform:
   - {fileID: 7528254617337049010}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &-8554462348603578531
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2174895757125541154}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2311025618755957177
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,8 +291,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d626bc496d40e4d42bfed4606a3548cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sens: 0
+  mouseSens: 0
+  controllerSens: 0
   lockRotation: 0
+  singleHandControls: 1
   orientation: {fileID: 959259248682064107}
   xRotation: 0
   yRotation: 0
