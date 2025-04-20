@@ -19,7 +19,7 @@ public class BuildingInfoCanvas : MonoBehaviour
         if (buildingInfo)
         {
             difficultyText.text = "Difficulty: " + buildingInfo.difficulty;
-            floorsText.text = "Difficulty: " + buildingInfo.floors;
+            floorsText.text = "Floors: " + buildingInfo.floors;
         }
 
         StartCoroutine(StartUp());
