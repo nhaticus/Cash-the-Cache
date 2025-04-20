@@ -16,14 +16,14 @@ public class UserInput : MonoBehaviour
     public Vector2 Move { get; private set;  }
     public bool Interact { get; private set; }
     public bool Inventory { get; private set; }
-    public bool MenuExit { get; private set; }
+    public bool Cancel { get; private set; }
     public bool Pause { get; private set; }
 
     PlayerInput playerInput;
     InputAction moveAction;
     InputAction interactAction;
     InputAction inventoryAction;
-    InputAction exitAction;
+    InputAction cancelAction;
     InputAction pauseAction;
 
 
@@ -51,7 +51,7 @@ public class UserInput : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         interactAction = playerInput.actions["Interact"];
         inventoryAction = playerInput.actions["Inventory"];
-        exitAction = playerInput.actions["Menu Exit"];
+        cancelAction = playerInput.actions["Cancel"];
         pauseAction = playerInput.actions["Pause"];
     }
 
@@ -60,7 +60,7 @@ public class UserInput : MonoBehaviour
         Move = moveAction.ReadValue<Vector2>();
         Interact = interactAction.WasPressedThisFrame();
         Inventory = inventoryAction.WasPressedThisFrame();
-        MenuExit = exitAction.WasPressedThisFrame();
+        Cancel = cancelAction.WasPressedThisFrame();
         Pause = pauseAction.WasPressedThisFrame();
     }
 }
