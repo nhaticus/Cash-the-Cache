@@ -14,6 +14,14 @@ public class HideoutManager : MonoBehaviour
         var placedObject = Instantiate(selectedPrefab, position, Quaternion.identity);
         placedObject.tag = "PlacedObject";
 
+        // Disable physics
+        var rb = placedObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.useGravity = false;
+            rb.isKinematic = true;
+        }
+
         return true;
     }
 

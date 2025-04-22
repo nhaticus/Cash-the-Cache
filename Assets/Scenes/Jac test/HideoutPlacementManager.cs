@@ -64,6 +64,7 @@ public class HideoutPlacementManager : MonoBehaviour
         // Edit mode: pick/move/drop existing objects
         if (editMode)
         {
+            //DoHighlight();
             highlightInstance?.SetActive(false);
             if (grabbedObject != null)
                 MoveGrabbedObject();
@@ -173,6 +174,7 @@ public class HideoutPlacementManager : MonoBehaviour
     // Reposition "grabbedObject" to the new point that gets hit
     void MoveGrabbedObject()
     {
+        DoHighlight();
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out var hit, Mathf.Infinity, placementLayerMask))
         {
