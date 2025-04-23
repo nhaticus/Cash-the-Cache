@@ -7,10 +7,11 @@ public class RoomGenerator : MonoBehaviour
     public List<GameObject> roomPrefabs;
     public int maxRooms = 10;
     private List<Transform> availableDoors = new List<Transform>();
+    private List<GameObject> placedRooms = new List<GameObject>();
     private int roomCount = 0;
     void Start()
     {
-        GameObject startRoom = Instantiate(roomPrefabs[0], Vector3.zero, Quaternion.identity);
+        GameObject startRoom = Instantiate(roomPrefabs[Random.Range(0,roomPrefabs.Count - 1)], Vector3.zero, Quaternion.identity);
         roomCount++;
         
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
@@ -19,15 +20,15 @@ public class RoomGenerator : MonoBehaviour
             availableDoors.AddRange(startRoomScript.doorPoints);
         }
 
-        GenerateRooms();
+        StartCoroutine(GenerateRooms());
     }
 
-    void GenerateRooms()
+    IEnumerator GenerateRooms()
     {
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
             // Select possible door
-            Transform currentDoor = availableDoors[0];
+            Transform currentDoor = availableDoors[Random.Range(0,availableDoors.Count - 1)];
             availableDoors.RemoveAt(0);
             
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
@@ -66,6 +67,7 @@ public class RoomGenerator : MonoBehaviour
                     }
                 }
             }
+            yield return new WaitForSeconds(.2f);
         }
     }
     bool IsPlacementValid(GameObject roomPrefab, Vector3 position, Quaternion rotation)
@@ -87,5 +89,4 @@ public class RoomGenerator : MonoBehaviour
         Debug.Log(hitColliders);
         return (hitColliders.Length == 0);
     }
-
 }
