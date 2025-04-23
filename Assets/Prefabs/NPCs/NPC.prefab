@@ -311,16 +311,16 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.463
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 170
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -355,7 +355,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -411,7 +411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8052643865672798835
 Transform:
   m_ObjectHideFlags: 0
@@ -442,8 +442,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSounds: []
   sfxSounds:
-  - name: footstep_sound
-    clip: {fileID: 8300000, guid: aa1ca730e2731fb4583a5b34d1a26c32, type: 3}
+  - name: footsteps
+    clip: {fileID: 8300000, guid: 1b07f4d2c2b8fbc4ab884a6738bd6be5, type: 3}
   musicSource: {fileID: 0}
   sfxSource: {fileID: 3350384341883054553}
 --- !u!1001 &7200933723574093272
