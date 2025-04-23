@@ -157,4 +157,10 @@ public class RoomGenerator : MonoBehaviour
         Debug.Log(hitColliders);
         return (hitColliders.Length == 0);
     }
+
+    // Referenced from ChatGPT
+    void OnDrawGizmosSelected() {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(levelSpawnPosition, 0.5f);
+    }
 }
