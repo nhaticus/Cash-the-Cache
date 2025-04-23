@@ -12,9 +12,16 @@ public class RoomGenerator : MonoBehaviour
     private List<Transform> availableDoors = new List<Transform>();
     private List<GameObject> placedRooms = new List<GameObject>();
     private int roomCount = 0;
+    public GameObject startRoomPrefab;
+    private GameObject startRoom;
     void Start()
     {
-        GameObject startRoom = Instantiate(roomPrefabs[Random.Range(0,roomPrefabs.Count - 1)], Vector3.zero, Quaternion.identity);
+        if(startRoomPrefab){
+            startRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity);
+        }
+        else { 
+            startRoom = Instantiate(roomPrefabs[Random.Range(0,roomPrefabs.Count - 1)], Vector3.zero, Quaternion.identity);
+        }
         roomCount++;
         
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
@@ -34,8 +41,9 @@ public class RoomGenerator : MonoBehaviour
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
             // Select possible door
-            Transform currentDoor = availableDoors[Random.Range(0,availableDoors.Count - 1)];
-            availableDoors.RemoveAt(0);
+            int randomDoor = Random.Range(0,availableDoors.Count - 1);
+            Transform currentDoor = availableDoors[randomDoor];
+            availableDoors.RemoveAt(randomDoor);
             
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
             RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
