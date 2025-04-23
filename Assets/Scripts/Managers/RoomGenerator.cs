@@ -40,17 +40,22 @@ public class RoomGenerator : MonoBehaviour
 
             Transform selectedDoor = newRoomScript.doorPoints[Random.Range(0, newRoomScript.doorPoints.Length)];
 
+            // Align opposing directions
             Vector3 horizontalCurrentForward = new Vector3(currentDoor.forward.x, 0, currentDoor.forward.z).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(-horizontalCurrentForward);
-            Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedDoor.localRotation);
+            Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedDoor.rotation);
 
-            Vector3 doorOffset = newRoomRotation * selectedDoor.localPosition;
-            Vector3 newRoomPosition = currentDoor.position - doorOffset;
+            // Use world offset between prefab origin and door
+            Vector3 doorOffset = selectedDoor.position - spawningRoom.transform.position;
+            Vector3 newRoomPosition = currentDoor.position - newRoomRotation * doorOffset;
 
+            // Check for overlap
             if (!IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation))
             {
                 continue;
             }
+
+            // Spawn room
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
             roomCount++;
 
