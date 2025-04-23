@@ -16,8 +16,7 @@ public class Box_Screw : MonoBehaviour
         clicks += PlayerManager.Instance.GetBoxOpening();
         transform.Rotate(new Vector3(0, 0, Random.Range(20, 40)));
         Color c = GetComponent<Image>().color;
-        c.a = 1 / (clicks/clicksRequired * 1.2f);
-        Debug.Log(c.a);
+        c.a = ((clicksRequired - clicks) * 1.2f) / clicksRequired;
         GetComponent<Image>().color = c;
         if (clicks >= clicksRequired)
         {
