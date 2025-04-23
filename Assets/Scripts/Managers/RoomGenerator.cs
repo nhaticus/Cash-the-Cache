@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
+    public NavMeshSurface surface;
     public List<GameObject> roomPrefabs;
     public int maxRooms = 10;
     private List<Transform> availableDoors = new List<Transform>();
@@ -22,6 +24,9 @@ public class RoomGenerator : MonoBehaviour
         }
 
         StartCoroutine(GenerateRooms());
+        if(surface){
+            surface.BuildNavMesh();
+        }
     }
 
     IEnumerator GenerateRooms()
@@ -58,7 +63,6 @@ public class RoomGenerator : MonoBehaviour
 
             // Spawn room
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
-            DoorSelect();
             roomCount++;
 
             
@@ -76,14 +80,19 @@ public class RoomGenerator : MonoBehaviour
             }
             yield return new WaitForSeconds(.2f);
         }
+        DoorSelect();
     }
 
     void DoorSelect(){
         GameObject[] doorList = GameObject.FindGameObjectsWithTag("Door");
+        HashSet<GameObject> removedDoors = new HashSet<GameObject>();
         foreach(GameObject door in doorList)
         {
-            Collider doorCollider = door.GetComponent<Collider>();
+            if(removedDoors.Contains(door)){
+                continue;
+            }
 
+            Collider doorCollider = door.GetComponent<Collider>();
             if (doorCollider == null){
                 continue;
             }
@@ -96,13 +105,19 @@ public class RoomGenerator : MonoBehaviour
 
             foreach (Collider hit in hits)
             {
-                if (hit.gameObject == door){
+                GameObject hitDoor = hit.gameObject;
+                if (hitDoor == door){
                     continue; // Check for self
                 }
-                if (!hit.CompareTag("Door")){
+                if (!hitDoor.CompareTag("Door")){
+                    continue;
+                }
+                if (removedDoors.Contains(hitDoor)){
                     continue;
                 }
                 Destroy(door);
+                removedDoors.Add(hitDoor);
+                break;
             }
         }
     }
