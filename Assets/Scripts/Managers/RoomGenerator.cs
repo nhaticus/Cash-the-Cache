@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
@@ -57,6 +58,7 @@ public class RoomGenerator : MonoBehaviour
 
             // Spawn room
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
+            DoorSelect();
             roomCount++;
 
             
@@ -73,6 +75,35 @@ public class RoomGenerator : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(.2f);
+        }
+    }
+
+    void DoorSelect(){
+        GameObject[] doorList = GameObject.FindGameObjectsWithTag("Door");
+        foreach(GameObject door in doorList)
+        {
+            Collider doorCollider = door.GetComponent<Collider>();
+
+            if (doorCollider == null){
+                continue;
+            }
+
+            Vector3 boxCenter = doorCollider.bounds.center;
+            Vector3 boxSize = doorCollider.bounds.size;
+
+            // Overlap box for door
+            Collider[] hits = Physics.OverlapBox(boxCenter, boxSize / 2f, door.transform.rotation);
+
+            foreach (Collider hit in hits)
+            {
+                if (hit.gameObject == door){
+                    continue; // Check for self
+                }
+                if (!hit.CompareTag("Door")){
+                    continue;
+                }
+                Destroy(door);
+            }
         }
     }
     bool IsPlacementValid(GameObject roomPrefab, Vector3 position, Quaternion rotation)
