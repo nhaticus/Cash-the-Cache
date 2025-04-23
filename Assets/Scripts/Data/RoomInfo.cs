@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoomInfo : MonoBehaviour
 {
+    public string roomName;
     public Transform[] doorPoints;
     void Start()
     {
