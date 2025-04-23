@@ -1,26 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
-    public NavMeshSurface surface;
-    public List<GameObject> roomPrefabs;
+    [Header("Setup (optional)")]
+    public GameObject startRoomPrefab;
+    public Vector3 levelSpawnPosition = Vector3.zero;
     public int maxRooms = 10;
+    public NavMeshSurface surface;
+
+    [Header("House Rooms")]
+    public List<GameObject> roomPrefabs;
+    [Header("Other Rooms")] // not yet anything but for future reference
     private List<Transform> availableDoors = new List<Transform>();
     private List<GameObject> placedRooms = new List<GameObject>();
     private int roomCount = 0;
-    public GameObject startRoomPrefab;
     private GameObject startRoom;
     void Start()
     {
+    }
+
+    public void BuildHouse(){
         if(startRoomPrefab){
-            startRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity);
+            startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, Quaternion.identity);
         }
         else { 
-            startRoom = Instantiate(roomPrefabs[Random.Range(0,roomPrefabs.Count - 1)], Vector3.zero, Quaternion.identity);
+            startRoom = Instantiate(roomPrefabs[Random.Range(0,roomPrefabs.Count - 1)], levelSpawnPosition, Quaternion.identity);
         }
         roomCount++;
         
@@ -109,7 +118,7 @@ public class RoomGenerator : MonoBehaviour
             Vector3 boxSize = doorCollider.bounds.size;
 
             // Overlap box for door
-            Collider[] hits = Physics.OverlapBox(boxCenter, boxSize / 2f, door.transform.rotation);
+            Collider[] hits = Physics.OverlapBox(boxCenter, boxSize, door.transform.rotation);
 
             foreach (Collider hit in hits)
             {
