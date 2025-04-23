@@ -8,7 +8,7 @@ public class PlayerCam : MonoBehaviour
     public float controllerSens;
 
     public bool lockRotation = false;
-    public bool singleHandControls = true;
+    public bool singleHandControls = false;
 
     public Transform orientation;
 

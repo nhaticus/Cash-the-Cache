@@ -17,6 +17,7 @@ public class Box_Screw : MonoBehaviour
         transform.Rotate(new Vector3(0, 0, Random.Range(20, 40)));
         Color c = GetComponent<Image>().color;
         c.a = 1 / (clicks/clicksRequired * 1.2f);
+        Debug.Log(c.a);
         GetComponent<Image>().color = c;
         if (clicks >= clicksRequired)
         {

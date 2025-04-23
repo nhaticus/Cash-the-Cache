@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /*
@@ -15,6 +16,8 @@ public class Settings : MonoBehaviour
     
     [SerializeField] GameObject volumeButton, controlButton, miscButton;
     GameObject selectedButton;
+
+    [SerializeField] Color selectionButtonSelected;
     
     private void Start()
     {
@@ -29,7 +32,7 @@ public class Settings : MonoBehaviour
         if(selectedButton)
             selectedButton.GetComponent<Image>().color = Color.white;// reset previous selected button
         selectedButton = volumeButton;
-        selectedButton.GetComponent<Image>().color = Color.red; // change to look selected
+        selectedButton.GetComponent<Image>().color = selectionButtonSelected; // change to look selected
     }
 
     public void OpenControls()
@@ -38,9 +41,9 @@ public class Settings : MonoBehaviour
         controlSetting.SetActive(true);
         miscSetting.SetActive(false);
         if (selectedButton)
-            selectedButton.GetComponent<Image>().color = Color.white;// reset previous selected button
+            selectedButton.GetComponent<Image>().color = Color.white; // reset previous selected button
         selectedButton = controlButton;
-        selectedButton.GetComponent<Image>().color = Color.red; // change to look selected
+        selectedButton.GetComponent<Image>().color = selectionButtonSelected; // change to look selected
     }
 
     public void OpenMISC()
@@ -49,8 +52,8 @@ public class Settings : MonoBehaviour
         controlSetting.SetActive(false);
         miscSetting.SetActive(true);
         if (selectedButton)
-            selectedButton.GetComponent<Image>().color = Color.white;// reset previous selected button
+            selectedButton.GetComponent<Image>().color = Color.white; // reset previous selected button
         selectedButton = miscButton;
-        selectedButton.GetComponent<Image>().color = Color.red; // change to look selected
+        selectedButton.GetComponent<Image>().color = selectionButtonSelected; // change to look selected
     }
 }
