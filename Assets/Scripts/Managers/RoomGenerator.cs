@@ -45,9 +45,6 @@ public class RoomGenerator : MonoBehaviour
         }
 
         StartCoroutine(GenerateRooms());
-        if(surface){
-            surface.BuildNavMesh();
-        }
     }
 
     IEnumerator GenerateRooms()
@@ -100,9 +97,12 @@ public class RoomGenerator : MonoBehaviour
                     }
                 }
             }
-            yield return new WaitForSeconds(.2f);
+            yield return new WaitForSeconds(0f);
         }
         DoorSelect();
+        if(surface){
+            surface.BuildNavMesh();
+        }
     }
 
     void DoorSelect(){
