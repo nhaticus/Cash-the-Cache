@@ -154,9 +154,13 @@ public class RoomGenerator : MonoBehaviour
         
         // Check for overlap
         Collider[] hitColliders = Physics.OverlapBox(worldCenter, halfExtents, rotation);
-        
-        Debug.Log(hitColliders);
-        return (hitColliders.Length == 0);
+        foreach(Collider hit in hitColliders){
+            GameObject hitObject = hit.gameObject;
+            if(hitObject.CompareTag("Room")){
+                return(false);
+            }
+        }
+        return (true);
     }
 
     // Referenced from ChatGPT
