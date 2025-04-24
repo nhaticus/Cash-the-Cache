@@ -22,14 +22,18 @@ public class RoomGenerator : MonoBehaviour
     private GameObject startRoom;
     void Start()
     {
+        maxRooms = PlayerPrefs.GetInt("Difficulty", 5); // dumb way for now
+        BuildHouse();
     }
 
     public void BuildHouse(){
         if(startRoomPrefab){
             startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, Quaternion.identity);
+            startRoom.transform.SetParent(this.transform);
         }
         else { 
             startRoom = Instantiate(roomPrefabs[Random.Range(0,roomPrefabs.Count - 1)], levelSpawnPosition, Quaternion.identity);
+            startRoom.transform.SetParent(this.transform);
         }
         roomCount++;
         
@@ -80,9 +84,9 @@ public class RoomGenerator : MonoBehaviour
 
             // Spawn room
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
-            roomCount++;
-
+            newRoom.transform.SetParent(this.transform);
             
+            roomCount++;
 
             RoomInfo newRoomInstanceScript = newRoom.GetComponent<RoomInfo>();
             if (newRoomInstanceScript != null)

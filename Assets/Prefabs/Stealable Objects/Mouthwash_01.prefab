@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 8611809071150388475}
   - component: {fileID: 4441774083196580736}
   - component: {fileID: 3228165682226882299}
-  - component: {fileID: 200892918353669921}
   - component: {fileID: 891265330324923047}
   - component: {fileID: 3865644464321668569}
   - component: {fileID: 929891369476632668}
+  - component: {fileID: 6151852935497993142}
   m_Layer: 0
   m_Name: Mouthwash_01
   m_TagString: Selectable
@@ -87,28 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &200892918353669921
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8690079299458945752}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43108947949964276, guid: 47bc597be00f54d458c828344d149560, type: 2}
 --- !u!54 &891265330324923047
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -161,3 +139,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb635d5adf8ca0542a96ebe162aa49c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &6151852935497993142
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8690079299458945752}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.11, y: 0.3590738, z: 0.15}
+  m_Center: {x: -0.000000029802322, y: 0.1795369, z: 0.00000047683716}
