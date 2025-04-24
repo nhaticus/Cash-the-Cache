@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75c491e2bb75dc8478de62c080301b46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 7114265105025692052}
   agentDefaultSpeed: 3.5
   playerLayer:
     serializedVersion: 2
@@ -213,9 +214,10 @@ MonoBehaviour:
     m_Bits: 512
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
-  exit: {fileID: 6311318650876038470}
   stunDuration: 1
   sightDistance: 10
+  cooldownBeforeWalking: 1
+  detectedPlayer: 0
   sightCountdown: 2
 --- !u!114 &2714131938348963132
 MonoBehaviour:
@@ -536,6 +538,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7726852b74327584980d2b8f88a12239, type: 3}
+--- !u!95 &7114265105025692052 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 95747097181074508, guid: 7726852b74327584980d2b8f88a12239,
+    type: 3}
+  m_PrefabInstance: {fileID: 7200933723574093272}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7205602771767003458 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4972655278935194, guid: 7726852b74327584980d2b8f88a12239,
