@@ -234,8 +234,8 @@ GameObject:
   - component: {fileID: 7680575574409977099}
   - component: {fileID: 1877717154156765171}
   - component: {fileID: 5282604915101732787}
-  - component: {fileID: 9020587287594495495}
   - component: {fileID: 8911044777005145682}
+  - component: {fileID: 2831299527764118023}
   m_Layer: 0
   m_Name: NPC_default
   m_TagString: AI
@@ -327,33 +327,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &9020587287594495495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1101948459535947309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75c491e2bb75dc8478de62c080301b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 7680575574409977099}
-  agentDefaultSpeed: 3.5
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 10
-  stunDuration: 1
-  sightDistance: 10
-  cooldownBeforeWalking: 2
-  detectedPlayer: 0
-  sightCountdown: 2
 --- !u!114 &8911044777005145682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,6 +342,35 @@ MonoBehaviour:
   singleAudio: {fileID: 6603385590806287848}
   footstepClipName: footstep_sound
   velocityThreshold: 0.1
+--- !u!114 &2831299527764118023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101948459535947309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cfa847c22c252c4ebf948b0afafce5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 7680575574409977099}
+  debugMode: 1
+  agentDefaultSpeed: 3.5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  walkPoint: {x: 0, y: 0, z: 0}
+  walkPointRange: 10
+  stunDuration: 1
+  sightDistance: 10
+  sightAngle: 45
+  cooldownBeforeWalking: 2
+  detectedPlayer: 0
+  sightCountdown: 2
 --- !u!1 &1502006757112051662
 GameObject:
   m_ObjectHideFlags: 0
