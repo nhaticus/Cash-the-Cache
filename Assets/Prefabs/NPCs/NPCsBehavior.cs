@@ -1,6 +1,6 @@
 /*  This script is attached to NPC prefab
     * FUNCTIONALITY: NPC will wander around until detecting the player, after which it will run away to a designated exit point
-    * HOW TO USE: drag the prefab into and set the exit point attached to the parent object to any entrance/exit point. Make sure to set the ground layer of the map to "Ground" inorder for the NPC to traverse it
+    * HOW TO USE: drag the prefab into scene and configure the parameters in the inspector
     */
 using System.Collections;
 using UnityEngine;
@@ -8,13 +8,13 @@ using UnityEngine.AI;
 
 public class NPCsBehavior : MonoBehaviour
 {
-    private NavMeshAgent agent;
-
-    private Transform player;
+    NavMeshAgent agent;
+    [SerializeField] Animator anim;
+    Transform player;
 
     /*  Navmesh Agent Settings   */
     [Header("Navmesh Agent Settings")]
-    public float agentDefaultSpeed = 3.5f; // default speed 3.5f
+    public float agentDefaultSpeed; // default speed 3.5f
 
     /*  Layers for detection    */
     [Header("Layers for Detection")]
@@ -23,26 +23,27 @@ public class NPCsBehavior : MonoBehaviour
 
     /*  Random walking  */
     [Header("Patrolling Settings")]
-    [SerializeField] private Vector3 walkPoint;
-    private bool walkPointExist;
+    [SerializeField] Vector3 walkPoint;
+    bool walkPointExist;
     public float walkPointRange;
-    public Transform exit;
 
     /*  Detection  */
     [Header("Detection Settings")]
     public float stunDuration;
     public float sightDistance;
-    private bool withinSight;
-    private bool detectedPlayer = false;
+    public float cooldownBeforeWalking = 1.0f; // Time before the NPC starts walking again after being stunned
+     bool withinSight;
+    [SerializeField] bool detectedPlayer = false;
 
  
 
     [Header("Detection Settings")]
     /*  Timers  */
     public float sightCountdown = 2.0f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
-    private float sightTimer = 0.0f;
+    float sightTimer = 0.0f;
     private void Awake()
     {
+        anim.SetBool("isWalking", true);
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
         agent.speed = agentDefaultSpeed;
@@ -62,7 +63,7 @@ public class NPCsBehavior : MonoBehaviour
         else
         {
             DetectPlayer();
-            
+
         }
     }
 
@@ -85,8 +86,6 @@ public class NPCsBehavior : MonoBehaviour
                 }
             }
         }
-
-        // Debug.Log("Within Sight: " + withinSight + " Within Reach: " + withinReach);
 
         if (withinSight)
         {
@@ -112,8 +111,9 @@ public class NPCsBehavior : MonoBehaviour
 
     private void Runaway()
     {
-        agent.SetDestination(exit.transform.position);
-        Vector3 distanceToExit = transform.position - exit.position;
+        Vector3 exit = GameManager.Instance.GetNPCExitPoint();
+        agent.SetDestination(exit);
+        Vector3 distanceToExit = transform.position - exit;
         if (agent.speed == agentDefaultSpeed)
         {
             agent.speed *= 1.5f;
@@ -122,37 +122,39 @@ public class NPCsBehavior : MonoBehaviour
         if (distanceToExit.magnitude < 2.0f)
         {
 
-            Destroy(transform.parent.gameObject);
+            Destroy(gameObject);
             GameManager.Instance.NPCLeaving();
-            // Debug.Log("NPC has escaped!");
         }
 
-        // Debug.Log("Player is in sight! RUN!");
     }
 
     private void PathingDefault()
     {
         if (!walkPointExist) FindWalkPoint();
 
-        else if (walkPointExist)
+        else
         {
             agent.SetDestination(walkPoint);
         }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 2.0f)
+        if (distanceToWalkPoint.magnitude < 0.5f)
         {
             walkPointExist = false;
-            StartCoroutine(WaitBeforeMoving());
+            StartCoroutine(WaitBeforeMoving(cooldownBeforeWalking));
         }
     }
 
-    private IEnumerator WaitBeforeMoving()
+    private IEnumerator WaitBeforeMoving(float time)
     {
         agent.isStopped = true;
-        yield return new WaitForSeconds(1f);
+        anim.SetBool("isWalking", false);
+        Debug.Log("isWalking = " + anim.GetBool("isWalking"));
+        yield return new WaitForSeconds(time);
         agent.isStopped = false;
+        anim.SetBool("isWalking", true);
+        Debug.Log("isWalking = " + anim.GetBool("isWalking"));
     }
 
 
@@ -173,32 +175,30 @@ public class NPCsBehavior : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    public float GetDetectionRatio()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightDistance);
+        // Avoid division by zero if sightCountdown = 0
+        return (sightCountdown > 0f) ? (sightTimer / sightCountdown) : 0f;
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
 
         if (other.CompareTag("Bat"))
         {
             Debug.Log("Stunned!");
-            StartCoroutine(Stun());
+            Stun();
         }
     }
 
-    private IEnumerator Stun()
+    private void Stun()
     {
-        agent.isStopped = true;
-        yield return new WaitForSeconds(stunDuration);
-        agent.isStopped = false;
+       StartCoroutine(WaitBeforeMoving(stunDuration));
     }
 
-    public float GetDetectionRatio()
+    private void OnDrawGizmosSelected()
     {
-        // Avoid division by zero if sightCountdown = 0
-        return (sightCountdown > 0f) ? (sightTimer / sightCountdown) : 0f;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, sightDistance);
     }
 }
