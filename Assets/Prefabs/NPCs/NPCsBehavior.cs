@@ -150,11 +150,9 @@ public class NPCsBehavior : MonoBehaviour
     {
         agent.isStopped = true;
         anim.SetBool("isWalking", false);
-        Debug.Log("isWalking = " + anim.GetBool("isWalking"));
         yield return new WaitForSeconds(time);
         agent.isStopped = false;
         anim.SetBool("isWalking", true);
-        Debug.Log("isWalking = " + anim.GetBool("isWalking"));
     }
 
 

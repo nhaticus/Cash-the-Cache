@@ -37,12 +37,10 @@ public class GameManager : MonoBehaviour
         if (exitObj != null)
         {
             NPCExitPoint = exitObj.transform.position;
-            Debug.Log("Exit point found in scene: " + scene.name);
         }
         else
         {
             NPCExitPoint = Vector3.zero;
-            Debug.Log("No exit point found in scene: " + scene.name);
         }
     }
     public enum GameState
