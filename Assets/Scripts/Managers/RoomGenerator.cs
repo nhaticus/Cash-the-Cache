@@ -9,7 +9,7 @@ public class RoomGenerator : MonoBehaviour
 {
     [Header("Setup (optional)")]
     public GameObject startRoomPrefab;
-    public Vector3 levelSpawnPosition = Vector3.zero;
+    public Vector3 levelSpawnPosition;
     public int maxRooms = 10;
     public NavMeshSurface surface;
 
@@ -25,6 +25,7 @@ public class RoomGenerator : MonoBehaviour
     }
 
     public void BuildHouse(){
+        levelSpawnPosition = transform.position;
         if(startRoomPrefab){
             startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, Quaternion.identity);
         }
