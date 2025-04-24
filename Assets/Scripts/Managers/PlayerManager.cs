@@ -13,6 +13,9 @@ public class PlayerManager : MonoBehaviour
     //Player Stats
     [Header("Mouse Sensitivity")]
     public float mouseSensitivity;
+    
+    [Header("Controller Sensitivity")]
+    public float controllerSensitivity;
 
     [Header("Player Weight")]
     [SerializeField] int weight = 0;
@@ -71,9 +74,11 @@ public class PlayerManager : MonoBehaviour
         boxOpening = 1 + (PlayerPrefs.GetInt("Screwdriver", 0) * 0.3f);
 
         mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
+        controllerSensitivity = PlayerPrefs.GetFloat("Controller Sensitivity", 120);
         if (playerCameraScript)
         {
-            playerCameraScript.sens = mouseSensitivity;
+            playerCameraScript.mouseSens = mouseSensitivity;
+            playerCameraScript.controllerSens = controllerSensitivity;
         }
 
     }
@@ -86,7 +91,8 @@ public class PlayerManager : MonoBehaviour
             playerCameraScript = mainCamera.GetComponent<PlayerCam>();
             if (playerCameraScript)
             {
-                playerCameraScript.sens = mouseSensitivity;
+                playerCameraScript.mouseSens = mouseSensitivity;
+                playerCameraScript.controllerSens = controllerSensitivity;
             }
         }
 
@@ -234,11 +240,17 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void SetSensitivity(float sensitivity)
+    public void SetMouseSensitivity(float sensitivity)
     {
         mouseSensitivity = sensitivity;
         if (playerCameraScript)
-            playerCameraScript.sens = mouseSensitivity;
+            playerCameraScript.mouseSens = mouseSensitivity;
+    }
+    public void SetControllerSensitivity(float sensitivity)
+    {
+        controllerSensitivity = sensitivity;
+        if (playerCameraScript)
+            playerCameraScript.controllerSens = controllerSensitivity;
     }
 
     public void WeightChangeSpeed()

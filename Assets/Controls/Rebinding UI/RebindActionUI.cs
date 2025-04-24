@@ -1,11 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine.Events;
-using UnityEngine.UI;
+using UnityEngine.InputSystem.Controls;
 
-////TODO: localization support
-
-////TODO: deal with composites that have parts bound in different control schemes
 
 namespace UnityEngine.InputSystem.Samples.RebindUI
 {
@@ -219,16 +218,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             ResetBindings(action, bindingIndex);
 
-            //if (action.bindings[bindingIndex].isComposite)
-            //{
-            //    // It's a composite. Remove overrides from part bindings.
-            //    for (var i = bindingIndex + 1; i < action.bindings.Count && action.bindings[i].isPartOfComposite; ++i)
-            //        action.RemoveBindingOverride(i);
-            //}
-            //else
-            //{
-            //    action.RemoveBindingOverride(bindingIndex);
-            //}
             UpdateBindingDisplay();
         }
 
@@ -293,6 +282,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
+                .WithExpectedControlType<ButtonControl>()
                 .WithCancelingThrough("<Keyboard>/escape")
                 .OnCancel(
                     operation =>
@@ -369,6 +359,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 if (binding.effectivePath == newBinding.effectivePath)
                 {
                     Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                    StartCoroutine(DuplicateTextFound(newBinding.effectivePath));
                     return true;
                 }
 
@@ -379,6 +370,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         if (action.bindings[i].effectivePath == newBinding.overridePath)
                         {
                             Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                            StartCoroutine(DuplicateTextFound(newBinding.effectivePath));
                             return true;
                         }
                     }
@@ -386,6 +378,14 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             }
 
             return false;
+        }
+
+        private IEnumerator DuplicateTextFound(string path)
+        {
+            m_duplicateTextFound.SetActive(true);
+            m_duplicateTextFound.GetComponent<TMP_Text>().text = "Duplicate binding found: " + path;
+            yield return new WaitForSeconds(0.7f);
+            m_duplicateTextFound.SetActive(false);
         }
 
         protected void OnEnable()
@@ -463,6 +463,10 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         [Tooltip("Optional text label that will be updated with prompt for user input.")]
         [SerializeField]
         private TMPro.TextMeshProUGUI m_RebindText;
+
+        [Tooltip("Text label that will show when a duplicate binding was found.")]
+        [SerializeField]
+        private GameObject m_duplicateTextFound;
 
         [Tooltip("Optional bool field to override action label with own text")]
         public bool m_OverrideActionLabel;

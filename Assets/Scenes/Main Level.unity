@@ -766,6 +766,11 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 305.76587
       objectReference: {fileID: 0}
+    - target: {fileID: 932874765524548091, guid: 9f2312d32bfabda47aedea375adc49d3,
+        type: 3}
+      propertyPath: lightObj
+      value: 
+      objectReference: {fileID: 1617477167}
     - target: {fileID: 1340788924779266159, guid: 9f2312d32bfabda47aedea375adc49d3,
         type: 3}
       propertyPath: m_IsTrigger
@@ -826,10 +831,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: FirstPersonPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 2950593277431717636, guid: 9f2312d32bfabda47aedea375adc49d3,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d4d067f21e169c2419ba90fe855b68a4, type: 3}
     - target: {fileID: 3859982539312117676, guid: 9f2312d32bfabda47aedea375adc49d3,
         type: 3}
       propertyPath: sens
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3859982539312117676, guid: 9f2312d32bfabda47aedea375adc49d3,
+        type: 3}
+      propertyPath: singleHandControls
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5596697871372995690, guid: 9f2312d32bfabda47aedea375adc49d3,
         type: 3}
@@ -998,6 +1013,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714131938348963132, guid: 7f27317e1aa3c9c46a3689d871d8a427,
+        type: 3}
+      propertyPath: footstepClipName
+      value: footsteps
       objectReference: {fileID: 0}
     - target: {fileID: 3911536459935504225, guid: 7f27317e1aa3c9c46a3689d871d8a427,
         type: 3}
@@ -4768,6 +4788,33 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0bbfc03500ac1e40b102da6ff87ecd1, type: 3}
+--- !u!1 &728753154 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7156631539112248264, guid: 4e36395a74b50e44a8c23635a07ccc72,
+    type: 3}
+  m_PrefabInstance: {fileID: 1503449472}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &728753158
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728753154}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.0000176, y: 0.29999137, z: 5.0000043}
+  m_Center: {x: -2.500007, y: -0.080299154, z: -2.499987}
 --- !u!1001 &749046234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6068,6 +6115,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NPC (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714131938348963132, guid: 7f27317e1aa3c9c46a3689d871d8a427,
+        type: 3}
+      propertyPath: footstepClipName
+      value: footsteps
       objectReference: {fileID: 0}
     - target: {fileID: 3911536459935504225, guid: 7f27317e1aa3c9c46a3689d871d8a427,
         type: 3}
@@ -8287,6 +8339,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 27639846331497194, guid: 4e36395a74b50e44a8c23635a07ccc72,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 53939205089941684, guid: 4e36395a74b50e44a8c23635a07ccc72,
         type: 3}
       propertyPath: m_InnerSpotPercent
@@ -8331,6 +8388,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 9.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 569579991480878634, guid: 4e36395a74b50e44a8c23635a07ccc72,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 694963049960746454, guid: 4e36395a74b50e44a8c23635a07ccc72,
         type: 3}
@@ -8705,7 +8767,7 @@ PrefabInstance:
     - target: {fileID: 3888321205417411126, guid: 4e36395a74b50e44a8c23635a07ccc72,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.2
+      value: 6.84
       objectReference: {fileID: 0}
     - target: {fileID: 3888321205417411126, guid: 4e36395a74b50e44a8c23635a07ccc72,
         type: 3}
@@ -9416,7 +9478,7 @@ PrefabInstance:
     - target: {fileID: 8411629762001408763, guid: 4e36395a74b50e44a8c23635a07ccc72,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -42.38
+      value: -35.91
       objectReference: {fileID: 0}
     - target: {fileID: 8411629762001408763, guid: 4e36395a74b50e44a8c23635a07ccc72,
         type: 3}
@@ -10170,6 +10232,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1503449478}
+    - targetCorrespondingSourceObject: {fileID: 7156631539112248264, guid: 4e36395a74b50e44a8c23635a07ccc72,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 728753158}
     - targetCorrespondingSourceObject: {fileID: 2755806147389252601, guid: 4e36395a74b50e44a8c23635a07ccc72,
         type: 3}
       insertIndex: -1
@@ -10816,6 +10882,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2714131938348963132, guid: 7f27317e1aa3c9c46a3689d871d8a427,
+        type: 3}
+      propertyPath: footstepClipName
+      value: footsteps
+      objectReference: {fileID: 0}
+    - target: {fileID: 3350384341883054553, guid: 7f27317e1aa3c9c46a3689d871d8a427,
+        type: 3}
+      propertyPath: MaxDistance
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3911536459935504225, guid: 7f27317e1aa3c9c46a3689d871d8a427,
         type: 3}
       propertyPath: detectionBar
@@ -10826,6 +10902,11 @@ PrefabInstance:
       propertyPath: detectionBarController
       value: 
       objectReference: {fileID: 847011515}
+    - target: {fileID: 3969075196006281781, guid: 7f27317e1aa3c9c46a3689d871d8a427,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4350548536230807997, guid: 7f27317e1aa3c9c46a3689d871d8a427,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11260,6 +11341,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616308310}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1617477167 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3104883029726265811, guid: 9f2312d32bfabda47aedea375adc49d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 123884263}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1625261826
 PrefabInstance:
   m_ObjectHideFlags: 0

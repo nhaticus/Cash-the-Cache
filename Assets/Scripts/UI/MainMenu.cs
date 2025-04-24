@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] AudioMixer audioMixer;
     float defaultVolume = 1;
+
+    [SerializeField] EventSystem eventSystem;
+    public GameObject prevButton; // remember which button when renabling main menu
 
     private void Start()
     {
@@ -26,6 +30,11 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void MenuRememberButton(GameObject button)
+    {
+        prevButton = button;
     }
 
 }
