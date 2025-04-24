@@ -9,7 +9,7 @@ public class RoomGenerator : MonoBehaviour
 {
     [Header("Setup (optional)")]
     public GameObject startRoomPrefab;
-    public Vector3 levelSpawnPosition = Vector3.zero;
+    public Vector3 levelSpawnPosition;
     public int maxRooms = 10;
     public NavMeshSurface surface;
 
@@ -25,6 +25,7 @@ public class RoomGenerator : MonoBehaviour
     }
 
     public void BuildHouse(){
+        levelSpawnPosition = transform.position;
         if(startRoomPrefab){
             startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, Quaternion.identity);
         }
@@ -153,9 +154,13 @@ public class RoomGenerator : MonoBehaviour
         
         // Check for overlap
         Collider[] hitColliders = Physics.OverlapBox(worldCenter, halfExtents, rotation);
-        
-        Debug.Log(hitColliders);
-        return (hitColliders.Length == 0);
+        foreach(Collider hit in hitColliders){
+            GameObject hitObject = hit.gameObject;
+            if(hitObject.CompareTag("Room")){
+                return(false);
+            }
+        }
+        return (true);
     }
 
     // Referenced from ChatGPT
