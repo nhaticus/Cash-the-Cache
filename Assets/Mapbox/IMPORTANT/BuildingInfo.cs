@@ -15,7 +15,7 @@ public class BuildingInfo : MonoBehaviour
         // get size of building and assign difficulty and floors
         Vector3 meshSize = parentMesh.bounds.size;
         meshX = meshSize.x; meshY = meshSize.y;
-        difficulty = (int) Mathf.Floor((meshSize.x + meshSize.y) / 10 + Random.Range(0.3f, 1));
+        difficulty = (int) Mathf.Floor((meshSize.x + meshSize.y) / 10 + Random.Range(-0.5f, 1.5f)); // difficulty is changed by a little
         if (meshSize.y < 3)
             floors = 1;
         else if (meshSize.y < 6)

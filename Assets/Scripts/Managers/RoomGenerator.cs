@@ -22,7 +22,7 @@ public class RoomGenerator : MonoBehaviour
     private GameObject startRoom;
     void Start()
     {
-        maxRooms = PlayerPrefs.GetInt("Difficulty", 5); // dumb way for now
+        maxRooms = PlayerPrefs.GetInt("Difficulty", 5) * 4; // dumb way for now
         BuildHouse();
     }
 

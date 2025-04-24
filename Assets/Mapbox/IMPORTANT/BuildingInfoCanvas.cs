@@ -12,7 +12,7 @@ public class BuildingInfoCanvas : MonoBehaviour
     public Transform playerCameraTransform; // maybe look at inbetween camera and van position
     public BuildingInfo buildingInfo;
 
-    [SerializeField] TMP_Text difficultyText, floorsText;
+    public TMP_Text difficultyText, floorsText; // don't make public
 
     private void Start()
     {

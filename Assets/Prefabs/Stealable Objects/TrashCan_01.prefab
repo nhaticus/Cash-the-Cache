@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 5585543323724950464}
   - component: {fileID: 5585543323723687562}
   - component: {fileID: 5585543323722707306}
-  - component: {fileID: 5577208598451974782}
   - component: {fileID: 2071738787327136792}
   - component: {fileID: 7810600256580475595}
   - component: {fileID: 5144862220799940183}
+  - component: {fileID: 5273624990125954078}
   m_Layer: 0
   m_Name: TrashCan_01
   m_TagString: Selectable
@@ -87,28 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5577208598451974782
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5585543323724741498}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43369564141838714, guid: 531e438b4035a3746816299c00a09f5e, type: 2}
 --- !u!54 &2071738787327136792
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -161,3 +139,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lootInfo: {fileID: 11400000, guid: 3895a3ac7d14e7547aa28a58d29fa0c5, type: 2}
+--- !u!65 &5273624990125954078
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5585543323724741498}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6, y: 0.86741996, z: 0.6}
+  m_Center: {x: -0.0000029206276, y: 0.000000014901161, z: -0.0000041127205}
