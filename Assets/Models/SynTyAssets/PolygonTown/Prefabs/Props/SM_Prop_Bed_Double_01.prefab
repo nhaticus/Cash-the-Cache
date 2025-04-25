@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 4851754291041344}
   - component: {fileID: 33325386933935234}
   - component: {fileID: 23653153306295476}
-  - component: {fileID: 64100639529725910}
-  - component: {fileID: 64518889036434600}
+  - component: {fileID: 2598907250760249100}
   - component: {fileID: 184832218725252204}
   m_Layer: 0
   m_Name: SM_Prop_Bed_Double_01
@@ -86,8 +85,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64100639529725910
-MeshCollider:
+--- !u!65 &2598907250760249100
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -104,32 +103,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43547939329841636, guid: ed37f7dec83fe664cbe61e4c8f19ad7f, type: 2}
---- !u!64 &64518889036434600
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1639530465133374}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43651507719098410, guid: ed37f7dec83fe664cbe61e4c8f19ad7f, type: 2}
+  serializedVersion: 3
+  m_Size: {x: 2.090786, y: 0.8, z: 2.6092186}
+  m_Center: {x: 0, y: 0.4, z: -0.0000009536743}
 --- !u!208 &184832218725252204
 NavMeshObstacle:
   m_ObjectHideFlags: 0
