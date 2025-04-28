@@ -17,9 +17,6 @@ public class FlushButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void Update()
     {
-        if (SENDIT)
-        {
-            canvas.GetComponent<FlushingCanvas>().FlushButton();
-        }
+        if (SENDIT) canvas.GetComponent<FlushingCanvas>().FlushButton();
     }
 }

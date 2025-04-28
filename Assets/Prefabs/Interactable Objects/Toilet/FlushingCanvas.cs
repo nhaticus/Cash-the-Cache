@@ -1,12 +1,5 @@
-//LockPickingCanvas handles the lockpicking minigame logic for the safe
-// Player interacts with a set of pins that need to be pressed in a specific order to unlock the safe
-// Difficulty determines the number of pins and the complexity of the lockpicking
-// Dynamic pin creation and canvas creation
-// Each pin is assigned a random order to be pressed
-// Pins flash in the correct order to guide the player
-// Player has a limited number of attempts to unlock the safe
-// If the player fails and runs out of attempts then the safe is permantly locked and a message is shown
-// If the player successfully unlocks the safe, they can loot the contents inside
+// Flushing canvas handles the flushing minigame, as well as the creation of the canvas
+// Player has to sync up the target and the controlled box in order to raise the meter, and doing it enough flushes the toilet
 
 using System.Collections;
 using System.Collections.Generic;
@@ -41,7 +34,8 @@ public class FlushingCanvas : MonoBehaviour
             toiletOpened.Invoke();
             ExitToilet();
         }
-        if ((controlledObject.GetComponent<RectTransform>().localPosition.x < lowerBound && button.GetComponent<FlushButton>().SENDIT == false) || (button.GetComponent<FlushButton>().SENDIT && controlledObject.GetComponent<RectTransform>().localPosition.x > upperBound))
+        if ((controlledObject.GetComponent<RectTransform>().localPosition.x < lowerBound && button.GetComponent<FlushButton>().SENDIT == false) || 
+            (button.GetComponent<FlushButton>().SENDIT && controlledObject.GetComponent<RectTransform>().localPosition.x > upperBound))
         {
             controlledObject.GetComponent<Rigidbody>().drag = 9999999999999999999;
         }

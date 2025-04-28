@@ -116,7 +116,7 @@ public class Toilet : MonoBehaviour, InteractEvent
         {
             Instantiate(loot[Random.Range(0, loot.Count)], spawnPos.position, transform.rotation);
         }
-        if(Random.Range(1,101) < 2) el_Skibidi.SetActive(true);
+        if(Random.Range(1, 101) < 2) el_Skibidi.SetActive(true);
 
     }
 
