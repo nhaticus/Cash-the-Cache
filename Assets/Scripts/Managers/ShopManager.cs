@@ -39,12 +39,16 @@ public class ShopManager : MonoBehaviour
                 CloseShop();
             }
         }
+        /*
         else
         {
             ShopCheck();
         }
+        */
     }
 
+    // shoots raycast to detect Shop Keeper
+    // if detected allows Shop Menu to be opened
     void ShopCheck()
     {
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
@@ -80,7 +84,7 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    void OpenShop()
+    public void OpenShop()
     {
         PlayerManager.Instance.ToggleRotation();
         PlayerManager.Instance.ToggleCursor();
