@@ -31,7 +31,7 @@ public class ToolBoxCanvas : MonoBehaviour
     
     private void Start() {
         lockRotation = LockPick.GetComponent<AnchoredRotation>();
-        lockRotation.SetRotationAmount(difficulty);
+        lockRotation.SetRotationSpeed(difficulty);
         RadiusOfLock = LockPick.transform.localPosition.y;
         SpawnLockGoal();
     }
@@ -67,7 +67,6 @@ public class ToolBoxCanvas : MonoBehaviour
             }
 
         } else {
-            Debug.Log("Pick Failed");
             // stop spinning dot
             StartCoroutine(lockRotation.ShakeObject());
         }

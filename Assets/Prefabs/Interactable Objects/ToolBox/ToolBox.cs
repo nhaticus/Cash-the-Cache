@@ -30,7 +30,8 @@ public class ToolBox : MonoBehaviour, InteractEvent {
         PlayerManager.Instance.WeightChangeSpeed();
 
         // spawn a random object at box position
-        Instantiate(obj[Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
+        if(obj.Length > 0)
+            Instantiate(obj[Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }
