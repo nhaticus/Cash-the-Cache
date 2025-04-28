@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4731903761964017945}
   - component: {fileID: 6674565195984917045}
   - component: {fileID: 4945199902007224064}
+  - component: {fileID: 6134491844615187057}
   - component: {fileID: 8154501432410153907}
   - component: {fileID: 2484417651400596152}
-  - component: {fileID: 6134491844615187057}
   m_Layer: 0
   m_Name: Computer_Keyboard_01
   m_TagString: Selectable
@@ -114,6 +114,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &6134491844615187057
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7126043478896143008}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6550503, y: 0.03692329, z: 0.20460868}
+  m_Center: {x: 0, y: 0.018461645, z: -0.000002026558}
 --- !u!114 &8154501432410153907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,24 +160,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lootInfo: {fileID: 11400000, guid: 45c69917e32ce124d814eee1cfa34941, type: 2}
---- !u!65 &6134491844615187057
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7126043478896143008}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.6550503, y: 0.03692329, z: 0.20460868}
-  m_Center: {x: 0, y: 0.018461645, z: -0.000002026558}

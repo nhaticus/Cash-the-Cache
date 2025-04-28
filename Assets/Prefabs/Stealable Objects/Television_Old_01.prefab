@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 4618289409736440}
   - component: {fileID: 33484845068193588}
   - component: {fileID: 23774484092748476}
-  - component: {fileID: 64136069736476598}
   - component: {fileID: 7765444356424371345}
   - component: {fileID: 2898803957833887933}
   - component: {fileID: 2022138058571242702}
+  - component: {fileID: 464224114474208326}
   m_Layer: 0
   m_Name: Television_Old_01
   m_TagString: Selectable
@@ -88,28 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64136069736476598
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1604706911255370}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43917567563329774, guid: 4fbd8262668073841886964b32e32a44, type: 2}
 --- !u!54 &7765444356424371345
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -162,3 +140,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb635d5adf8ca0542a96ebe162aa49c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &464224114474208326
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1604706911255370}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.90902334, y: 0.58322704, z: 0.5143713}
+  m_Center: {x: 0, y: 0.29161352, z: -0.14866452}
