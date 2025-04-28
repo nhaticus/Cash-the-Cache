@@ -11,12 +11,20 @@ public class Target : MonoBehaviour
     [SerializeField] FlushingCanvas canvas;
     [SerializeField] Slider powerSlida;
     [SerializeField] float minForce = 100000, maxForce = 1000000;
+    [SerializeField] float lowerBound, upperBound;
     float timer = 0;
     float timeToMove = 0;
-    public bool SENDIT = false;
-    public void OnTriggerStay(Collider Collision)
+
+    Rigidbody2D rb;
+
+    private void Start()
     {
-        powerSlida.value += Time.deltaTime * (2 / canvas.difficulty);
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void OnTriggerStay2D(Collider2D Collision)
+    {
+        powerSlida.value += Time.deltaTime / (1.35f * canvas.difficulty);
     }
 
     private void Update()
@@ -24,16 +32,16 @@ public class Target : MonoBehaviour
         timer += Time.deltaTime;
         if(timer > timeToMove)
         {
+            
             if (transform.GetComponent<RectTransform>().localPosition.x > 0)
-            {
-                transform.GetComponent<Rigidbody>().AddForce(new Vector2(-1 * Random.Range(minForce, maxForce * canvas.difficulty) * Time.deltaTime, 0f), ForceMode.Force);
-            }
+                rb.AddForce(new Vector2(-1 * Random.Range(minForce, maxForce * canvas.difficulty) * Time.deltaTime, 0f), ForceMode2D.Force);
             else
-            {
-                transform.GetComponent<Rigidbody>().AddForce(new Vector2(Random.Range(minForce, maxForce * canvas.difficulty) * Time.deltaTime, 0f), ForceMode.Force);
-            }
-            timeToMove = Random.Range(1, 30 / canvas.difficulty);
+                rb.AddForce(new Vector2(Random.Range(minForce, maxForce * canvas.difficulty) * Time.deltaTime, 0f), ForceMode2D.Force);
+            timeToMove = Random.Range(1, 4f / canvas.difficulty);
             timer = 0;
         }
+
+        if (transform.localPosition.x < lowerBound || transform.localPosition.x > upperBound)
+            rb.velocity = Vector2.zero;
     }
 }

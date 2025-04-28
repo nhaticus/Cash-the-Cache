@@ -34,28 +34,15 @@ public class FlushingCanvas : MonoBehaviour
             toiletOpened.Invoke();
             ExitToilet();
         }
-        if ((controlledObject.GetComponent<RectTransform>().localPosition.x < lowerBound && button.GetComponent<FlushButton>().SENDIT == false) || 
-            (button.GetComponent<FlushButton>().SENDIT && controlledObject.GetComponent<RectTransform>().localPosition.x > upperBound))
+        if ((controlledObject.transform.localPosition.x < lowerBound && button.GetComponent<FlushButton>().SENDIT == false) || 
+            (button.GetComponent<FlushButton>().SENDIT && controlledObject.transform.localPosition.x > upperBound))
         {
-            controlledObject.GetComponent<Rigidbody>().drag = 9999999999999999999;
+            controlledObject.GetComponent<Rigidbody2D>().drag = 9999999999999999999;
         }
         else
         {
-            controlledObject.GetComponent<Rigidbody>().drag = 1;
+            controlledObject.GetComponent<Rigidbody2D>().drag = 1;
         }
-    }
-    
-
-    public void ExitButton()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
-        PlayerManager.Instance.ableToInteract = true;
-        PlayerManager.Instance.unlockRotation();
-        PlayerManager.Instance.WeightChangeSpeed();
-
-        Destroy(gameObject); // Destroy the canvas
     }
 
     public void ExitToilet()
@@ -72,11 +59,11 @@ public class FlushingCanvas : MonoBehaviour
 
     private void ApplyForceToControl(float force)
     {
-        controlledObject.GetComponent<Rigidbody>().AddForce(new Vector2(force * Time.deltaTime, 0), ForceMode.Force);
+        controlledObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(force * Time.deltaTime, 0), ForceMode2D.Force);
     }
 
     public void FlushButton()
     {
-        controlledObject.GetComponent<Rigidbody>().AddForce(new Vector2(speed * Time.deltaTime, 0), ForceMode.Force);
+        controlledObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(speed * Time.deltaTime, 0), ForceMode2D.Force);
     }
 }

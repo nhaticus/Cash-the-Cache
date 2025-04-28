@@ -36,14 +36,9 @@ public class Toilet : MonoBehaviour, InteractEvent
 
         // Check if the canvas already exists and is active
         if (currentCanvas == null)
-        {
             InitializeFlushingCanvas();
-        }
-        else
-        {
-            // If the canvas exists, just enable it and retain the combo
+        else // canvas exists, enable it and retain the combo
             currentCanvas.SetActive(true);
-        }
 
         LockPlayerControls();
     }
@@ -54,10 +49,11 @@ public class Toilet : MonoBehaviour, InteractEvent
         currentCanvas.SetActive(true);
         FlushingCanvas canvasScript = currentCanvas.GetComponent<FlushingCanvas>();
 
-        // Set the difficulty for the lockpicking mini-game and add listeners for success and failure
+        // Set the difficulty for mini-game and add listeners for success
         canvasScript.difficulty = difficulty;
         canvasScript.toiletOpened.AddListener(OnFlushingCompleted);
     }
+
     // Lock the player controls during the mini-game
     private void LockPlayerControls()
     {
@@ -68,10 +64,10 @@ public class Toilet : MonoBehaviour, InteractEvent
         PlayerManager.Instance.lockRotation();
         PlayerManager.Instance.setMoveSpeed(0);
     }
+
     // Method that gets called when the lockpicking mini-game is completed successfully
     private void OnFlushingCompleted()
     {
-        // Unlock the safe and play the animation
         isUnlocked = true;
 
         // Spawn loot based on difficulty
