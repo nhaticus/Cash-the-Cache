@@ -54,6 +54,7 @@ public class FlashlightUpgrade : MonoBehaviour
     }
     public void CheckPurchasable()
     {
-        GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
+        if(!purchased)
+            GetComponent<Image>().color = GameManager.Instance.playerMoney < price ? new Color(200f / 255f, 200f / 255f, 200f / 255f) : Color.white;
     }
 }

@@ -12,9 +12,6 @@ public class GameManager : MonoBehaviour
 
     private Vector3 NPCExitPoint; // Exit for NPCs to leave the map
 
-    public int numRuns = 0; // number of times replayed to reduce max time
-                            // Shop Van increases variable when go to level
-
     private void Awake()
     {
         if (Instance == null)
