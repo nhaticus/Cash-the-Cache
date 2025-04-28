@@ -44,7 +44,6 @@ public class FlushingCanvas : MonoBehaviour
             controlledObject.GetComponent<Rigidbody>().drag = 1;
         }
     }
-    // Dynamically creates pins based on the difficulty level
     
 
     public void ExitButton()
@@ -67,16 +66,17 @@ public class FlushingCanvas : MonoBehaviour
         PlayerManager.Instance.ableToInteract = true;
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.WeightChangeSpeed();
-        Destroy(gameObject); // Destroy the canvas when exiting
+
+        Destroy(gameObject); // Destroy the canvas
     }
 
     private void ApplyForceToControl(float force)
     {
-        controlledObject.GetComponent<Rigidbody>().AddForce(new Vector3(force * Time.deltaTime, 0f, 0f), ForceMode.Force);
+        controlledObject.GetComponent<Rigidbody>().AddForce(new Vector2(force * Time.deltaTime, 0), ForceMode.Force);
     }
 
     public void FlushButton()
     {
-        controlledObject.GetComponent<Rigidbody>().AddForce(new Vector3(speed * Time.deltaTime, 0f, 0f), ForceMode.Force);
+        controlledObject.GetComponent<Rigidbody>().AddForce(new Vector2(speed * Time.deltaTime, 0), ForceMode.Force);
     }
 }
