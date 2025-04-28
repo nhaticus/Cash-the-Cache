@@ -42,8 +42,8 @@ public class ToolBoxCanvas : MonoBehaviour
 
     #region Public Functions
 
-    public void SetDifficulty(float Difficulty) {
-        LockPickRotation.SetRotation(Difficulty * 10);
+    public void SetDifficulty(float difficulty) {
+        LockPickRotation.SetRotationAmount(difficulty);
     }
 
     public void ExitToolBox() {
@@ -68,6 +68,7 @@ public class ToolBoxCanvas : MonoBehaviour
 
         } else {
             Debug.Log("Pick Failed");
+            // stop spinning dot
         }
     }
 

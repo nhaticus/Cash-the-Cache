@@ -6,7 +6,7 @@ using UnityEngine;
 public class AnchoredRotation : MonoBehaviour
 {
     [Header("Settings")]
-    public float speed = 4;
+    public float speed = 3;
 
     [Header("Dependencies")]
     [SerializeField] Transform AnchorPoint;
@@ -16,14 +16,14 @@ public class AnchoredRotation : MonoBehaviour
     float angle = 0;
 
     private void Start() {
-        rotAmount = 2 * Mathf.PI / (100 - Mathf.Min(80,speed));
+        rotAmount = 2 * Mathf.PI * (speed / 3) * Time.deltaTime;
     }
 
-    public void SetRotation(float speed) {
+    public void SetRotationAmount(float speed) {
         this.speed = speed;
-        rotAmount = 2 * Mathf.PI / (100 - Mathf.Min(80, speed));
+        rotAmount = 2 * Mathf.PI * (speed / 3) * Time.deltaTime;
     }
-
+    
     void Update()
     {
         angle = (angle + rotAmount) % (2 * Mathf.PI);
@@ -34,5 +34,5 @@ public class AnchoredRotation : MonoBehaviour
         newPos.x = AnchorPoint.position.x + (int)Mathf.Round(RotationRadius * Mathf.Cos(angle));
         transform.position = newPos;
     }
-
+    
 }

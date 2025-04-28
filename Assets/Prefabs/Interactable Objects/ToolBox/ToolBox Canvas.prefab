@@ -428,9 +428,9 @@ GameObject:
   - component: {fileID: 7529878360902233657}
   - component: {fileID: 1267765120891006785}
   - component: {fileID: 954367686475854946}
-  - component: {fileID: 2926329630598310174}
-  - component: {fileID: 7089168679058423848}
   - component: {fileID: 1122486579400173401}
+  - component: {fileID: 7089168679058423848}
+  - component: {fileID: 2926329630598310174}
   m_Layer: 0
   m_Name: Lock Pick
   m_TagString: Untagged
@@ -496,21 +496,33 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2926329630598310174
-MonoBehaviour:
+--- !u!50 &1122486579400173401
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3686398092293431985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 785026f83df7e7f439fb6f94bf983b01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
-  AnchorPoint: {fileID: 7273750053442217614}
-  RotationRadius: 145
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &7089168679058423848
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -540,7 +552,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -556,33 +568,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 60, y: 60}
   m_EdgeRadius: 0
---- !u!50 &1122486579400173401
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &2926329630598310174
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3686398092293431985}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 785026f83df7e7f439fb6f94bf983b01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  AnchorPoint: {fileID: 7273750053442217614}
+  RotationRadius: 145
 --- !u!1 &5793286992276759962
 GameObject:
   m_ObjectHideFlags: 0
@@ -815,13 +815,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba00142fc5eb7248a8fc6e940acfa23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficulty: 0
+  TotalLocks: 3
+  RadiusOfLock: 145
   LockGoalPrefab: {fileID: 983249370298029456, guid: 1dd708d01c6ae6243bd47331e4264dbd,
     type: 3}
   LockPick: {fileID: 3686398092293431985}
   LockPickRotation: {fileID: 2926329630598310174}
   LockGoalParent: {fileID: 1609897229061308611}
-  RadiusOfLock: 145
   OpenToolBox:
     m_PersistentCalls:
       m_Calls: []
@@ -1059,9 +1059,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
+    m_PressedColor: {r: 0.50980395, g: 0.50980395, b: 0.50980395, a: 1}
+    m_SelectedColor: {r: 0.6666667, g: 0.6666667, b: 0.6666667, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
