@@ -12,7 +12,7 @@ public class FlushingCanvas : MonoBehaviour
 {
     [Header("Flushing Settings")]
     public int difficulty;
-    [SerializeField] GameObject handlePrefab; // Prefab for the pin button
+
     [SerializeField] Slider powerSlider;
     [HideInInspector] public UnityEvent toiletOpened;
     [SerializeField] GameObject targetObject;
@@ -56,8 +56,7 @@ public class FlushingCanvas : MonoBehaviour
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.WeightChangeSpeed();
 
-        // Disable the canvas instead of destroying it
-        gameObject.SetActive(false); // This will keep the state of the pins and combo intact
+        Destroy(gameObject); // Destroy the canvas
     }
 
     public void ExitToilet()

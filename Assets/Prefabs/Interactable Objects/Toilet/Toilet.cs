@@ -7,17 +7,14 @@ public class Toilet : MonoBehaviour, InteractEvent
 {
     [Header("Toilet Settings")]
     public bool isUnlocked = false;  // Tracks whether the toilet is flushed or not
-    public Animator toiletAnimator;    // Animator for the toilet's animation 
 
     [Header("Diffculty = Time it takes to flush")]
-    [SerializeField] int difficulty = 1; // Difficulty level = number of seconds x 1
+    [SerializeField] int difficulty = 3; // Difficulty level = number of seconds x 1
     public bool isFlushingOpen = false;  // Whether the flushing mini-game is open or not
 
     [Header("Canvas Settings")]
     [SerializeField] GameObject FlushingCanvasPrefab; // Prefab for the flushing UI canvas
     private GameObject currentCanvas; // Reference to the currently active canvas
-
-    Vector3[] originalPositions;
 
     [Header("Loot Settings")]
     [SerializeField] List<GameObject> loot;
@@ -46,8 +43,6 @@ public class Toilet : MonoBehaviour, InteractEvent
         {
             // If the canvas exists, just enable it and retain the combo
             currentCanvas.SetActive(true);
-
-            FlushingCanvas canvasScript = currentCanvas.GetComponent<FlushingCanvas>();
         }
 
         LockPlayerControls();
@@ -78,10 +73,6 @@ public class Toilet : MonoBehaviour, InteractEvent
     {
         // Unlock the safe and play the animation
         isUnlocked = true;
-        if (toiletAnimator != null)
-        {
-            toiletAnimator.SetTrigger("OpenToilet"); // Trigger safe opening animation
-        }
 
         // Spawn loot based on difficulty
         SpawnLoot();
