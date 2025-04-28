@@ -12,7 +12,7 @@ public class ToolBox : MonoBehaviour, InteractEvent {
     public void Interact() {
         GameObject canvas = Instantiate(toolboxCanvas, transform);
         canvas.GetComponent<ToolBoxCanvas>().OpenToolBox.AddListener(OpenToolBox);
-        canvas.GetComponent<ToolBoxCanvas>().SetDifficulty(difficulty);
+        canvas.GetComponent<ToolBoxCanvas>().difficulty = difficulty;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 

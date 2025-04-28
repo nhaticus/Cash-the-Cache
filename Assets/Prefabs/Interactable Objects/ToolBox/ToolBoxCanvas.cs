@@ -8,11 +8,12 @@ public class ToolBoxCanvas : MonoBehaviour
     [Header("Settings")]
     [SerializeField] int TotalLocks = 3;
     [SerializeField] float RadiusOfLock;
+    [HideInInspector] public float difficulty = 0;
 
     [Header("Dependencies")]
-    [SerializeField] GameObject LockGoalPrefab;
     [SerializeField] GameObject LockPick;
-    [SerializeField] AnchoredRotation LockPickRotation;
+    AnchoredRotation lockRotation;
+    [SerializeField] GameObject LockGoalPrefab;
     [SerializeField] Transform LockGoalParent;
 
     [HideInInspector] public UnityEvent OpenToolBox;
@@ -27,8 +28,10 @@ public class ToolBoxCanvas : MonoBehaviour
     #endregion
 
     #region Init and Update
-
+    
     private void Start() {
+        lockRotation = LockPick.GetComponent<AnchoredRotation>();
+        lockRotation.SetRotationAmount(difficulty);
         SpawnLockGoal();
     }
 
@@ -41,10 +44,6 @@ public class ToolBoxCanvas : MonoBehaviour
     #endregion
 
     #region Public Functions
-
-    public void SetDifficulty(float difficulty) {
-        LockPickRotation.SetRotationAmount(difficulty);
-    }
 
     public void ExitToolBox() {
         Cursor.lockState = CursorLockMode.Locked;
@@ -69,6 +68,7 @@ public class ToolBoxCanvas : MonoBehaviour
         } else {
             Debug.Log("Pick Failed");
             // stop spinning dot
+            StartCoroutine(lockRotation.ShakeObject());
         }
     }
 
