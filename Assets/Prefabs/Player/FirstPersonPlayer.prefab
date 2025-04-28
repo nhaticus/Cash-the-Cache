@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1873143518731278612}
   - component: {fileID: -8554462348603578531}
+  - component: {fileID: -3775740827206965537}
   m_Layer: 8
   m_Name: FirstPersonPlayer
   m_TagString: SoundEmitter
@@ -56,6 +57,49 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-3775740827206965537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2174895757125541154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c119168add3cbd24eada8fd3ef844c28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weightResult: []
+  clipMixer: {fileID: 24100000, guid: 0e556cff3f7ed184c9befe17de890246, type: 2}
+  DepthMixer: {fileID: 24320852, guid: 0e556cff3f7ed184c9befe17de890246, type: 2}
+  MasterMixer: {fileID: 24300001, guid: 0e556cff3f7ed184c9befe17de890246, type: 2}
+  Near: {fileID: 24550014, guid: 0e556cff3f7ed184c9befe17de890246, type: 2}
+  Far: {fileID: 24556594, guid: 0e556cff3f7ed184c9befe17de890246, type: 2}
+  objectEmitterSource: {fileID: 8850886221834175649}
+  m_AudioClip: {fileID: 0}
+  waveEmitter: {fileID: 0}
+  WaveDistance: 10
+  soundLevel: 0
+  maxSoundLevelReach: 0
+  soundDensity: 300
+  layerToCollideWith:
+    serializedVersion: 2
+    m_Bits: 1
+  enableSoundVisualization: 1
+  m_particleSystem: {fileID: 0}
+  m_iAudioClip: {fileID: 0}
+  m_ClipLenght: 0
+  soundEmitterManager: {fileID: 0}
+  AudioMethod: 0
+  m_Volume: 1
+  m_Pitch: 1
+  m_SpatialBlend: 1
+  audioDistance: 0.2
+  Trigger: 0
+  ColliderName: 
+  clickButton: {fileID: 0}
+  startMethod: 0
+  ColliderTag: 
 --- !u!1 &2311025618755957177
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,7 +338,7 @@ MonoBehaviour:
   mouseSens: 0
   controllerSens: 0
   lockRotation: 0
-  singleHandControls: 1
+  singleHandControls: 0
   orientation: {fileID: 959259248682064107}
   xRotation: 0
   yRotation: 0
@@ -1004,7 +1048,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1033,12 +1077,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c272b710434724aa29d037420df8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 9
+  moveSpeed: 5
   groundDrag: 5
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   orientation: {fileID: 959259248682064107}
   touchingWall: 0
   singleAudio: {fileID: 2950593277431717636}
