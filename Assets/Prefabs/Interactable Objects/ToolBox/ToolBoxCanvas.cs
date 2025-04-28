@@ -32,6 +32,7 @@ public class ToolBoxCanvas : MonoBehaviour
     private void Start() {
         lockRotation = LockPick.GetComponent<AnchoredRotation>();
         lockRotation.SetRotationAmount(difficulty);
+        RadiusOfLock = LockPick.transform.localPosition.y;
         SpawnLockGoal();
     }
 
