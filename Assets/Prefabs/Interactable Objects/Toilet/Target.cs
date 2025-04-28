@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+ // controls the random movement and slider increment for colliding the green and black box.
 public class Target : MonoBehaviour
 {
     [SerializeField] FlushingCanvas canvas;
