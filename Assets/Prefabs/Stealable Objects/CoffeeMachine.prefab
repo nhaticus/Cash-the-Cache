@@ -95,10 +95,10 @@ GameObject:
   - component: {fileID: 7250623107033054555}
   - component: {fileID: 2957866649436197840}
   - component: {fileID: 5405461999657445458}
-  - component: {fileID: 7643449124057178874}
   - component: {fileID: 4114838649651554616}
   - component: {fileID: 2424617613797630529}
   - component: {fileID: 6889631447714692983}
+  - component: {fileID: 2581677504338716200}
   m_Layer: 0
   m_Name: CoffeeMachine
   m_TagString: Selectable
@@ -172,28 +172,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7643449124057178874
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2795943623533798887}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43722961558897290, guid: dd2918d3eae476940af1dd939b9d519f, type: 2}
 --- !u!54 &4114838649651554616
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -246,3 +224,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lootInfo: {fileID: 11400000, guid: 73a724ae2c4585542954c2751b52bd08, type: 2}
+--- !u!65 &2581677504338716200
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795943623533798887}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.30337158, y: 0.48459807, z: 0.33462888}
+  m_Center: {x: 0.0000012218952, y: 0.24229904, z: -0.035952143}

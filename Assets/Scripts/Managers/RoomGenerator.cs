@@ -1,16 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
-    public List<GameObject> roomPrefabs;
+    [Header("Setup (optional)")]
+    public GameObject startRoomPrefab;
+    public Vector3 levelSpawnPosition;
     public int maxRooms = 10;
+    public NavMeshSurface surface;
+
+    [Header("House Rooms")]
+    public List<GameObject> roomPrefabs;
+    [Header("Other Rooms")] // not yet anything but for future reference
     private List<Transform> availableDoors = new List<Transform>();
+    private List<GameObject> placedRooms = new List<GameObject>();
     private int roomCount = 0;
+    private GameObject startRoom;
     void Start()
     {
-        GameObject startRoom = Instantiate(roomPrefabs[0], Vector3.zero, Quaternion.identity);
+        maxRooms = PlayerPrefs.GetInt("Difficulty", 5) * 4; // dumb way for now
+        BuildHouse();
+    }
+
+    public void BuildHouse(){
+        levelSpawnPosition = transform.position;
+        if(startRoomPrefab){
+            startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, Quaternion.identity);
+            startRoom.transform.SetParent(this.transform);
+        }
+        else { 
+            startRoom = Instantiate(roomPrefabs[Random.Range(0,roomPrefabs.Count - 1)], levelSpawnPosition, Quaternion.identity);
+            startRoom.transform.SetParent(this.transform);
+        }
         roomCount++;
         
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
@@ -19,16 +44,17 @@ public class RoomGenerator : MonoBehaviour
             availableDoors.AddRange(startRoomScript.doorPoints);
         }
 
-        GenerateRooms();
+        StartCoroutine(GenerateRooms());
     }
 
-    void GenerateRooms()
+    IEnumerator GenerateRooms()
     {
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
             // Select possible door
-            Transform currentDoor = availableDoors[0];
-            availableDoors.RemoveAt(0);
+            int randomDoor = Random.Range(0,availableDoors.Count - 1);
+            Transform currentDoor = availableDoors[randomDoor];
+            availableDoors.RemoveAt(randomDoor);
             
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
             RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
@@ -39,21 +65,26 @@ public class RoomGenerator : MonoBehaviour
 
             Transform selectedDoor = newRoomScript.doorPoints[Random.Range(0, newRoomScript.doorPoints.Length)];
 
+            // Align opposing directions
             Vector3 horizontalCurrentForward = new Vector3(currentDoor.forward.x, 0, currentDoor.forward.z).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(-horizontalCurrentForward);
-            Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedDoor.localRotation);
+            Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedDoor.rotation);
 
-            Vector3 doorOffset = newRoomRotation * selectedDoor.localPosition;
-            Vector3 newRoomPosition = currentDoor.position - doorOffset;
+            // Use world offset between prefab origin and door
+            Vector3 doorOffset = selectedDoor.position - spawningRoom.transform.position;
+            Vector3 newRoomPosition = currentDoor.position - newRoomRotation * doorOffset;
 
+            // Check for overlap
             if (!IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation))
             {
                 continue;
             }
-            GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
-            roomCount++;
 
+            // Spawn room
+            GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
+            newRoom.transform.SetParent(this.transform);
             
+            roomCount++;
 
             RoomInfo newRoomInstanceScript = newRoom.GetComponent<RoomInfo>();
             if (newRoomInstanceScript != null)
@@ -65,6 +96,50 @@ public class RoomGenerator : MonoBehaviour
                         availableDoors.Add(door);
                     }
                 }
+            }
+            yield return new WaitForSeconds(0f);
+        }
+        DoorSelect();
+        if(surface){
+            surface.BuildNavMesh();
+        }
+    }
+
+    void DoorSelect(){
+        GameObject[] doorList = GameObject.FindGameObjectsWithTag("Door");
+        HashSet<GameObject> removedDoors = new HashSet<GameObject>();
+        foreach(GameObject door in doorList)
+        {
+            if(removedDoors.Contains(door)){
+                continue;
+            }
+
+            Collider doorCollider = door.GetComponent<Collider>();
+            if (doorCollider == null){
+                continue;
+            }
+
+            Vector3 boxCenter = doorCollider.bounds.center;
+            Vector3 boxSize = doorCollider.bounds.size;
+
+            // Overlap box for door
+            Collider[] hits = Physics.OverlapBox(boxCenter, boxSize, door.transform.rotation);
+
+            foreach (Collider hit in hits)
+            {
+                GameObject hitDoor = hit.gameObject;
+                if (hitDoor == door){
+                    continue; // Check for self
+                }
+                if (!hitDoor.CompareTag("Door")){
+                    continue;
+                }
+                if (removedDoors.Contains(hitDoor)){
+                    continue;
+                }
+                Destroy(door);
+                removedDoors.Add(hitDoor);
+                break;
             }
         }
     }
@@ -83,9 +158,18 @@ public class RoomGenerator : MonoBehaviour
         
         // Check for overlap
         Collider[] hitColliders = Physics.OverlapBox(worldCenter, halfExtents, rotation);
-        
-        Debug.Log(hitColliders);
-        return (hitColliders.Length == 0);
+        foreach(Collider hit in hitColliders){
+            GameObject hitObject = hit.gameObject;
+            if(hitObject.CompareTag("Room")){
+                return(false);
+            }
+        }
+        return (true);
     }
 
+    // Referenced from ChatGPT
+    void OnDrawGizmosSelected() {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(levelSpawnPosition, 0.5f);
+    }
 }

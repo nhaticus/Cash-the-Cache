@@ -63,24 +63,6 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneChanged;
-
-        ableToInteract = true;
-
-        maxSpeed = moveSpeedDefault + PlayerPrefs.GetInt("RunningShoe") * 0.5f;
-        currentSpeed = maxSpeed;
-        maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 3;
-
-        hasFlashlight = PlayerPrefs.GetInt("Flashlight") == 1;
-        boxOpening = 1 + (PlayerPrefs.GetInt("Screwdriver", 0) * 0.3f);
-
-        mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
-        controllerSensitivity = PlayerPrefs.GetFloat("Controller Sensitivity", 120);
-        if (playerCameraScript)
-        {
-            playerCameraScript.mouseSens = mouseSensitivity;
-            playerCameraScript.controllerSens = controllerSensitivity;
-        }
-
     }
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode)
@@ -108,6 +90,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
         weight = 0;
+        LoadUpgrades();
     }
 
     public void increaseMoveSpeed(float speedIncrease)
@@ -273,6 +256,25 @@ public class PlayerManager : MonoBehaviour
 
         Debug.Log("Player Speed set to: " + newSpeed.ToString());
         setMoveSpeed(newSpeed);
+    }
+
+    public void LoadUpgrades() {
+        ableToInteract = true;
+
+        maxSpeed = moveSpeedDefault + PlayerPrefs.GetInt("RunningShoe") * 0.5f;
+        currentSpeed = maxSpeed;
+        maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 3;
+
+        hasFlashlight = PlayerPrefs.GetInt("Flashlight") == 1;
+        boxOpening = 1 + (PlayerPrefs.GetInt("Screwdriver", 0) * 0.3f);
+
+        mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
+        controllerSensitivity = PlayerPrefs.GetFloat("Controller Sensitivity", 120);
+        if (playerCameraScript)
+        {
+            playerCameraScript.mouseSens = mouseSensitivity;
+            playerCameraScript.controllerSens = controllerSensitivity;
+        }
     }
 
     public void ResetDefault()

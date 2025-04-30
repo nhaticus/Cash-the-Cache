@@ -21,7 +21,7 @@ public class InventoryUI : MonoBehaviour
         Cursor.visible = true;
         PlayerManager.Instance.lockRotation();
         PlayerManager.Instance.ableToInteract = false;
-        PlayerManager.Instance.slowPlayer();
+        PlayerManager.Instance.setMoveSpeed(0);
 
         ChangeItemInfo(null);
     }
@@ -45,7 +45,7 @@ public class InventoryUI : MonoBehaviour
     {
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.ableToInteract = true;
-        PlayerManager.Instance.unSlowPlayer();
+        PlayerManager.Instance.WeightChangeSpeed();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         HideInventory.Invoke();
@@ -113,12 +113,13 @@ public class InventoryUI : MonoBehaviour
 
         // remove from inventory
         playerInteract.inventory[selectedItem.itemName] = (playerInteract.inventory[selectedItem.itemName].Item1 - 1, selectedItem);
-        if(playerInteract.inventory[selectedItem.itemName].Item1 == 0)
+        if(playerInteract.inventory[selectedItem.itemName].Item1 - 1 == 0)
         {
+            // select previous item
             playerInteract.inventory.Remove(selectedItem.itemName);
             ChangeItemInfo(null);
         }
-        
+
         FillInventoryGrid(); // update grid
     }
 }

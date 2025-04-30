@@ -39,6 +39,7 @@ public class Box : MonoBehaviour, InteractEvent
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.WeightChangeSpeed();
 
+        // spawn a random object at box position
         Instantiate(obj[Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
         Destroy(gameObject);
     }

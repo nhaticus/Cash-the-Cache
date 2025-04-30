@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5048137173791891697}
   - component: {fileID: 5048137173794720303}
   - component: {fileID: 5048137173793785635}
-  - component: {fileID: 5110270522460693761}
   - component: {fileID: 5096990463308847633}
+  - component: {fileID: 7778242456750669385}
   - component: {fileID: 5200484471292441679}
   - component: {fileID: 2882553225659425003}
   m_Layer: 0
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 5048137173791507371}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.273, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.097, y: 0.097, z: 0.097}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -87,28 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5110270522460693761
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5048137173791507371}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43679534955826882, guid: d96dc2ae87528cc429f3c08d7728dc2b, type: 2}
 --- !u!54 &5096990463308847633
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -136,6 +114,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &7778242456750669385
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5048137173791507371}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.914856, y: 5.5950384, z: 1.9148519}
+  m_Center: {x: 0, y: 0, z: 0.0000022351742}
 --- !u!114 &5200484471292441679
 MonoBehaviour:
   m_ObjectHideFlags: 0

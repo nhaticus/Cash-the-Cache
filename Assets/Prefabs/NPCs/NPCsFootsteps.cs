@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class NPCFootsteps : MonoBehaviour
 {
     [SerializeField] SingleAudio singleAudio;
-    public string footstepClipName = "footstep_sound";
+    public string footstepClipName = "footsteps";
 
     private NavMeshAgent agent;
     private bool isPlayingFootsteps = false;

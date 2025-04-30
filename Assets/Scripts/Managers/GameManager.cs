@@ -1,7 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,8 +10,7 @@ public class GameManager : MonoBehaviour
 
     public event Action OnNPCLeaving;
 
-    public int numRuns = 0; // number of times replayed to reduce max time
-                            // Shop Van increases variable when go to level
+    private Vector3 NPCExitPoint; // Exit for NPCs to leave the map
 
     private void Awake()
     {
@@ -25,6 +24,21 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         playerMoney = PlayerPrefs.GetInt("Money", 0);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Try to find the exit point if it exists in the scene
+        GameObject exitObj = GameObject.FindWithTag("ExitPoint");
+        if (exitObj != null)
+        {
+            NPCExitPoint = exitObj.transform.position;
+        }
+        else
+        {
+            NPCExitPoint = Vector3.zero;
+        }
     }
     public enum GameState
     {
@@ -53,7 +67,12 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("Money", playerMoney);
         }
     }
-    
+
+    public Vector3 GetNPCExitPoint()
+    {
+        return NPCExitPoint;
+    }
+
     public void NPCLeaving()
     {
         OnNPCLeaving?.Invoke();

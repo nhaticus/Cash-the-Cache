@@ -30,7 +30,7 @@ public class PoliceTimer : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnNPCLeaving += TickDownTimer;
-        timeLeft = maxTime - (GameManager.Instance.numRuns * timeDecrease);
+        timeLeft = maxTime;
         if (timeLeft < minTime)
             timeLeft = minTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position

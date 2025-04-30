@@ -1,3 +1,4 @@
+using Mapbox.Json.Bson;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] SingleAudio singleAudio;
 
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
+    public Tuple<(LootInfo, int)> newInventory; // type of item, number owned
 
     private void Update()
     {
@@ -38,38 +40,54 @@ public class PlayerInteract : MonoBehaviour
 
         RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction * raycastDistance, raycastDistance);
         GameObject closestObj = null; float closestDist = 10;
+        float wallDist = 10;
         for (int i = 0; i < hits.Length; i++)
         {
             GameObject hit = hits[i].transform.gameObject;
             if (hit.CompareTag("Selectable"))
             {
-                float distance = Vector3.Distance(ray.origin, hit.transform.position);
-                if(distance < closestDist)
+                float distance = hits[i].distance;
+                if (distance < closestDist)
                 {
                     closestDist = distance;
                     closestObj = hit;
                 }
             }
+            if (hit.CompareTag("Wall"))
+            {
+                float distance = hits[i].distance;
+                if (distance < wallDist)
+                {
+                    wallDist = distance;
+                }
+            }
         }
+
         if (closestObj == null)
-        {
             ResetHighlight();
-        }
-        else if (closestObj != null && closestObj != objRef)
+        else if (wallDist > closestDist && closestObj != null && closestObj != objRef)
         {
             ResetHighlight(); // Reset previous object's material
 
             objRef = closestObj;
-            objRenderer = objRef.GetComponent<Renderer>();
-            originalMaterial = objRenderer.material;
-            origColor = originalMaterial.color;
+            ApplyColorToObject(objRef);
+        }
+    }
 
-            if (originalMaterial != null)
-            {
-                Material newMat = objRenderer.material;
+    void ApplyColorToObject(GameObject obj)
+    {
+        objRenderer = obj.GetComponent<Renderer>();
+        originalMaterial = objRenderer.material;
+        origColor = originalMaterial.color;
+
+        if (originalMaterial != null)
+        {
+            Material newMat = objRenderer.material;
+            if(obj.GetComponent<StealableObject>())
                 newMat.color = Color.red;
-                objRenderer.material = newMat; // Apply highlight material
-            }
+            else
+                newMat.color = Color.green;
+            objRenderer.material = newMat; // Apply highlight material
         }
     }
 
@@ -97,16 +115,8 @@ public class PlayerInteract : MonoBehaviour
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
                 singleAudio.PlaySFX("collect_item_sound");
-                if (inventory.ContainsKey(stealObj.lootInfo.itemName))
-                {
-                    inventory[stealObj.lootInfo.itemName] = (inventory[stealObj.lootInfo.itemName].Item1 + 1, stealObj.lootInfo);
-                }
-                else
-                {
-                    inventory.Add(stealObj.lootInfo.itemName, (1, stealObj.lootInfo));
-                }
+                AddItemToInventory(stealObj.lootInfo);
 
-                PlayerManager.Instance.addWeight(stealObj.lootInfo.weight);
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
                 PlayerManager.Instance.WeightChangeSpeed();
@@ -123,6 +133,16 @@ public class PlayerInteract : MonoBehaviour
         {
             ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
         }
+    }
+
+    void AddItemToInventory(LootInfo info)
+    {
+        if (inventory.ContainsKey(info.itemName))
+            inventory[info.itemName] = (inventory[info.itemName].Item1 + 1, info);
+        else
+            inventory.Add(info.itemName, (1, info));
+
+        PlayerManager.Instance.addWeight(info.weight);
     }
 
     public void WeightChangeSpeed()
