@@ -919,7 +919,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8631822987988805456, guid: 9f2312d32bfabda47aedea375adc49d3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1675688044}
   m_SourcePrefab: {fileID: 100100000, guid: 9f2312d32bfabda47aedea375adc49d3, type: 3}
 --- !u!1 &129915181
 GameObject:
@@ -11699,6 +11703,32 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!1 &1675688042 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8631822987988805456, guid: 9f2312d32bfabda47aedea375adc49d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 123884263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1675688044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1675688042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6df52262541f5744a645074551ee922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 3
+  attackCooldown: 0.5
+  attackSpeed: 1
+  attackDamage: 1
+  attackLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  cam: {fileID: 0}
 --- !u!1 &1707754865
 GameObject:
   m_ObjectHideFlags: 0
