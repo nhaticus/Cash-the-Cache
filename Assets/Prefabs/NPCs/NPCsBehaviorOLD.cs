@@ -6,7 +6,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPCsBehavior : MonoBehaviour
+public class NPCsBehaviorOLD : MonoBehaviour
 {
     NavMeshAgent agent;
     [SerializeField] Animator anim;

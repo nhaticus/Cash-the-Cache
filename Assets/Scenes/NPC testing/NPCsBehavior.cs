@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NPCsBehaviorTEST : MonoBehaviour
+public class NPCsBehavior : MonoBehaviour
 {
     NavMeshAgent agent;
     [SerializeField] Animator anim;
@@ -147,7 +147,7 @@ public class NPCsBehaviorTEST : MonoBehaviour
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
-        if (distanceToWalkPoint.magnitude < 0.5f)
+        if (distanceToWalkPoint.magnitude < 1.0f)
         {
             walkPointExist = false;
             StartCoroutine(WaitBeforeMoving(cooldownBeforeWalking));
@@ -189,7 +189,12 @@ public class NPCsBehaviorTEST : MonoBehaviour
     public float GetDetectionRatio()
     {
         // Avoid division by zero if sightCountdown = 0
-        return (sightCountdown > 0f) ? Mathf.Clamp01(sightTimer / sightCountdown) : 0f;
+        float percentage = (sightCountdown > 0f) ? Mathf.Clamp01(sightTimer / sightCountdown) : 0f;
+        if (debugMode)
+        {
+            Debug.Log("Detection Ratio: " + percentage);
+        }
+        return percentage;
 
     }
 

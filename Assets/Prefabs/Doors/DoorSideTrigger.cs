@@ -10,6 +10,7 @@ public class DoorSideTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Debug.Log("Trigger Enter: " + other.name);
         if (other.CompareTag("AI"))
         {
             if (isFrontTrigger)
@@ -21,6 +22,7 @@ public class DoorSideTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // Debug.Log("Trigger Exit: " + other.name);
         if (other.CompareTag("AI"))
         {
             if (isFrontTrigger)
