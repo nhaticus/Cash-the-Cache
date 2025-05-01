@@ -11,6 +11,7 @@ public class PlayerInteract : MonoBehaviour
     GameObject objRef = null;
     Renderer objRenderer;
     Material originalMaterial; // Store the original material of the object
+    private Transform myTransform;
 
     [SerializeField] float raycastDistance = 2.8f;
     public GameObject mainCamera;
@@ -19,6 +20,11 @@ public class PlayerInteract : MonoBehaviour
 
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
     public Tuple<(LootInfo, int)> newInventory; // type of item, number owned
+
+    private void Awake()
+    {
+        myTransform = transform;
+    }
 
     private void Update()
     {
@@ -131,7 +137,13 @@ public class PlayerInteract : MonoBehaviour
         }
         else
         {
-            ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
+            // If it’s a door, pass the player’s Transform so it can swing away
+            Doors door = obj.GetComponent<Doors>();
+            if (door != null)
+                door.Interact(myTransform);          // <<< new overload 
+            else
+                ExecuteEvents.Execute<InteractEvent>(obj, null,
+                    (x, y) => x.Interact());         // everything else uses the old call
         }
     }
 
