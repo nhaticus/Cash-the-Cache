@@ -15,7 +15,6 @@ public class ShopManager : MonoBehaviour
     [SerializeField] SingleAudio singleAudio;
 
     public TMP_Text moneyText;
-    [SerializeField] TMP_Text openShopPrompt;
 
     public GameObject[] itemsInShop; // list of prefabs for each upgrade
 
@@ -24,7 +23,6 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
-        openShopPrompt.gameObject.SetActive(false);
         shopUI.SetActive(false);
     }
 
@@ -46,7 +44,7 @@ public class ShopManager : MonoBehaviour
         }
         */
     }
-
+    /*
     // shoots raycast to detect Shop Keeper
     // if detected allows Shop Menu to be opened
     void ShopCheck()
@@ -83,20 +81,23 @@ public class ShopManager : MonoBehaviour
             openShopPrompt.gameObject.SetActive(false);
         }
     }
-
+    */
     public void OpenShop()
     {
-        PlayerManager.Instance.ToggleRotation();
-        PlayerManager.Instance.ToggleCursor();
-        PlayerManager.Instance.setMoveSpeed(0);
+        if (!shopActive)
+        {
+            singleAudio.PlaySFX("shop_owner");
+            PlayerManager.Instance.ToggleRotation();
+            PlayerManager.Instance.ToggleCursor();
+            PlayerManager.Instance.setMoveSpeed(0);
 
-        shopUI.SetActive(true);
-        openShopPrompt.gameObject.SetActive(false);
-        shopActive = true;
+            shopUI.SetActive(true);
+            shopActive = true;
 
-        moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
+            moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
-        PopulateShop();
+            PopulateShop();
+        }
     }
 
     public void CloseShop()
