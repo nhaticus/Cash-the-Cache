@@ -27,6 +27,9 @@ public class Doors : MonoBehaviour, InteractEvent
     private int frontCount = 0;    // How many NPCs are in the front trigger
     private int backCount = 0;    // How many NPCs are in the back trigger
 
+    [Header("Door Type")]
+    public bool isCabinet = false;
+
 
     private static Transform player;
 
@@ -40,18 +43,22 @@ public class Doors : MonoBehaviour, InteractEvent
         obstacle.enabled = isOpen;
         obstacle.carving = isOpen;
 
-        AudioSource doorAudioSource = singleAudio.sfxSource;
-        if (doorAudioSource == null)
-            doorAudioSource = gameObject.AddComponent<AudioSource>();
-        doorAudioSource.spatialBlend = 1f; // Set to 3D sound
-        doorAudioSource.maxDistance = 10f;   // Lower max distance
-        doorAudioSource.rolloffMode = AudioRolloffMode.Linear; 
-    }
-    // ----------------------------------------------------------------------
-    // Methods Called By DoorSideTrigger
-    // ----------------------------------------------------------------------
+        if (singleAudio != null)
+        {
+            AudioSource doorAudioSource = singleAudio.sfxSource;
+            if (doorAudioSource == null)
+                doorAudioSource = gameObject.AddComponent<AudioSource>();
 
-    public void OnFrontEnter()
+            doorAudioSource.spatialBlend = 1f;
+            doorAudioSource.maxDistance = 10f;
+            doorAudioSource.rolloffMode = AudioRolloffMode.Linear;
+        }
+    }
+        // ----------------------------------------------------------------------
+        // Methods Called By DoorSideTrigger
+        // ----------------------------------------------------------------------
+
+        public void OnFrontEnter()
     {
         frontCount++;
         lastSideFront = true;
@@ -157,7 +164,8 @@ public class Doors : MonoBehaviour, InteractEvent
         obstacle.enabled = false;
         obstacle.carving = false;
 
-        singleAudio.PlaySFX("close door");
+        if (singleAudio != null)    
+            singleAudio.PlaySFX("close door");
 
         while (Mathf.Abs(Mathf.DeltaAngle(currentAngle, closeAngle)) > 0.1f)
         {
