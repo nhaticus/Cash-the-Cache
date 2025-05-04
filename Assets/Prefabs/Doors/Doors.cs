@@ -1,9 +1,10 @@
-// This script manages the behavior of the door, including opening and closing it
+﻿// This script manages the behavior of the door, including opening and closing it
 // based on interactions from NPCs or players. It uses coroutines to smoothly rotate
 // the door between open and closed states and handles obstacle carving for navigation.
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+
 
 public class Doors : MonoBehaviour, InteractEvent
 {
@@ -26,25 +27,38 @@ public class Doors : MonoBehaviour, InteractEvent
     private int frontCount = 0;    // How many NPCs are in the front trigger
     private int backCount = 0;    // How many NPCs are in the back trigger
 
+    [Header("Door Type")]
+    public bool isCabinet = false;
+
+
+    private static Transform player;
+
     private void Awake()
     {
+        if (player == null)            // first door to awake does the lookup
+            player = GameObject.FindWithTag("Player")?.transform;
+
         obstacle = GetComponent<NavMeshObstacle>();
         obstacle.carveOnlyStationary = false;
         obstacle.enabled = isOpen;
         obstacle.carving = isOpen;
 
-        AudioSource doorAudioSource = singleAudio.sfxSource;
-        if (doorAudioSource == null)
-            doorAudioSource = gameObject.AddComponent<AudioSource>();
-        doorAudioSource.spatialBlend = 1f; // Set to 3D sound
-        doorAudioSource.maxDistance = 10f;   // Lower max distance
-        doorAudioSource.rolloffMode = AudioRolloffMode.Linear; 
-    }
-    // ----------------------------------------------------------------------
-    // Methods Called By DoorSideTrigger
-    // ----------------------------------------------------------------------
+        if (singleAudio != null)
+        {
+            AudioSource doorAudioSource = singleAudio.sfxSource;
+            if (doorAudioSource == null)
+                doorAudioSource = gameObject.AddComponent<AudioSource>();
 
-    public void OnFrontEnter()
+            doorAudioSource.spatialBlend = 1f;
+            doorAudioSource.maxDistance = 10f;
+            doorAudioSource.rolloffMode = AudioRolloffMode.Linear;
+        }
+    }
+        // ----------------------------------------------------------------------
+        // Methods Called By DoorSideTrigger
+        // ----------------------------------------------------------------------
+
+        public void OnFrontEnter()
     {
         frontCount++;
         lastSideFront = true;
@@ -93,20 +107,34 @@ public class Doors : MonoBehaviour, InteractEvent
     // ----------------------------------------------------------------------
     // Player Interaction
     // ----------------------------------------------------------------------
-
+    //Inteface required wrapper
     public void Interact()
     {
-        // If the door is open, close it; if closed, open it
+        if (player == null)
+        {
+            Debug.Log("Doors.cs - Player == NULL in Interact()");
+            return;
+        } 
+        Interact(player);                 // ➜ calls the real logic below
+    }
+
+    //Toggles the door open or closed and choosea direction that swings away from the player
+
+    public void Interact(Transform interactor)   // <-- add this back
+    {
+        lastSideFront = IsInteractorInFront(interactor);
+
+        StopAllCoroutines();
         if (isOpen)
-        {
-            StopAllCoroutines();
             StartCoroutine(CloseDoor());
-        }
         else
-        {
-            StopAllCoroutines();
             StartCoroutine(OpenDoor());
-        }
+    }
+    // Returns true if the interactor is on the door's forward side
+    private bool IsInteractorInFront(Transform interactor)
+    {
+        Vector3 toInteractor = interactor.position - door.position;
+        return Vector3.Dot(door.forward, toInteractor) > 0f;
     }
 
     // ----------------------------------------------------------------------
@@ -136,7 +164,8 @@ public class Doors : MonoBehaviour, InteractEvent
         obstacle.enabled = false;
         obstacle.carving = false;
 
-        singleAudio.PlaySFX("close door");
+        if (singleAudio != null)    
+            singleAudio.PlaySFX("close door");
 
         while (Mathf.Abs(Mathf.DeltaAngle(currentAngle, closeAngle)) > 0.1f)
         {
