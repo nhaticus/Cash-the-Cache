@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 4891691184138212}
   - component: {fileID: 33221779270718556}
   - component: {fileID: 23477559379692480}
+  - component: {fileID: 2208187727080745025}
+  - component: {fileID: 7499070316639035510}
+  - component: {fileID: 2172868447113955118}
   m_Layer: 0
   m_Name: SM_Prop_Kitchen_CounterSink_01_Door_01
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,6 +86,63 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2208187727080745025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359105627824468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0ba613dcedc4541b2169825d39e62d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 7499070316639035510}
+  door: {fileID: 4891691184138212}
+  frontOpenAngle: -90
+  backOpenAngle: 0
+  closeAngle: 0
+  speed: 3
+  singleAudio: {fileID: 0}
+  isCabinet: 1
+--- !u!208 &7499070316639035510
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359105627824468}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.23700002, y: 0.36900002, z: 0.032}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.23700002, y: 0.36900002, z: 0.032}
+  m_TimeToStationary: 0.5
+--- !u!65 &2172868447113955118
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359105627824468}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.4738275, y: 0.7374415, z: 0.06478027}
+  m_Center: {x: 0.23691376, y: 0.36872074, z: 0.032390136}
 --- !u!1 &1605675975734952
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,9 +284,12 @@ GameObject:
   - component: {fileID: 4750644426723422}
   - component: {fileID: 33647645545147794}
   - component: {fileID: 23493936036523528}
+  - component: {fileID: 6379434329887942678}
+  - component: {fileID: 3810621128201676421}
+  - component: {fileID: 2865998644985833159}
   m_Layer: 0
   m_Name: SM_Prop_Kitchen_CounterSink_01_Door_02
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -296,3 +359,60 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6379434329887942678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974892120712264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0ba613dcedc4541b2169825d39e62d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 2865998644985833159}
+  door: {fileID: 4750644426723422}
+  frontOpenAngle: 90
+  backOpenAngle: 0
+  closeAngle: 0
+  speed: 3
+  singleAudio: {fileID: 0}
+  isCabinet: 1
+--- !u!65 &3810621128201676421
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974892120712264}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.4738281, y: 0.7374415, z: 0.06478027}
+  m_Center: {x: -0.23691405, y: 0.36872074, z: 0.032390136}
+--- !u!208 &2865998644985833159
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1974892120712264}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.23700002, y: 0.36900002, z: 0.032}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.23700002, y: 0.36900002, z: 0.032}
+  m_TimeToStationary: 0.5

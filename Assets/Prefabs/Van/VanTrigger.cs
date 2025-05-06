@@ -11,6 +11,7 @@ public class VanTrigger : MonoBehaviour
     bool playerInRange = false;
     PlayerInteract playerInventory;
     [SerializeField] GameObject vanText;
+    [SerializeField] GameObject vanTextForShader;
 
     [SerializeField] SingleAudio singleAudio;
 
@@ -23,6 +24,7 @@ public class VanTrigger : MonoBehaviour
     private void Awake()
     {
         vanText.SetActive(false);
+        vanTextForShader.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,6 +36,9 @@ public class VanTrigger : MonoBehaviour
 
             vanText.SetActive(true);
             vanText.GetComponent<TMP_Text>().text = "Hold E to Deposit";
+
+            vanTextForShader.SetActive(true);
+            vanTextForShader.GetComponent<TMP_Text>().text = "Hold E to Deposit";
         }
     }
 
@@ -44,6 +49,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = false;
             playerInventory = null;
             vanText.SetActive(false);
+            vanTextForShader.SetActive(false);
 
             // If we're depositing, stop immediately
             if (depositCoroutine != null)
@@ -68,6 +74,7 @@ public class VanTrigger : MonoBehaviour
                 if (GetTotalItemCount() == 0)
                 {
                     vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
+                    vanTextForShader.GetComponent<TMP_Text>().text = "No items to deposit!";
                 }
                 else
                 {
@@ -83,6 +90,7 @@ public class VanTrigger : MonoBehaviour
                 StopCoroutine(depositCoroutine);
                 depositCoroutine = null;
                 vanText.GetComponent<TMP_Text>().text = "Deposit canceled. Some items may have been deposited.";
+                vanTextForShader.GetComponent<TMP_Text>().text = "Deposit canceled. Some items may have been deposited.";
             }
         }
     }
@@ -98,6 +106,7 @@ public class VanTrigger : MonoBehaviour
         if (totalItems == 0)
         {
             vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
+            vanTextForShader.GetComponent<TMP_Text>().text = "No items to deposit!";
             yield break;
         }
 
@@ -123,6 +132,7 @@ public class VanTrigger : MonoBehaviour
                 float progressFraction = depositTimer / totalTime;
                 int percent = Mathf.Clamp((int)(progressFraction * 100f), 0, 100);
                 vanText.GetComponent<TMP_Text>().text = $"Depositing... {percent}%";
+                vanTextForShader.GetComponent<TMP_Text>().text = $"Depositing... {percent}%";
                 yield return null;
             }
 
@@ -138,6 +148,7 @@ public class VanTrigger : MonoBehaviour
             TaskManager.Instance.task2Complete();
         }
         vanText.GetComponent<TMP_Text>().text = "All items deposited!";
+        vanTextForShader.GetComponent<TMP_Text>().text = "All items deposited!";
     }
 
     // ------------------------------------------------------
