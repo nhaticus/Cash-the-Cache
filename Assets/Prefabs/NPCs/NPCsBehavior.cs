@@ -197,7 +197,7 @@ public class NPCsBehavior : MonoBehaviour
         return percentage;
 
     }
-
+    /*
     private void OnTriggerEnter(Collider other)
     {
 
@@ -210,9 +210,11 @@ public class NPCsBehavior : MonoBehaviour
             Stun();
         }
     }
+    */
 
-    private void Stun()
+    public void Stun()
     {
+        Debug.Log("NPC starting Wait before moving coroutine");
         StartCoroutine(WaitBeforeMoving(stunDuration));
     }
     private void OnDrawGizmosSelected()
