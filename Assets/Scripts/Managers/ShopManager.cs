@@ -37,51 +37,8 @@ public class ShopManager : MonoBehaviour
                 CloseShop();
             }
         }
-        /*
-        else
-        {
-            ShopCheck();
-        }
-        */
     }
-    /*
-    // shoots raycast to detect Shop Keeper
-    // if detected allows Shop Menu to be opened
-    void ShopCheck()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 4))
-        {
-            if (hit.transform.CompareTag("Shop Keeper"))
-            {
-                if (!shopActive)
-                {
-                    if (!voicePlayed) // play voice once
-                    {
-                        singleAudio.PlaySFX("shop_owner");
-                        voicePlayed = true;
-                    }
-
-                    openShopPrompt.gameObject.SetActive(true);
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        OpenShop();
-                    }
-                }
-            }
-            else
-            {
-                openShopPrompt.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            openShopPrompt.gameObject.SetActive(false);
-        }
-    }
-    */
     public void OpenShop()
     {
         if (!shopActive)

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,12 +10,6 @@ using UnityEngine.SceneManagement;
  * If no longer colliding:
  *    Destroy canvas
  */
-
-/*
- * Get distance of collider
- * if one is closer, switch to that one
- * on interact, go to current selection
-*/
 
 public class BuildingDetection : MonoBehaviour
 {
@@ -70,6 +63,11 @@ public class BuildingDetection : MonoBehaviour
         }
     }
 
+    /*
+     * Get distance of collider
+     * if one is closer, switch to that one
+     * on interact, go to current selection
+    */
     void FindClosestBuilding()
     {
         if(buildingsDetected.Count > 0)
@@ -113,7 +111,6 @@ public class BuildingDetection : MonoBehaviour
 
     void CreateBuildingCanvas(GameObject building)
     {
-        Debug.Log("create building canvas");
         BuildingInfo info = building.GetComponentInChildren<BuildingInfo>();
         Vector3 pos = info.gameObject.transform.position;
         pos.y += 10;
