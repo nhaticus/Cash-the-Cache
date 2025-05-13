@@ -12,6 +12,14 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
 
+    [Header("Crouch Settings")]
+    public Transform cameraHolder;
+    public float crouchSpeed = 2f;
+    private float originalSpeed;
+    private Vector3 standingCamPos;
+    private Vector3 crouchingCamPos;
+    private bool isCrouching = false;
+
     public Transform orientation;
 
     float horizontalInput;
@@ -34,16 +42,25 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         touchingWall = false;
+        originalSpeed = PlayerManager.Instance.getMoveSpeed();
+
+        standingCamPos = new Vector3(0f, 1f, 0f);
+        crouchingCamPos = new Vector3(0f, 0.5f, 0f);
+
     }
 
     private void Update()
     {
         rb.drag = groundDrag;
         MyInput();
+        HandleCrouch();
+
         SpeedControl();
 
         HandleFootstepSound();
-    
+        Vector3 targetCamPos = isCrouching ? crouchingCamPos : standingCamPos;
+        cameraHolder.localPosition = Vector3.Lerp(cameraHolder.localPosition, targetCamPos, Time.deltaTime * 10f);
+
     }
 
     private void FixedUpdate()
@@ -110,6 +127,26 @@ public class PlayerMovement : MonoBehaviour
     {
         orientation.eulerAngles = new Vector3(0f, 0f, 0f);
         tf.eulerAngles = new Vector3(0f, 0f, 0f);
+    }
+
+    private void HandleCrouch()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            if (!isCrouching)
+            {
+                PlayerManager.Instance.setMoveSpeed(crouchSpeed);
+                isCrouching = true;
+            }
+        }
+        else
+        {
+            if (isCrouching)
+            {
+                PlayerManager.Instance.setMoveSpeed(originalSpeed);
+                isCrouching = false;
+            }
+        }
     }
 
 }
