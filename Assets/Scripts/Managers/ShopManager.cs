@@ -15,7 +15,6 @@ public class ShopManager : MonoBehaviour
     [SerializeField] SingleAudio singleAudio;
 
     public TMP_Text moneyText;
-    [SerializeField] TMP_Text openShopPrompt;
 
     public GameObject[] itemsInShop; // list of prefabs for each upgrade
 
@@ -24,7 +23,6 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
-        openShopPrompt.gameObject.SetActive(false);
         shopUI.SetActive(false);
     }
 
@@ -39,64 +37,24 @@ public class ShopManager : MonoBehaviour
                 CloseShop();
             }
         }
-        /*
-        else
-        {
-            ShopCheck();
-        }
-        */
-    }
-
-    // shoots raycast to detect Shop Keeper
-    // if detected allows Shop Menu to be opened
-    void ShopCheck()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 4))
-        {
-            if (hit.transform.CompareTag("Shop Keeper"))
-            {
-                if (!shopActive)
-                {
-                    if (!voicePlayed) // play voice once
-                    {
-                        singleAudio.PlaySFX("shop_owner");
-                        voicePlayed = true;
-                    }
-
-                    openShopPrompt.gameObject.SetActive(true);
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        OpenShop();
-                    }
-                }
-            }
-            else
-            {
-                openShopPrompt.gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            openShopPrompt.gameObject.SetActive(false);
-        }
     }
 
     public void OpenShop()
     {
-        PlayerManager.Instance.ToggleRotation();
-        PlayerManager.Instance.ToggleCursor();
-        PlayerManager.Instance.setMoveSpeed(0);
+        if (!shopActive)
+        {
+            singleAudio.PlaySFX("shop_owner");
+            PlayerManager.Instance.ToggleRotation();
+            PlayerManager.Instance.ToggleCursor();
+            PlayerManager.Instance.setMoveSpeed(0);
 
-        shopUI.SetActive(true);
-        openShopPrompt.gameObject.SetActive(false);
-        shopActive = true;
+            shopUI.SetActive(true);
+            shopActive = true;
 
-        moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
+            moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
-        PopulateShop();
+            PopulateShop();
+        }
     }
 
     public void CloseShop()

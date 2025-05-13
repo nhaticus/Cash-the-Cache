@@ -63,6 +63,7 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneChanged;
+        LoadUpgrades();
     }
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode)
@@ -91,6 +92,7 @@ public class PlayerManager : MonoBehaviour
         }
         weight = 0;
         LoadUpgrades();
+        Debug.Log("freak");
     }
 
     public void increaseMoveSpeed(float speedIncrease)
