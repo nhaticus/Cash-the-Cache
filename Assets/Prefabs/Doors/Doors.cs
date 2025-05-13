@@ -58,7 +58,7 @@ public class Doors : MonoBehaviour, InteractEvent
         // Methods Called By DoorSideTrigger
         // ----------------------------------------------------------------------
 
-        public void OnFrontEnter()
+    public void OnFrontEnter()
     {
         frontCount++;
         lastSideFront = true;
