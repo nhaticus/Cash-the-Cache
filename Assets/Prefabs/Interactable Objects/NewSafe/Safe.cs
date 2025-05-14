@@ -25,6 +25,18 @@ public class Safe : MonoBehaviour, InteractEvent
     [SerializeField] GameObject gold;
     [SerializeField] Transform spawnPos;
 
+
+    private int interactCount = 0;
+
+
+    private string safeId;
+
+
+    private void Awake() 
+    {
+        safeId = gameObject.name + "_" + GetInstanceID();
+    }
+
     // This method is called when the player interacts with the safe
     public void Interact()
     {
@@ -33,6 +45,9 @@ public class Safe : MonoBehaviour, InteractEvent
             Debug.Log("Already interacting with the lockpicking minigame.");
             return;  // If lockpicking is already open, don't allow further interaction
         }
+
+        interactCount++;
+        AnalyticsManager.Instance.LockPickingInteractionCount(interactCount, safeId); 
 
         isLockpickingOpen = true;
         
