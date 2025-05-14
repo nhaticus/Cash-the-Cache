@@ -2218,6 +2218,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 163969023}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &168809173 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 168790, guid: 180ae0328a9b63d4ca285487efd1305a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1244395580}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &174116585
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3475,12 +3481,12 @@ PrefabInstance:
     - target: {fileID: 2811800564987385697, guid: ac8de36d304adbd40a64494fe0b3ab67,
         type: 3}
       propertyPath: m_Intensity
-      value: 534.65656
+      value: 381.97183
       objectReference: {fileID: 0}
     - target: {fileID: 2811800564987385697, guid: ac8de36d304adbd40a64494fe0b3ab67,
         type: 3}
       propertyPath: m_SpotAngle
-      value: 100
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 2811800564987385697, guid: ac8de36d304adbd40a64494fe0b3ab67,
         type: 3}
@@ -3555,12 +3561,12 @@ PrefabInstance:
     - target: {fileID: 5638539203608888759, guid: ac8de36d304adbd40a64494fe0b3ab67,
         type: 3}
       propertyPath: m_Intensity
-      value: 534.65656
+      value: 381.97183
       objectReference: {fileID: 0}
     - target: {fileID: 5638539203608888759, guid: ac8de36d304adbd40a64494fe0b3ab67,
         type: 3}
       propertyPath: m_SpotAngle
-      value: 100
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 5638539203608888759, guid: ac8de36d304adbd40a64494fe0b3ab67,
         type: 3}
@@ -3625,12 +3631,12 @@ PrefabInstance:
     - target: {fileID: 8041343640366589201, guid: ac8de36d304adbd40a64494fe0b3ab67,
         type: 3}
       propertyPath: m_Intensity
-      value: 534.65656
+      value: 381.97183
       objectReference: {fileID: 0}
     - target: {fileID: 8041343640366589201, guid: ac8de36d304adbd40a64494fe0b3ab67,
         type: 3}
       propertyPath: m_SpotAngle
-      value: 100
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 8041343640366589201, guid: ac8de36d304adbd40a64494fe0b3ab67,
         type: 3}
@@ -3763,7 +3769,7 @@ MonoBehaviour:
   m_Intensity: 1200
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
-  m_InnerSpotPercent: 50
+  m_InnerSpotPercent: 70
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 1
@@ -3885,7 +3891,7 @@ MonoBehaviour:
   m_Intensity: 1200
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
-  m_InnerSpotPercent: 50
+  m_InnerSpotPercent: 70
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 1
@@ -4007,7 +4013,7 @@ MonoBehaviour:
   m_Intensity: 1200
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
-  m_InnerSpotPercent: 50
+  m_InnerSpotPercent: 70
   m_SpotIESCutoffPercent: 100
   m_LightDimmer: 1
   m_VolumetricDimmer: 1
@@ -11731,6 +11737,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1244395580}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &675201140
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168809173}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.2, y: 1.8469827, z: 1.1}
+  m_Center: {x: -0.0001983643, y: 0.92349136, z: 0.003939868}
 --- !u!1001 &675475572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19467,7 +19494,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.161017, y: 1.9900504, z: 0.585145}
+  m_Size: {x: 0.9, y: 1.8, z: 0.5}
   m_Center: {x: -0.00024455786, y: 0.87430924, z: -0.04140131}
 --- !u!114 &1108815265
 MonoBehaviour:
@@ -22256,7 +22283,11 @@ PrefabInstance:
     - {fileID: 64765768161639580, guid: 180ae0328a9b63d4ca285487efd1305a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 168790, guid: 180ae0328a9b63d4ca285487efd1305a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 675201140}
   m_SourcePrefab: {fileID: 100100000, guid: 180ae0328a9b63d4ca285487efd1305a, type: 3}
 --- !u!1001 &1248593656
 PrefabInstance:
@@ -26366,7 +26397,11 @@ PrefabInstance:
     - {fileID: 6714366651562817291, guid: 5afed722cc07f0045bfb9c283f384e9c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1990216340993278, guid: 5afed722cc07f0045bfb9c283f384e9c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1709693375}
   m_SourcePrefab: {fileID: 100100000, guid: 5afed722cc07f0045bfb9c283f384e9c, type: 3}
 --- !u!4 &1466710820 stripped
 Transform:
@@ -28219,6 +28254,7 @@ MonoBehaviour:
   closeAngle: 0
   speed: 3
   singleAudio: {fileID: 544528375}
+  isCabinet: 0
 --- !u!65 &1532435011
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -30743,6 +30779,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1690187297}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1709693372 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1990216340993278, guid: 5afed722cc07f0045bfb9c283f384e9c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1466710819}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1709693375
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709693372}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7, y: 0.06947631, z: 5.0000076}
+  m_Center: {x: -2.4999943, y: 0.018511413, z: -2.4999967}
 --- !u!1001 &1710942242
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37570,6 +37633,7 @@ MonoBehaviour:
   closeAngle: 0
   speed: 3
   singleAudio: {fileID: 2106600475}
+  isCabinet: 0
 --- !u!208 &2013061959
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -37605,6 +37669,7 @@ MonoBehaviour:
   closeAngle: 0
   speed: 3
   singleAudio: {fileID: 2051865865}
+  isCabinet: 0
 --- !u!208 &2013061963
 NavMeshObstacle:
   m_ObjectHideFlags: 0
