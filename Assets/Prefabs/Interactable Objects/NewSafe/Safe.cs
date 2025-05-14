@@ -29,12 +29,13 @@ public class Safe : MonoBehaviour, InteractEvent
     private int interactCount = 0;
 
 
+    private static int globalSafeCounter = 0;
     private string safeId;
 
 
     private void Awake() 
     {
-        safeId = gameObject.name + "_" + GetInstanceID();
+        safeId = "Safe_" + globalSafeCounter++;
     }
 
     // This method is called when the player interacts with the safe

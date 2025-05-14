@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Analytics;
-
+using System.Threading.Tasks;
 
 public class AnalyticsManager : MonoBehaviour
 {
@@ -25,7 +25,7 @@ public class AnalyticsManager : MonoBehaviour
     }
 
 
-    async void Start()
+    public async Task StartDataCollection()
     {
         await UnityServices.InitializeAsync();
         AnalyticsService.Instance.StartDataCollection();
@@ -38,6 +38,7 @@ public class AnalyticsManager : MonoBehaviour
 
     public void TrackGameStarted()
     {
+
         if (!isInitialized)
             return;
 
@@ -62,7 +63,23 @@ public class AnalyticsManager : MonoBehaviour
         AnalyticsService.Instance.Flush();
         Debug.Log("Lock Picking Started");
     }
-    
+
+    public void TrackDeviceSpecs()
+    {
+        var deviceEvent = new CustomEvent("device_specs");
+        deviceEvent["device_model"] = SystemInfo.deviceModel;
+        deviceEvent["device_type"] = SystemInfo.deviceType.ToString();
+        deviceEvent["os"] = SystemInfo.operatingSystem;
+        deviceEvent["cpu"] = SystemInfo.processorType;
+        deviceEvent["cpu_cores"] = SystemInfo.processorCount;
+        deviceEvent["gpu"] = SystemInfo.graphicsDeviceName;
+        deviceEvent["gpu_memory_mb"] = SystemInfo.graphicsMemorySize;
+        deviceEvent["system_memory_mb"] = SystemInfo.systemMemorySize;
+
+        AnalyticsService.Instance.RecordEvent(deviceEvent);
+        Debug.Log("Device specs recorded");
+    }
+
 
 
     public void RestartGame() {
