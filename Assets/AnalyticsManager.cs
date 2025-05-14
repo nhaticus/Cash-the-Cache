@@ -80,6 +80,15 @@ public class AnalyticsManager : MonoBehaviour
         Debug.Log("Device specs recorded");
     }
 
+    public void TrackMinigameStarted(string minigameType)
+    {
+        var evt = new CustomEvent("minigame_started");
+        evt["minigame_type"] = minigameType;
+        evt["time"] = System.DateTime.UtcNow.ToString("o");
+
+        AnalyticsService.Instance.RecordEvent(evt);
+        AnalyticsService.Instance.Flush();
+    }
 
 
     public void RestartGame() {
