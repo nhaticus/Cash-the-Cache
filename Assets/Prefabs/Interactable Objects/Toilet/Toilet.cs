@@ -27,6 +27,7 @@ public class Toilet : MonoBehaviour, InteractEvent
     // This method is called when the player interacts with the safe
     public void Interact()
     {
+        AnalyticsManager.Instance.TrackMinigameStarted("Toliet Minigame");
         if (isFlushingOpen)
         {
             Debug.Log("Already interacting with the flushing minigame.");
@@ -38,8 +39,11 @@ public class Toilet : MonoBehaviour, InteractEvent
         ResetToilet();
 
         // Check if the canvas already exists and is active
-        if (currentCanvas == null)
+        if (currentCanvas == null) 
+        {
+            
             InitializeFlushingCanvas();
+        }
         else // canvas exists, enable it and retain the combo
             currentCanvas.SetActive(true);
 

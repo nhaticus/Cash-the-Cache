@@ -249,5 +249,11 @@ public class LockPickingCanvas : MonoBehaviour
         PlayerManager.Instance.WeightChangeSpeed();
         Destroy(gameObject); // Destroy the canvas when exiting
     }
-
+    public void StartFlashingOrder()
+    {
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(AssignPinOrderEffect());
+        }
+    }
 }
