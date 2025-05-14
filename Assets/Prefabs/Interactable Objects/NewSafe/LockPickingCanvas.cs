@@ -1,12 +1,14 @@
-//LockPickingCanvas handles the lockpicking minigame logic for the safe
-// Player interacts with a set of pins that need to be pressed in a specific order to unlock the safe
-// Difficulty determines the number of pins and the complexity of the lockpicking
-// Dynamic pin creation and canvas creation
-// Each pin is assigned a random order to be pressed
-// Pins flash in the correct order to guide the player
-// Player has a limited number of attempts to unlock the safe
-// If the player fails and runs out of attempts then the safe is permantly locked and a message is shown
-// If the player successfully unlocks the safe, they can loot the contents inside
+/*
+ * LockPickingCanvas handles the lockpicking minigame logic for the safe
+ * Player interacts with a set of pins that need to be pressed in a specific order to unlock the safe
+ * Difficulty determines the number of pins and the complexity of the lockpicking
+ * Dynamic pin creation and canvas creation
+ * Each pin is assigned a random order to be pressed
+ * Pins flash in the correct order to guide the player
+ * Player has a limited number of attempts to unlock the safe
+ * If the player fails and runs out of attempts then the safe is permantly locked and a message is shown
+ * If the player successfully unlocks the safe, they can loot the contents inside
+*/
 
 using System.Collections;
 using System.Collections.Generic;
@@ -53,7 +55,6 @@ public class LockPickingCanvas : MonoBehaviour
     {
         if (maxAttempts <= 0)
         {
-            Debug.Log("No attempts left! Resetting the pins.");
             UpdateAttemptsUI();
 
             StartCoroutine(ShowFailedMessage());
@@ -117,8 +118,6 @@ public class LockPickingCanvas : MonoBehaviour
             correctOrder[randomIndex] = temp;
         }
         remainingPins = new List<int>(correctOrder);
-
-        Debug.Log($"Generated Lock Combo: {string.Join(", ", correctOrder)}");
     }
 
     // Flash the pins in the correct order
@@ -163,8 +162,8 @@ public class LockPickingCanvas : MonoBehaviour
     // Method for when the player clicks a pin
     private void TryPressPin(int pinIndex)
     {
-
-
+        if (!canClick)
+            return;
         if (pinIndex == correctOrder[currentIndex]) // If the pin clicked is correct
         {
                 StartCoroutine(CorrectPinEffect(pinIndex));
@@ -182,7 +181,6 @@ public class LockPickingCanvas : MonoBehaviour
                 maxAttempts--;
                 UpdateAttemptsUI(); // Update the attempts left UI
                 StartCoroutine(WrongPinEffect(pinIndex));
-                Debug.Log("Incorrect Pin! Try again.");
         }
     }
     private IEnumerator CorrectPinEffect(int pinIndex)
@@ -218,8 +216,6 @@ public class LockPickingCanvas : MonoBehaviour
         if (attemptsText != null)
             attemptsText.text = $"Attempts Left: {maxAttempts}";
     }
-
-
 
     private IEnumerator ShowFailedMessage()
     {

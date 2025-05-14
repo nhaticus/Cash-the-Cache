@@ -1,4 +1,3 @@
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,8 +11,8 @@ public class PlayerCam : MonoBehaviour
 
     public Transform orientation;
 
-    public float xRotation;
-    public float yRotation;
+    public float xRotation = 0;
+    public float yRotation = 0;
 
     private void Start()
     {
@@ -32,6 +31,7 @@ public class PlayerCam : MonoBehaviour
             {
                 float camX = 0f;
                 float camY = 0f;
+
                 // Check for controller input otherwise use mouse sensitivity
                 if (Gamepad.current != null && Gamepad.current.rightStick.ReadValue() != Vector2.zero)
                 {
@@ -39,16 +39,16 @@ public class PlayerCam : MonoBehaviour
                     camX = stick.x * Time.deltaTime * controllerSens;
                     camY = stick.y * Time.deltaTime * controllerSens;
                 }
-                else 
+                else
                 {
                     camX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * mouseSens;
                     camY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * mouseSens;
                 }
                 yRotation += camX;
                 xRotation -= camY;
-
+                
                 xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
+                
                 //rotate cam and orientaton
                 transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
                 orientation.rotation = Quaternion.Euler(0, yRotation, 0);

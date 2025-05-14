@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// This uses the lock picking cs file as a template, and dictates the flushing minigame
+/*
+ * A Toilet interactable object
+ * Keep flushing the toilet and keep the plunger in the correct position
+ */
+
 public class Toilet : MonoBehaviour, InteractEvent
 {
     [Header("Toilet Settings")]
-    public bool isUnlocked = false;  // Tracks whether the toilet is flushed or not
+    public bool isUnlocked = false;
 
     [Header("Diffculty = Time it takes to flush")]
     [SerializeField] int difficulty = 3; // Difficulty level = number of seconds x 1
@@ -18,7 +22,6 @@ public class Toilet : MonoBehaviour, InteractEvent
 
     [Header("Loot Settings")]
     [SerializeField] List<GameObject> loot;
-    [SerializeField] GameObject el_Skibidi; //yeah idk man when i delete this line of code everything breaks so i left it in
     [SerializeField] Transform spawnPos;
 
     // This method is called when the player interacts with the safe
@@ -70,7 +73,6 @@ public class Toilet : MonoBehaviour, InteractEvent
     {
         isUnlocked = true;
 
-        // Spawn loot based on difficulty
         SpawnLoot();
 
         // Change the safe's color to indicate it's unlocked
@@ -80,30 +82,22 @@ public class Toilet : MonoBehaviour, InteractEvent
         gameObject.tag = "Untagged"; // Safe is no longer interactable
     }
 
-
-    // Method to handle loot spawning when the safe is unlocked
     private void SpawnLoot()
     {
         // Spawn loot depending on difficulty level (example: gold, silver, etc.)?
         int spawnAmount = 0;
 
         if (difficulty <= 4)
-        {
             spawnAmount = 1;
-        }
         else if (difficulty <= 7)
-        {
             spawnAmount = 2;
-        }
         else
-        {
             spawnAmount = 3;
-        }
+
         for (int i = 0; i < spawnAmount; i++)
         {
             Instantiate(loot[Random.Range(0, loot.Count)], spawnPos.position, transform.rotation);
         }
-        if(Random.Range(1, 101) < 2) el_Skibidi.SetActive(true);
 
     }
 

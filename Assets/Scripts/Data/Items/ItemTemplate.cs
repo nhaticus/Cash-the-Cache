@@ -1,10 +1,10 @@
-/* Attached to each UI shop item prefab to access the text components
+/*
+ * Attached to each UI shop item prefab to access the text components
  */
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Localization.Components;
-using UnityEditor.Localization.Editor;
 
 public class ItemTemplate : MonoBehaviour
 {

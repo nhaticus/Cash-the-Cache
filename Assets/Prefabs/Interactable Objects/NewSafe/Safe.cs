@@ -1,11 +1,9 @@
 // Safe handles the interactions with the safe object, including the lockpicking mini-game and loot spawning.
 // Contains Logic for:
-// -Opening the lock picking mingiame and preventing multiple interactions
-// -Handling the lockpicking success and failure
-// -Spawning loot based on difficulty
-// -Locking safe if failed
-using System.Collections;
-using System.Collections.Generic;
+//  - Opening the lock picking mingiame and preventing multiple interactions
+//  - Handling the lockpicking success and failure
+//  - Spawning loot based on difficulty
+//  - Locking safe if failed
 using UnityEngine;
 
 public class Safe : MonoBehaviour, InteractEvent
@@ -22,8 +20,6 @@ public class Safe : MonoBehaviour, InteractEvent
     [Header("Canvas Settings")]
     [SerializeField] GameObject lockCanvasPrefab; // Prefab for the lockpicking UI canvas
     private GameObject currentCanvas; // Reference to the currently active canvas
-
-    Vector3[] originalPositions;
 
     [Header("Loot Settings")]
     [SerializeField] GameObject gold;
@@ -73,6 +69,7 @@ public class Safe : MonoBehaviour, InteractEvent
         canvasScript.LockOpened.AddListener(OnLockpickingCompleted);
         canvasScript.LockFailed.AddListener(OnLockpickingFailed);
     }
+
     // Lock the player controls during the mini-game
     private void LockPlayerControls()
     {
@@ -83,6 +80,7 @@ public class Safe : MonoBehaviour, InteractEvent
         PlayerManager.Instance.lockRotation();
         PlayerManager.Instance.setMoveSpeed(0);
     }
+
     // Method that gets called when the lockpicking mini-game is completed successfully
     private void OnLockpickingCompleted()
     {
@@ -107,7 +105,6 @@ public class Safe : MonoBehaviour, InteractEvent
         gameObject.tag = "Untagged"; // Safe is no longer interactable
     }
 
-    
     // Method to handle loot spawning when the safe is unlocked
     private void SpawnLoot()
     {
@@ -115,17 +112,12 @@ public class Safe : MonoBehaviour, InteractEvent
         int spawnAmount = 0;
 
         if (difficulty <= 4)
-        {
             spawnAmount = 1;
-        }
         else if (difficulty <= 7)
-        {
             spawnAmount = 2;
-        }
         else
-        {
             spawnAmount = 3;
-        }
+
         for (int i = 0; i < spawnAmount; i++)
         {
             Instantiate(gold, spawnPos.position, transform.rotation);
@@ -136,7 +128,7 @@ public class Safe : MonoBehaviour, InteractEvent
     {
         isUnlocked = false;
         isLockpickingOpen = false;
-        GetComponent<Renderer>().material.color = Color.gray;  // Or the original locked color
+        GetComponent<Renderer>().material.color = Color.gray;
         gameObject.tag = "Selectable";  // Re-enable interaction
     }
 
