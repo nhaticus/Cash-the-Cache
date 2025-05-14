@@ -69,7 +69,8 @@ public class Safe : MonoBehaviour, InteractEvent
             LockPickingCanvas canvasScript = currentCanvas.GetComponent<LockPickingCanvas>();
 
             // Restart the flashing effect but don't reset the order of the pins
-            StartCoroutine(canvasScript.AssignPinOrderEffect()); // Re-start flashing
+            //StartCoroutine(canvasScript.AssignPinOrderEffect()); // Re-start flashing
+            canvasScript.StartFlashingOrder();
         }
 
         LockPlayerControls();
