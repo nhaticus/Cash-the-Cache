@@ -18,7 +18,7 @@ public class VanTrigger : MonoBehaviour
     Coroutine depositCoroutine;
 
     [Header("Deposit Timing")]
-    [SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
+    //[SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
     [SerializeField] float extraTimePerItem = 0.5f; // Time per item
 
     private void Awake()
@@ -51,7 +51,7 @@ public class VanTrigger : MonoBehaviour
             vanText.SetActive(false);
             vanTextForShader.SetActive(false);
 
-            // If we're depositing, stop immediately
+            // If depositing, stop immediately
             if (depositCoroutine != null)
             {
                 StopCoroutine(depositCoroutine);
@@ -70,7 +70,7 @@ public class VanTrigger : MonoBehaviour
             // If we're not already depositing, start the coroutine
             if (depositCoroutine == null)
             {
-                // If no items, just show message
+                // If no items, show no items message
                 if (GetTotalItemCount() == 0)
                 {
                     vanText.GetComponent<TMP_Text>().text = "No items to deposit!";

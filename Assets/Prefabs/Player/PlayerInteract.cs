@@ -40,7 +40,6 @@ public class PlayerInteract : MonoBehaviour
     {
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         Ray ray = Camera.main.ScreenPointToRay(screenCenter);
-        Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
 
         RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction * raycastDistance, raycastDistance);
         GameObject closestObj = null; float closestDist = 10;
@@ -107,7 +106,13 @@ public class PlayerInteract : MonoBehaviour
         originalMaterial = null;
     }
 
+    
     [HideInInspector] public UnityEvent<bool> ItemTaken;
+    /// <summary>
+    /// Executes object's interact event.
+    /// If the object is stealable, tries to put into inventory first.
+    /// If not able to go into inventory: then interact event fails.
+    /// </summary>
     private void Interact(GameObject obj)
     {
         StealableObject stealObj = obj.GetComponent<StealableObject>();
@@ -116,6 +121,7 @@ public class PlayerInteract : MonoBehaviour
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight > PlayerManager.Instance.getMaxWeight()){
                 singleAudio.PlaySFX("inventory_full");
             }
+
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
                 singleAudio.PlaySFX("collect_item_sound");
@@ -140,8 +146,7 @@ public class PlayerInteract : MonoBehaviour
             if (door != null)
                 door.Interact(myTransform);          // <<< new overload 
             else
-                ExecuteEvents.Execute<InteractEvent>(obj, null,
-                    (x, y) => x.Interact());         // everything else uses the old call
+                ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
         }
     }
 
@@ -173,5 +178,12 @@ public class PlayerInteract : MonoBehaviour
 
         Debug.Log("Player Speed set to: " + newSpeed.ToString());
         PlayerManager.Instance.setMoveSpeed(newSpeed);
+    }
+
+    void OnDrawGizmos()
+    {
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+        Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
     }
 }

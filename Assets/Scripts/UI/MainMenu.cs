@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
@@ -11,7 +9,7 @@ public class MainMenu : MonoBehaviour
     float defaultVolume = 1;
 
     [SerializeField] EventSystem eventSystem;
-    public GameObject prevButton; // remember which button when renabling main menu
+    [HideInInspector] public GameObject prevButton; // remember which button when renabling main menu
 
     private void Start()
     {
