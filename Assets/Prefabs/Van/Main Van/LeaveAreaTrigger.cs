@@ -8,7 +8,7 @@ using TMPro;
 public class LeaveAreaTrigger : MonoBehaviour
 {
     [SerializeField] GameObject vanText;
-    [SerializeField] GameObject vanTextForShader;
+    // [SerializeField] GameObject vanTextForShader;
     [SerializeField] GameObject resultScreen;
     [SerializeField] SingleAudio singleAudio;
 
@@ -22,8 +22,8 @@ public class LeaveAreaTrigger : MonoBehaviour
             vanText.SetActive(true);
             vanText.GetComponent<TMP_Text>().text = "Press E to leave";
 
-            vanTextForShader.SetActive(true);
-            vanTextForShader.GetComponent<TMP_Text>().text = "Press E to leave";
+            // vanTextForShader.SetActive(true);
+            // vanTextForShader.GetComponent<TMP_Text>().text = "Press E to leave";
         }
     }
 
@@ -34,7 +34,7 @@ public class LeaveAreaTrigger : MonoBehaviour
             playerInLeaveArea = false;
             vanText.SetActive(false);
 
-            vanTextForShader.SetActive(false);
+            // vanTextForShader.SetActive(false);
         }
     }
 
