@@ -25,7 +25,7 @@ public class SpawnObjectsInArea : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        // Draw a yellow cube at the transform position
+        // Draw a cube at the transform position
         Gizmos.color = UnityEngine.Color.green;
         Gizmos.DrawWireCube(transform.position, spawnArea);
     }
