@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 10514820568002063}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0098, y: -0.2, z: -0.13000011}
-  m_LocalScale: {x: 0.98191994, y: 1.6999999, z: 1}
+  m_LocalPosition: {x: 0.0098, y: 0, z: -0.13000011}
+  m_LocalScale: {x: 0.98191994, y: 1.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6202819337617520394}
@@ -201,8 +201,8 @@ Transform:
   m_GameObject: {fileID: 891590943927148548}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.14999962, y: -0.2002, z: -10.22}
-  m_LocalScale: {x: 6, y: 1.6999999, z: 1}
+  m_LocalPosition: {x: 0.14999962, y: 0, z: -10.22}
+  m_LocalScale: {x: 6, y: 1.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6202819337617520394}
@@ -309,8 +309,8 @@ Transform:
   m_GameObject: {fileID: 1571250249101268436}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -5.9699993, y: -0.19999999, z: 0.069999695}
-  m_LocalScale: {x: 1.5, y: 1.6999999, z: 1}
+  m_LocalPosition: {x: -5.9699993, y: 0, z: 0.069999695}
+  m_LocalScale: {x: 1.5, y: 1.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 47270690059324147}
@@ -805,7 +805,7 @@ Transform:
   m_GameObject: {fileID: 3416933260277048185}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.2888, y: 4.92, z: -5.4046}
+  m_LocalPosition: {x: -7.2888, y: 5.54, z: -5.4046}
   m_LocalScale: {x: 16.468327, y: 0.19999999, z: 12.388622}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1061,6 +1061,7 @@ MonoBehaviour:
   closeAngle: 0
   speed: 4
   singleAudio: {fileID: 5155501439328873502}
+  isCabinet: 0
 --- !u!208 &3642156858909483573
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1087,6 +1088,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6202819337617520394}
   - component: {fileID: 3798956081538855350}
+  - component: {fileID: 2455513220668802600}
   m_Layer: 0
   m_Name: Bathroom 3
   m_TagString: Room
@@ -1151,12 +1153,28 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 12, y: 4, z: 10}
-  m_Center: {x: -7, y: 3, z: -5}
+  m_Size: {x: 14.678783, y: 4, z: 9.906899}
+  m_Center: {x: -7.4776707, y: 3, z: -5.0465503}
+--- !u!114 &2455513220668802600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5337031496908436910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6351161a4c1753443b24f7f8a2e8322d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomName: 
+  doorPoints:
+  - {fileID: 8392743873856162669}
+  wallSegments: []
 --- !u!1 &6484955322213288456
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,8 +1203,8 @@ Transform:
   m_GameObject: {fileID: 6484955322213288456}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.949999, y: -0.2, z: -0.13000011}
-  m_LocalScale: {x: 3.55568, y: 1.6999999, z: 1}
+  m_LocalPosition: {x: -5.949999, y: 0, z: -0.13000011}
+  m_LocalScale: {x: 3.55568, y: 1.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6202819337617520394}
@@ -1290,8 +1308,8 @@ Transform:
   m_GameObject: {fileID: 7157955145818391432}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071069}
-  m_LocalPosition: {x: -14.85, y: -0.19999999, z: -0.09000015}
-  m_LocalScale: {x: 4, y: 1.6999999, z: 1}
+  m_LocalPosition: {x: -14.85, y: 0, z: -0.09000015}
+  m_LocalScale: {x: 4, y: 1.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6202819337617520394}
@@ -1395,8 +1413,8 @@ Transform:
   m_GameObject: {fileID: 8113127580719048016}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071069}
-  m_LocalPosition: {x: 0.14999962, y: -0.19999999, z: -0.09000015}
-  m_LocalScale: {x: 4, y: 1.6999999, z: 1}
+  m_LocalPosition: {x: 0.14999962, y: 0, z: -0.09000015}
+  m_LocalScale: {x: 4, y: 1.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6202819337617520394}
