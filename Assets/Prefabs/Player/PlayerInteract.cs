@@ -106,7 +106,13 @@ public class PlayerInteract : MonoBehaviour
         originalMaterial = null;
     }
 
+    
     [HideInInspector] public UnityEvent<bool> ItemTaken;
+    /// <summary>
+    /// Executes object's interact event.
+    /// If the object is stealable, tries to put into inventory first.
+    /// If not able to go into inventory: then interact event fails.
+    /// </summary>
     private void Interact(GameObject obj)
     {
         StealableObject stealObj = obj.GetComponent<StealableObject>();
@@ -115,6 +121,7 @@ public class PlayerInteract : MonoBehaviour
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight > PlayerManager.Instance.getMaxWeight()){
                 singleAudio.PlaySFX("inventory_full");
             }
+
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
                 singleAudio.PlaySFX("collect_item_sound");
@@ -139,8 +146,7 @@ public class PlayerInteract : MonoBehaviour
             if (door != null)
                 door.Interact(myTransform);          // <<< new overload 
             else
-                ExecuteEvents.Execute<InteractEvent>(obj, null,
-                    (x, y) => x.Interact());         // everything else uses the old call
+                ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
         }
     }
 
