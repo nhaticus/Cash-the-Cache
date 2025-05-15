@@ -56,7 +56,6 @@ public class RoomGenerator : MonoBehaviour
     {
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
-            Debug.Log("roomCount: " + roomCount + " < " + maxRooms);
             // Select possible door
             int randomDoor = 0;
             if (availableDoors.Count >= 1)
