@@ -18,7 +18,7 @@ public class VanTrigger : MonoBehaviour
     Coroutine depositCoroutine;
 
     [Header("Deposit Timing")]
-    [SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
+    //[SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
     [SerializeField] float extraTimePerItem = 0.5f; // Time per item
 
     private void Awake()
