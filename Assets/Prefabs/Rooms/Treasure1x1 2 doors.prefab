@@ -1697,7 +1697,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2250104256226390130}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -9.75, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1705,7 +1705,7 @@ Transform:
   - {fileID: 7715373141292470397}
   - {fileID: 7204208967466459879}
   - {fileID: 3938746146319254852}
-  m_Father: {fileID: 3109880666660624310}
+  m_Father: {fileID: 6658796614269512886}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &2264647803710437310
 GameObject:
@@ -1771,7 +1771,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4472090946350297658}
-  m_Father: {fileID: 3109880666660624310}
+  m_Father: {fileID: 6658796614269512886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6842866243383540248
 MeshFilter:
@@ -3123,7 +3123,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6617133694904172668}
-  m_Father: {fileID: 3109880666660624310}
+  m_Father: {fileID: 6658796614269512886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7958081039260631436
 MeshFilter:
@@ -3516,6 +3516,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb635d5adf8ca0542a96ebe162aa49c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4479853160998653260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6658796614269512886}
+  m_Layer: 0
+  m_Name: Room
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6658796614269512886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4479853160998653260}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2559070300206781376}
+  - {fileID: 8895447543431139353}
+  - {fileID: 2920145628133296511}
+  - {fileID: 1871156744726547746}
+  - {fileID: 2133273422460592644}
+  - {fileID: 9081690804533223808}
+  m_Father: {fileID: 3109880666660624310}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4689454904056602239
 GameObject:
   m_ObjectHideFlags: 0
@@ -5681,7 +5718,7 @@ Transform:
   m_LocalScale: {x: 10, y: 0.1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3109880666660624310}
+  m_Father: {fileID: 6658796614269512886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3874672530182818150
 MeshFilter:
@@ -6604,7 +6641,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3317449941999753381}
-  m_Father: {fileID: 3109880666660624310}
+  m_Father: {fileID: 6658796614269512886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6071769688566982288
 MeshFilter:
@@ -7062,7 +7099,7 @@ Transform:
   - {fileID: 2548374978066320264}
   - {fileID: 2914889106339175637}
   - {fileID: 6486074312504143687}
-  m_Father: {fileID: 3109880666660624310}
+  m_Father: {fileID: 6658796614269512886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8144477796898503112
 GameObject:
@@ -7315,6 +7352,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3109880666660624310}
+  - component: {fileID: 6009433339776869071}
+  - component: {fileID: 1681252601782277640}
   m_Layer: 0
   m_Name: Treasure1x1 2 doors
   m_TagString: Room
@@ -7335,13 +7374,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6658796614269512886}
   - {fileID: 86005502465566370}
-  - {fileID: 2559070300206781376}
-  - {fileID: 8895447543431139353}
-  - {fileID: 2920145628133296511}
-  - {fileID: 1871156744726547746}
-  - {fileID: 2133273422460592644}
-  - {fileID: 9081690804533223808}
   - {fileID: 8024737241150115756}
   - {fileID: 2794388502730029672}
   - {fileID: 2941060852946883061}
@@ -7357,6 +7391,43 @@ Transform:
   - {fileID: 1072367249026383461}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6009433339776869071
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511122524623800716}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9.6, y: 5.6, z: 9.6}
+  m_Center: {x: -5, y: 2.75, z: 0}
+--- !u!114 &1681252601782277640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511122524623800716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6351161a4c1753443b24f7f8a2e8322d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomName: 
+  doorPoints:
+  - {fileID: 6222663178273016096}
+  - {fileID: 6218825198364771932}
 --- !u!1 &8573748310811314296
 GameObject:
   m_ObjectHideFlags: 0
@@ -7794,6 +7865,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewSafe (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4664388079184970287, guid: 89eb11dd81bf7d74292338bc0e29c2e8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7867,6 +7943,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NewSafe (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4664388079184970287, guid: 89eb11dd81bf7d74292338bc0e29c2e8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7942,6 +8023,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewSafe
       objectReference: {fileID: 0}
+    - target: {fileID: 4664388079184970287, guid: 89eb11dd81bf7d74292338bc0e29c2e8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7985,6 +8071,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CeilingLamp_04_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6331623169832972024, guid: 278965b0933f96f4da6854a96adf1d1f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6671415541484663874, guid: 278965b0933f96f4da6854a96adf1d1f,
         type: 3}

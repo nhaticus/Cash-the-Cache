@@ -6480,6 +6480,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3109880666660624310}
+  - component: {fileID: 4018260060609239509}
+  - component: {fileID: 8916143246929235547}
   m_Layer: 0
   m_Name: Treasure1x1
   m_TagString: Room
@@ -6496,7 +6498,7 @@ Transform:
   m_GameObject: {fileID: 8511122524623800716}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.27, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6513,6 +6515,42 @@ Transform:
   - {fileID: 3858443507631746946}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4018260060609239509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511122524623800716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6351161a4c1753443b24f7f8a2e8322d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomName: 
+  doorPoints:
+  - {fileID: 6222663178273016096}
+--- !u!65 &8916143246929235547
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511122524623800716}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9.6, y: 5.6, z: 9.6}
+  m_Center: {x: -5, y: 2.75, z: 0}
 --- !u!1 &8573748310811314296
 GameObject:
   m_ObjectHideFlags: 0
@@ -6950,6 +6988,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box
       objectReference: {fileID: 0}
+    - target: {fileID: 5173860007505581709, guid: 081e4788486bdfd44bb62902b79bd4ee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6993,6 +7036,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CeilingLamp_04_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6331623169832972024, guid: 278965b0933f96f4da6854a96adf1d1f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6671415541484663874, guid: 278965b0933f96f4da6854a96adf1d1f,
         type: 3}
