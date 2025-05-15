@@ -6,13 +6,13 @@ public class BuildingInfo : MonoBehaviour
     public int difficulty = 1; // range: 1-5
     public int floors = 1; // range: 1-3
 
-    [SerializeField] bool difficultyFromBuildingSize = true;
+    [SerializeField] bool difficultyFromSize = true;
 
     private void Start()
     {
-        if (difficultyFromBuildingSize)
+        if (difficultyFromSize)
         {
-            MeshCollider parentMesh = GetComponentInParent<MeshCollider>();
+            BoxCollider parentMesh = GetComponentInParent<BoxCollider>();
 
             // get size of building and assign difficulty and floors
             Vector3 meshSize = parentMesh.bounds.size;
