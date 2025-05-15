@@ -20,7 +20,7 @@ public class RoomGenerator : MonoBehaviour
     private GameObject startRoom;
     void Start()
     {
-        maxRooms = PlayerPrefs.GetInt("Difficulty", 5) * 4; // dumb way for now
+        maxRooms = PlayerPrefs.GetInt("Difficulty", 4) * 3; // dumb way for now
         BuildHouse();
     }
 
@@ -49,6 +49,7 @@ public class RoomGenerator : MonoBehaviour
     {
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
+            Debug.Log("roomCount: " + roomCount + " < " + maxRooms);
             // Select possible door
             int randomDoor = Random.Range(0,availableDoors.Count - 1);
             Transform currentDoor = availableDoors[randomDoor];
@@ -58,6 +59,7 @@ public class RoomGenerator : MonoBehaviour
             RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
             if (newRoomScript == null || newRoomScript.doorPoints.Length == 0)
             {
+                Debug.Log("no doors");
                 continue;
             }
 
@@ -75,6 +77,7 @@ public class RoomGenerator : MonoBehaviour
             // Check for overlap
             if (!IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation))
             {
+                Debug.Log("overlap found");
                 continue;
             }
 
