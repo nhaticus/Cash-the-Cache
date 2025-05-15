@@ -1,8 +1,3 @@
-/*  This script is attached to Police prefab
-    * FUNCTIONALITY: Police will be spawned outside the map through generator script and will path towards the player until they reach the house, 
-    then they will start randomly walking around until they run into the player and chase them
-    * HOW TO USE: Drag the prefab into any script and instantiate it. Make sure to set the ground layer of the map to "Ground" inorder for the police to traverse it
-    */
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,12 +5,11 @@ using UnityEngine.AI;
 public class PoliceBehavior : MonoBehaviour
 {
     private NavMeshAgent agent;
-
     private Transform player;
 
     /*  Navmesh Agent Settings   */
     [Header("Navmesh Agent Settings")]
-    public float speed = 3.5f; // default speed 3.5f
+    public float speed = 3.5f;
 
     /*  Layers for detection    */
     [Header("Layers for Detection")]
@@ -37,107 +31,88 @@ public class PoliceBehavior : MonoBehaviour
 
     /*  Timers  */
     private bool alreadyChasing = false;
-    public float sightCountdown = 2.0f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
-    private float sightTimer = 0.0f;
-    public float chaseDuration = 3.0f; // Time for how long the enemy will chase the player before giving up
-    private float chaseTimer = 0.0f;
+    public float chaseDuration = 3.0f;   // how long police keep chasing once triggered
+    private float chaseTimer = 0.0f;     // counts down after chase starts
 
     private void Awake()
     {
-        /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
         player = GameObject.Find("Player").transform;
         if (stunDuration == 0f)
-        {
-            stunDuration = 1.0f; // default stun duration
-        }
+            stunDuration = 1.0f;
     }
 
     void Update()
     {
         if (Physics.Raycast(transform.position, -transform.up, 2f, groundLayer))
-        {
             DetectPlayer();
-        }
         else
-        {
             agent.SetDestination(player.position);
-        }
     }
 
     private void DetectPlayer()
     {
+        // 1) Determine if player is in sight cone
+        withinSight = false;
         for (int i = -45; i <= 45; i += 5)
         {
-            Vector3 direction = Quaternion.Euler(0, i, 0) * transform.forward;
-            Debug.DrawRay(transform.position, direction * sightDistance, Color.red);
-            if (Physics.Raycast(transform.position, direction, out RaycastHit hit, sightDistance))
+            Vector3 dir = Quaternion.Euler(0, i, 0) * transform.forward;
+            Debug.DrawRay(transform.position, dir * sightDistance, Color.red);
+            if (Physics.Raycast(transform.position, dir, out RaycastHit hit, sightDistance))
             {
                 if (hit.collider.gameObject.layer == LayerMask.NameToLayer("playerLayer"))
                 {
                     withinSight = true;
                     break;
                 }
-                else
+            }
+        }
+
+        // 2) Check if within attack range
+        withinReach = Physics.CheckSphere(transform.position, reachDistance, playerLayer);
+
+        // 3) Trigger the chase timer as soon as any NPC’s bar is full
+        if (chaseTimer <= 0f)
+        {
+            foreach (var npc in FindObjectsOfType<NPCsBehavior>())
+            {
+                if (npc.GetDetectionRatio() >= 1f)
                 {
-                    withinSight = false;
+                    chaseTimer = chaseDuration;
+                    alreadyChasing = true;
+                    Debug.Log($"[PoliceBehavior] Chase timer started at {Time.time:F2}s because '{npc.name}' notice bar full");
+                    break;
                 }
             }
         }
-        withinReach = Physics.CheckSphere(transform.position, reachDistance, playerLayer);
 
-        // Debug.Log("Within Sight: " + withinSight + " Within Reach: " + withinReach);
+        // 4) If out of sight but still in chase window, count it down
+        if (!withinSight && chaseTimer > 0f)
+            chaseTimer -= Time.deltaTime;
+        else if (!withinSight && chaseTimer <= 0f)
+            alreadyChasing = false;
 
-        if (withinSight)
-        {
-            sightTimer += Time.deltaTime;
-            chaseTimer = chaseDuration; // Reset chase timer when player is in sight
-        }
-        else
-        {
-            sightTimer = 0.0f;
-            if (chaseTimer > 0)
-            {
-                chaseTimer -= Time.deltaTime;
-            }
-            else
-            {
-                alreadyChasing = false;
-            }
-        }
-
-        if ((sightTimer >= sightCountdown || chaseTimer > 0 && !withinSight || alreadyChasing) && !withinReach)
-        {
-            // Chase
-            alreadyChasing = true;
+        // 5) Decide action
+        if ((alreadyChasing || chaseTimer > 0f) && !withinReach)
             ChasePlayer();
-        }
-
         else if (withinSight && withinReach)
         {
-            chaseTimer = 0;
-            // If within reach, attack or something
+            chaseTimer = 0f;
             AttackPlayer();
         }
-
         else
-        {
-            // Idle
             PathingDefault();
-        }
     }
 
     private void ChasePlayer()
     {
-        // Debug.Log("Chasing");
         agent.SetDestination(player.position);
         transform.LookAt(player);
     }
 
     private void AttackPlayer()
     {
-        // Debug.Log("Attacking");
         agent.SetDestination(transform.position);
         transform.LookAt(player);
         GameManager.Instance.SetGameState(GameManager.GameState.Over);
@@ -146,15 +121,10 @@ public class PoliceBehavior : MonoBehaviour
     private void PathingDefault()
     {
         if (!walkPointExist) FindWalkPoint();
-
         if (walkPointExist)
-        {
             agent.SetDestination(walkPoint);
-        }
 
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        if (distanceToWalkPoint.magnitude < 1f)
+        if ((transform.position - walkPoint).magnitude < 1f)
         {
             walkPointExist = false;
             StartCoroutine(WaitBeforeMoving());
@@ -168,18 +138,15 @@ public class PoliceBehavior : MonoBehaviour
         agent.isStopped = false;
     }
 
-
     private void FindWalkPoint()
     {
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
+        float rz = Random.Range(-walkPointRange, walkPointRange);
+        float rx = Random.Range(-walkPointRange, walkPointRange);
+        walkPoint = new Vector3(transform.position.x + rx,
+                                transform.position.y,
+                                transform.position.z + rz);
         if (Physics.Raycast(walkPoint, -transform.up, 2f, groundLayer))
-        {
             walkPointExist = true;
-        }
     }
 
     private void OnDrawGizmosSelected()
@@ -193,10 +160,7 @@ public class PoliceBehavior : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Bat"))
-        {
-            Debug.Log("Stunned!");
             StartCoroutine(Stun());
-        }
     }
 
     private IEnumerator Stun()
