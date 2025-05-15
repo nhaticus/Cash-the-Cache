@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.HighDefinition.ScalableSettingLevelParameter;
 
 public class FlashlightUpgrade : MonoBehaviour
 {
