@@ -35,9 +35,9 @@ Transform:
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2493642209862851854}
   - {fileID: 5741668872698132735}
   - {fileID: 5741668872698195541}
+  - {fileID: 2493642209862851854}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4699019381707962327
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   singleAudio: {fileID: 8921132560052718310}
-  footstepClipName: footsteps
+  footstepClipName: footstep_sound
   velocityThreshold: 0.1
 --- !u!114 &5997273997895923245
 MonoBehaviour:
@@ -174,6 +174,8 @@ MonoBehaviour:
   stunDuration: 0
   sightDistance: 10
   reachDistance: 2
+  withinSight: 0
+  withinReach: 0
   sightCountdown: 2
   chaseDuration: 3
 --- !u!1 &5741668872697741513
@@ -1925,7 +1927,7 @@ MonoBehaviour:
   musicSounds: []
   sfxSounds:
   - name: footstep_sound
-    clip: {fileID: 8300000, guid: aa1ca730e2731fb4583a5b34d1a26c32, type: 3}
+    clip: {fileID: 8300000, guid: 1b07f4d2c2b8fbc4ab884a6738bd6be5, type: 3}
   musicSource: {fileID: 0}
   sfxSource: {fileID: 1771945737134528208}
 --- !u!1 &8065439196356206889
