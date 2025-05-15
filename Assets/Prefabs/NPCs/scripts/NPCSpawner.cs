@@ -15,7 +15,7 @@ public class NPCSpawner : MonoBehaviour
     public NPCSpawnData[] PoliceList; // NPCs to spawn (assigned in the inspector)
 
     [Header("Spawn Settings")]
-    public int spawnAttemptsPerNPC = 5; // Number of attempts to spawn each NPC
+    public int spawnAttemptsPerNPC = 10; // Number of attempts to spawn each NPC
     public float spawnerRadius = 20.0f; // Radius to spawn NPCs arpund
 
     void Start()
