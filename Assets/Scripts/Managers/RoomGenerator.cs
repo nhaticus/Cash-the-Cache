@@ -201,17 +201,21 @@ public class RoomGenerator : MonoBehaviour
 
     bool HasAICheck()
     {
-        foreach (GameObject room in placedRooms)
+        if (aiRoomPrefabs.Count > 0)
         {
-            foreach (GameObject aiRoom in aiRoomPrefabs)
+            foreach (GameObject room in placedRooms)
             {
-                if (room.name.Contains(aiRoom.name)) // Match by prefab name
+                foreach (GameObject aiRoom in aiRoomPrefabs)
                 {
-                    return true;
+                    if (room.name.Contains(aiRoom.name)) // Match by prefab name
+                    {
+                        return true;
+                    }
                 }
             }
+            return false;
         }
-        return false;
+        return true;
     }
 
     // Referenced from ChatGPT

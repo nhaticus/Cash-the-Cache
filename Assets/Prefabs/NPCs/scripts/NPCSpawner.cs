@@ -32,10 +32,11 @@ public class NPCSpawner : MonoBehaviour
         int maxSpawnAttempts = NPC.spawnCount * 10; // Limit the number of attempts to avoid infinite loops (10 attempts per count)
         while (spawnedCount < NPC.spawnCount && spawnAttempts < maxSpawnAttempts)
         {
+            spawnAttempts++;
             Debug.Log("Spawning NPC #: " + spawnedCount);
             Vector3 randomPoint = Random.insideUnitSphere * spawnerRadius;
             randomPoint.y += 5;
-            if (Physics.Raycast(randomPoint, Vector3.down, out RaycastHit hit, NPC.spawnLayer))
+            if (Physics.Raycast(randomPoint, Vector3.down, out RaycastHit hit, 10f, NPC.spawnLayer))
             {
                 Instantiate(NPC.NPCPrefab, hit.point, Quaternion.identity);
                 spawnedCount++;
@@ -59,7 +60,6 @@ public class NPCSpawner : MonoBehaviour
     void OnEnable()
     {
         GameManager.Instance.SpawnPolice += SpawnPolice;
-        //GameManager.SpawnPolice += SpawnPolice;
     }
 
     void OnDrawGizmosSelected()
