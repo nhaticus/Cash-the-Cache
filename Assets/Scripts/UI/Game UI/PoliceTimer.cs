@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -92,12 +91,14 @@ public class PoliceTimer : MonoBehaviour
         Timer_display.rectTransform.localPosition = originalPosition;
         StartCoroutine(PoliceAlert());
         StartCoroutine(FlashWarningText());
-
+        GameManager.Instance.CallSpawnPolice();
+        /*
         // Send in police at random spawn positions
         for (int i = 0; i < numPoliceToSpawn; i++)
         {
             Instantiate(police, spawnPos[Random.Range(0, spawnPos.Length)]);
         }
+        */
     }
 
     IEnumerator PoliceAlert()

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +8,7 @@ public class GameManager : MonoBehaviour
     public int playerMoney;
 
     public event Action OnNPCLeaving;
+    public event Action SpawnPolice;
 
     private Vector3 NPCExitPoint; // Exit for NPCs to leave the map
 
@@ -76,6 +76,11 @@ public class GameManager : MonoBehaviour
     public void NPCLeaving()
     {
         OnNPCLeaving?.Invoke();
+    }
+
+    public void CallSpawnPolice()
+    {
+        SpawnPolice.Invoke();
     }
 }
 
