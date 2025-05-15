@@ -59,7 +59,7 @@ public class PoliceBehavior : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState(agent.velocity.magnitude > 0.1f);
+        SetAnimationState(agent.velocity.magnitude > 0.5f);
         if (Physics.Raycast(transform.position, -transform.up, 2f, groundLayer))
         {
             DetectPlayer();
