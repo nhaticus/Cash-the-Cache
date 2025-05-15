@@ -111,7 +111,7 @@ public class PlayerInteract : MonoBehaviour
     /// <summary>
     /// Executes object's interact event.
     /// If the object is stealable, tries to put into inventory first.
-    /// If not able to go into inventory: then interact event fails.
+    /// If not able to go into inventory: interact event fails.
     /// </summary>
     private void Interact(GameObject obj)
     {
@@ -130,7 +130,7 @@ public class PlayerInteract : MonoBehaviour
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
                 PlayerManager.Instance.WeightChangeSpeed();
-                ItemTaken.Invoke(true); // Send event saying an item was taken
+                ItemTaken.Invoke(true); // Send event saying an item was taken so weight UI changes
 
                 if (TaskManager.Instance != null) TaskManager.Instance.task1Complete();
             }

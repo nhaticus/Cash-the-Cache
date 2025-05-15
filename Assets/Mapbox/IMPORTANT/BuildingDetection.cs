@@ -18,7 +18,7 @@ public class BuildingDetection : MonoBehaviour
     [SerializeField] string buildingLevelScene = "Level Gen";
     [SerializeField] string shopScene = "Shop";
 
-    List<BuildingInfo> buildingsDetected = new List<BuildingInfo>();
+    List<GameObject> buildingsDetected = new List<GameObject>();
     GameObject selectedBuilding;
     bool inShop = false;
 
@@ -43,7 +43,7 @@ public class BuildingDetection : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Wall") {
-            buildingsDetected.Add(other.GetComponentInChildren<BuildingInfo>());
+            buildingsDetected.Add(other.gameObject);
         }
     }
 
@@ -54,7 +54,7 @@ public class BuildingDetection : MonoBehaviour
             BuildingInfo buildingInfo = other.GetComponentInChildren<BuildingInfo>();
             if (buildingInfo)
             {
-                buildingsDetected.Remove(buildingInfo);
+                buildingsDetected.Remove(other.gameObject);
                 DestroyInfoCanvas(other.gameObject);
 
                 if (buildingInfo.isShop)
@@ -113,7 +113,7 @@ public class BuildingDetection : MonoBehaviour
     {
         BuildingInfo info = building.GetComponentInChildren<BuildingInfo>();
         Vector3 pos = info.gameObject.transform.position;
-        pos.y += 10;
+        pos.y += building.GetComponent<BoxCollider>().size.y + 4; // get collider top and add 3
         GameObject infoCanvas = Instantiate(infoCanvasPrefab, pos, Quaternion.identity);
         if(info)
             infoCanvas.GetComponent<BuildingInfoCanvas>().buildingInfo = info;
