@@ -183,6 +183,7 @@ public class NPCsBehavior : MonoBehaviour
     private void SetAnimationState(bool isWalking)
     {
         if (anim == null) return;
+        Debug.Log(isWalking);
         anim.SetBool("isWalking", isWalking);
     }
 
@@ -197,7 +198,6 @@ public class NPCsBehavior : MonoBehaviour
         return percentage;
 
     }
-    /*
     private void OnTriggerEnter(Collider other)
     {
 
@@ -210,7 +210,7 @@ public class NPCsBehavior : MonoBehaviour
             Stun();
         }
     }
-    */
+    
 
     public void Stun()
     {

@@ -9,9 +9,12 @@ using UnityEngine.AI;
 
 public class PoliceBehavior : MonoBehaviour
 {
-    private NavMeshAgent agent;
+    NavMeshAgent agent;
+    [SerializeField] Animator anim;
+    Transform player;
 
-    private Transform player;
+    [Header("Debug Settings")]
+    public bool debugMode = false;
 
     /*  Navmesh Agent Settings   */
     [Header("Navmesh Agent Settings")]
@@ -56,6 +59,7 @@ public class PoliceBehavior : MonoBehaviour
 
     void Update()
     {
+        SetAnimationState(agent.velocity.magnitude > 0.1f);
         if (Physics.Raycast(transform.position, -transform.up, 2f, groundLayer))
         {
             DetectPlayer();
@@ -180,6 +184,12 @@ public class PoliceBehavior : MonoBehaviour
         {
             walkPointExist = true;
         }
+    }
+
+    private void SetAnimationState(bool isWalking)
+    {
+        if (anim == null) return;
+        anim.SetBool("isWalking", isWalking);
     }
 
     private void OnDrawGizmosSelected()
