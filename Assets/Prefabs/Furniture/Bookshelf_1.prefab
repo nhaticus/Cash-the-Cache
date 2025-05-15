@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2139694464351896062}
   - component: {fileID: 873297970637809221}
   - component: {fileID: 7602656122227975021}
-  - component: {fileID: 7718735221406083706}
   - component: {fileID: 2176114135788216446}
   - component: {fileID: 3541842929392623412}
   - component: {fileID: 5125120541092375657}
@@ -21,11 +20,9 @@ GameObject:
   - component: {fileID: 218817061594836894}
   - component: {fileID: 5185631391835921254}
   - component: {fileID: 6962823465318591489}
-  - component: {fileID: 6348177916626688838}
-  - component: {fileID: 1217475491548141215}
   m_Layer: 0
   m_Name: Bookshelf_1
-  m_TagString: Selectable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,33 +92,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!54 &7718735221406083706
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4562546789721397784}
-  serializedVersion: 4
-  m_Mass: 16
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!65 &2176114135788216446
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -311,28 +281,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1507128, y: 2.1851044, z: 0.03}
   m_Center: {x: 0, y: 1.0925522, z: -0.17}
---- !u!114 &6348177916626688838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4562546789721397784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb635d5adf8ca0542a96ebe162aa49c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1217475491548141215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4562546789721397784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2a1fa0b4f0f27d41aa5bf6f8e1dc9da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lootInfo: {fileID: 11400000, guid: 33de120bbfca2a54a82208112274a5fc, type: 2}
