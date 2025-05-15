@@ -396,8 +396,8 @@ GameObject:
   - component: {fileID: 1877717154156765171}
   - component: {fileID: 2566434004408697646}
   - component: {fileID: 2780850053921446854}
-  - component: {fileID: 8911044777005145682}
   - component: {fileID: 2831299527764118023}
+  - component: {fileID: 8911044777005145682}
   m_Layer: 0
   m_Name: NPC_Male(FAST)
   m_TagString: AI
@@ -516,21 +516,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
---- !u!114 &8911044777005145682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1101948459535947309}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c50ce7c242b738b429737197f3653efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  singleAudio: {fileID: 6603385590806287848}
-  footstepClipName: footstep_sound
-  velocityThreshold: 0.1
 --- !u!114 &2831299527764118023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,6 +546,21 @@ MonoBehaviour:
   withinSight: 0
   detectedPlayer: 0
   sightCountdown: 2
+--- !u!114 &8911044777005145682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101948459535947309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c50ce7c242b738b429737197f3653efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  singleAudio: {fileID: 6603385590806287848}
+  footstepClipName: footstep_sound
+  velocityThreshold: 0.1
 --- !u!1 &1106648816414227897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1118,7 +1118,7 @@ MonoBehaviour:
   musicSounds: []
   sfxSounds:
   - name: footstep_sound
-    clip: {fileID: 8300000, guid: aa1ca730e2731fb4583a5b34d1a26c32, type: 3}
+    clip: {fileID: 8300000, guid: 1b07f4d2c2b8fbc4ab884a6738bd6be5, type: 3}
   musicSource: {fileID: 0}
   sfxSource: {fileID: 897946582770994788}
 --- !u!1 &4337663721983651004

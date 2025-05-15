@@ -97,9 +97,7 @@ public class NPCsBehavior : MonoBehaviour
         }
         if (withinSight)
         {
-            Vector3 direction = (player.position - transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
+            SmoothLookAt(player.position);
             agent.SetDestination(transform.position);
             sightTimer += Time.deltaTime;
         }
@@ -154,6 +152,13 @@ public class NPCsBehavior : MonoBehaviour
         }
     }
 
+    void SmoothLookAt(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
+    }
+
     private IEnumerator WaitBeforeMoving(float time)
     {
         agent.isStopped = true;
@@ -183,7 +188,6 @@ public class NPCsBehavior : MonoBehaviour
     private void SetAnimationState(bool isWalking)
     {
         if (anim == null) return;
-        Debug.Log(isWalking);
         anim.SetBool("isWalking", isWalking);
     }
 
