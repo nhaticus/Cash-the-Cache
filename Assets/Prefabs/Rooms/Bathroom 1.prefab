@@ -1155,7 +1155,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -2289,7 +2289,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 64328258538657430, guid: 9308c0e39066ad24fa0821d3f2af1b24, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2541,10 +2542,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6202819337617520394}
     m_Modifications:
+    - target: {fileID: 2972466029362632355, guid: 887e39a620b33614abf7fb46588c26f0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.503
+      objectReference: {fileID: 0}
     - target: {fileID: 8218924164458467411, guid: 887e39a620b33614abf7fb46588c26f0,
         type: 3}
       propertyPath: m_Name
       value: CeilingLamp_01_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738297570391722729, guid: 887e39a620b33614abf7fb46588c26f0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 8738297570391722729, guid: 887e39a620b33614abf7fb46588c26f0,
         type: 3}

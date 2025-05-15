@@ -1,15 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using Unity.AI.Navigation;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
     [Header("Setup (optional)")]
     public GameObject startRoomPrefab;
-    public Vector3 levelSpawnPosition;
+    Vector3 levelSpawnPosition;
     public int maxRooms = 10;
     public NavMeshSurface surface;
 
