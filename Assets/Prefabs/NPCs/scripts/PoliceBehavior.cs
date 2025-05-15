@@ -36,7 +36,7 @@ public class PoliceBehavior : MonoBehaviour
     public float stunDuration;
     public float sightDistance;
     public float reachDistance;
-    private bool withinSight, withinReach;
+    [SerializeField] private bool withinSight, withinReach;
 
     /*  Timers  */
     private bool alreadyChasing = false;
@@ -136,14 +136,13 @@ public class PoliceBehavior : MonoBehaviour
     {
         // Debug.Log("Chasing");
         agent.SetDestination(player.position);
-        transform.LookAt(player);
+        SmoothLookAt(player.position);
     }
 
     private void AttackPlayer()
     {
-        // Debug.Log("Attacking");
+        Debug.Log("Attacking");
         agent.SetDestination(transform.position);
-        transform.LookAt(player);
         GameManager.Instance.SetGameState(GameManager.GameState.Over);
     }
 
@@ -163,6 +162,13 @@ public class PoliceBehavior : MonoBehaviour
             walkPointExist = false;
             StartCoroutine(WaitBeforeMoving());
         }
+    }
+
+    void SmoothLookAt(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 3f);
     }
 
     private IEnumerator WaitBeforeMoving()
