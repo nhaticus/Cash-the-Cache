@@ -13,10 +13,14 @@ public class BuildingInfo : MonoBehaviour
         if (difficultyFromSize)
         {
             BoxCollider parentMesh = GetComponentInParent<BoxCollider>();
+            if (parentMesh == null)
+            {
+                Debug.Log("box collider does not exist on parent");
+                return;
+            }
 
             // get size of building and assign difficulty and floors
             Vector3 meshSize = parentMesh.bounds.size;
-            float meshX = meshSize.x, meshY = meshSize.y;
             difficulty = (int)Mathf.Floor((meshSize.x + meshSize.y) / 10 + Random.Range(-0.5f, 1.6f)); // difficulty is changed by a little
             if (difficulty < 1)
                 difficulty = 1;
