@@ -29,11 +29,8 @@ public class VanTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collide: " + other.tag);
-
         if (other.CompareTag("Player"))
         {
-            Debug.Log("jopjioj");
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInteract>();
 
@@ -54,7 +51,7 @@ public class VanTrigger : MonoBehaviour
             vanText.SetActive(false);
             vanTextForShader.SetActive(false);
 
-            // If we're depositing, stop immediately
+            // If depositing, stop immediately
             if (depositCoroutine != null)
             {
                 StopCoroutine(depositCoroutine);
@@ -73,7 +70,7 @@ public class VanTrigger : MonoBehaviour
             // If we're not already depositing, start the coroutine
             if (depositCoroutine == null)
             {
-                // If no items, just show message
+                // If no items, show no items message
                 if (GetTotalItemCount() == 0)
                 {
                     vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
