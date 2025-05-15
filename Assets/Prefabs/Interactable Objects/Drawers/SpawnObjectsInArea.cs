@@ -20,7 +20,8 @@ public class SpawnObjectsInArea : MonoBehaviour
             var py = Random.Range(-yRange, yRange);
             var pz = Random.Range(-zRange, zRange);
             Vector3 pos = new Vector3(px, py, pz);
-            Instantiate(prefabs[Random.Range(0, prefabs.Length - 1)], transform.position + pos, Quaternion.identity);
+            GameObject child = Instantiate(prefabs[Random.Range(0, prefabs.Length - 1)], transform.position + pos, Quaternion.identity);
+            child.transform.parent = this.transform;
         }
         
     }
