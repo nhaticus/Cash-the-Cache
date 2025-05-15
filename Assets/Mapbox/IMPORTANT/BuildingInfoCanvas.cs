@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ public class BuildingInfoCanvas : MonoBehaviour
     public Transform playerCameraTransform; // maybe look at inbetween camera and van position
     public BuildingInfo buildingInfo;
 
-    [SerializeField] TMP_Text difficultyText, floorsText;
+    [SerializeField] TMP_Text difficultyText;
     float totalWidthTime = 0.2f, totalHeightTime = 0.2f;
     float startingHeight = 0.3f;
 
@@ -21,7 +20,6 @@ public class BuildingInfoCanvas : MonoBehaviour
         if (buildingInfo)
         {
             difficultyText.text = "Difficulty: " + buildingInfo.difficulty.ToString();
-            floorsText.text = "Floors: " + buildingInfo.floors.ToString();
         }
 
         StartCoroutine(StartUp());
