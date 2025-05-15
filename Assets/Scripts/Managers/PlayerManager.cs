@@ -92,7 +92,6 @@ public class PlayerManager : MonoBehaviour
         }
         weight = 0;
         LoadUpgrades();
-        Debug.Log("freak");
     }
 
     public void increaseMoveSpeed(float speedIncrease)

@@ -18,7 +18,7 @@ public class VanTrigger : MonoBehaviour
     Coroutine depositCoroutine;
 
     [Header("Deposit Timing")]
-    [SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
+    //[SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
     [SerializeField] float extraTimePerItem = 0.5f; // Time per item
 
     private void Awake()
@@ -29,8 +29,11 @@ public class VanTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("collide: " + other.tag);
+
         if (other.CompareTag("Player"))
         {
+            Debug.Log("jopjioj");
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInteract>();
 

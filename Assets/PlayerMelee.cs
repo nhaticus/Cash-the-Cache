@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMelee : MonoBehaviour
 {
 
     [Header("Attacking")]
-    public float attackRange = 3f;
-    public float attackCooldown = 0.5f;
+    public float attackCooldown = 0.1f;
     public float attackSpeed = 1f;
     public int attackDamage = 1;
     public LayerMask attackLayer;
+    public BoxCollider hitbox;
 
     bool attacking = false;
     bool readyToAttack = true;
@@ -38,10 +39,8 @@ public class PlayerMelee : MonoBehaviour
         readyToAttack = false;
         attacking = true;
 
-        Debug.Log("Attacking");
-
         Invoke(nameof(ResetAttack), attackSpeed);
-        Invoke(nameof(AttackRaycast), attackCooldown);
+        Invoke(nameof(AttackHitbox), attackCooldown);
 
 
     }
@@ -50,13 +49,33 @@ public class PlayerMelee : MonoBehaviour
     {
         attacking = false;
         readyToAttack = true;
+        hitbox.enabled = false;
     }
 
-    void AttackRaycast()
+    void AttackHitbox()
     {
-        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, attackRange, attackLayer))
-        {
-            Debug.Log("Hit!!!");
-        }
+        hitbox.enabled = true;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.tag);
+        if (other.gameObject.tag == "AI")
+        {
+            Debug.Log("Hit NPC");
+            NPCsBehavior hurtbox = other.gameObject.GetComponent<NPCsBehavior>();
+
+            hurtbox.Stun();
+        }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawCube(transform.position, hitbox.size);
+       
+    }
+
+
 }

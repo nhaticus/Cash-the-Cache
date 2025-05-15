@@ -25,6 +25,19 @@ public class Safe : MonoBehaviour, InteractEvent
     [SerializeField] GameObject gold;
     [SerializeField] Transform spawnPos;
 
+
+    private int interactCount = 0;
+
+
+    private static int globalSafeCounter = 0;
+    private string safeId;
+
+
+    private void Awake() 
+    {
+        safeId = "Safe_" + globalSafeCounter++;
+    }
+
     // This method is called when the player interacts with the safe
     public void Interact()
     {
@@ -33,6 +46,10 @@ public class Safe : MonoBehaviour, InteractEvent
             Debug.Log("Already interacting with the lockpicking minigame.");
             return;  // If lockpicking is already open, don't allow further interaction
         }
+        AnalyticsManager.Instance.TrackMinigameStarted("Lockpicking Minigame");
+        interactCount++;
+        AnalyticsManager.Instance.LockPickingInteractionCount(interactCount, safeId);
+       
 
         isLockpickingOpen = true;
         
@@ -42,6 +59,7 @@ public class Safe : MonoBehaviour, InteractEvent
         if (currentCanvas == null)
         {
             InitializeLockPickingCanvas();
+            
         }
         else
         {
@@ -51,7 +69,8 @@ public class Safe : MonoBehaviour, InteractEvent
             LockPickingCanvas canvasScript = currentCanvas.GetComponent<LockPickingCanvas>();
 
             // Restart the flashing effect but don't reset the order of the pins
-            StartCoroutine(canvasScript.AssignPinOrderEffect()); // Re-start flashing
+            //StartCoroutine(canvasScript.AssignPinOrderEffect()); // Re-start flashing
+            canvasScript.StartFlashingOrder();
         }
 
         LockPlayerControls();
