@@ -29,8 +29,11 @@ public class VanTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("collide: " + other.tag);
+
         if (other.CompareTag("Player"))
         {
+            Debug.Log("jopjioj");
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInteract>();
 
