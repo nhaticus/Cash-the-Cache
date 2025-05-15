@@ -261,7 +261,6 @@ GameObject:
   - component: {fileID: 8421118641186006377}
   - component: {fileID: 3211193259636390515}
   - component: {fileID: 1409831297471766958}
-  - component: {fileID: 4624384783994971617}
   m_Layer: 0
   m_Name: SM_Veh_Car_Van_Wheel_fr
   m_TagString: Untagged
@@ -334,27 +333,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &4624384783994971617
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2414437613889005768}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.39758295
-  m_Center: {x: 0.09900788, y: 0, z: -0.000000044703484}
 --- !u!1 &2897782034475417304
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,7 +677,6 @@ GameObject:
   - component: {fileID: 5777174043250901031}
   - component: {fileID: 8632394598317004624}
   - component: {fileID: 3179352900869438402}
-  - component: {fileID: 6584203576844731240}
   m_Layer: 0
   m_Name: SM_Veh_Car_Van_Wheel_rl
   m_TagString: Untagged
@@ -772,27 +749,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6584203576844731240
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6119204236233460214}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.3975829
-  m_Center: {x: -0.09900798, y: 0, z: 0}
 --- !u!1 &7139453014100761787
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,7 +760,7 @@ GameObject:
   - component: {fileID: 1623661139609194649}
   - component: {fileID: 8548563301808797676}
   - component: {fileID: 3829358305743848690}
-  - component: {fileID: 8720389607031405438}
+  - component: {fileID: 7990995624999669448}
   - component: {fileID: 4645927637400901259}
   m_Layer: 0
   m_Name: Shop Van
@@ -887,8 +843,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8720389607031405438
-MeshCollider:
+--- !u!65 &7990995624999669448
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -905,10 +861,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 97982d8a36ff16f4a88f291ef2443e49, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.9, y: 1.7831537, z: 4.7}
+  m_Center: {x: -0.00000005960466, y: 1.1358304, z: 0.086721085}
 --- !u!114 &4645927637400901259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -923,7 +878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasPrefab: {fileID: 7496607638320739206, guid: 48fbf8493aaf62449b32f94c80167b6c,
     type: 3}
-  levelScene: Main Level
+  levelScene: Map
 --- !u!1 &7548819707563662710
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,7 +890,6 @@ GameObject:
   - component: {fileID: 8314823593742571910}
   - component: {fileID: 5616114700244169013}
   - component: {fileID: 3445784435939476197}
-  - component: {fileID: 5914518308140251902}
   m_Layer: 0
   m_Name: SM_Veh_Car_Van_Wheel_rr
   m_TagString: Untagged
@@ -1008,27 +962,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5914518308140251902
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7548819707563662710}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.3975829
-  m_Center: {x: 0.09900779, y: 0, z: 0}
 --- !u!1 &8391877550433411219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,7 +973,6 @@ GameObject:
   - component: {fileID: 5651341087328090458}
   - component: {fileID: 427276823274777111}
   - component: {fileID: 7639776743804804107}
-  - component: {fileID: 5454250318869198071}
   m_Layer: 0
   m_Name: SM_Veh_Car_Van_Wheel_fl
   m_TagString: Untagged
@@ -1113,24 +1045,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5454250318869198071
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8391877550433411219}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.3975829
-  m_Center: {x: -0.09900798, y: 0, z: 0}

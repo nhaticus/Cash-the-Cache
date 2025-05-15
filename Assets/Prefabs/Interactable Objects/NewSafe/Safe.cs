@@ -1,11 +1,9 @@
 // Safe handles the interactions with the safe object, including the lockpicking mini-game and loot spawning.
 // Contains Logic for:
-// -Opening the lock picking mingiame and preventing multiple interactions
-// -Handling the lockpicking success and failure
-// -Spawning loot based on difficulty
-// -Locking safe if failed
-using System.Collections;
-using System.Collections.Generic;
+//  - Opening the lock picking mingiame and preventing multiple interactions
+//  - Handling the lockpicking success and failure
+//  - Spawning loot based on difficulty
+//  - Locking safe if failed
 using UnityEngine;
 
 public class Safe : MonoBehaviour, InteractEvent
@@ -23,11 +21,22 @@ public class Safe : MonoBehaviour, InteractEvent
     [SerializeField] GameObject lockCanvasPrefab; // Prefab for the lockpicking UI canvas
     private GameObject currentCanvas; // Reference to the currently active canvas
 
-    Vector3[] originalPositions;
-
     [Header("Loot Settings")]
     [SerializeField] GameObject gold;
     [SerializeField] Transform spawnPos;
+
+
+    private int interactCount = 0;
+
+
+    private static int globalSafeCounter = 0;
+    private string safeId;
+
+
+    private void Awake() 
+    {
+        safeId = "Safe_" + globalSafeCounter++;
+    }
 
     // This method is called when the player interacts with the safe
     public void Interact()
@@ -37,6 +46,10 @@ public class Safe : MonoBehaviour, InteractEvent
             Debug.Log("Already interacting with the lockpicking minigame.");
             return;  // If lockpicking is already open, don't allow further interaction
         }
+        AnalyticsManager.Instance.TrackMinigameStarted("Lockpicking Minigame");
+        interactCount++;
+        AnalyticsManager.Instance.LockPickingInteractionCount(interactCount, safeId);
+       
 
         isLockpickingOpen = true;
         
@@ -46,6 +59,7 @@ public class Safe : MonoBehaviour, InteractEvent
         if (currentCanvas == null)
         {
             InitializeLockPickingCanvas();
+            
         }
         else
         {
@@ -55,7 +69,8 @@ public class Safe : MonoBehaviour, InteractEvent
             LockPickingCanvas canvasScript = currentCanvas.GetComponent<LockPickingCanvas>();
 
             // Restart the flashing effect but don't reset the order of the pins
-            StartCoroutine(canvasScript.AssignPinOrderEffect()); // Re-start flashing
+            //StartCoroutine(canvasScript.AssignPinOrderEffect()); // Re-start flashing
+            canvasScript.StartFlashingOrder();
         }
 
         LockPlayerControls();
@@ -73,6 +88,7 @@ public class Safe : MonoBehaviour, InteractEvent
         canvasScript.LockOpened.AddListener(OnLockpickingCompleted);
         canvasScript.LockFailed.AddListener(OnLockpickingFailed);
     }
+
     // Lock the player controls during the mini-game
     private void LockPlayerControls()
     {
@@ -83,6 +99,7 @@ public class Safe : MonoBehaviour, InteractEvent
         PlayerManager.Instance.lockRotation();
         PlayerManager.Instance.setMoveSpeed(0);
     }
+
     // Method that gets called when the lockpicking mini-game is completed successfully
     private void OnLockpickingCompleted()
     {
@@ -107,7 +124,6 @@ public class Safe : MonoBehaviour, InteractEvent
         gameObject.tag = "Untagged"; // Safe is no longer interactable
     }
 
-    
     // Method to handle loot spawning when the safe is unlocked
     private void SpawnLoot()
     {
@@ -115,17 +131,12 @@ public class Safe : MonoBehaviour, InteractEvent
         int spawnAmount = 0;
 
         if (difficulty <= 4)
-        {
             spawnAmount = 1;
-        }
         else if (difficulty <= 7)
-        {
             spawnAmount = 2;
-        }
         else
-        {
             spawnAmount = 3;
-        }
+
         for (int i = 0; i < spawnAmount; i++)
         {
             Instantiate(gold, spawnPos.position, transform.rotation);
@@ -136,7 +147,7 @@ public class Safe : MonoBehaviour, InteractEvent
     {
         isUnlocked = false;
         isLockpickingOpen = false;
-        GetComponent<Renderer>().material.color = Color.gray;  // Or the original locked color
+        GetComponent<Renderer>().material.color = Color.gray;
         gameObject.tag = "Selectable";  // Re-enable interaction
     }
 

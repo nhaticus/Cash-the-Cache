@@ -1,6 +1,4 @@
-using Mapbox.Json.Bson;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -42,7 +40,6 @@ public class PlayerInteract : MonoBehaviour
     {
         Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
         Ray ray = Camera.main.ScreenPointToRay(screenCenter);
-        Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
 
         RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction * raycastDistance, raycastDistance);
         GameObject closestObj = null; float closestDist = 10;
@@ -175,5 +172,12 @@ public class PlayerInteract : MonoBehaviour
 
         Debug.Log("Player Speed set to: " + newSpeed.ToString());
         PlayerManager.Instance.setMoveSpeed(newSpeed);
+    }
+
+    void OnDrawGizmos()
+    {
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+        Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.green);
     }
 }
