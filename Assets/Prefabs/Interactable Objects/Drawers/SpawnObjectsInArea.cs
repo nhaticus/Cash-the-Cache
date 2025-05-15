@@ -28,7 +28,7 @@ public class SpawnObjectsInArea : MonoBehaviour
     void OnDrawGizmos()
     {
         // Draw a cube at the transform position
-        Gizmos.color = new Color(0, 1, 0, 0.1f);
+        Gizmos.color = new Color(0, 1, 0, 0.2f);
         Gizmos.DrawCube(transform.position, area.size);
     }
 
