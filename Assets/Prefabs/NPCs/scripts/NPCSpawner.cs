@@ -58,7 +58,8 @@ public class NPCSpawner : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.SpawnPolice += SpawnPolice;
+        GameManager.Instance.SpawnPolice += SpawnPolice;
+        //GameManager.SpawnPolice += SpawnPolice;
     }
 
     void OnDrawGizmosSelected()
