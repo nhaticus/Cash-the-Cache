@@ -58,9 +58,18 @@ public class NPCSpawner : MonoBehaviour
         }
     }
 
+    void SpawnNPC()
+    {
+        foreach (NPCSpawnData NPC in NPCList)
+        {
+            SpawnNPC(NPC);
+        }
+    }
+
     void OnEnable()
     {
         GameManager.Instance.SpawnPolice += SpawnPolice;
+        // GameManager.Instance.SpawnNPC += SpawnNPC;
     }
 
     void OnDrawGizmosSelected()
