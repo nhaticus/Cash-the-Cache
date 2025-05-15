@@ -11,6 +11,7 @@ public class AnalyticsManager : MonoBehaviour
     private bool isInitialized = false;
 
 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
