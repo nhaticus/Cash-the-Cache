@@ -1,17 +1,19 @@
-using System.Drawing;
 using UnityEngine;
 
 public class SpawnObjectsInArea : MonoBehaviour
 {
+    [SerializeField] BoxCollider area;
+
     [SerializeField] GameObject[] prefabs;
     [SerializeField] int amtOfObjects = 0;
 
-    [SerializeField] float xRange = 1, yRange = 1, zRange = 1;
-    Vector3 spawnArea;
+    float xRange = 1, yRange = 1, zRange = 1;
 
     void Start()
     {
-        spawnArea = new Vector3(xRange, yRange, zRange);
+        area = GetComponent<BoxCollider>();
+
+        xRange = area.size.x; yRange = area.size.y; zRange = area.size.z;
         for (int i = 0; i < amtOfObjects; i++)
         {
             var px = Random.Range(-xRange, xRange);
@@ -26,8 +28,8 @@ public class SpawnObjectsInArea : MonoBehaviour
     void OnDrawGizmos()
     {
         // Draw a cube at the transform position
-        Gizmos.color = UnityEngine.Color.green;
-        Gizmos.DrawWireCube(transform.position, spawnArea);
+        Gizmos.color = new Color(0, 1, 0, 0.1f);
+        Gizmos.DrawCube(transform.position, area.size);
     }
 
 }

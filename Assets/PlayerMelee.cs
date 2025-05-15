@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMelee : MonoBehaviour
@@ -17,13 +14,14 @@ public class PlayerMelee : MonoBehaviour
     bool readyToAttack = true;
     int attackCount;
 
-    public GameObject cam;
+    public GameObject cam; // what is this used for?
 
     private void Awake()
     {
         cam = GameObject.Find("Main Camera");
     }
 
+    // simplify code
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
@@ -39,10 +37,8 @@ public class PlayerMelee : MonoBehaviour
         readyToAttack = false;
         attacking = true;
 
-        Invoke(nameof(ResetAttack), attackSpeed);
+        Invoke(nameof(ResetAttack), attackSpeed); // don't use Invoke() use Coroutines
         Invoke(nameof(AttackHitbox), attackCooldown);
-
-
     }
 
     void ResetAttack()
@@ -57,6 +53,8 @@ public class PlayerMelee : MonoBehaviour
         hitbox.enabled = true;
     }
 
+    // just get a hurtbox and send it a message
+    // don't run hurtbox code, but run hitbox code onto the hurtbox
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.gameObject.tag);
