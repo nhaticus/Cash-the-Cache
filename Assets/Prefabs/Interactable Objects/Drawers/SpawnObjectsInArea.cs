@@ -5,14 +5,15 @@ public class SpawnObjectsInArea : MonoBehaviour
     [SerializeField] BoxCollider area;
 
     [SerializeField] GameObject[] prefabs;
-    [SerializeField] int amtOfObjects = 0;
+    [SerializeField] int spawnMin = 0, spawnMax = 0;
+    int amtOfObjects = 0;
 
     float xRange = 1, yRange = 1, zRange = 1;
 
     void Start()
     {
         area = GetComponent<BoxCollider>();
-
+        amtOfObjects = Random.Range(spawnMin, spawnMax);
         xRange = area.size.x; yRange = area.size.y; zRange = area.size.z;
         for (int i = 0; i < amtOfObjects; i++)
         {
