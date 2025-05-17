@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 public class RoomGenerator : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class RoomGenerator : MonoBehaviour
     private GameObject startRoom;
     void Start()
     {
-        maxRooms = PlayerPrefs.GetInt("Difficulty", 4) * 3; // dumb way for now
+        //maxRooms = PlayerPrefs.GetInt("Difficulty", 4) * 3; // dumb way for now
         BuildHouse();
     }
 
@@ -117,10 +118,11 @@ public class RoomGenerator : MonoBehaviour
         {
             surface.BuildNavMesh();
         }
-        if (placedRooms.Count < 5 || !HasAICheck())
+        
+        if (placedRooms.Count < 3)
         {
             Debug.LogWarning("Too few rooms placed. Retrying...");
-            yield return new WaitForSeconds(0.1f); // Optional small delay
+            yield return new WaitForSeconds(0.5f); // Optional small delay
             ClearLevel();
             BuildHouse();
         }
