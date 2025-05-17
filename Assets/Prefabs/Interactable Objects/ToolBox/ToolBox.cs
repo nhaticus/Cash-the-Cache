@@ -10,7 +10,8 @@ public class ToolBox : MonoBehaviour, InteractEvent {
     [SerializeField] GameObject toolboxCanvas;
 
     public void Interact() {
-        AnalyticsManager.Instance.TrackMinigameStarted("Toolbox Minigame");
+        if(AnalyticsManager.Instance)
+            AnalyticsManager.Instance.TrackMinigameStarted("Toolbox Minigame");
         GameObject canvas = Instantiate(toolboxCanvas, transform);
         canvas.GetComponent<ToolBoxCanvas>().OpenToolBox.AddListener(OpenToolBox);
         canvas.GetComponent<ToolBoxCanvas>().difficulty = difficulty;

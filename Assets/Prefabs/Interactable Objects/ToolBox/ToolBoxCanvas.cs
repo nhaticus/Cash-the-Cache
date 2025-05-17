@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,7 +7,7 @@ public class ToolBoxCanvas : MonoBehaviour
     #region Public Params
 
     [Header("Settings")]
-    [SerializeField] int TotalLocks = 3;
+    public int TotalLocks = 3;
     [SerializeField] float RadiusOfLock;
     [HideInInspector] public float difficulty = 0;
 
@@ -15,6 +16,7 @@ public class ToolBoxCanvas : MonoBehaviour
     AnchoredRotation lockRotation;
     [SerializeField] GameObject LockGoalPrefab;
     [SerializeField] Transform LockGoalParent;
+    [SerializeField] TMP_Text locksLeft;
 
     [HideInInspector] public UnityEvent OpenToolBox;
 
@@ -22,8 +24,8 @@ public class ToolBoxCanvas : MonoBehaviour
 
     #region Private Params
 
-    GameObject _currentLockGoal;
-    int _currentLocksBroken = 0;
+    GameObject currentLockGoal;
+    int currentLocksBroken = 0;
 
     #endregion
 
@@ -33,6 +35,7 @@ public class ToolBoxCanvas : MonoBehaviour
         lockRotation = LockPick.GetComponent<AnchoredRotation>();
         lockRotation.SetRotationSpeed(difficulty);
         RadiusOfLock = LockPick.transform.localPosition.y;
+        locksLeft.text = "Locks left: " + TotalLocks.ToString();
         SpawnLockGoal();
     }
 
@@ -57,10 +60,11 @@ public class ToolBoxCanvas : MonoBehaviour
     }
 
     public void TryPick() {
-        if (LockPick.GetComponent<BoxCollider2D>().IsTouching(_currentLockGoal.GetComponent<BoxCollider2D>())) {
+        if (LockPick.GetComponent<BoxCollider2D>().IsTouching(currentLockGoal.GetComponent<BoxCollider2D>())) {
 
-            _currentLocksBroken += 1;
-            if (_currentLocksBroken >= TotalLocks) {
+            currentLocksBroken += 1;
+            locksLeft.text = "Locks left: " + (TotalLocks - currentLocksBroken).ToString();
+            if (currentLocksBroken >= TotalLocks) {
                 OpenToolBox.Invoke();
             } else {
                 SpawnLockGoal();
@@ -76,11 +80,11 @@ public class ToolBoxCanvas : MonoBehaviour
 
     #region Private Functions
     private void SpawnLockGoal() {
-        if (_currentLockGoal != null) {
-            Destroy(_currentLockGoal);
+        if (currentLockGoal != null) {
+            Destroy(currentLockGoal);
         }
         var pos = Random.insideUnitCircle.normalized * RadiusOfLock;
-        _currentLockGoal = Instantiate(LockGoalPrefab, (Vector2)LockGoalParent.position - pos, Quaternion.identity, LockGoalParent);
+        currentLockGoal = Instantiate(LockGoalPrefab, (Vector2)LockGoalParent.position - pos, Quaternion.identity, LockGoalParent);
     }
 
     #endregion

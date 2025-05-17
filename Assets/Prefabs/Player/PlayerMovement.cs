@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
@@ -22,18 +21,17 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform orientation;
 
-    float horizontalInput;
-    float verticalInput;
+    public bool touchingWall;
+
+    [SerializeField] SingleAudio singleAudio;
+    private bool isPlayingFootsteps = false;
+
+    float horizontalInput, verticalInput;
 
     Vector3 moveDirection;
 
     Rigidbody rb;
     Transform tf;
-
-    public bool touchingWall;
-
-    [SerializeField] SingleAudio singleAudio;
-    private bool isPlayingFootsteps = false;
 
     private void Start()
     {
@@ -42,12 +40,16 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         touchingWall = false;
-        originalSpeed = PlayerManager.Instance.getMoveSpeed();
-        moveSpeed = PlayerManager.Instance.getMoveSpeed();
+
+        if (PlayerManager.Instance)
+        {
+            originalSpeed = PlayerManager.Instance.getMoveSpeed();
+            moveSpeed = PlayerManager.Instance.getMoveSpeed();
+            Debug.Log(PlayerManager.Instance.getMoveSpeed());
+        }
 
         standingCamPos = new Vector3(0f, 1f, 0f);
         crouchingCamPos = new Vector3(0f, 0.5f, 0f);
-
     }
 
     private void Update()
