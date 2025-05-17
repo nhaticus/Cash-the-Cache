@@ -12,8 +12,11 @@ public class Toilet : MonoBehaviour, InteractEvent
     [Header("Toilet Settings")]
     public bool isUnlocked = false;
 
-    [Header("Diffculty = Time it takes to flush")]
+    [Header("Difficulty = Time it takes to flush")]
     [SerializeField] int difficulty = 3; // Difficulty level = number of seconds x 1
+    [SerializeField] bool setRandomDifficulty;
+    int minDifficulty = 3, maxDifficulty = 6;
+
     public bool isFlushingOpen = false;  // Whether the flushing mini-game is open or not
 
     [Header("Canvas Settings")]
@@ -24,7 +27,13 @@ public class Toilet : MonoBehaviour, InteractEvent
     [SerializeField] List<GameObject> loot;
     [SerializeField] Transform spawnPos;
 
-    // This method is called when the player interacts with the safe
+    private void Start()
+    {
+        if (setRandomDifficulty)
+            difficulty = Random.Range(minDifficulty, maxDifficulty);
+    }
+
+    // This method is called when the player interacts with the toilet
     public void Interact()
     {
         if(AnalyticsManager.Instance)
@@ -41,11 +50,8 @@ public class Toilet : MonoBehaviour, InteractEvent
 
         // Check if the canvas already exists and is active
         if (currentCanvas == null) 
-        {
-            
             InitializeFlushingCanvas();
-        }
-        else // canvas exists, enable it and retain the combo
+        else
             currentCanvas.SetActive(true);
 
         LockPlayerControls();
@@ -81,7 +87,7 @@ public class Toilet : MonoBehaviour, InteractEvent
         SpawnLoot();
 
         // Change the safe's color to indicate it's unlocked
-        GetComponent<Renderer>().material.color = Color.grey;
+        GetComponent<Renderer>().material.color = Color.white;
 
         // Set the safe to be un-interactable
         gameObject.tag = "Untagged"; // Safe is no longer interactable

@@ -43,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
         touchingWall = false;
         originalSpeed = PlayerManager.Instance.getMoveSpeed();
+        moveSpeed = PlayerManager.Instance.getMoveSpeed();
 
         standingCamPos = new Vector3(0f, 1f, 0f);
         crouchingCamPos = new Vector3(0f, 0.5f, 0f);
