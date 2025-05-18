@@ -4,12 +4,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class FlushingCanvas : MonoBehaviour
 {
     [Header("Flushing Settings")]
     public int difficulty;
-
     [SerializeField] Slider powerSlider;
     [HideInInspector] public UnityEvent toiletOpened;
     [SerializeField] GameObject targetObject;
@@ -18,6 +18,17 @@ public class FlushingCanvas : MonoBehaviour
     [SerializeField] GameObject button;
     [SerializeField] float lowerBound;
     [SerializeField] float upperBound;
+
+    [Header("Animation")]
+    [SerializeField] Image toilet;
+    [SerializeField] Sprite toiletUp, toiletDown;
+
+    [Header("Sounds")]
+    [SerializeField] SingleAudio singleAudio;
+    [SerializeField] string plungeSound;
+
+    bool plungerDown = false;
+
     private void Start()
     {
         powerSlider.value = 0;
@@ -31,15 +42,23 @@ public class FlushingCanvas : MonoBehaviour
             toiletOpened.Invoke();
             ExitToilet();
         }
-        if ((controlledObject.transform.localPosition.x < lowerBound && button.GetComponent<FlushButton>().SENDIT == false) || 
-            (button.GetComponent<FlushButton>().SENDIT && controlledObject.transform.localPosition.x > upperBound))
+
+        if (plungerDown)
+            ApplyForceToControl(speed);
+        /*
+        if (controlledObject.transform.localPosition.x < lowerBound)
         {
-            controlledObject.GetComponent<Rigidbody2D>().drag = 9999999999999999999;
+            Vector3 newTransform = controlledObject.transform.localPosition;
+            newTransform.x = lowerBound;
+            controlledObject.transform.localPosition = newTransform;
         }
-        else
+        else if (controlledObject.transform.localPosition.x > upperBound)
         {
-            controlledObject.GetComponent<Rigidbody2D>().drag = 1;
+            Vector3 newTransform = controlledObject.transform.localPosition;
+            newTransform.x = upperBound;
+            controlledObject.transform.localPosition = newTransform;
         }
+        */
     }
 
     public void ExitToilet()
@@ -61,8 +80,16 @@ public class FlushingCanvas : MonoBehaviour
         controlledObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(force * Time.deltaTime, 0), ForceMode2D.Force);
     }
 
-    public void FlushButton()
+    public void PlungeButton()
     {
-        controlledObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(speed * Time.deltaTime, 0), ForceMode2D.Force);
+        toilet.sprite = toiletDown;
+        singleAudio.PlaySFX(plungeSound);
+        plungerDown = true;
+    }
+
+    public void StopPlunge()
+    {
+        toilet.sprite = toiletUp;
+        plungerDown = false;
     }
 }

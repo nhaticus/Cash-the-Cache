@@ -265,7 +265,6 @@ public class PlayerManager : MonoBehaviour
 
         maxSpeed = moveSpeedDefault + PlayerPrefs.GetInt("RunningShoe") * 0.5f;
         currentSpeed = maxSpeed;
-        Debug.Log(currentSpeed);
         maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 5;
 
         hasFlashlight = PlayerPrefs.GetInt("Flashlight") == 1;
