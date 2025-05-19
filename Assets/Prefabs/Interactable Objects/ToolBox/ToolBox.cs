@@ -6,8 +6,16 @@ public class ToolBox : MonoBehaviour, InteractEvent {
 
     [SerializeField] GameObject[] obj;
     [SerializeField] int difficulty = 4;
+    [SerializeField] bool setRandomDifficulty;
+    int minDifficulty = 3, maxDifficulty = 6;
 
     [SerializeField] GameObject toolboxCanvas;
+
+    private void Start()
+    {
+        if (setRandomDifficulty)
+            difficulty = Random.Range(minDifficulty, maxDifficulty);
+    }
 
     public void Interact() {
         if(AnalyticsManager.Instance)

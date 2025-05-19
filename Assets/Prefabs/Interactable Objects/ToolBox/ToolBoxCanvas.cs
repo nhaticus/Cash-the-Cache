@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -18,6 +19,12 @@ public class ToolBoxCanvas : MonoBehaviour
     [SerializeField] Transform LockGoalParent;
     [SerializeField] TMP_Text locksLeft;
 
+    [Header("Animation")]
+    [SerializeField] Transform starGridTransform;
+    [SerializeField] GameObject starObj;
+    [SerializeField] float starSpacing = 35;
+    List<GameObject> starList = new List<GameObject>();
+
     [HideInInspector] public UnityEvent OpenToolBox;
 
     #endregion
@@ -32,15 +39,17 @@ public class ToolBoxCanvas : MonoBehaviour
     #region Init and Update
     
     private void Start() {
+        CreateStars();
+
         lockRotation = LockPick.GetComponent<AnchoredRotation>();
         lockRotation.SetRotationSpeed(difficulty);
         RadiusOfLock = LockPick.transform.localPosition.y;
-        locksLeft.text = "Locks left: " + TotalLocks.ToString();
         SpawnLockGoal();
     }
 
     private void Update() {
-        if ((UserInput.Instance && (UserInput.Instance.Cancel || UserInput.Instance.Pause)) || (!UserInput.Instance && Input.GetKeyDown(KeyCode.Escape))) {
+        if ((UserInput.Instance && (UserInput.Instance.Cancel || UserInput.Instance.Pause)) ||
+            (!UserInput.Instance && Input.GetKeyDown(KeyCode.Escape))) {
             ExitToolBox();
         }
     }
@@ -61,9 +70,8 @@ public class ToolBoxCanvas : MonoBehaviour
 
     public void TryPick() {
         if (LockPick.GetComponent<BoxCollider2D>().IsTouching(currentLockGoal.GetComponent<BoxCollider2D>())) {
-
+            starList[currentLocksBroken].GetComponent<Animator>().SetBool("Full", true);
             currentLocksBroken += 1;
-            locksLeft.text = "Locks left: " + (TotalLocks - currentLocksBroken).ToString();
             if (currentLocksBroken >= TotalLocks) {
                 OpenToolBox.Invoke();
             } else {
@@ -79,6 +87,17 @@ public class ToolBoxCanvas : MonoBehaviour
     #endregion
 
     #region Private Functions
+    private void CreateStars()
+    {
+        for(int i = 0; i < TotalLocks; i++)
+        {
+            GameObject star = Instantiate(starObj, starGridTransform);
+            float starWidth = star.GetComponent<RectTransform>().rect.width / 2;
+            star.transform.position += new Vector3((starWidth + starSpacing) * i, 0, 0);
+            starList.Add(star);
+        }
+    }
+
     private void SpawnLockGoal() {
         if (currentLockGoal != null) {
             Destroy(currentLockGoal);
