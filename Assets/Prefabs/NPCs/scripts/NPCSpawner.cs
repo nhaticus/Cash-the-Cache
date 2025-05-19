@@ -24,6 +24,7 @@ public class NPCSpawner : MonoBehaviour
 
         foreach (NPCSpawnData NPC in NPCList)
         {
+            // Debug.Log($"Spawning {NPC.NPCPrefab.name} with {NPC.spawnCount} count");
             SpawnNPC(NPC);
         }
     }
@@ -32,15 +33,18 @@ public class NPCSpawner : MonoBehaviour
     {
         int spawnedCount = 0;
         int spawnAttempts = 0;
-        int maxSpawnAttempts = NPC.spawnCount * spawnAttemptsPerNPC; // Limit the number of attempts to avoid infinite loops (10 attempts per count)
+        int maxSpawnAttempts = NPC.spawnCount * spawnAttemptsPerNPC; // Limit the number of attempts to avoid infinite loops 
         while (spawnedCount < NPC.spawnCount && spawnAttempts < maxSpawnAttempts)
         {
             spawnAttempts++;
-            Debug.Log("Spawning NPC #: " + spawnedCount);
-            Vector3 randomPoint = Random.insideUnitSphere * spawnerRadius;
-            randomPoint.y += 5;
+            // Debug.Log("Spawning NPC #: " + spawnedCount);
+            Vector3 randomPoint = Random.insideUnitSphere * spawnerRadius + transform.position;
+            randomPoint.y = 1;
+            // Debug.Log("Random Point: " + randomPoint);
+            Debug.DrawRay(randomPoint, Vector3.down * 10f, Color.red, 1f);
             if (Physics.Raycast(randomPoint, Vector3.down, out RaycastHit hit, 10f, NPC.spawnLayer))
             {
+                // Debug.Log("Hit Point: " + hit.point);
                 Instantiate(NPC.NPCPrefab, hit.point, Quaternion.identity);
                 spawnedCount++;
             }
@@ -48,7 +52,7 @@ public class NPCSpawner : MonoBehaviour
 
         if (spawnedCount < NPC.spawnCount)
         {
-            Debug.Log("only spawwned " + spawnedCount + " NPCs out of " + NPC.spawnCount);
+            // Debug.Log("only spawwned " + spawnedCount + " NPCs out of " + NPC.spawnCount);
         }
     }
 
@@ -60,9 +64,18 @@ public class NPCSpawner : MonoBehaviour
         }
     }
 
+    void SpawnNPC()
+    {
+        foreach (NPCSpawnData NPC in NPCList)
+        {
+            SpawnNPC(NPC);
+        }
+    }
+
     void OnEnable()
     {
-        GameManager.Instance.SpawnPolice += SpawnPolice;
+        // GameManager.Instance.SpawnPolice += SpawnPolice;
+        // GameManager.Instance.SpawnNPC += SpawnNPC;
     }
 
     void OnDrawGizmosSelected()
