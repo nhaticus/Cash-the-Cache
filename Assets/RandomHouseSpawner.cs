@@ -25,7 +25,7 @@ public class RandomHouseSpawner : MonoBehaviour
         GameObject  selectedPrefab = housePrefabs[Random.Range(0, housePrefabs.Length)];
 
         //Spawn it at gameobject position
-        GameObject house = Instantiate(selectedPrefab, transform.position, Quaternion.identity);
+        GameObject house = Instantiate(selectedPrefab, transform.position, transform.rotation);
 
 
         //Get the MeshRenderer component from the house prefab
