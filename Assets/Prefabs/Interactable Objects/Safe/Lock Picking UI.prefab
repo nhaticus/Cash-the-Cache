@@ -319,6 +319,7 @@ GameObject:
   - component: {fileID: 5195391064168202827}
   - component: {fileID: 9120597681094990447}
   - component: {fileID: 2094843721326315248}
+  - component: {fileID: 355713773524289800}
   m_Layer: 5
   m_Name: AttemptsText
   m_TagString: Untagged
@@ -442,6 +443,46 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &355713773524289800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846313675675804988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:2e3b89f10e466c34c991a20442d4eb80
+    m_TableEntryReference:
+      m_KeyId: 801420412190720
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2094843721326315248}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1246107444635818680
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,6 +1297,7 @@ GameObject:
   - component: {fileID: 6116180035629115269}
   - component: {fileID: 5931132289111031702}
   - component: {fileID: 2646113753119299373}
+  - component: {fileID: 468559563891549302}
   m_Layer: 5
   m_Name: FailText
   m_TagString: Untagged
@@ -1379,6 +1421,46 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &468559563891549302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3963307509350505065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:2e3b89f10e466c34c991a20442d4eb80
+    m_TableEntryReference:
+      m_KeyId: 801965877231616
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2646113753119299373}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &4152685029096195349
 GameObject:
   m_ObjectHideFlags: 0
@@ -4572,13 +4654,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93f3b69dd5f29a40afffae3e4f49f71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pins: []
-  pinTransforms: []
+  isUnlocked: 0
+  safeAnimator: {fileID: 0}
+  maxAttempts: 3
+  difficulty: Easy
+  easyPanel: {fileID: 0}
+  mediumPanel: {fileID: 0}
+  hardPanel: {fileID: 0}
+  lockpickingUI: {fileID: 0}
+  isLockpickingOpen: 0
   correctColor: {r: 0, g: 1, b: 0, a: 1}
   wrongColor: {r: 1, g: 0, b: 0, a: 1}
   attemptsText: {fileID: 2094843721326315248}
   failedText: {fileID: 3963307509350505065}
-  maxAttempts: 3
+  gold: {fileID: 0}
+  safe: {fileID: 0}
+  spawnPos: {fileID: 0}
 --- !u!1 &8240388523161729416
 GameObject:
   m_ObjectHideFlags: 0
