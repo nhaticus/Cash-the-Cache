@@ -45,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
         {
             originalSpeed = PlayerManager.Instance.getMoveSpeed();
             moveSpeed = PlayerManager.Instance.getMoveSpeed();
-            Debug.Log(PlayerManager.Instance.getMoveSpeed());
         }
 
         standingCamPos = new Vector3(0f, 1f, 0f);

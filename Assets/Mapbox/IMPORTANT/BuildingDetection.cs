@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 /*
- * Detection collider attached to escape sequence Van
+ * Detection collider attached to Map Van
  * If collided with building collider:
  *    Show a canvas that display's building info
  * If no longer colliding:
@@ -13,14 +13,10 @@ using UnityEngine.SceneManagement;
 
 public class BuildingDetection : MonoBehaviour
 {
-    [SerializeField] GameObject infoCanvasPrefab, shopCanvasPrefab;
     [SerializeField] GameObject playerCam;
-    [SerializeField] string buildingLevelScene = "Level Gen";
-    [SerializeField] string shopScene = "Shop";
 
     List<GameObject> buildingsDetected = new List<GameObject>();
     GameObject selectedBuilding;
-    bool inShop = false;
 
     private void Update()
     {
@@ -28,15 +24,7 @@ public class BuildingDetection : MonoBehaviour
 
         if ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0)))
         {
-            if (inShop)
-            {
-                SceneManager.LoadScene(shopScene);
-            }
-            else if (selectedBuilding)
-            {
-                PlayerPrefs.SetInt("Difficulty", selectedBuilding.GetComponentInChildren<BuildingInfo>().difficulty);
-                SceneManager.LoadScene(buildingLevelScene);
-            }
+            ExecuteEvents.Execute<InteractEvent>(selectedBuilding, null, (x, y) => x.Interact());
         }
     }
 
@@ -51,14 +39,12 @@ public class BuildingDetection : MonoBehaviour
     {
         if(other.tag == "Wall")
         {
-            BuildingInfo buildingInfo = other.GetComponentInChildren<BuildingInfo>();
+            BaseCanvasType buildingInfo = other.GetComponentInChildren<BaseCanvasType>();
             if (buildingInfo)
             {
+                Debug.Log("remove building");
                 buildingsDetected.Remove(other.gameObject);
-                DestroyInfoCanvas(other.gameObject);
-
-                if (buildingInfo.isShop)
-                    inShop = false;
+                Destroy(buildingInfo.gameObject);
             }
         }
     }
@@ -88,51 +74,22 @@ public class BuildingDetection : MonoBehaviour
             if (newSelection != null && newSelection != selectedBuilding)
             {
                 if(selectedBuilding)  // destroy previous selected canvas
-                    DestroyInfoCanvas(selectedBuilding);
+                    DestroyBuildingCanvas(selectedBuilding);
 
                 selectedBuilding = newSelection;
-
-                if (selectedBuilding.GetComponentInChildren<BuildingInfo>().isShop)
-                {
-                    inShop = true;
-                    CreateShopCanvas(selectedBuilding);
-                }
-                else
-                {
-                    CreateBuildingCanvas(selectedBuilding);
-                }
+                selectedBuilding.GetComponent<BaseMapBuilding>().CreateCanvas(playerCam);
             }
         }
         else
         {
+            Debug.Log("no selected building");
             selectedBuilding = null;
         }
     }
 
-    void CreateBuildingCanvas(GameObject building)
+    private void DestroyBuildingCanvas(GameObject building)
     {
-        BuildingInfo info = building.GetComponentInChildren<BuildingInfo>();
-        Vector3 pos = info.gameObject.transform.position;
-        pos.y += building.GetComponent<BoxCollider>().size.y + 4; // get collider top and add 3
-        GameObject infoCanvas = Instantiate(infoCanvasPrefab, pos, Quaternion.identity);
-        if(info)
-            infoCanvas.GetComponent<BuildingInfoCanvas>().buildingInfo = info;
-        infoCanvas.GetComponent<BuildingInfoCanvas>().playerCameraTransform = playerCam.transform;
-        infoCanvas.transform.SetParent(building.transform);
-    }
-
-    void CreateShopCanvas(GameObject shop)
-    {
-        Vector3 pos = shop.GetComponentInChildren<BuildingInfo>().gameObject.transform.position;
-        pos.y += 10;
-        GameObject shopCanvas = Instantiate(shopCanvasPrefab, pos, Quaternion.identity);
-        shopCanvas.GetComponent<BuildingInfoCanvas>().playerCameraTransform = playerCam.transform;
-        shopCanvas.transform.SetParent(shop.transform);
-    }
-
-    void DestroyInfoCanvas(GameObject building)
-    {
-        BuildingInfoCanvas infoCanvas = building.GetComponentInChildren<BuildingInfoCanvas>();
+        BaseCanvasType infoCanvas = building.GetComponentInChildren<BaseCanvasType>();
         if (infoCanvas)
             Destroy(infoCanvas.gameObject);
     }
