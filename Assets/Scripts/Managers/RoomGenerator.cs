@@ -11,6 +11,8 @@ public class RoomGenerator : MonoBehaviour
     Vector3 levelSpawnPosition;
     Quaternion levelSpawnRotation;
     public int maxRooms = 10;
+    public int minRooms = 5;
+    public int maxRetries = 30;
     public NavMeshSurface surface;
 
     [Header("House Rooms")]
@@ -22,11 +24,11 @@ public class RoomGenerator : MonoBehaviour
     private List<Transform> availableDoors = new List<Transform>();
     private List<GameObject> placedRooms = new List<GameObject>();
     private int roomCount = 0;
+    private int retryNum = 0;
     private GameObject startRoom;
     public bool isComplete = false;
     void Start()
     {
-        maxRooms = PlayerPrefs.GetInt("Difficulty", 4) * 3; // dumb way for now
         BuildHouse();
     }
 
@@ -58,6 +60,11 @@ public class RoomGenerator : MonoBehaviour
 
     IEnumerator GenerateRooms()
     {
+        if (retryNum > maxRetries)
+        {
+            minRooms--;
+            retryNum = 0;
+        }
         isComplete = false;
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
@@ -122,14 +129,15 @@ public class RoomGenerator : MonoBehaviour
         {
             surface.BuildNavMesh();
         }
-        if (placedRooms.Count <= 5 || !HasAICheck())
+        if (placedRooms.Count <= minRooms)
         {
             Debug.LogWarning("Too few rooms placed. Retrying...");
             Debug.Log(placedRooms.Count);
+            retryNum++;
             yield return new WaitForSeconds(0f); // Optional small delay
             ClearLevel();
             BuildHouse();
-            isComplete = false;
+            yield break;
         }
         else
         {
