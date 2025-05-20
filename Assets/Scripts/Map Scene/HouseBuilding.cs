@@ -12,7 +12,7 @@ public class HouseBuilding : BaseMapBuilding
     [SerializeField] bool difficultyFromSize = true;
 
     [Header("Map Dependencies")]
-    [SerializeField] string levelScene;
+    [SerializeField] string levelScene = "Level Gen";
 
     private void Start()
     {
