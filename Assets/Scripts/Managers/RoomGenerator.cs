@@ -22,13 +22,15 @@ public class RoomGenerator : MonoBehaviour
     private List<GameObject> placedRooms = new List<GameObject>();
     private int roomCount = 0;
     private GameObject startRoom;
+    public bool isComplete = false;
     void Start()
     {
         maxRooms = PlayerPrefs.GetInt("Difficulty", 4) * 3; // dumb way for now
         BuildHouse();
     }
 
-    public void BuildHouse(){
+    public void BuildHouse()
+    {
         levelSpawnPosition = transform.position;
         levelSpawnRotation = transform.rotation;
         if (startRoomPrefab)
@@ -42,7 +44,7 @@ public class RoomGenerator : MonoBehaviour
             startRoom.transform.SetParent(this.transform);
         }
         roomCount++;
-        
+
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
         if (startRoomScript != null)
         {
@@ -50,6 +52,7 @@ public class RoomGenerator : MonoBehaviour
         }
         placedRooms.Add(startRoom);
         StartCoroutine(GenerateRooms());
+        isComplete = true;
     }
 
     IEnumerator GenerateRooms()
@@ -117,10 +120,11 @@ public class RoomGenerator : MonoBehaviour
         {
             surface.BuildNavMesh();
         }
-        if (placedRooms.Count < 5 || !HasAICheck())
+        if (placedRooms.Count <= 5 || !HasAICheck())
         {
             Debug.LogWarning("Too few rooms placed. Retrying...");
-            yield return new WaitForSeconds(0.1f); // Optional small delay
+            Debug.Log(placedRooms.Count);
+            yield return new WaitForSeconds(0f); // Optional small delay
             ClearLevel();
             BuildHouse();
         }
