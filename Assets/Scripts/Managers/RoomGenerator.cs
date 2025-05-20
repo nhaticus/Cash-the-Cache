@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
@@ -31,6 +32,7 @@ public class RoomGenerator : MonoBehaviour
 
     public void BuildHouse()
     {
+        isComplete = false;
         levelSpawnPosition = transform.position;
         levelSpawnRotation = transform.rotation;
         if (startRoomPrefab)
@@ -52,11 +54,11 @@ public class RoomGenerator : MonoBehaviour
         }
         placedRooms.Add(startRoom);
         StartCoroutine(GenerateRooms());
-        isComplete = true;
     }
 
     IEnumerator GenerateRooms()
     {
+        isComplete = false;
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
             // Select possible door
@@ -127,6 +129,11 @@ public class RoomGenerator : MonoBehaviour
             yield return new WaitForSeconds(0f); // Optional small delay
             ClearLevel();
             BuildHouse();
+            isComplete = false;
+        }
+        else
+        {
+            isComplete = true;
         }
     }
 
