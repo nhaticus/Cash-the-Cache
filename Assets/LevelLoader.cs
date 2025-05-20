@@ -11,7 +11,6 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private GameObject levelGenerator;
     private IEnumerator Start()
     {
-        UICanvas.SetActive(false);
         loadingScreen.SetActive(true);
 
         RoomGenerator generatorScript = levelGenerator.GetComponent<RoomGenerator>();
@@ -42,7 +41,6 @@ public class LevelLoader : MonoBehaviour
             yield return null;
         }
         loadingScreen.SetActive(false);
-        UICanvas.SetActive(true);
     }
 
 }
