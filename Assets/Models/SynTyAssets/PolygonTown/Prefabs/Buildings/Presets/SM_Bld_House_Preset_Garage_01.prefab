@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33257376407342586}
   - component: {fileID: 23593471503957386}
   - component: {fileID: 6089573860915363741}
+  - component: {fileID: 8726765916999277067}
   m_Layer: 0
   m_Name: SM_Bld_House_Preset_Garage_01
   m_TagString: Wall
@@ -31,8 +32,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6934042508763387456}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &33257376407342586
@@ -105,79 +105,21 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.371231, y: 5.6706896, z: 8.87122}
+  m_Size: {x: 5.62, y: 5.6706896, z: 8.87122}
   m_Center: {x: 0, y: 2.8353448, z: 0}
---- !u!1001 &2157007264457443257
-PrefabInstance:
+--- !u!114 &8726765916999277067
+MonoBehaviour:
   m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 4537300744277158}
-    m_Modifications:
-    - target: {fileID: 1440237216331963121, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_Name
-      value: BuildingInfo
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 68c913e26a0fde748a8d86a0c249f785, type: 3}
---- !u!4 &6934042508763387456 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9067312037111042553, guid: 68c913e26a0fde748a8d86a0c249f785,
-    type: 3}
-  m_PrefabInstance: {fileID: 2157007264457443257}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453203562746868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ce8f5079da5bf94792692aff67dbcf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 3385301882906951121, guid: 98550a62f127f124fa33fa3e08962c03, type: 3}
+  difficulty: 1
+  difficultyFromSize: 1
+  levelScene: Level Gen

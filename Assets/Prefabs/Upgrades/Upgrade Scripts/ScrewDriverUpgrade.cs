@@ -15,7 +15,7 @@ public class ScrewDriverUpgrade : MonoBehaviour
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
-        int level = PlayerPrefs.GetInt("Backpack");
+        int level = PlayerPrefs.GetInt("Screwdriver");
         if (level > 0)
             price = Mathf.RoundToInt(price * 1.5f * level);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();

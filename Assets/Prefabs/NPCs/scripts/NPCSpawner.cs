@@ -20,6 +20,8 @@ public class NPCSpawner : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.SpawnPolice += SpawnPolice;
+
         foreach (NPCSpawnData NPC in NPCList)
         {
             // Debug.Log($"Spawning {NPC.NPCPrefab.name} with {NPC.spawnCount} count");

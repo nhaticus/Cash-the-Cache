@@ -985,7 +985,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8631822987988805456}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 746f95b6b0fdd7640a0084c252208990, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1040,7 +1040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55c272b710434724aa29d037420df8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 9
+  moveSpeed: 5
   groundDrag: 5
   playerHeight: 2
   whatIsGround:
@@ -1066,6 +1066,9 @@ MonoBehaviour:
   raycastDistance: 3
   mainCamera: {fileID: 2311025618755957177}
   singleAudio: {fileID: 2950593277431717636}
+  ObjectSelected:
+    m_PersistentCalls:
+      m_Calls: []
   ItemTaken:
     m_PersistentCalls:
       m_Calls: []

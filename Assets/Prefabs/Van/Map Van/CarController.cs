@@ -32,22 +32,26 @@ public class CarController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        GetInput();
+        MyInput();
         HandleMotor();
         HandleSteering();
         UpdateWheels();
     }
 
-    private void GetInput()
+    private void MyInput()
     {
-        // Steering Input
-        horizontalInput = Input.GetAxis("Horizontal");
-
-        // Acceleration Input
-        verticalInput = Input.GetAxis("Vertical");
-
-        // Breaking Input
-        isBreaking = Input.GetKey(KeyCode.Space);
+        if (UserInput.Instance)
+        {
+            verticalInput = UserInput.Instance.Move.y;
+            horizontalInput = UserInput.Instance.Move.x;
+            isBreaking = UserInput.Instance.Inventory;
+        }
+        else
+        {
+            verticalInput = Input.GetAxis("Vertical");
+            horizontalInput = Input.GetAxis("Horizontal");
+            isBreaking = Input.GetKey(KeyCode.Space);
+        }
     }
 
     private void HandleMotor()

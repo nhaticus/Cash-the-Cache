@@ -58,12 +58,13 @@ public class PlayerManager : MonoBehaviour
         {
             playerMovementScript = player.GetComponent<PlayerMovement>();
         }
+
+        LoadUpgrades();
     }
 
     private void Start()
     {
         SceneManager.sceneLoaded += OnSceneChanged;
-        LoadUpgrades();
     }
 
     private void OnSceneChanged(Scene scene, LoadSceneMode mode)
@@ -264,7 +265,7 @@ public class PlayerManager : MonoBehaviour
 
         maxSpeed = moveSpeedDefault + PlayerPrefs.GetInt("RunningShoe") * 0.5f;
         currentSpeed = maxSpeed;
-        maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 3;
+        maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 5;
 
         hasFlashlight = PlayerPrefs.GetInt("Flashlight") == 1;
         boxOpening = 1 + (PlayerPrefs.GetInt("Screwdriver", 0) * 0.3f);

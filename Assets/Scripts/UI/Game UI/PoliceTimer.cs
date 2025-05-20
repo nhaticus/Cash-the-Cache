@@ -5,6 +5,7 @@ using TMPro;
 
 public class PoliceTimer : MonoBehaviour
 {
+    [Header("Timer")]
     public float maxTime = 180f;
     public float minTime = 105f;
     public float timeDecrease = 25f;
@@ -12,15 +13,15 @@ public class PoliceTimer : MonoBehaviour
     float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
-    public TMP_Text policeMessageText;
+    [SerializeField] Color timerDefaultColor, timerAlertColor; // remove later
 
-    // police stuff
+    [Header("Police")]
     [SerializeField] GameObject police;
     [SerializeField] int numPoliceToSpawn = 1;
     [SerializeField] Transform[] spawnPos;
-
     [SerializeField] SingleAudio policeAudio;
 
+    [Header("Sirens")]
     [SerializeField] GameObject blueSquare, redSquare;
 
     private Vector3 originalPosition;
@@ -68,7 +69,7 @@ public class PoliceTimer : MonoBehaviour
         if (timeLeft < 60)
         {
             Timer_display.fontSize = defaultFontSize * 1.2f;
-            Timer_display.color = Color.red;
+            Timer_display.color = timerAlertColor;
 
             // Apply shaking effect
             float shakeAmount = 5 / (timeLeft / 30);
@@ -79,7 +80,7 @@ public class PoliceTimer : MonoBehaviour
         else
         {
             Timer_display.fontSize = defaultFontSize;
-            Timer_display.color = Color.white;
+            Timer_display.color = timerDefaultColor;
 
             // Reset position when time is above 1 minute
             Timer_display.rectTransform.localPosition = originalPosition;
@@ -90,7 +91,7 @@ public class PoliceTimer : MonoBehaviour
     {
         Timer_display.rectTransform.localPosition = originalPosition;
         StartCoroutine(PoliceAlert());
-        StartCoroutine(FlashWarningText());
+        //StartCoroutine(FlashWarningText());
         GameManager.Instance.CallSpawnPolice();
         /*
         // Send in police at random spawn positions
@@ -167,6 +168,9 @@ public class PoliceTimer : MonoBehaviour
         }
         Timer_display.rectTransform.localPosition = originalPosition;
     }
+    /*
+     * Brendan: Removing for now because I think the sirens are enough, plus we will be changing it later
+    public TMP_Text policeMessageText;
     IEnumerator FlashWarningText()
     {
         float flashDuration = 3f;    // Total duration for flashing
@@ -195,7 +199,7 @@ public class PoliceTimer : MonoBehaviour
         policeMessageText.text = "";
         policeMessageText.color = Color.white;
     }
-
+    */
     // **Pause Timer when Player enters collider**
     public void PauseTimer()
     {

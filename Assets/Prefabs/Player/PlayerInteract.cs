@@ -67,14 +67,25 @@ public class PlayerInteract : MonoBehaviour
         }
 
         if (closestObj == null)
+        {
             ResetHighlight();
+            ObjectSelected.Invoke(null);
+        }
         else if (wallDist > closestDist && closestObj != null && closestObj != objRef)
         {
-            ResetHighlight(); // Reset previous object's material
-
-            objRef = closestObj;
-            ApplyColorToObject(objRef);
+            SetSelectedObject(closestObj);
         }
+    }
+
+    [HideInInspector] public UnityEvent<GameObject> ObjectSelected;
+    void SetSelectedObject(GameObject selectedObj)
+    {
+        ResetHighlight(); // Reset previous object's material
+
+        objRef = selectedObj;
+        ApplyColorToObject(objRef);
+
+        ObjectSelected.Invoke(selectedObj);
     }
 
     void ApplyColorToObject(GameObject obj)
