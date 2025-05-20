@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.HighDefinition;
 
 public class RoomGenerator : MonoBehaviour
 {
@@ -11,6 +11,8 @@ public class RoomGenerator : MonoBehaviour
     Vector3 levelSpawnPosition;
     Quaternion levelSpawnRotation;
     public int maxRooms = 10;
+    public int minRooms = 5;
+    public int maxRetries = 30;
     public NavMeshSurface surface;
 
     [Header("House Rooms")]
@@ -22,14 +24,17 @@ public class RoomGenerator : MonoBehaviour
     private List<Transform> availableDoors = new List<Transform>();
     private List<GameObject> placedRooms = new List<GameObject>();
     private int roomCount = 0;
+    private int retryNum = 0;
     private GameObject startRoom;
+    public bool isComplete = false;
     void Start()
     {
-        //maxRooms = PlayerPrefs.GetInt("Difficulty", 4) * 3; // dumb way for now
         BuildHouse();
     }
 
-    public void BuildHouse(){
+    public void BuildHouse()
+    {
+        isComplete = false;
         levelSpawnPosition = transform.position;
         levelSpawnRotation = transform.rotation;
         if (startRoomPrefab)
@@ -43,7 +48,7 @@ public class RoomGenerator : MonoBehaviour
             startRoom.transform.SetParent(this.transform);
         }
         roomCount++;
-        
+
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
         if (startRoomScript != null)
         {
@@ -55,6 +60,12 @@ public class RoomGenerator : MonoBehaviour
 
     IEnumerator GenerateRooms()
     {
+        if (retryNum > maxRetries)
+        {
+            minRooms--;
+            retryNum = 0;
+        }
+        isComplete = false;
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
             // Select possible door
@@ -118,13 +129,19 @@ public class RoomGenerator : MonoBehaviour
         {
             surface.BuildNavMesh();
         }
-        
-        if (placedRooms.Count < 3)
+        if (placedRooms.Count <= minRooms)
         {
             Debug.LogWarning("Too few rooms placed. Retrying...");
-            yield return new WaitForSeconds(0.5f); // Optional small delay
+            Debug.Log(placedRooms.Count);
+            retryNum++;
+            yield return new WaitForSeconds(0f); // Optional small delay
             ClearLevel();
             BuildHouse();
+            yield break;
+        }
+        else
+        {
+            isComplete = true;
         }
     }
 
