@@ -42,7 +42,6 @@ public class BuildingDetection : MonoBehaviour
             BaseCanvasType buildingInfo = other.GetComponentInChildren<BaseCanvasType>();
             if (buildingInfo)
             {
-                Debug.Log("remove building");
                 buildingsDetected.Remove(other.gameObject);
                 Destroy(buildingInfo.gameObject);
             }
@@ -82,7 +81,6 @@ public class BuildingDetection : MonoBehaviour
         }
         else
         {
-            Debug.Log("no selected building");
             selectedBuilding = null;
         }
     }
