@@ -15,6 +15,8 @@ public class Safe : MonoBehaviour, InteractEvent
 
     [Header("Diffculty = number of pins")]
     [SerializeField] int difficulty = 1; // Difficulty level = number of pins
+    [SerializeField] bool setRandomDifficulty = true;
+    [SerializeField] int minDifficulty = 3, maxDifficulty = 6;
     public bool isLockpickingOpen = false;  // Whether the lockpicking mini-game is open or not
 
     [Header("Canvas Settings")]
@@ -36,6 +38,9 @@ public class Safe : MonoBehaviour, InteractEvent
     private void Awake() 
     {
         safeId = "Safe_" + globalSafeCounter++;
+        if (setRandomDifficulty)
+            difficulty = Random.Range(minDifficulty, maxDifficulty);
+
     }
 
     // This method is called when the player interacts with the safe
@@ -46,9 +51,9 @@ public class Safe : MonoBehaviour, InteractEvent
             Debug.Log("Already interacting with the lockpicking minigame.");
             return;  // If lockpicking is already open, don't allow further interaction
         }
-        AnalyticsManager.Instance.TrackMinigameStarted("Lockpicking Minigame");
+        //AnalyticsManager.Instance.TrackMinigameStarted("Lockpicking Minigame");
         interactCount++;
-        AnalyticsManager.Instance.LockPickingInteractionCount(interactCount, safeId);
+        //AnalyticsManager.Instance.LockPickingInteractionCount(interactCount, safeId);
        
 
         isLockpickingOpen = true;

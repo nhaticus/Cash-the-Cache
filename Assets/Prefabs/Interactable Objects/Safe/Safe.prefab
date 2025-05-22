@@ -42,9 +42,9 @@ GameObject:
   - component: {fileID: 1340860675764980656}
   - component: {fileID: 1445249945642974411}
   - component: {fileID: 6551164135921219444}
-  - component: {fileID: 1354274878313130661}
-  - component: {fileID: 7187348107381900402}
   - component: {fileID: 6162870820097039751}
+  - component: {fileID: 7187348107381900402}
+  - component: {fileID: 1354274878313130661}
   m_Layer: 0
   m_Name: SM_Prop_Safe_Door_01
   m_TagString: Selectable
@@ -117,48 +117,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1354274878313130661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3833174029906472428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69a50be25c00c4045966b49a44b77394, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isUnlocked: 0
-  safeAnimator: {fileID: 7187348107381900402}
-  maxAttempts: 3
-  difficulty: 1
-  isLockpickingOpen: 0
-  lockCanvasPrefab: {fileID: 5621130616011279396, guid: 71aa20fe7e1852440bf2131a481e19d8,
-    type: 3}
-  gold: {fileID: 1591242426710838265, guid: 5d3847ebe44ccae4ba72c30126e150c5, type: 3}
-  spawnPos: {fileID: 4522527087190060413}
---- !u!95 &7187348107381900402
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3833174029906472428}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9fbdc616f6c4d4047a9db6495ba65d86, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!65 &6162870820097039751
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -180,6 +138,48 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.45280287, y: 0.47515664, z: 0.11521733}
   m_Center: {x: 0.21142192, y: 0.23757832, z: -0.0075075952}
+--- !u!95 &7187348107381900402
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833174029906472428}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9fbdc616f6c4d4047a9db6495ba65d86, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1354274878313130661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3833174029906472428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69a50be25c00c4045966b49a44b77394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnlocked: 0
+  safeAnimator: {fileID: 7187348107381900402}
+  maxAttempts: 3
+  difficulty: 1
+  isLockpickingOpen: 0
+  lockCanvasPrefab: {fileID: 5621130616011279396, guid: 71aa20fe7e1852440bf2131a481e19d8,
+    type: 3}
+  gold: {fileID: 1591242426710838265, guid: 5d3847ebe44ccae4ba72c30126e150c5, type: 3}
+  spawnPos: {fileID: 4522527087190060413}
 --- !u!1 &4664388079184970287
 GameObject:
   m_ObjectHideFlags: 0

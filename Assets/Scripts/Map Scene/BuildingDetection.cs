@@ -18,10 +18,18 @@ public class BuildingDetection : MonoBehaviour
     List<GameObject> buildingsDetected = new List<GameObject>();
     GameObject selectedBuilding;
 
+    private void OnEnable()
+    {
+        Ticker.OnSlowTickAction += SlowTick;
+    }
+
+    private void OnDisable()
+    {
+        Ticker.OnSlowTickAction -= SlowTick;
+    }
+
     private void Update()
     {
-        FindClosestBuilding();
-
         if ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0)))
         {
             ExecuteEvents.Execute<InteractEvent>(selectedBuilding, null, (x, y) => x.Interact());
@@ -32,6 +40,7 @@ public class BuildingDetection : MonoBehaviour
     {
         if(other.tag == "Wall") {
             buildingsDetected.Add(other.gameObject);
+            FindClosestBuilding();
         }
     }
 
@@ -45,6 +54,7 @@ public class BuildingDetection : MonoBehaviour
                 buildingsDetected.Remove(other.gameObject);
                 Destroy(buildingInfo.gameObject);
             }
+            FindClosestBuilding();
         }
     }
 

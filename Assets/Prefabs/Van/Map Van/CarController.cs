@@ -25,16 +25,31 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
     private Rigidbody rb;
 
+    private void OnEnable()
+    {
+        Ticker.OnTickAction += Tick;
+    }
+
+    private void OnDisable()
+    {
+        Ticker.OnTickAction -= Tick;
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = new Vector3(0, -0.5f, 0); // Lower center of mass (adjust Y as needed)
     }
+
     private void FixedUpdate()
     {
         MyInput();
         HandleMotor();
         HandleSteering();
+    }
+
+    private void Tick()
+    {
         UpdateWheels();
     }
 

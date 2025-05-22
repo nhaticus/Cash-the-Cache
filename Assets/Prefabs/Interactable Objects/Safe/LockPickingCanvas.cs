@@ -44,14 +44,24 @@ public class LockPickingCanvas : MonoBehaviour
     private Color defaultColor;
     private Vector3[] originalPositions;
     private bool canClick = true;
-    
+
+    private void OnEnable()
+    {
+        Ticker.OnTickAction += Tick;
+    }
+
+    private void OnDisable()
+    {
+        Ticker.OnTickAction -= Tick;
+    }
+
     private void Start()
     {
         CreatePins(); // Create pins dynamically based on difficulty
         UpdateAttemptsUI();
     }
 
-    private void Update()
+    private void Tick()
     {
         if (maxAttempts <= 0)
         {
@@ -62,6 +72,7 @@ public class LockPickingCanvas : MonoBehaviour
 
         }
     }
+    
     // Method to set max attempts from the Safe script
     public void SetMaxAttempts(int attempts)
     {
