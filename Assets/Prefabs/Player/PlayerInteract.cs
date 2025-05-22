@@ -67,14 +67,25 @@ public class PlayerInteract : MonoBehaviour
         }
 
         if (closestObj == null)
+        {
             ResetHighlight();
+            ObjectSelected.Invoke(null);
+        }
         else if (wallDist > closestDist && closestObj != null && closestObj != objRef)
         {
-            ResetHighlight(); // Reset previous object's material
-
-            objRef = closestObj;
-            ApplyColorToObject(objRef);
+            SetSelectedObject(closestObj);
         }
+    }
+
+    [HideInInspector] public UnityEvent<GameObject> ObjectSelected;
+    void SetSelectedObject(GameObject selectedObj)
+    {
+        ResetHighlight(); // Reset previous object's material
+
+        objRef = selectedObj;
+        ApplyColorToObject(objRef);
+
+        ObjectSelected.Invoke(selectedObj);
     }
 
     void ApplyColorToObject(GameObject obj)
@@ -106,7 +117,13 @@ public class PlayerInteract : MonoBehaviour
         originalMaterial = null;
     }
 
+    
     [HideInInspector] public UnityEvent<bool> ItemTaken;
+    /// <summary>
+    /// Executes object's interact event.
+    /// If the object is stealable, tries to put into inventory first.
+    /// If not able to go into inventory: interact event fails.
+    /// </summary>
     private void Interact(GameObject obj)
     {
         StealableObject stealObj = obj.GetComponent<StealableObject>();
@@ -115,6 +132,7 @@ public class PlayerInteract : MonoBehaviour
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight > PlayerManager.Instance.getMaxWeight()){
                 singleAudio.PlaySFX("inventory_full");
             }
+
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
                 singleAudio.PlaySFX("collect_item_sound");
@@ -123,7 +141,7 @@ public class PlayerInteract : MonoBehaviour
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
 
                 PlayerManager.Instance.WeightChangeSpeed();
-                ItemTaken.Invoke(true); // Send event saying an item was taken
+                ItemTaken.Invoke(true); // Send event saying an item was taken so weight UI changes
 
                 if (TaskManager.Instance != null) TaskManager.Instance.task1Complete();
             }
@@ -139,8 +157,7 @@ public class PlayerInteract : MonoBehaviour
             if (door != null)
                 door.Interact(myTransform);          // <<< new overload 
             else
-                ExecuteEvents.Execute<InteractEvent>(obj, null,
-                    (x, y) => x.Interact());         // everything else uses the old call
+                ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
         }
     }
 

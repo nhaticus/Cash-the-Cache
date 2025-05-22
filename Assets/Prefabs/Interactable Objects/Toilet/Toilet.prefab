@@ -11,11 +11,9 @@ GameObject:
   - component: {fileID: 7026540293427611044}
   - component: {fileID: 3636196698378275505}
   - component: {fileID: 5186112683556384444}
-  - component: {fileID: 3214837688883867256}
-  - component: {fileID: 2481690451568785819}
   m_Layer: 0
   m_Name: Toilet_Lid
-  m_TagString: Selectable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85,57 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3214837688883867256
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3041826398218227902}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.41286585, y: 0.5157513, z: 0.027727049}
-  m_Center: {x: 0.00000002980232, y: 0.24847071, z: -0.0015965652}
---- !u!114 &2481690451568785819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3041826398218227902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d406664424428b3469d41b63700e143c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isUnlocked: 0
-  difficulty: 5
-  isFlushingOpen: 0
-  FlushingCanvasPrefab: {fileID: 5773064913124625898, guid: 9f6984650b0814648895694a3d460260,
-    type: 3}
-  loot:
-  - {fileID: 7910558803529202109, guid: 70e96e7b486358d4ea853ac28def6396, type: 3}
-  - {fileID: 7936804678242427017, guid: fc1d43334fb19f9439fd6623b0b7edee, type: 3}
-  - {fileID: 1762214484957385018, guid: c9775006c45583445b8684ba17c957be, type: 3}
-  - {fileID: 4339090321093609323, guid: 533a55d6d17188b4abf0b3a40675ce30, type: 3}
-  - {fileID: 1531542936859009236, guid: b41c15e533b5b2d4db23219686aa47c0, type: 3}
-  - {fileID: 5245664560630599916, guid: 3357f45a26cac1c4889e0d3a8d6d7ab4, type: 3}
-  - {fileID: 8428893964019391681, guid: 84bdda6e4d6f0c246841a6d658e8b69a, type: 3}
-  - {fileID: 5288544748447138338, guid: 24e814c8852f119488ff64d72128cb4b, type: 3}
-  - {fileID: 5708660051578638074, guid: 64142b12b15b3084fa434114618d4e5a, type: 3}
-  - {fileID: 7459616161793730414, guid: 4f12a943d76c7d945a7b90046be609aa, type: 3}
-  el_Skibidi: {fileID: 0}
-  spawnPos: {fileID: 3660923436348680678}
 --- !u!1 &4824229403400870437
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 4824229403400870437}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0.17}
+  m_LocalPosition: {x: 0, y: 0.64, z: 0.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -263,9 +210,10 @@ GameObject:
   - component: {fileID: 353814740852134309}
   - component: {fileID: 8399213238394287929}
   - component: {fileID: 3971925244113696584}
+  - component: {fileID: 1957591416294130288}
   m_Layer: 0
   m_Name: Toilet
-  m_TagString: Untagged
+  m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -280,7 +228,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7026540293427611044}
@@ -357,7 +305,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.45, y: 0.5, z: 0.82}
+  m_Size: {x: 0.44, y: 0.5, z: 0.8}
   m_Center: {x: 0.00000001490116, y: 0.25, z: 0}
 --- !u!65 &3971925244113696584
 BoxCollider:
@@ -378,5 +326,33 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.45, y: 0.53, z: 0.3}
+  m_Size: {x: 0.44, y: 0.53, z: 0.3}
   m_Center: {x: 0.00000001490116, y: 0.77, z: -0.26}
+--- !u!114 &1957591416294130288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6900264413636067247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d406664424428b3469d41b63700e143c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isUnlocked: 0
+  difficulty: 5
+  setRandomDifficulty: 1
+  isFlushingOpen: 0
+  FlushingCanvasPrefab: {fileID: 5773064913124625898, guid: 9f6984650b0814648895694a3d460260,
+    type: 3}
+  loot:
+  - {fileID: 7910558803529202109, guid: 70e96e7b486358d4ea853ac28def6396, type: 3}
+  - {fileID: 7936804678242427017, guid: fc1d43334fb19f9439fd6623b0b7edee, type: 3}
+  - {fileID: 1762214484957385018, guid: c9775006c45583445b8684ba17c957be, type: 3}
+  - {fileID: 4339090321093609323, guid: 533a55d6d17188b4abf0b3a40675ce30, type: 3}
+  - {fileID: 1531542936859009236, guid: b41c15e533b5b2d4db23219686aa47c0, type: 3}
+  - {fileID: 5245664560630599916, guid: 3357f45a26cac1c4889e0d3a8d6d7ab4, type: 3}
+  - {fileID: 8428893964019391681, guid: 84bdda6e4d6f0c246841a6d658e8b69a, type: 3}
+  - {fileID: 5288544748447138338, guid: 24e814c8852f119488ff64d72128cb4b, type: 3}
+  spawnPos: {fileID: 3660923436348680678}

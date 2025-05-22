@@ -29,7 +29,7 @@ public class InventoryUI : MonoBehaviour
     public void Initialize(GameObject player)
     {
         playerInteract = player.GetComponentInChildren<PlayerInteract>();
-        FillInventoryGrid();
+        UpdateGrid();
     }
 
     private void Update()
@@ -53,10 +53,12 @@ public class InventoryUI : MonoBehaviour
 
     }
 
-    // Get player's current inventory and fill grid with grid elements
     [SerializeField] Transform gridTransform;
     [SerializeField] GameObject gridElement;
-    private void FillInventoryGrid()
+    /// <summary>
+    /// Get player's current inventory and fill grid with grid elements
+    /// </summary>
+    private void UpdateGrid()
     {
         // clear grid
         foreach (Transform child in gridTransform)
@@ -113,13 +115,13 @@ public class InventoryUI : MonoBehaviour
 
         // remove from inventory
         playerInteract.inventory[selectedItem.itemName] = (playerInteract.inventory[selectedItem.itemName].Item1 - 1, selectedItem);
-        if(playerInteract.inventory[selectedItem.itemName].Item1 - 1 == 0)
+        if(playerInteract.inventory[selectedItem.itemName].Item1 == 0)
         {
             // select previous item
             playerInteract.inventory.Remove(selectedItem.itemName);
             ChangeItemInfo(null);
         }
 
-        FillInventoryGrid(); // update grid
+        UpdateGrid(); // update grid
     }
 }

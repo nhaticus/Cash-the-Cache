@@ -29,28 +29,28 @@ public class TaskListScript : MonoBehaviour
 
     public void triggerTask1()
     {
-        task1BG.color = new Color32(0, 198, 0, 255);
+        task1BG.color = new Color(255, 255, 255, 255);
         task1Text.color = new Color32(0, 198, 0, 255);
         task1Text.fontStyle = FontStyles.Strikethrough;
     }
 
     public void triggerTask2()
     {
-        task2BG.color = new Color32(0, 198, 0, 255);
+        task2BG.color = new Color32(255, 255, 255, 255);
         task2Text.color = new Color32(0, 198, 0, 255);
         task2Text.fontStyle = FontStyles.Strikethrough;
     }
 
     public void triggerTask3()
     {
-        task3BG.color = new Color32(0, 198, 0, 255);
+        task3BG.color = new Color32(255, 255, 255, 255);
         task3Text.color = new Color32(0, 198, 0, 255);
         task3Text.fontStyle = FontStyles.Strikethrough;
     }
 
     public void triggerTask4()
     {
-        task4BG.color = new Color32(0, 198, 0, 255);
+        task4BG.color = new Color32(255, 255, 255, 255);
         task4Text.color = new Color32(0, 198, 0, 255);
         task4Text.fontStyle = FontStyles.Strikethrough;
     }

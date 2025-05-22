@@ -13,9 +13,12 @@ using UnityEngine;
 
 public class PlayerUI : MonoBehaviour
 {
-    
     WeightUI weightUI;
+    [SerializeField] WeightIndicator weightIndicator;
+
     [SerializeField] GameObject inventoryPrefab;
+
+    [SerializeField] float checkForPlayerRate = 0.5f;
 
     private void Start()
     {
@@ -28,11 +31,13 @@ public class PlayerUI : MonoBehaviour
         while(player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(checkForPlayerRate);
         }
 
         weightUI = GetComponentInChildren<WeightUI>();
         weightUI.Initialize(player);
+
+        weightIndicator.Initialize(player);
     }
 
     bool inventoryOpen = false; // check for if inventory or lock picking is open

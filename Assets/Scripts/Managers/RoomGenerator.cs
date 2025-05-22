@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
@@ -8,56 +9,79 @@ public class RoomGenerator : MonoBehaviour
     [Header("Setup (optional)")]
     public GameObject startRoomPrefab;
     Vector3 levelSpawnPosition;
+    Quaternion levelSpawnRotation;
     public int maxRooms = 10;
+    public int minRooms = 5;
+    public int maxRetries = 30;
     public NavMeshSurface surface;
 
     [Header("House Rooms")]
     public List<GameObject> roomPrefabs;
     [Header("Other Rooms")] // not yet anything but for future reference
+
+    [Header("AI Rooms")]
+    public List<GameObject> aiRoomPrefabs;
     private List<Transform> availableDoors = new List<Transform>();
     private List<GameObject> placedRooms = new List<GameObject>();
     private int roomCount = 0;
+    private int retryNum = 0;
     private GameObject startRoom;
+    public bool isComplete = false;
     void Start()
     {
-        maxRooms = PlayerPrefs.GetInt("Difficulty", 5) * 4; // dumb way for now
         BuildHouse();
     }
 
-    public void BuildHouse(){
+    public void BuildHouse()
+    {
+        isComplete = false;
         levelSpawnPosition = transform.position;
-        if(startRoomPrefab){
-            startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, Quaternion.identity);
+        levelSpawnRotation = transform.rotation;
+        if (startRoomPrefab)
+        {
+            startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, levelSpawnRotation);
             startRoom.transform.SetParent(this.transform);
         }
-        else { 
-            startRoom = Instantiate(roomPrefabs[Random.Range(0,roomPrefabs.Count - 1)], levelSpawnPosition, Quaternion.identity);
+        else
+        {
+            startRoom = Instantiate(roomPrefabs[Random.Range(0, roomPrefabs.Count - 1)], levelSpawnPosition, levelSpawnRotation);
             startRoom.transform.SetParent(this.transform);
         }
         roomCount++;
-        
+
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
         if (startRoomScript != null)
         {
             availableDoors.AddRange(startRoomScript.doorPoints);
         }
-
+        placedRooms.Add(startRoom);
         StartCoroutine(GenerateRooms());
     }
 
     IEnumerator GenerateRooms()
     {
+        if (retryNum > maxRetries)
+        {
+            minRooms--;
+            retryNum = 0;
+        }
+        isComplete = false;
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
             // Select possible door
-            int randomDoor = Random.Range(0,availableDoors.Count - 1);
+            int randomDoor = 0;
+            if (availableDoors.Count >= 1)
+            {
+                randomDoor = Random.Range(0, availableDoors.Count - 1);
+            }
             Transform currentDoor = availableDoors[randomDoor];
             availableDoors.RemoveAt(randomDoor);
-            
+
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Count)];
             RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
             if (newRoomScript == null || newRoomScript.doorPoints.Length == 0)
             {
+                Debug.Log("no doors");
                 continue;
             }
 
@@ -75,14 +99,17 @@ public class RoomGenerator : MonoBehaviour
             // Check for overlap
             if (!IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation))
             {
+                Debug.Log("overlap found");
                 continue;
             }
 
             // Spawn room
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
             newRoom.transform.SetParent(this.transform);
-            
+
             roomCount++;
+
+            placedRooms.Add(newRoom);
 
             RoomInfo newRoomInstanceScript = newRoom.GetComponent<RoomInfo>();
             if (newRoomInstanceScript != null)
@@ -98,8 +125,23 @@ public class RoomGenerator : MonoBehaviour
             yield return new WaitForSeconds(0f);
         }
         DoorSelect();
-        if(surface){
+        if (surface)
+        {
             surface.BuildNavMesh();
+        }
+        if (placedRooms.Count <= minRooms)
+        {
+            Debug.LogWarning("Too few rooms placed. Retrying...");
+            Debug.Log(placedRooms.Count);
+            retryNum++;
+            yield return new WaitForSeconds(0f); // Optional small delay
+            ClearLevel();
+            BuildHouse();
+            yield break;
+        }
+        else
+        {
+            isComplete = true;
         }
     }
 
@@ -163,6 +205,36 @@ public class RoomGenerator : MonoBehaviour
             }
         }
         return (true);
+    }
+
+    void ClearLevel()
+    {
+        foreach (GameObject room in placedRooms)
+        {
+            Destroy(room);
+        }
+        placedRooms.Clear();
+        availableDoors.Clear();
+        roomCount = 0;
+    }
+
+    bool HasAICheck()
+    {
+        if (aiRoomPrefabs.Count > 0)
+        {
+            foreach (GameObject room in placedRooms)
+            {
+                foreach (GameObject aiRoom in aiRoomPrefabs)
+                {
+                    if (room.name.Contains(aiRoom.name)) // Match by prefab name
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        return true;
     }
 
     // Referenced from ChatGPT

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,7 +8,7 @@ public class ToolBoxCanvas : MonoBehaviour
     #region Public Params
 
     [Header("Settings")]
-    [SerializeField] int TotalLocks = 3;
+    public int TotalLocks = 3;
     [SerializeField] float RadiusOfLock;
     [HideInInspector] public float difficulty = 0;
 
@@ -15,6 +17,13 @@ public class ToolBoxCanvas : MonoBehaviour
     AnchoredRotation lockRotation;
     [SerializeField] GameObject LockGoalPrefab;
     [SerializeField] Transform LockGoalParent;
+    [SerializeField] TMP_Text locksLeft;
+
+    [Header("Animation")]
+    [SerializeField] Transform starGridTransform;
+    [SerializeField] GameObject starObj;
+    [SerializeField] float starSpacing = 35;
+    List<GameObject> starList = new List<GameObject>();
 
     [HideInInspector] public UnityEvent OpenToolBox;
 
@@ -22,14 +31,16 @@ public class ToolBoxCanvas : MonoBehaviour
 
     #region Private Params
 
-    GameObject _currentLockGoal;
-    int _currentLocksBroken = 0;
+    GameObject currentLockGoal;
+    int currentLocksBroken = 0;
 
     #endregion
 
     #region Init and Update
     
     private void Start() {
+        CreateStars();
+
         lockRotation = LockPick.GetComponent<AnchoredRotation>();
         lockRotation.SetRotationSpeed(difficulty);
         RadiusOfLock = LockPick.transform.localPosition.y;
@@ -37,7 +48,8 @@ public class ToolBoxCanvas : MonoBehaviour
     }
 
     private void Update() {
-        if ((UserInput.Instance && (UserInput.Instance.Cancel || UserInput.Instance.Pause)) || (!UserInput.Instance && Input.GetKeyDown(KeyCode.Escape))) {
+        if ((UserInput.Instance && (UserInput.Instance.Cancel || UserInput.Instance.Pause)) ||
+            (!UserInput.Instance && Input.GetKeyDown(KeyCode.Escape))) {
             ExitToolBox();
         }
     }
@@ -57,10 +69,10 @@ public class ToolBoxCanvas : MonoBehaviour
     }
 
     public void TryPick() {
-        if (LockPick.GetComponent<BoxCollider2D>().IsTouching(_currentLockGoal.GetComponent<BoxCollider2D>())) {
-
-            _currentLocksBroken += 1;
-            if (_currentLocksBroken >= TotalLocks) {
+        if (LockPick.GetComponent<BoxCollider2D>().IsTouching(currentLockGoal.GetComponent<BoxCollider2D>())) {
+            starList[currentLocksBroken].GetComponent<Animator>().SetBool("Full", true);
+            currentLocksBroken += 1;
+            if (currentLocksBroken >= TotalLocks) {
                 OpenToolBox.Invoke();
             } else {
                 SpawnLockGoal();
@@ -75,12 +87,23 @@ public class ToolBoxCanvas : MonoBehaviour
     #endregion
 
     #region Private Functions
+    private void CreateStars()
+    {
+        for(int i = 0; i < TotalLocks; i++)
+        {
+            GameObject star = Instantiate(starObj, starGridTransform);
+            float starWidth = star.GetComponent<RectTransform>().rect.width / 2;
+            star.transform.position += new Vector3((starWidth + starSpacing) * i, 0, 0);
+            starList.Add(star);
+        }
+    }
+
     private void SpawnLockGoal() {
-        if (_currentLockGoal != null) {
-            Destroy(_currentLockGoal);
+        if (currentLockGoal != null) {
+            Destroy(currentLockGoal);
         }
         var pos = Random.insideUnitCircle.normalized * RadiusOfLock;
-        _currentLockGoal = Instantiate(LockGoalPrefab, (Vector2)LockGoalParent.position - pos, Quaternion.identity, LockGoalParent);
+        currentLockGoal = Instantiate(LockGoalPrefab, (Vector2)LockGoalParent.position - pos, Quaternion.identity, LockGoalParent);
     }
 
     #endregion

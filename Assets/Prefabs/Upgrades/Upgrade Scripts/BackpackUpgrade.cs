@@ -8,7 +8,7 @@ public class BackpackUpgrade : MonoBehaviour
 
     [SerializeField] SingleAudio singleAudio;
 
-    [SerializeField] int upgradeIncrement = 3;
+    [SerializeField] int upgradeIncrement = 5;
     public int price = 40;
 
     private void Start()

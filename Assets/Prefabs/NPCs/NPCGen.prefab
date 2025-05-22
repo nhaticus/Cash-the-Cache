@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2399191887354918237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3472359154333024301}
+  - component: {fileID: 1877202168688170092}
+  m_Layer: 0
+  m_Name: NPCGen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3472359154333024301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2399191887354918237}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.7610447, y: 3.0614169, z: 4.895564}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1877202168688170092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2399191887354918237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b892fc8176e11da4dbcf99410b10ba8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NPCList:
+  - NPCPrefab: {fileID: 1101948459535947309, guid: 8d22830679a85344db5ea1b9223ba73c,
+      type: 3}
+    spawnCount: 1
+    spawnLayer:
+      serializedVersion: 2
+      m_Bits: 512
+  - NPCPrefab: {fileID: 1101948459535947309, guid: 05be4c09dd773d24884c6c2498f2def2,
+      type: 3}
+    spawnCount: 1
+    spawnLayer:
+      serializedVersion: 2
+      m_Bits: 512
+  - NPCPrefab: {fileID: 1101948459535947309, guid: 0ec2e4ffa1b6bd049896d5b63c22d784,
+      type: 3}
+    spawnCount: 1
+    spawnLayer:
+      serializedVersion: 2
+      m_Bits: 512
+  - NPCPrefab: {fileID: 1101948459535947309, guid: ca4fe4d5a3ad7834a910b1fe43103949,
+      type: 3}
+    spawnCount: 1
+    spawnLayer:
+      serializedVersion: 2
+      m_Bits: 512
+  PoliceList:
+  - NPCPrefab: {fileID: 1593302400742073529, guid: efec77a1f8d52d04884d56a97f862105,
+      type: 3}
+    spawnCount: 4
+    spawnLayer:
+      serializedVersion: 2
+      m_Bits: 1
+  spawnAttemptsPerNPC: 10
+  spawnerRadius: 20

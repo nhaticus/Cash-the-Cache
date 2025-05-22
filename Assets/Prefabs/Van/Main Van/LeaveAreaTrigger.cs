@@ -1,18 +1,21 @@
 ﻿// This script handles the collider where the player can leave the level. It displays a prompt to 
 // the player when they enter the trigger area and handles the actions when they press 'E' to leave.
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
 public class LeaveAreaTrigger : MonoBehaviour
 {
-    [SerializeField] GameObject vanText;
-    [SerializeField] GameObject vanTextForShader;
+    [SerializeField] GameObject vanText, warningText;
     [SerializeField] GameObject resultScreen;
     [SerializeField] SingleAudio singleAudio;
 
     bool playerInLeaveArea = false;
+
+    private void Start()
+    {
+        vanText.SetActive(false);
+        warningText.SetActive(false);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,9 +24,14 @@ public class LeaveAreaTrigger : MonoBehaviour
             playerInLeaveArea = true;
             vanText.SetActive(true);
             vanText.GetComponent<TMP_Text>().text = "Press E to leave";
+        }
+    }
 
-            vanTextForShader.SetActive(true);
-            vanTextForShader.GetComponent<TMP_Text>().text = "Press E to leave";
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        { // check if items left in inventory
+            warningText.SetActive(other.GetComponent<PlayerInteract>().inventory.Count > 0);
         }
     }
 
@@ -32,9 +40,8 @@ public class LeaveAreaTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInLeaveArea = false;
+            warningText.SetActive(false);
             vanText.SetActive(false);
-
-            vanTextForShader.SetActive(false);
         }
     }
 
@@ -51,7 +58,7 @@ public class LeaveAreaTrigger : MonoBehaviour
             }
             else
             {
-                Debug.LogError("VanInventory or PlayerInventory is NULL!");
+                Debug.LogError("VanInventory or PlayerInventory is NON-EXISTANT!");
             }
             ShowSummary();
         }
@@ -59,7 +66,7 @@ public class LeaveAreaTrigger : MonoBehaviour
 
     void ShowSummary()
     {
-        // make player invincible or freeze game
+        // make player invincible
         PlayerHealth player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerHealth>();
         if (player)
             player.canHurt = false;

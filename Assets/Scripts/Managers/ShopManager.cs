@@ -18,7 +18,6 @@ public class ShopManager : MonoBehaviour
 
     public GameObject[] itemsInShop; // list of prefabs for each upgrade
 
-    bool voicePlayed = false;
     bool shopActive = false;
 
     void Start()

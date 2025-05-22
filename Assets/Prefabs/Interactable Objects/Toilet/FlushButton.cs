@@ -3,20 +3,15 @@ using UnityEngine.EventSystems;
 
 public class FlushButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] GameObject canvas;
-    public bool SENDIT = false;
+    [SerializeField] FlushingCanvas flushingCanvas;
     public void OnPointerDown(PointerEventData eventData)
     {
-        SENDIT = true;
+        flushingCanvas.PlungeButton();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        SENDIT = false;
+        flushingCanvas.StopPlunge();
     }
 
-    private void Update()
-    {
-        if (SENDIT) canvas.GetComponent<FlushingCanvas>().FlushButton();
-    }
 }
