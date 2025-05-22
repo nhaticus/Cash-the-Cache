@@ -11,7 +11,7 @@ using UnityEngine;
 public abstract class BaseMapBuilding : MonoBehaviour, InteractEvent
 {
     [SerializeField] GameObject canvas;
-    float spawnY = 6;
+    float spawnY = 5;
     private void Awake()
     {
         gameObject.tag = "Wall";

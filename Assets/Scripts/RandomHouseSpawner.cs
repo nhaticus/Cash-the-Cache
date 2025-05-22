@@ -6,10 +6,10 @@ public class RandomHouseSpawner : MonoBehaviour
 {
 
     [Header("House Prefabs")]
-    public GameObject[] housePrefabs; 
+    public GameObject[] housePrefabs;
 
     [Header("Materials")]
-    public Material[] possibleMaterials; 
+    public Material[] possibleMaterials;
 
 
     // Start is called before the first frame update
@@ -22,10 +22,10 @@ public class RandomHouseSpawner : MonoBehaviour
         }
 
         //Pick Random house prefab
-        GameObject  selectedPrefab = housePrefabs[Random.Range(0, housePrefabs.Length)];
+        GameObject selectedPrefab = housePrefabs[Random.Range(0, housePrefabs.Length)];
 
         //Spawn it at gameobject position
-        GameObject house = Instantiate(selectedPrefab, transform.position, Quaternion.identity);
+        GameObject house = Instantiate(selectedPrefab, transform.position, transform.rotation);
 
 
         //Get the MeshRenderer component from the house prefab
