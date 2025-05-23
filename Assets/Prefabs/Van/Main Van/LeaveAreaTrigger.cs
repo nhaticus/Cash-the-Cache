@@ -5,6 +5,7 @@ using TMPro;
 
 public class LeaveAreaTrigger : MonoBehaviour
 {
+    [SerializeField] GameObject vanCanvas;
     [SerializeField] GameObject vanText, warningText;
     [SerializeField] GameObject resultScreen;
     [SerializeField] SingleAudio singleAudio;
@@ -15,6 +16,7 @@ public class LeaveAreaTrigger : MonoBehaviour
     {
         vanText.SetActive(false);
         warningText.SetActive(false);
+        vanCanvas.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,15 +24,16 @@ public class LeaveAreaTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInLeaveArea = true;
+            vanCanvas.SetActive(true);
             vanText.SetActive(true);
-            vanText.GetComponent<TMP_Text>().text = "Press E to leave";
+            vanText.GetComponent<TMP_Text>().text = "Press E to Leave";
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
-        { // check if items left in inventory
+        if (other.CompareTag("Player")) // check if items left in inventory
+        {
             warningText.SetActive(other.GetComponent<PlayerInteract>().inventory.Count > 0);
         }
     }
@@ -42,6 +45,7 @@ public class LeaveAreaTrigger : MonoBehaviour
             playerInLeaveArea = false;
             warningText.SetActive(false);
             vanText.SetActive(false);
+            vanCanvas.SetActive(false);
         }
     }
 

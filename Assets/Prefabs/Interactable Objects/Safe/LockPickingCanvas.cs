@@ -69,7 +69,6 @@ public class LockPickingCanvas : MonoBehaviour
 
             StartCoroutine(ShowFailedMessage());
             LockFailed.Invoke();
-
         }
     }
     

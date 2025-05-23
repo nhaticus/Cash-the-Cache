@@ -8,8 +8,7 @@ using UnityEngine;
 
 public class VanTrigger : MonoBehaviour
 {
-    bool playerInRange = false;
-    PlayerInteract playerInventory;
+    [SerializeField] GameObject vanCanvas;
     [SerializeField] GameObject vanText;
 
     [SerializeField] SingleAudio singleAudio;
@@ -19,11 +18,9 @@ public class VanTrigger : MonoBehaviour
     [Header("Deposit Timing")]
     //[SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
     [SerializeField] float extraTimePerItem = 0.5f; // Time per item
+    bool playerInRange = false;
+    PlayerInteract playerInventory;
 
-    private void Awake()
-    {
-        vanText.SetActive(false);
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -32,6 +29,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInteract>();
 
+            vanCanvas.SetActive(true);
             vanText.SetActive(true);
             vanText.GetComponent<TMP_Text>().text = "Hold E to Deposit";
         }
@@ -44,6 +42,7 @@ public class VanTrigger : MonoBehaviour
             playerInRange = false;
             playerInventory = null;
             vanText.SetActive(false);
+            vanCanvas.SetActive(false);
 
             // If depositing, stop immediately
             if (depositCoroutine != null)
@@ -131,12 +130,11 @@ public class VanTrigger : MonoBehaviour
             RemoveOneItemFromPlayer(playerInventory, itemName, info);
         }
 
+        if (TaskManager.Instance != null)
+            TaskManager.Instance.task2Complete();
+
         // Done depositing everything
         depositCoroutine = null;
-        if (TaskManager.Instance != null)
-        {
-            TaskManager.Instance.task2Complete();
-        }
         vanText.GetComponent<TMP_Text>().text = "All items deposited!";
     }
 

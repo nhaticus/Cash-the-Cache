@@ -18,16 +18,6 @@ public class BuildingDetection : MonoBehaviour
     List<GameObject> buildingsDetected = new List<GameObject>();
     GameObject selectedBuilding;
 
-    private void OnEnable()
-    {
-        Ticker.OnSlowTickAction += SlowTick;
-    }
-
-    private void OnDisable()
-    {
-        Ticker.OnSlowTickAction -= SlowTick;
-    }
-
     private void Update()
     {
         if ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0)))

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Ticker : MonoBehaviour
 {
-    public static float totalTickTime = 0.2f;
-    public static float totalSlowTickTime = 0.75f;
+    public float totalTickTime = 0.2f;
+    public float totalSlowTickTime = 0.75f;
 
     float tickTimer;
     float slowTickTimer;
