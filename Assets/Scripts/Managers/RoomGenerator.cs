@@ -124,11 +124,6 @@ public class RoomGenerator : MonoBehaviour
             }
             yield return new WaitForSeconds(0f);
         }
-        DoorSelect();
-        if (surface)
-        {
-            surface.BuildNavMesh();
-        }
         if (placedRooms.Count <= minRooms)
         {
             Debug.LogWarning("Too few rooms placed. Retrying...");
@@ -141,6 +136,11 @@ public class RoomGenerator : MonoBehaviour
         }
         else
         {
+            DoorSelect();
+            if (surface)
+            {
+                surface.BuildNavMesh();
+            }
             isComplete = true;
         }
     }
