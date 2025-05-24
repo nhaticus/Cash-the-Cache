@@ -28,7 +28,7 @@ public class BuildingDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Wall") {
+        if(other.CompareTag("Wall")) {
             buildingsDetected.Add(other.gameObject);
             FindClosestBuilding();
         }
@@ -36,7 +36,7 @@ public class BuildingDetection : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Wall")
+        if(other.CompareTag("Wall"))
         {
             BaseCanvasType buildingInfo = other.GetComponentInChildren<BaseCanvasType>();
             if (buildingInfo)

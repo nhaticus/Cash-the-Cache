@@ -57,7 +57,7 @@ public class PlayerInteract : MonoBehaviour
                     closestObj = hit;
                 }
             }
-            if (hit.CompareTag("Wall"))
+            if (hit.CompareTag("Wall")) // prevent raycasting through a wall
             {
                 float distance = hits[i].distance;
                 if (distance < wallDist)
