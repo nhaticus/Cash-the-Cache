@@ -98,4 +98,5 @@ public class CarController : MonoBehaviour
     {
         return rb.velocity.magnitude * 2.23694f; // Converts from m/s to mph
     }
+
 }
