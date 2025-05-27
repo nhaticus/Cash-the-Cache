@@ -18,7 +18,7 @@ public class NPCSpawner : MonoBehaviour
     public int spawnAttemptsPerNPC = 10; // Number of attempts to spawn each NPC
     public float spawnerRadius = 20.0f; // Radius to spawn NPCs arpund
 
-    void Start()
+    public void NPCSpawn()
     {
         GameManager.Instance.SpawnPolice += SpawnPolice;
 
