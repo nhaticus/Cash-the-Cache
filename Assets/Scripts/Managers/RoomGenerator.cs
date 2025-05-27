@@ -145,6 +145,12 @@ public class RoomGenerator : MonoBehaviour
             {
                 surface.BuildNavMesh();
             }
+            GameObject npcGen = GameObject.Find("NPCGen");
+            if (npcGen)
+            {
+                NPCSpawner npcGenScript = npcGen.GetComponent<NPCSpawner>();
+                npcGenScript.NPCSpawn();
+            }
             isComplete = true;
             roomsFinished.Invoke();
         }
