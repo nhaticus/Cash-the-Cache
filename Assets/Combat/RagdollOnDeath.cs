@@ -11,6 +11,8 @@ public class RagdollOnDeath : MonoBehaviour
     [Tooltip("Upward force applied when dying")]
     [SerializeField] private float launchStrength = 50f;
 
+    [SerializeField] private Transform playerCamera;
+
     private HealthController health;
 
     void OnEnable()
@@ -41,9 +43,32 @@ public class RagdollOnDeath : MonoBehaviour
         if (TryGetComponent<NPCsBehavior>(out var behavior))
             behavior.enabled = false;
 
-    
-        // Pass an upward impulse into the ragdoll call
-        Vector3 impulse = Vector3.up * launchStrength;
+        Transform camTransform = null;
+        if (playerCamera != null)
+        {
+            camTransform = playerCamera;
+        }
+        else
+        {
+            Camera mainCam = Camera.main;
+            if (mainCam != null)
+                camTransform = mainCam.transform;
+        }
+
+
+
+        Vector3 forward;
+        if (camTransform != null)
+            forward = camTransform.forward;
+        else
+            forward = Vector3.forward;
+
+        Vector3 launchDir = forward + Vector3.up * 0.3f;
+        launchDir.Normalize();
+
+       
+        Vector3 impulse = launchDir * launchStrength;
         ragdollController.SetRagdoll(true, impulse);
     }
 }
+
