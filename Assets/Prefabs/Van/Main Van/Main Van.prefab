@@ -735,6 +735,7 @@ GameObject:
   - component: {fileID: 8422005825168274970}
   - component: {fileID: 4024045861067008312}
   - component: {fileID: 2276860556361326931}
+  - component: {fileID: 5507112524369504441}
   m_Layer: 5
   m_Name: Warning
   m_TagString: Untagged
@@ -858,6 +859,46 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5507112524369504441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3595271960727923475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:2e3b89f10e466c34c991a20442d4eb80
+    m_TableEntryReference:
+      m_KeyId: 18272439186108416
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2276860556361326931}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &5031777552822252004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,6 +1721,56 @@ PrefabInstance:
       propertyPath: vanTextForShader
       value: 
       objectReference: {fileID: 7742196717981027320}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: holdToDepositString.m_TableEntryReference.m_KeyId
+      value: 18293671029780480
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: depositCanceledString.m_TableEntryReference.m_KeyId
+      value: 18293411452694528
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: noItemsToDepositString.m_TableEntryReference.m_KeyId
+      value: 18296382366298112
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: allItemsDepositedString.m_TableEntryReference.m_KeyId
+      value: 18293506780835840
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: depositingProgressString.m_TableEntryReference.m_KeyId
+      value: 1593885589504
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: holdToDepositString.m_TableReference.m_TableCollectionName
+      value: GUID:e68cf9f423ed56b448649f1042b23714
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: depositCanceledString.m_TableReference.m_TableCollectionName
+      value: GUID:e68cf9f423ed56b448649f1042b23714
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: noItemsToDepositString.m_TableReference.m_TableCollectionName
+      value: GUID:e68cf9f423ed56b448649f1042b23714
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: allItemsDepositedString.m_TableReference.m_TableCollectionName
+      value: GUID:e68cf9f423ed56b448649f1042b23714
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972108671258973153, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
+        type: 3}
+      propertyPath: depositingProgressString.m_TableReference.m_TableCollectionName
+      value: GUID:e68cf9f423ed56b448649f1042b23714
+      objectReference: {fileID: 0}
     - target: {fileID: 4875933045046169558, guid: 1b7fff747c4e7eb449342f39b6fe6f6a,
         type: 3}
       propertyPath: m_Size.x

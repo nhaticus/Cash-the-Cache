@@ -2,12 +2,14 @@
 // the player when they enter the trigger area and handles the actions when they press 'E' to leave.
 using UnityEngine;
 using TMPro;
+using UnityEngine.Localization;
 
 public class LeaveAreaTrigger : MonoBehaviour
 {
     [SerializeField] GameObject vanText, warningText;
     [SerializeField] GameObject resultScreen;
     [SerializeField] SingleAudio singleAudio;
+    [SerializeField] LocalizedString pressToLeaveString;
 
     bool playerInLeaveArea = false;
 
@@ -23,7 +25,10 @@ public class LeaveAreaTrigger : MonoBehaviour
         {
             playerInLeaveArea = true;
             vanText.SetActive(true);
-            vanText.GetComponent<TMP_Text>().text = "Press E to leave";
+            pressToLeaveString.GetLocalizedStringAsync().Completed += handle => {
+                vanText.GetComponent<TMP_Text>().text = handle.Result;
+            };
+
         }
     }
 
