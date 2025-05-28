@@ -18,7 +18,7 @@ public class Box : MonoBehaviour, InteractEvent
     // Create difficulty amount of screws and connect their event to ScrewOff
     public void Interact()
     {
-        AnalyticsManager.Instance.TrackMinigameStarted("Box Minigame");
+       // AnalyticsManager.Instance.TrackMinigameStarted("Box Minigame");
         GameObject canvas = Instantiate(boxCanvas, transform);
         canvas.GetComponent<BoxCanvas>().difficulty = difficulty;
         canvas.GetComponent<BoxCanvas>().OpenBox.AddListener(OpenBox);
