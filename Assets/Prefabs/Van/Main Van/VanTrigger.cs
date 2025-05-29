@@ -5,10 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 
 public class VanTrigger : MonoBehaviour
 {
-    [SerializeField] GameObject vanCanvas;
+    bool playerInRange = false;
+    PlayerInteract playerInventory;
     [SerializeField] GameObject vanText;
 
     [SerializeField] SingleAudio singleAudio;
@@ -18,9 +21,18 @@ public class VanTrigger : MonoBehaviour
     [Header("Deposit Timing")]
     //[SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
     [SerializeField] float extraTimePerItem = 0.5f; // Time per item
-    bool playerInRange = false;
-    PlayerInteract playerInventory;
 
+    [Header("Localization")]
+    [SerializeField] LocalizedString holdToDepositString;
+    [SerializeField] LocalizedString noItemsToDepositString;
+    [SerializeField] LocalizedString depositingProgressString;
+    [SerializeField] LocalizedString depositCanceledString;
+    [SerializeField] LocalizedString allItemsDepositedString;
+
+    private void Awake()
+    {
+        vanText.SetActive(false);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,9 +41,10 @@ public class VanTrigger : MonoBehaviour
             playerInRange = true;
             playerInventory = other.GetComponent<PlayerInteract>();
 
-            vanCanvas.SetActive(true);
             vanText.SetActive(true);
-            vanText.GetComponent<TMP_Text>().text = "Hold E to Deposit";
+            //vanText.GetComponent<TMP_Text>().text = "Hold E to Deposit";
+            holdToDepositString.StringChanged += UpdateVanText;
+            holdToDepositString.RefreshString();
         }
     }
 
@@ -42,7 +55,6 @@ public class VanTrigger : MonoBehaviour
             playerInRange = false;
             playerInventory = null;
             vanText.SetActive(false);
-            vanCanvas.SetActive(false);
 
             // If depositing, stop immediately
             if (depositCoroutine != null)
@@ -50,6 +62,7 @@ public class VanTrigger : MonoBehaviour
                 StopCoroutine(depositCoroutine);
                 depositCoroutine = null;
             }
+            holdToDepositString.StringChanged -= UpdateVanText;
         }
     }
 
@@ -66,7 +79,9 @@ public class VanTrigger : MonoBehaviour
                 // If no items, show no items message
                 if (GetTotalItemCount() == 0)
                 {
-                    vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
+                    //vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
+                    noItemsToDepositString.StringChanged += UpdateVanText;
+                    noItemsToDepositString.RefreshString();
                 }
                 else
                 {
@@ -81,9 +96,18 @@ public class VanTrigger : MonoBehaviour
             {
                 StopCoroutine(depositCoroutine);
                 depositCoroutine = null;
-                vanText.GetComponent<TMP_Text>().text = "Deposit canceled. Some items may have been deposited.";
+                
+                depositCanceledString.StringChanged += UpdateVanText;
+                depositCanceledString.RefreshString();                
+                //vanText.GetComponent<TMP_Text>().text = "Deposit canceled. Some items may have been deposited.";
             }
         }
+    }
+
+    
+    private void UpdateVanText(string localizedText)
+    {
+        vanText.GetComponent<TMP_Text>().text = localizedText;
     }
 
     // ------------------------------------------------------
@@ -96,7 +120,9 @@ public class VanTrigger : MonoBehaviour
         int totalItems = allItems.Count;
         if (totalItems == 0)
         {
-            vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
+           // vanText.GetComponent<TMP_Text>().text = "No items to deposit!";
+            noItemsToDepositString.StringChanged += UpdateVanText;
+            noItemsToDepositString.RefreshString();
             yield break;
         }
 
@@ -121,7 +147,11 @@ public class VanTrigger : MonoBehaviour
                 // Convert depositTimer to a single 0-100% for the entire operation
                 float progressFraction = depositTimer / totalTime;
                 int percent = Mathf.Clamp((int)(progressFraction * 100f), 0, 100);
-                vanText.GetComponent<TMP_Text>().text = $"Depositing... {percent}%";
+                //vanText.GetComponent<TMP_Text>().text = $"Depositing... {percent}%";
+                depositingProgressString.Arguments = new object[] { percent };
+                depositingProgressString.StringChanged += UpdateVanText;
+                depositingProgressString.RefreshString();
+
                 yield return null;
             }
 
@@ -130,12 +160,16 @@ public class VanTrigger : MonoBehaviour
             RemoveOneItemFromPlayer(playerInventory, itemName, info);
         }
 
-        if (TaskManager.Instance != null)
-            TaskManager.Instance.task2Complete();
-
         // Done depositing everything
         depositCoroutine = null;
-        vanText.GetComponent<TMP_Text>().text = "All items deposited!";
+        if (TaskManager.Instance != null)
+        {
+            TaskManager.Instance.task2Complete();
+        }
+        //vanText.GetComponent<TMP_Text>().text = "All items deposited!";
+        allItemsDepositedString.StringChanged += UpdateVanText;
+        allItemsDepositedString.RefreshString();
+
     }
 
     // ------------------------------------------------------
