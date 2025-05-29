@@ -26,6 +26,13 @@ public class HealthController : MonoBehaviour
             OnDeath?.Invoke();
         }
     }
+
+    public void Revive() 
+    {
+        current = maxHealth;
+        Debug.Log("Revived! Health restored to " + maxHealth);
+    }
+
 }
 public struct DamageInfo
 {
