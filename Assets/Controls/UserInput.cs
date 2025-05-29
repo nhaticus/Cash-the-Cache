@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 /*
  * https://www.youtube.com/watch?v=qXbjyzBlduY&ab_channel=SasquatchBStudios
- * 
  */
 
 public class UserInput : MonoBehaviour
@@ -14,6 +13,7 @@ public class UserInput : MonoBehaviour
     
     // controls to detect
     public Vector2 Move { get; private set;  }
+    public Vector2 Camera { get; private set; }
     public bool Interact { get; private set; }
     public bool Inventory { get; private set; }
     public bool Cancel { get; private set; }
@@ -21,6 +21,7 @@ public class UserInput : MonoBehaviour
 
     PlayerInput playerInput;
     InputAction moveAction;
+    InputAction cameraAction;
     InputAction interactAction;
     InputAction inventoryAction;
     InputAction cancelAction;
@@ -49,6 +50,7 @@ public class UserInput : MonoBehaviour
     void SetupInputActions()
     {
         moveAction = playerInput.actions["Move"];
+        cameraAction = playerInput.actions["Camera"];
         interactAction = playerInput.actions["Interact"];
         inventoryAction = playerInput.actions["Inventory"];
         cancelAction = playerInput.actions["Cancel"];
@@ -58,6 +60,7 @@ public class UserInput : MonoBehaviour
     void UpdateInput()
     {
         Move = moveAction.ReadValue<Vector2>();
+        Camera = cameraAction.ReadValue<Vector2>();
         Interact = interactAction.WasPressedThisFrame();
         Inventory = inventoryAction.WasPressedThisFrame();
         Cancel = cancelAction.WasPressedThisFrame();

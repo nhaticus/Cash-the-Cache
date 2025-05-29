@@ -212,10 +212,10 @@ public class RoomGenerator : MonoBehaviour
         foreach(Collider hit in hitColliders){
             GameObject hitObject = hit.gameObject;
             if(hitObject.CompareTag("Room")){
-                return(false);
+                return false;
             }
         }
-        return (true);
+        return true;
     }
 
     void ClearLevel()
