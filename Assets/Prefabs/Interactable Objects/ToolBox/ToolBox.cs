@@ -7,7 +7,7 @@ public class ToolBox : MonoBehaviour, InteractEvent {
     [SerializeField] GameObject[] obj;
     [SerializeField] int difficulty = 4;
     [SerializeField] bool setRandomDifficulty;
-    int minDifficulty = 3, maxDifficulty = 6;
+    [SerializeField] int minDifficulty = 2, maxDifficulty = 6;
 
     [SerializeField] GameObject toolboxCanvas;
 

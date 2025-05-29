@@ -23,6 +23,7 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    // connect OnDeath event to Game Over
     GameObject player;
     IEnumerator FindPlayer()
     {
@@ -31,7 +32,7 @@ public class GameUI : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player");
             yield return new WaitForSeconds(0.5f);
         }
-        player.GetComponentInChildren<PlayerHealth>().Death.AddListener(GameOver);
+        player.GetComponentInChildren<HealthController>().OnDeath += GameOver;
     }
 
     // creates pause menu

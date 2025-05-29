@@ -15,7 +15,7 @@ public class Toilet : MonoBehaviour, InteractEvent
     [Header("Difficulty = Time it takes to flush")]
     [SerializeField] int difficulty = 3; // Difficulty level = number of seconds x 1
     [SerializeField] bool setRandomDifficulty;
-    int minDifficulty = 3, maxDifficulty = 6;
+    [SerializeField] int minDifficulty = 3, maxDifficulty = 6;
 
     public bool isFlushingOpen = false;  // Whether the flushing mini-game is open or not
 

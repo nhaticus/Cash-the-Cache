@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RoomGenerator : MonoBehaviour
 {
@@ -27,6 +27,10 @@ public class RoomGenerator : MonoBehaviour
     private int retryNum = 0;
     private GameObject startRoom;
     public bool isComplete = false;
+
+    // send event when All Rooms Generated
+    public UnityEvent roomsFinished;
+
     void Start()
     {
         BuildHouse();
@@ -148,6 +152,7 @@ public class RoomGenerator : MonoBehaviour
                 npcGenScript.NPCSpawn();
             }
             isComplete = true;
+            roomsFinished.Invoke();
         }
     }
 
@@ -207,10 +212,10 @@ public class RoomGenerator : MonoBehaviour
         foreach(Collider hit in hitColliders){
             GameObject hitObject = hit.gameObject;
             if(hitObject.CompareTag("Room")){
-                return(false);
+                return false;
             }
         }
-        return (true);
+        return true;
     }
 
     void ClearLevel()
@@ -248,4 +253,7 @@ public class RoomGenerator : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(levelSpawnPosition, 0.5f);
     }
+
+    
+
 }

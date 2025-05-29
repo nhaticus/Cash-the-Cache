@@ -1,8 +1,6 @@
 //Script manges the van's inventoiry, allowing stolen items to be transfered from the player inventroy
 //and desposited individually. It maintains a singleton instance to access the inventory from anywhere in the game.
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +8,7 @@ public class VanInventory : MonoBehaviour
 {
     public static VanInventory Instance; // Singleton to access from anywhere
     public Dictionary<string, (int, LootInfo)> stolenItems = new Dictionary<string, (int, LootInfo)>(); // Dictionary of stolen items
-
+    
     private void Awake()
     {
         if (Instance == null)
@@ -22,6 +20,7 @@ public class VanInventory : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
     public void TransferItemsFromPlayer(PlayerInteract playerInventory)
     {
         if (playerInventory == null || playerInventory.inventory.Count == 0)
@@ -54,8 +53,6 @@ public class VanInventory : MonoBehaviour
             weightUI.UpdateWeightDisplay();
         }
     }
-
-
 
     public void ClearVan()
     {

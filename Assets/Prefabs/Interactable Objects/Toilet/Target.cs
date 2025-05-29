@@ -8,29 +8,34 @@ using UnityEngine.UI;
  */
 public class Target : MonoBehaviour
 {
+    [Header("Dependencies")]
     [SerializeField] FlushingCanvas canvas;
     [SerializeField] Slider completionSlider;
     [SerializeField] float minForce = 100000, maxForce = 1000000;
     [SerializeField] float lowerBound, upperBound;
+
+    [Header("Game Values")]
+    [SerializeField] float timeToMove = 1;
+    [SerializeField] float sliderIncrease = 1.3f;
     float timer = 0;
-    float timeToMove = 0;
 
     Rigidbody2D rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        timeToMove = 6 / canvas.difficulty;
     }
 
     public void OnTriggerStay2D(Collider2D Collision)
     {
-        completionSlider.value += Time.deltaTime / (1.35f * canvas.difficulty);
+        completionSlider.value += Time.deltaTime / (sliderIncrease * canvas.difficulty);
     }
 
     private void Update()
     {
         timer += Time.deltaTime;
-        if(timer > timeToMove)
+        if (timer >= timeToMove)
         {
             if (transform.GetComponent<RectTransform>().localPosition.x > 0)
                 rb.AddForce(new Vector2(-1 * Random.Range(minForce, maxForce * canvas.difficulty) * Time.deltaTime, 0f), ForceMode2D.Force);
