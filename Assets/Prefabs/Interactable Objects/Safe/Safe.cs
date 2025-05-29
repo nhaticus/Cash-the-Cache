@@ -26,16 +26,16 @@ public class Safe : MonoBehaviour, InteractEvent
     [SerializeField] Transform spawnPos;
 
 
-    private int interactCount = 0;
+    //private int interactCount = 0;
 
 
-    private static int globalSafeCounter = 0;
-    private string safeId;
+    //private static int globalSafeCounter = 0;
+    //private string safeId;
 
 
     private void Awake() 
     {
-        safeId = "Safe_" + globalSafeCounter++;
+       // safeId = "Safe_" + globalSafeCounter++;
     }
 
     // This method is called when the player interacts with the safe

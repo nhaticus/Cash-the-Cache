@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 6225714957047770732}
   - component: {fileID: 4899564168035972468}
   - component: {fileID: 4175734600579260770}
-  - component: {fileID: 8205617555640947052}
+  - component: {fileID: 7103520527588536000}
   m_Layer: 0
   m_Name: NPC_Female
   m_TagString: AI
@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startRagdolled: 0
---- !u!114 &8205617555640947052
+--- !u!114 &7103520527588536000
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -381,12 +381,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1101948459535947309}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09077a7d1c02b794cad798f28f08ce56, type: 3}
+  m_Script: {fileID: 11500000, guid: bf542368d9c5b1c438806555e69344c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollController: {fileID: 4175734600579260770}
-  launchStrength: 20
+  healthController: {fileID: 6225714957047770732}
+  knockoutDuration: 10
+  launchStrength: 10
   playerCamera: {fileID: 0}
+  pelvisBone: {fileID: 4589281271856054477}
 --- !u!1 &1160277434120777709
 GameObject:
   m_ObjectHideFlags: 0
