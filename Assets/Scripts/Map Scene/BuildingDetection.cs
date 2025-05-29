@@ -20,8 +20,6 @@ public class BuildingDetection : MonoBehaviour
 
     private void Update()
     {
-        FindClosestBuilding();
-
         if ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0)))
         {
             ExecuteEvents.Execute<InteractEvent>(selectedBuilding, null, (x, y) => x.Interact());
@@ -30,14 +28,15 @@ public class BuildingDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Wall") {
+        if(other.CompareTag("Wall")) {
             buildingsDetected.Add(other.gameObject);
+            FindClosestBuilding();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Wall")
+        if(other.CompareTag("Wall"))
         {
             BaseCanvasType buildingInfo = other.GetComponentInChildren<BaseCanvasType>();
             if (buildingInfo)
@@ -45,6 +44,7 @@ public class BuildingDetection : MonoBehaviour
                 buildingsDetected.Remove(other.gameObject);
                 Destroy(buildingInfo.gameObject);
             }
+            FindClosestBuilding();
         }
     }
 

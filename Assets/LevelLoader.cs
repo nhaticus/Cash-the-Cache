@@ -1,46 +1,38 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
+/*
+ * Loading screen for Level Gen
+ * Waits for RoomGenerator's roomsFinished event to stop loading
+ */
 
 public class LevelLoader : MonoBehaviour
 {
-    [SerializeField] private GameObject UICanvas;
-    [SerializeField] private GameObject loadingScreen;
-    [SerializeField] private Slider loadingSlider;
-    [SerializeField] private GameObject levelGenerator;
-    private IEnumerator Start()
+    [SerializeField] BrendanRooms generatorScript;
+    [SerializeField] GameObject gear;
+    [SerializeField] float spinSpeed = 60;
+    bool finishLoading = false;
+
+    private void Start()
     {
-        loadingScreen.SetActive(true);
+        generatorScript.roomsFinished += EndLoading;
+        StartCoroutine(RotateGear());
+    }
 
-        RoomGenerator generatorScript = levelGenerator.GetComponent<RoomGenerator>();
-        loadingSlider.value = 0f;
-        
-        float progress = 0f;
+    private IEnumerator RotateGear()
+    {
+        while (!finishLoading)
+        {
+            // rotate
+            gear.transform.Rotate(0, 0, spinSpeed * -Time.deltaTime);
+            yield return null;
+        }
+    }
 
-        while (progress < 0.6f)
-        {
-            progress += Time.deltaTime * 0.5f;
-            loadingSlider.value = progress;
-            yield return null;
-        }
-        while (progress < 0.9f && !generatorScript.isComplete)
-        {
-            progress += Time.deltaTime * 0.2f;
-            loadingSlider.value = progress;
-            yield return null;
-        }
-        while (!generatorScript.isComplete)
-        {
-            yield return null;
-        }
-        while (progress < 1f)
-        {
-            progress += Time.deltaTime * 1.5f;
-            loadingSlider.value = progress;
-            yield return null;
-        }
-        loadingScreen.SetActive(false);
+    void EndLoading()
+    {
+        finishLoading = true;
+        gameObject.SetActive(false);
     }
 
 }

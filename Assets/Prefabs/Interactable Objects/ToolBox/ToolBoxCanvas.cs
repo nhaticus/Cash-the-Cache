@@ -15,9 +15,8 @@ public class ToolBoxCanvas : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] GameObject LockPick;
     AnchoredRotation lockRotation;
-    [SerializeField] GameObject LockGoalPrefab;
+    [SerializeField] GameObject lockGoal;
     [SerializeField] Transform LockGoalParent;
-    [SerializeField] TMP_Text locksLeft;
 
     [Header("Animation")]
     [SerializeField] Transform starGridTransform;
@@ -31,20 +30,23 @@ public class ToolBoxCanvas : MonoBehaviour
 
     #region Private Params
 
-    GameObject currentLockGoal;
     int currentLocksBroken = 0;
+    BoxCollider2D lockPickCollider, lockGoalCollider;
 
     #endregion
 
     #region Init and Update
     
     private void Start() {
+        lockPickCollider = LockPick.GetComponent<BoxCollider2D>();
+        lockGoalCollider = lockGoal.GetComponent<BoxCollider2D>();
+
         CreateStars();
 
         lockRotation = LockPick.GetComponent<AnchoredRotation>();
         lockRotation.SetRotationSpeed(difficulty);
         RadiusOfLock = LockPick.transform.localPosition.y;
-        SpawnLockGoal();
+        MoveLockGoal();
     }
 
     private void Update() {
@@ -69,18 +71,19 @@ public class ToolBoxCanvas : MonoBehaviour
     }
 
     public void TryPick() {
-        if (LockPick.GetComponent<BoxCollider2D>().IsTouching(currentLockGoal.GetComponent<BoxCollider2D>())) {
+        if (lockPickCollider.IsTouching(lockGoalCollider)) {
             starList[currentLocksBroken].GetComponent<Animator>().SetBool("Full", true);
             currentLocksBroken += 1;
+            StartCoroutine(lockRotation.FreezeObject(0.3f));
             if (currentLocksBroken >= TotalLocks) {
                 OpenToolBox.Invoke();
             } else {
-                SpawnLockGoal();
+                MoveLockGoal();
             }
 
         } else {
             // stop spinning dot
-            StartCoroutine(lockRotation.ShakeObject());
+            StartCoroutine(lockRotation.ShakeObject(0.75f));
         }
     }
 
@@ -98,12 +101,9 @@ public class ToolBoxCanvas : MonoBehaviour
         }
     }
 
-    private void SpawnLockGoal() {
-        if (currentLockGoal != null) {
-            Destroy(currentLockGoal);
-        }
+    private void MoveLockGoal() {
         var pos = Random.insideUnitCircle.normalized * RadiusOfLock;
-        currentLockGoal = Instantiate(LockGoalPrefab, (Vector2)LockGoalParent.position - pos, Quaternion.identity, LockGoalParent);
+        lockGoal.transform.position = (Vector2)LockGoalParent.position - pos;
     }
 
     #endregion

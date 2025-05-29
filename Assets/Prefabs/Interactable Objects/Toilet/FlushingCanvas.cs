@@ -4,7 +4,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class FlushingCanvas : MonoBehaviour
 {
@@ -16,8 +15,6 @@ public class FlushingCanvas : MonoBehaviour
     [SerializeField] GameObject controlledObject;
     [SerializeField] float speed;
     [SerializeField] GameObject button;
-    [SerializeField] float lowerBound;
-    [SerializeField] float upperBound;
 
     [Header("Animation")]
     [SerializeField] Image toilet;
@@ -45,20 +42,6 @@ public class FlushingCanvas : MonoBehaviour
 
         if (plungerDown)
             ApplyForceToControl(speed);
-        /*
-        if (controlledObject.transform.localPosition.x < lowerBound)
-        {
-            Vector3 newTransform = controlledObject.transform.localPosition;
-            newTransform.x = lowerBound;
-            controlledObject.transform.localPosition = newTransform;
-        }
-        else if (controlledObject.transform.localPosition.x > upperBound)
-        {
-            Vector3 newTransform = controlledObject.transform.localPosition;
-            newTransform.x = upperBound;
-            controlledObject.transform.localPosition = newTransform;
-        }
-        */
     }
 
     public void ExitToilet()

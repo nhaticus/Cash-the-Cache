@@ -15,14 +15,17 @@ using UnityEngine.UI;
 public class ResultScreen : MonoBehaviour
 {
     public Dictionary<string, (int, LootInfo)> inventoryRef; // reference to any inventory (should be van but possible for player's)
+
+    [Header("Dependencies")]
     [SerializeField] GameObject resultElement; // prefab that shows item stolen
     [SerializeField] Transform resultGridTransform;
     [SerializeField] TMP_Text totalStolenText;
-    [SerializeField] string shopSceneName = "Shop Scene";
     [SerializeField] GameObject continueButton;
 
     [SerializeField] Scrollbar scrollbar;
     bool scrollClicked = false;
+
+    [SerializeField] string nextScene = "Shop";
     public void Begin()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -61,7 +64,7 @@ public class ResultScreen : MonoBehaviour
 
     public void GoToShop() // used by Continue button to go to shop scene
     {
-        SceneManager.LoadScene(shopSceneName);
+        SceneManager.LoadScene(nextScene);
     }
 
 }
