@@ -37,6 +37,7 @@ public class KnockoutOnDeath : MonoBehaviour
     private IEnumerator KnockoutRoutine()
     {
         Debug.Log("?? RagdollOnDeath.HandleDeath() fired");
+        HitMarker.Instance?.ShowKnock();
         // disable root animation/AI/etc without null-conditional assignment
         if (TryGetComponent<Animator>(out var anim))
             anim.enabled = false;
