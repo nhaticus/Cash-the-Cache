@@ -36,8 +36,8 @@ public class Toilet : MonoBehaviour, InteractEvent
     // This method is called when the player interacts with the toilet
     public void Interact()
     {
-        if(AnalyticsManager.Instance)
-            AnalyticsManager.Instance.TrackMinigameStarted("Toliet Minigame");
+        //if(AnalyticsManager.Instance)
+        //    AnalyticsManager.Instance.TrackMinigameStarted("Toliet Minigame");
         if (isFlushingOpen)
         {
             Debug.Log("Already interacting with the flushing minigame.");

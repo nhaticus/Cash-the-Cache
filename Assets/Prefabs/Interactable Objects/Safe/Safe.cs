@@ -46,9 +46,9 @@ public class Safe : MonoBehaviour, InteractEvent
             Debug.Log("Already interacting with the lockpicking minigame.");
             return;  // If lockpicking is already open, don't allow further interaction
         }
-        AnalyticsManager.Instance.TrackMinigameStarted("Lockpicking Minigame");
-        interactCount++;
-        AnalyticsManager.Instance.LockPickingInteractionCount(interactCount, safeId);
+        //AnalyticsManager.Instance.TrackMinigameStarted("Lockpicking Minigame");
+        //interactCount++;
+        //AnalyticsManager.Instance.LockPickingInteractionCount(interactCount, safeId);
        
 
         isLockpickingOpen = true;

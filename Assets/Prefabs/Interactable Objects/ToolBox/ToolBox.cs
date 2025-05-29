@@ -18,8 +18,8 @@ public class ToolBox : MonoBehaviour, InteractEvent {
     }
 
     public void Interact() {
-        if(AnalyticsManager.Instance)
-            AnalyticsManager.Instance.TrackMinigameStarted("Toolbox Minigame");
+        //if(AnalyticsManager.Instance)
+        //    AnalyticsManager.Instance.TrackMinigameStarted("Toolbox Minigame");
 
         GameObject canvas = Instantiate(toolboxCanvas, transform);
         canvas.GetComponent<ToolBoxCanvas>().OpenToolBox.AddListener(OpenToolBox);
