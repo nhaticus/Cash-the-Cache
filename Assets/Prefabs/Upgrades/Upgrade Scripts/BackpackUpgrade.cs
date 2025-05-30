@@ -10,12 +10,14 @@ public class BackpackUpgrade : MonoBehaviour
 
     [SerializeField] int upgradeIncrement = 5;
     public int price = 40;
+    Item backpack;
 
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
-        int level = PlayerPrefs.GetInt("Backpack");
+        backpack = DataSystem.GetOrCreateItem("Backpack");
+        int level = backpack.level;
         if (level > 0)
             price = Mathf.RoundToInt(price * 1.5f * level);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
@@ -32,8 +34,10 @@ public class BackpackUpgrade : MonoBehaviour
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-            PlayerPrefs.SetInt("Backpack", PlayerPrefs.GetInt("Backpack") + 1);
-            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = PlayerPrefs.GetInt("Backpack").ToString() };
+            backpack.level++;
+            DataSystem.SaveItems();
+            
+            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = backpack.level.ToString() };
             upgradeInfo.localizeLevel.RefreshString();
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();

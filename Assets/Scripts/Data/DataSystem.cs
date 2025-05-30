@@ -1,44 +1,65 @@
 using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Collections.Generic;
+using System;
 
 public static class DataSystem
 {
-    public static void SaveItems(List<Items> items)
+    private static string filePath => Path.Combine(Application.persistentDataPath, "items.json");
+
+    private static ItemData upgradeData;
+
+    public static ItemData Data
     {
-        // Debug.Log("Saving items");
-        BinaryFormatter formatter = new();
-        string path = Application.persistentDataPath + "/items.dat";
-        FileStream fs = new(path, FileMode.Create);
-
-        List<ItemData> itemDatas = new();
-        foreach (Items item in items)
+        get
         {
-            itemDatas.Add(new ItemData(item));
+            if (upgradeData == null)
+                LoadItems();
+            return upgradeData;
         }
-
-        formatter.Serialize(fs, itemDatas);
-        fs.Close();
     }
 
-    public static List<ItemData> LoadItems()
+    public static void SaveItems()
     {
-        string path = Application.persistentDataPath + "/items.dat";
-        if (File.Exists(path))
-        {
-            // Debug.Log("Loading items from " + path);
-            BinaryFormatter formatter = new();
-            FileStream stream = new(path, FileMode.Open);
+        string json = JsonUtility.ToJson(upgradeData, true);
+        File.WriteAllText(filePath, json);
+        Debug.Log("Data file path: " + filePath);
+    }
 
-            List<ItemData> itemDatas = formatter.Deserialize(stream) as List<ItemData>;
-            stream.Close();
-            return itemDatas;
+    public static void LoadItems()
+    {
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            upgradeData = JsonUtility.FromJson<ItemData>(json);
         }
         else
         {
-            Debug.Log("Save file not found in " + path);
-            return null;
+            upgradeData = new ItemData();
+        }
+    }
+
+    public static Item GetItem(string name)
+    {
+        return Data.items.Find(i => i.itemName == name);
+    }
+
+    public static Item GetOrCreateItem(string name)
+    {
+        var item = GetItem(name);
+        if (item == null)
+        {
+            item = new Item { itemName = name, level = 0, statValue = 0 };
+            Data.items.Add(item);
+        }
+        return item;
+    }
+
+    public static void ResetItems()
+    {
+        foreach (var item in Data.items)
+        {
+            item.level = 0;
         }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 public class ShoeUpgrade : MonoBehaviour
 {
@@ -11,11 +12,14 @@ public class ShoeUpgrade : MonoBehaviour
     [SerializeField] float moveSpeedUpgradeIncrement = 0.5f;
     public int price = 40;
 
+    Item runningShoe;
+
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
-        int level = PlayerPrefs.GetInt("Backpack");
+        runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
+        int level = runningShoe.level;
         if (level > 0)
             price = Mathf.RoundToInt(price * 1.5f * level);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
@@ -32,8 +36,9 @@ public class ShoeUpgrade : MonoBehaviour
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-            PlayerPrefs.SetInt("RunningShoe", PlayerPrefs.GetInt("RunningShoe") + 1);
-            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = PlayerPrefs.GetInt("RunningShoe").ToString() };
+            runningShoe.level++;
+            DataSystem.SaveItems();
+            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = runningShoe.level.ToString() };
             upgradeInfo.localizeLevel.RefreshString();
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
