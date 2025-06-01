@@ -35,12 +35,18 @@ public class PlayerManager : MonoBehaviour
 
     public bool ableToInteract = true;
 
+    [Header("Data")]
+    Item backpack;
+    Item runningShoe;
+    Item flashlight;
+    Item screwdriver;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -59,6 +65,10 @@ public class PlayerManager : MonoBehaviour
             playerMovementScript = player.GetComponent<PlayerMovement>();
         }
 
+        backpack = DataSystem.GetOrCreateItem("Backpack");
+        runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
+        flashlight = DataSystem.GetOrCreateItem("Flashlight");
+        screwdriver = DataSystem.GetOrCreateItem("Screwdriver");
         LoadUpgrades();
     }
 
@@ -263,12 +273,12 @@ public class PlayerManager : MonoBehaviour
     public void LoadUpgrades() {
         ableToInteract = true;
 
-        maxSpeed = moveSpeedDefault + PlayerPrefs.GetInt("RunningShoe") * 0.5f;
+        maxSpeed = moveSpeedDefault + runningShoe.level * runningShoe.statValue;
         currentSpeed = maxSpeed;
-        maxWeight = maxWeightDefault + PlayerPrefs.GetInt("Backpack") * 5;
+        maxWeight = maxWeightDefault + backpack.level * (int)backpack.statValue;
 
-        hasFlashlight = PlayerPrefs.GetInt("Flashlight") == 1;
-        boxOpening = 1 + (PlayerPrefs.GetInt("Screwdriver", 0) * 0.3f);
+        hasFlashlight = flashlight.level == 1;
+        boxOpening = 1 + screwdriver.level * screwdriver.statValue;;
 
         mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
         controllerSensitivity = PlayerPrefs.GetFloat("Controller Sensitivity", 120);
