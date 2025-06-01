@@ -57,6 +57,7 @@ public class LeaveAreaTrigger : MonoBehaviour
     {
         if (playerInLeaveArea && Input.GetKeyDown(KeyCode.E))
         {
+            // Check for player's inventory and create result screen
             PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
 
             if (vanInventory && playerInventory)
@@ -68,19 +69,27 @@ public class LeaveAreaTrigger : MonoBehaviour
             {
                 Debug.LogError("VanInventory or PlayerInventory is NON-EXISTANT!");
             }
-            ShowSummary();
+            ShowResultScreen();
         }
     }
 
-    void ShowSummary()
+    void ShowResultScreen()
     {
         // make player invincible
         PlayerHealth player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerHealth>();
         if (player)
             player.canHurt = false;
+
         singleAudio.PlaySFX("drive_away");
+
+        // create and populate result screen
         resultScreen.SetActive(true);
         resultScreen.GetComponent<ResultScreen>().inventoryRef = vanInventory.stolenItems;
         resultScreen.GetComponent<ResultScreen>().Begin();
+
+        // set flashlight to off
+        Item flashlight = DataSystem.GetOrCreateItem("Flashlight");
+        flashlight.level = 0;
+        DataSystem.SaveItems();
     }
 }
