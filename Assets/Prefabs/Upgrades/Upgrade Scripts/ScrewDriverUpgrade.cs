@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
-using Assets.Mapbox.Unity.MeshGeneration.Modifiers.MeshModifiers;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 public class ScrewDriverUpgrade : MonoBehaviour
 {
