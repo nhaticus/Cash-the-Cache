@@ -8,7 +8,6 @@ using UnityEngine.Events;
 public class UpgradeInfo : MonoBehaviour
 {
     [HideInInspector] public ShopManager shopManager;
-    [HideInInspector] public Items itemData;
     [HideInInspector] public UnityEvent upgradePurchased;
 
     public LocalizeStringEvent localizeName;

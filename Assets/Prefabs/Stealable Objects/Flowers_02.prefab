@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7286549641881463702}
   - component: {fileID: 6626746673913848206}
   - component: {fileID: 3969491092911448926}
-  - component: {fileID: -7629157995574432757}
-  - component: {fileID: 6320367625458888744}
   - component: {fileID: 1858433671444413157}
+  - component: {fileID: 6320367625458888744}
+  - component: {fileID: -7629157995574432757}
   m_Layer: 0
   m_Name: Flowers_02
   m_TagString: Selectable
@@ -114,31 +114,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-7629157995574432757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8144511763544283551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2a1fa0b4f0f27d41aa5bf6f8e1dc9da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lootInfo: {fileID: 11400000, guid: 1b3e4c8d4227a014b98108bc82c4b59d, type: 2}
---- !u!114 &6320367625458888744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8144511763544283551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb635d5adf8ca0542a96ebe162aa49c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1858433671444413157
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -160,3 +135,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.13, y: 0.4, z: 0.13}
   m_Center: {x: -0.012972102, y: 0.2, z: 0.0045849606}
+--- !u!114 &6320367625458888744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8144511763544283551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb635d5adf8ca0542a96ebe162aa49c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7629157995574432757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8144511763544283551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2a1fa0b4f0f27d41aa5bf6f8e1dc9da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lootInfo: {fileID: 11400000, guid: 1b3e4c8d4227a014b98108bc82c4b59d, type: 2}

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
 
 public class VanTrigger : MonoBehaviour
 {
@@ -22,6 +21,8 @@ public class VanTrigger : MonoBehaviour
     //[SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
     [SerializeField] float extraTimePerItem = 0.5f; // Time per item
 
+    VanInventory vanInventory;
+
     [Header("Localization")]
     [SerializeField] LocalizedString holdToDepositString;
     [SerializeField] LocalizedString noItemsToDepositString;
@@ -32,6 +33,7 @@ public class VanTrigger : MonoBehaviour
     private void Awake()
     {
         vanText.SetActive(false);
+        vanInventory = transform.parent.GetComponent<VanInventory>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -225,10 +227,10 @@ public class VanTrigger : MonoBehaviour
         PlayerManager.Instance.setWeight(Mathf.Max(0, newWeight));
         PlayerManager.Instance.WeightChangeSpeed();
 
-        // Actually deposit into van
-        if (VanInventory.Instance != null)
+        // Deposit into van
+        if (vanInventory != null)
         {
-            VanInventory.Instance.DepositSingleItem(itemName, info);
+            vanInventory.DepositSingleItem(itemName, info);
         }
     }
 }

@@ -11,12 +11,15 @@ public class LeaveAreaTrigger : MonoBehaviour
     [SerializeField] SingleAudio singleAudio;
     [SerializeField] LocalizedString pressToLeaveString;
 
+    VanInventory vanInventory;
+
     bool playerInLeaveArea = false;
 
     private void Start()
     {
         vanText.SetActive(false);
         warningText.SetActive(false);
+        vanInventory = transform.parent.GetComponent<VanInventory>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -56,7 +59,7 @@ public class LeaveAreaTrigger : MonoBehaviour
         {
             PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
 
-            if (VanInventory.Instance && playerInventory)
+            if (vanInventory && playerInventory)
             {
                 PlayerManager.Instance.ableToInteract = false; // stop movement
                 PlayerManager.Instance.lockRotation();
@@ -77,7 +80,7 @@ public class LeaveAreaTrigger : MonoBehaviour
             player.canHurt = false;
         singleAudio.PlaySFX("drive_away");
         resultScreen.SetActive(true);
-        resultScreen.GetComponent<ResultScreen>().inventoryRef = VanInventory.Instance.stolenItems;
+        resultScreen.GetComponent<ResultScreen>().inventoryRef = vanInventory.stolenItems;
         resultScreen.GetComponent<ResultScreen>().Begin();
     }
 }

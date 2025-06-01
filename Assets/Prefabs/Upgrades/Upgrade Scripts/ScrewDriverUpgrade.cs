@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
+using Assets.Mapbox.Unity.MeshGeneration.Modifiers.MeshModifiers;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 public class ScrewDriverUpgrade : MonoBehaviour
 {
@@ -8,14 +10,16 @@ public class ScrewDriverUpgrade : MonoBehaviour
 
     [SerializeField] SingleAudio singleAudio;
 
-    [SerializeField] float upgradeIncrement = 0.3f;
     public int price = 50;
+
+    Item screwdriver;
 
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
-        int level = PlayerPrefs.GetInt("Screwdriver");
+        screwdriver = DataSystem.GetOrCreateItem("Screwdriver");
+        int level = screwdriver.level;
         if (level > 0)
             price = Mathf.RoundToInt(price * 1.5f * level);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
@@ -28,12 +32,13 @@ public class ScrewDriverUpgrade : MonoBehaviour
     {
         if (GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.IncreaseBoxOpening(upgradeIncrement);
+            PlayerManager.Instance.IncreaseBoxOpening(screwdriver.statValue);
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-            PlayerPrefs.SetInt("Screwdriver", PlayerPrefs.GetInt("Screwdriver") + 1);
-            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = PlayerPrefs.GetInt("Screwdriver").ToString() };
+            screwdriver.level++;
+            DataSystem.SaveItems();
+            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = screwdriver.level.ToString() };
             upgradeInfo.localizeLevel.RefreshString();
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();

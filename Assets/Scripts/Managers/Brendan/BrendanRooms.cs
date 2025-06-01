@@ -67,7 +67,6 @@ public class BrendanRooms : MonoBehaviour
     /// <returns></returns>
     IEnumerator GenerateRooms()
     {
-        Debug.Log("GenerateRooms()");
         if (retryNum > maxRetries)
         {
             minRooms--;
@@ -108,9 +107,6 @@ public class BrendanRooms : MonoBehaviour
                 continue;
             }
 
-            // Check for door overlap
-            RemoveOverlappingDoors();
-
             // Spawn room
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
             newRoom.transform.SetParent(transform);
@@ -145,7 +141,7 @@ public class BrendanRooms : MonoBehaviour
         }
         else // success
         {
-            // DoorSelect();
+            RemoveOverlappingDoors();
             if (surface != null)
             {
                 surface.BuildNavMesh();
@@ -161,6 +157,7 @@ public class BrendanRooms : MonoBehaviour
     void RemoveOverlappingDoors()
     {
         // list of doors from placedRooms
+        /*
         List<GameObject> doorList = new List<GameObject>();
         for(int i = 0; i < placedRooms.Count; i++)
         {
@@ -170,7 +167,8 @@ public class BrendanRooms : MonoBehaviour
                 doorList.Append(door.gameObject);
             }
         }
-        //GameObject[] doorList = GameObject.FindGameObjectsWithTag("Door");
+        */
+        GameObject[] doorList = GameObject.FindGameObjectsWithTag("Door");
         List<GameObject> removedDoors = new List<GameObject>();
         foreach (GameObject door in doorList)
         {
@@ -206,7 +204,7 @@ public class BrendanRooms : MonoBehaviour
                 else if (hitDoor.CompareTag("Door"))
                 {
                     Debug.Log("remove door");
-                    doorList.Remove(door);
+                    //doorList.Remove(door);
                     Destroy(door);
                     removedDoors.Add(hitDoor);
                     break;
