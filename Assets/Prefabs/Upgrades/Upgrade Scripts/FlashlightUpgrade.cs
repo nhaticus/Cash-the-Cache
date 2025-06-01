@@ -9,6 +9,7 @@ public class FlashlightUpgrade : MonoBehaviour
 
     public int price = 60;
     bool purchased = false;
+    Item flashlight;
 
     private void Start()
     {
@@ -16,15 +17,16 @@ public class FlashlightUpgrade : MonoBehaviour
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
         upgradeInfo.localizeLevel.gameObject.SetActive(false);
-        CheckPurchasable();
+        flashlight = DataSystem.GetOrCreateItem("Flashlight");
 
-        if (PlayerPrefs.GetInt("Flashlight") == 1)
+        if (flashlight.level == 1)
         {
             purchased = true;
             PlayerManager.Instance.hasFlashlight = true;
             GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
             upgradeInfo.localizeLevel.gameObject.SetActive(true); // show purchased
         }
+        CheckPurchasable();
     }
 
     public void OnPurchase()
@@ -33,7 +35,9 @@ public class FlashlightUpgrade : MonoBehaviour
         {
             PlayerManager.Instance.hasFlashlight = true;
             GameManager.Instance.SpendMoney(price);
-            PlayerPrefs.SetInt("Flashlight", 1);
+
+            flashlight.level = 1; // set level to 1 mean purchased and 0 means not purchased
+            DataSystem.SaveItems();
 
             upgradeInfo.localizeLevel.gameObject.SetActive(true); // purchased text
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
