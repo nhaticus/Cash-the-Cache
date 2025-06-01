@@ -1,15 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.Rendering;
 
 public class GameMusic : MonoBehaviour
 {
     [SerializeField] SingleAudio singleAudio;
     [SerializeField] string musicName = "music";
+
+    [SerializeField] bool onStart = true; // if you want music to start on scene load, otherwise you can start with BeginMusic
+    // Just used for starting music when game is finished loading instead of loading screen
     
     void Start()
+    {
+        if(onStart)
+            singleAudio.PlayMusic(musicName, _loop: true);
+    }
+
+    public void BeginMusic()
     {
         singleAudio.PlayMusic(musicName, _loop: true);
     }

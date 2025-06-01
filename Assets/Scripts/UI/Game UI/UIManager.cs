@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
-    [SerializeField] GameObject currentMenu;
+    public GameObject currentMenu;
     bool canSwap = true;
 
     private void Awake()
@@ -32,7 +32,6 @@ public class UIManager : MonoBehaviour
     {
         if (canSwap)
         {
-            Destroy(currentMenu);
             currentMenu = Instantiate(newMenu);
             currentMenu.SetActive(true);
         }
