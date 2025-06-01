@@ -10,7 +10,6 @@ public class ScrewDriverUpgrade : MonoBehaviour
 
     [SerializeField] SingleAudio singleAudio;
 
-    [SerializeField] float upgradeIncrement = 0.3f;
     public int price = 50;
 
     Item screwdriver;
@@ -33,7 +32,7 @@ public class ScrewDriverUpgrade : MonoBehaviour
     {
         if (GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.IncreaseBoxOpening(upgradeIncrement);
+            PlayerManager.Instance.IncreaseBoxOpening(screwdriver.statValue);
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();

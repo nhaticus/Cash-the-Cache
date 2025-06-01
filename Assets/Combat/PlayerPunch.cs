@@ -25,7 +25,7 @@ public class PlayerPunch : MonoBehaviour
 
     IEnumerator Punch()
     {
-        Debug.Log("Punching!");
+        // Debug.Log("Punching!");
         punchCollider.enabled = true;                // ? enable the trigger
         yield return new WaitForSeconds(punchDuration);
         punchCollider.enabled = false;               // ? disable it again

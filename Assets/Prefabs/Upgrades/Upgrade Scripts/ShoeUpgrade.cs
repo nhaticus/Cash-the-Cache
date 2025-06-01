@@ -9,7 +9,6 @@ public class ShoeUpgrade : MonoBehaviour
 
     [SerializeField] SingleAudio singleAudio;
 
-    [SerializeField] float moveSpeedUpgradeIncrement = 0.5f;
     public int price = 40;
 
     Item runningShoe;
@@ -32,7 +31,7 @@ public class ShoeUpgrade : MonoBehaviour
     {
         if(GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.increaseMaxMoveSpeed(moveSpeedUpgradeIncrement);
+            PlayerManager.Instance.increaseMaxMoveSpeed(runningShoe.statValue);
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();

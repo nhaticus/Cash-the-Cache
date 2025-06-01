@@ -8,7 +8,6 @@ public class BackpackUpgrade : MonoBehaviour
 
     [SerializeField] SingleAudio singleAudio;
 
-    [SerializeField] int upgradeIncrement = 5;
     public int price = 40;
     Item backpack;
 
@@ -30,7 +29,7 @@ public class BackpackUpgrade : MonoBehaviour
     {
         if (GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.increaseMaxWeight(upgradeIncrement);
+            PlayerManager.Instance.increaseMaxWeight((int)backpack.statValue);
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();

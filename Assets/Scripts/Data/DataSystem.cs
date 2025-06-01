@@ -23,7 +23,7 @@ public static class DataSystem
     {
         string json = JsonUtility.ToJson(upgradeData, true);
         File.WriteAllText(filePath, json);
-        Debug.Log("Data file path: " + filePath);
+        // Debug.Log("Data file path: " + filePath);
     }
 
     public static void LoadItems()
@@ -44,13 +44,22 @@ public static class DataSystem
         return Data.items.Find(i => i.itemName == name);
     }
 
-    public static Item GetOrCreateItem(string name)
+    /// <summary> Retrieves an exiting item by name, or creates a new one if it doesn't exist. </summary>
+    /// <param name="name"> Name of item to retrieve or create EX: "Backpack". </param>
+    /// <param name="defaultStatValue"> Stat value to assign to item EX: 5.0f means each "Backpack" upgrade will be +5 weight. </param>
+    /// <returns> Item with specified name, or new item if it doesn't already exist. </returns>
+    public static Item GetOrCreateItem(string name, float defaultStatValue = 0f, bool forceUpdateStatValue = false)
     {
         var item = GetItem(name);
         if (item == null)
         {
-            item = new Item { itemName = name, level = 0, statValue = 0 };
+            item = new Item { itemName = name, level = 0, statValue = defaultStatValue };
             Data.items.Add(item);
+        }
+        else if (item.statValue != defaultStatValue && forceUpdateStatValue)
+        {
+            item.statValue = defaultStatValue;
+            // Debug.Log($"Updated statValue of '{name}' to default: {defaultStatValue}");
         }
         return item;
     }
@@ -61,5 +70,6 @@ public static class DataSystem
         {
             item.level = 0;
         }
+        SaveItems();
     }
 }
