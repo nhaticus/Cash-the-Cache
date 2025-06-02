@@ -6,10 +6,7 @@ using TMPro;
 public class PoliceTimer : MonoBehaviour
 {
     [Header("Timer")]
-    public float maxTime = 180f;
-    public float minTime = 105f;
-    public float timeDecrease = 25f;
-    float defaultFontSize;
+    public float maxTime = 30f;
     float timeLeft;
     public bool timerOn = true;
     public TMP_Text Timer_display;
@@ -22,27 +19,25 @@ public class PoliceTimer : MonoBehaviour
     [SerializeField] SingleAudio policeAudio;
 
     [Header("Sirens")]
-    [SerializeField] GameObject blueSquare, redSquare;
+    [SerializeField] Image blueSquare, redSquare;
 
     private Vector3 originalPosition;
-    private bool isTimerPaused = false; // Track if timer is paused
 
     private void Start()
     {
-        GameManager.Instance.OnNPCLeaving += TickDownTimer;
         timeLeft = maxTime;
-        if (timeLeft < minTime)
-            timeLeft = minTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position
-        defaultFontSize = Timer_display.fontSize;
+        
+        /*  When NPC leaves start timer  */
+        GameManager.Instance.OnNPCLeaving += TickDownTimer;
 
-        blueSquare.SetActive(false);
-        redSquare.SetActive(false);
+        // hide object
+        gameObject.SetActive(false);
     }
 
     void Update()
     {
-        if (timerOn && !isTimerPaused)
+        if (timerOn)
         {
             if (timeLeft > 0)
             {
@@ -50,10 +45,12 @@ public class PoliceTimer : MonoBehaviour
             }
             else
             {
+                // stop decreasing timer and do TimerUp event
                 timeLeft = 0;
                 timerOn = false;
-                onTimerUp();
+                TimerFinished();
             }
+
             updateTimerDisplay();
         }
     }
@@ -65,63 +62,44 @@ public class PoliceTimer : MonoBehaviour
 
         Timer_display.text = minutes + ":" + seconds.ToString("00");
 
-        // Change font size, color, and add shaking effect when less than 1 minute remaining
-        if (timeLeft < 60)
-        {
-            Timer_display.fontSize = defaultFontSize * 1.2f;
-            Timer_display.color = timerAlertColor;
+        // Change color and add shaking effect
+        Timer_display.color = timerAlertColor;
 
-            // Apply shaking effect
-            float shakeAmount = 5 / (timeLeft / 30);
-            if(shakeAmount > 9)
-                shakeAmount = 9;
-            Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
-        }
-        else
-        {
-            Timer_display.fontSize = defaultFontSize;
-            Timer_display.color = timerDefaultColor;
-
-            // Reset position when time is above 1 minute
-            Timer_display.rectTransform.localPosition = originalPosition;
-        }
+        // Apply shaking effect
+        float shakeAmount = 5;
+        Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
     }
 
-    void onTimerUp()
+    void TimerFinished()
     {
         Timer_display.rectTransform.localPosition = originalPosition;
         StartCoroutine(PoliceAlert());
-        //StartCoroutine(FlashWarningText());
         GameManager.Instance.CallSpawnPolice();
-        /*
-        // Send in police at random spawn positions
-        for (int i = 0; i < numPoliceToSpawn; i++)
-        {
-            Instantiate(police, spawnPos[Random.Range(0, spawnPos.Length)]);
-        }
-        */
     }
 
+    /// <summary>
+    /// Effect that turns on and off blue and red squares
+    /// </summary>
+    /// <returns></returns>
     IEnumerator PoliceAlert()
     {
         policeAudio.PlaySFX("police_radio");
 
-        Color blueOn = blueSquare.GetComponent<Image>().color;
+        Color blueOn = blueSquare.color;
         blueOn.a = 0.9f;
-        Color blueOff = blueSquare.GetComponent<Image>().color;
+        Color blueOff = blueSquare.color;
         blueOff.a = 0.4f;
 
-        Color redOn = redSquare.GetComponent<Image>().color;
+        Color redOn = redSquare.color;
         redOn.a = 0.9f;
-        Color redOff = redSquare.GetComponent<Image>().color;
+        Color redOff = redSquare.color;
         redOff.a = 0.4f;
 
         Image blueImage = blueSquare.GetComponent<Image>();
         Image redImage = redSquare.GetComponent<Image>();
-        blueSquare.SetActive(true);
-        redSquare.SetActive(true);
+        blueSquare.gameObject.SetActive(true);
+        redSquare.gameObject.SetActive(true);
 
-        timerOn = false;
         for(int i = 0; i < 5; i++)
         {
             blueImage.color = blueOn;
@@ -132,12 +110,7 @@ public class PoliceTimer : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
-        blueSquare.SetActive(false);
-        redSquare.SetActive(false);
-
-        maxTime /= 1.75f;
-        if (maxTime < 30)
-            maxTime = 30;
+        // restart timer to call more police
         timeLeft = maxTime;
         timerOn = true;
     }
@@ -168,47 +141,5 @@ public class PoliceTimer : MonoBehaviour
         }
         Timer_display.rectTransform.localPosition = originalPosition;
     }
-    /*
-     * Brendan: Removing for now because I think the sirens are enough, plus we will be changing it later
-    public TMP_Text policeMessageText;
-    IEnumerator FlashWarningText()
-    {
-        float flashDuration = 3f;    // Total duration for flashing
-        float flashInterval = 0.3f;  // Time interval between color changes
-        float elapsed = 0f;
 
-        // Set initial text message
-        policeMessageText.text = "Police are coming!";
-
-        while (elapsed < flashDuration)
-        {
-            // Alternate between blue and red
-            if (Mathf.FloorToInt(elapsed / flashInterval) % 2 == 0)
-            {
-                policeMessageText.color = Color.blue;
-            }
-            else
-            {
-                policeMessageText.color = Color.red;
-            }
-            yield return new WaitForSeconds(flashInterval);
-            elapsed += flashInterval;
-        }
-
-        // Clear message and reset color after flashing
-        policeMessageText.text = "";
-        policeMessageText.color = Color.white;
-    }
-    */
-    // **Pause Timer when Player enters collider**
-    public void PauseTimer()
-    {
-        isTimerPaused = true;
-    }
-
-    // **Resume Timer when Player exits collider**
-    public void ResumeTimer()
-    {
-        isTimerPaused = false;
-    }
 }

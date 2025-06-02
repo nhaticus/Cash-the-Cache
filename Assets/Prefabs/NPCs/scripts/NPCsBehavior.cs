@@ -6,19 +6,15 @@ public class NPCsBehavior : MonoBehaviour
 {
     NavMeshAgent agent;
     [SerializeField] Animator anim;
-    Transform player;
-
-    [Header("Debug Settings")]
-    public bool debugMode = false;
 
     /*  Navmesh Agent Settings   */
     [Header("Navmesh Agent Settings")]
-    public float agentDefaultSpeed; // default speed 3.5f
+    [SerializeField] float agentDefaultSpeed = 3.5f;
+    [SerializeField] float runningSpeed = 5;
 
     /*  Layers for detection    */
     [Header("Layers for Detection")]
-    public LayerMask playerLayer;
-    public LayerMask groundLayer;
+    [SerializeField] LayerMask groundLayer;
 
     /*  Random walking  */
     [Header("Patrolling Settings")]
@@ -26,13 +22,8 @@ public class NPCsBehavior : MonoBehaviour
     bool walkPointExist;
     public float walkPointRange;
 
-    public float cooldownBeforeWalking = 1.0f; // Time before the NPC starts walking again after being stunned
-
-    /*  Detection  */
-    [Header("Detection Settings")]
-    public float stunDuration;
-
-    [SerializeField] NPCDetection npcDetection;
+    public float cooldownBeforeWalking = 2.0f; // Time before the NPC starts walking again after being stunned
+    bool detectedPlayer = false;
 
     private void Awake()
     {
@@ -42,53 +33,43 @@ public class NPCsBehavior : MonoBehaviour
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
         agent.speed = agentDefaultSpeed;
-        player = GameObject.Find("Player").transform;
 
-        if (stunDuration <= 0f)
-            stunDuration = 2.0f; // default stun duration
-
-        /*  NPC Detection Event Listeners  */
-        npcDetection.PlayerNoticed += SmoothLookAt; // notice = look at player
-        npcDetection.PlayerRecognized += Runaway; // recognize = run away
-        npcDetection.PlayerStartLost += PlayerLost; // couldn't find player = player lost
-        npcDetection.PlayerCompleteLost += PathingDefault; // completely lost player = normal behavior
+        // start walking
+        PathingDefault();
     }
 
     void Update()
     {
         SetAnimationState(agent.velocity.magnitude > 0.1f);
+
+        if (detectedPlayer) // dumb copied code from Runaway()
+        {
+            Vector3 exit = GameManager.Instance.GetNPCExitPoint();
+            Vector3 distanceToExit = transform.position - exit;
+            if (distanceToExit.magnitude < 2.0f)
+            {
+                GameManager.Instance.NPCLeaving();
+                Destroy(gameObject);
+            }
+        }
     }
 
-    private void Runaway()
+    public void Runaway()
     {
         Vector3 exit = GameManager.Instance.GetNPCExitPoint();
         agent.SetDestination(exit);
-        Vector3 distanceToExit = transform.position - exit;
-        if (agent.speed == agentDefaultSpeed)
-        {
-            agent.speed *= 1.5f;
-        }
+        agent.speed = runningSpeed;
 
-        if (distanceToExit.magnitude < 2.0f)
-        {
-            Destroy(gameObject);
-            GameManager.Instance.NPCLeaving();
-        }
+        detectedPlayer = true;
     }
 
-    private void PlayerLost()
+    public void PathingDefault()
     {
-        Debug.Log("NPC player lost");
-    }
-
-    private void PathingDefault()
-    {
-        if (!walkPointExist) FindWalkPoint();
-
+        Debug.Log("normal path");
+        if (!walkPointExist)
+            FindWalkPoint();
         else
-        {
             agent.SetDestination(walkPoint);
-        }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
@@ -99,7 +80,7 @@ public class NPCsBehavior : MonoBehaviour
         }
     }
 
-    void SmoothLookAt(Vector3 targetPosition)
+    public void SmoothLookAt(Vector3 targetPosition)
     {
         Vector3 direction = (targetPosition - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
@@ -112,7 +93,6 @@ public class NPCsBehavior : MonoBehaviour
         yield return new WaitForSeconds(time);
         agent.isStopped = false;
     }
-
 
     private void FindWalkPoint()
     {

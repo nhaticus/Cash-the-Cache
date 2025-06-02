@@ -18,8 +18,6 @@ public class BrendanRooms : MonoBehaviour
     [Header("House Rooms")]
     public GameObject[] roomPrefabs;
 
-    // [Header("Other Rooms")] // for future reference
-
     [Header("AI Rooms")]
     public List<GameObject> aiRoomPrefabs;
     private List<Transform> availableDoors = new List<Transform>();

@@ -60,7 +60,7 @@ public class NPCSpawner : MonoBehaviour
 
         if (spawnedCount < NPC.spawnCount)
         {
-            // Debug.Log("only spawwned " + spawnedCount + " NPCs out of " + NPC.spawnCount);
+            // Debug.Log("only spawned " + spawnedCount + " NPCs out of " + NPC.spawnCount);
         }
     }
 
