@@ -9,7 +9,6 @@ using UnityEngine.Events;
 
 public class LevelLoader : MonoBehaviour
 {
-    [SerializeField] BrendanRooms generatorScript;
     [SerializeField] GameObject gear;
     [SerializeField] float spinSpeed = 100;
 
@@ -18,8 +17,8 @@ public class LevelLoader : MonoBehaviour
 
     private void Start()
     {
-        generatorScript.roomsFinished += EndLoading;
         StartCoroutine(RotateGear());
+        StopPlayer();
     }
 
     private IEnumerator RotateGear()
@@ -29,11 +28,16 @@ public class LevelLoader : MonoBehaviour
             // rotate
             gear.transform.Rotate(0, 0, spinSpeed * -Time.deltaTime);
             yield return null;
-        }
-        
+        }   
     }
 
-    void EndLoading()
+    [SerializeField] PlayerMovement playerMovement;
+    void StopPlayer()
+    {
+        playerMovement.canMove = false;
+    }
+
+    public void EndLoading()
     {
         loadingComplete.Invoke();
         finishLoading = true;

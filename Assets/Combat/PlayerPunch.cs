@@ -21,7 +21,8 @@ public class PlayerPunch : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isPunching) 
+        // press punch button and not already punching
+        if ((UserInput.Instance && UserInput.Instance.Punch) || (UserInput.Instance == null && Input.GetMouseButtonDown(1)) && !isPunching) 
         { 
             StartCoroutine(Punch());
         }

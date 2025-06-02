@@ -6,22 +6,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed;
     public float groundDrag;
-
-    [Header("Ground Check")]
-    public float playerHeight;
-    public LayerMask whatIsGround;
+    public bool canMove = true;
 
     [Header("Crouch Settings")]
     public Transform cameraHolder;
     public float crouchSpeed = 2f;
     private float originalSpeed;
-    private Vector3 standingCamPos;
-    private Vector3 crouchingCamPos;
+    private Vector3 standingCamPos, crouchingCamPos;
     private bool isCrouching = false;
 
     public Transform orientation;
-
-    public bool touchingWall;
 
     [SerializeField] SingleAudio singleAudio;
     private bool isPlayingFootsteps = false;
@@ -38,8 +32,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         tf = GetComponent<Transform>();
         rb.freezeRotation = true;
-
-        touchingWall = false;
 
         if (PlayerManager.Instance)
         {
@@ -62,12 +54,12 @@ public class PlayerMovement : MonoBehaviour
         HandleFootstepSound();
         Vector3 targetCamPos = isCrouching ? crouchingCamPos : standingCamPos;
         cameraHolder.localPosition = Vector3.Lerp(cameraHolder.localPosition, targetCamPos, Time.deltaTime * 10f);
-
     }
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if(canMove)
+            MovePlayer();
     }
 
     private void MyInput()
@@ -149,6 +141,11 @@ public class PlayerMovement : MonoBehaviour
                 isCrouching = false;
             }
         }
+    }
+
+    public void ToggleMovement()
+    {
+        canMove = !canMove;
     }
 
 }

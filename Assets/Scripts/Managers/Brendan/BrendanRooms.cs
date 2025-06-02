@@ -27,7 +27,7 @@ public class BrendanRooms : MonoBehaviour
     private GameObject startRoom;
 
     // send event when All Rooms Generated
-    public UnityAction roomsFinished;
+    public UnityEvent roomsFinished;
 
     void Start()
     {
