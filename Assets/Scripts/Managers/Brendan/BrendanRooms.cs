@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,8 +16,9 @@ public class BrendanRooms : MonoBehaviour
     public NavMeshSurface surface;
 
     [Header("House Rooms")]
-    public List<GameObject> roomPrefabs;
-    [Header("Other Rooms")] // not yet anything but for future reference
+    public GameObject[] roomPrefabs;
+
+    // [Header("Other Rooms")] // for future reference
 
     [Header("AI Rooms")]
     public List<GameObject> aiRoomPrefabs;
@@ -49,7 +49,7 @@ public class BrendanRooms : MonoBehaviour
     void CreateStartRoom()
     {
         if (startRoomPrefab == null)
-            startRoomPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Count - 1)];
+            startRoomPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Length - 1)];
 
         startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, levelSpawnRotation);
         startRoom.transform.SetParent(transform);
@@ -81,7 +81,7 @@ public class BrendanRooms : MonoBehaviour
             Transform currentDoor = availableDoors[randomDoor]; // choose random door to spawn at
             availableDoors.RemoveAt(randomDoor);
 
-            GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Count)]; // select random room
+            GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length - 1)]; // select random room
             RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
             if (newRoomScript == null || newRoomScript.doorPoints.Length == 0)
             {

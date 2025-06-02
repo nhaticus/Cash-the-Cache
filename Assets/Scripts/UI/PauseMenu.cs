@@ -11,6 +11,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        //UIManager.Instance.SetSwappable(false);
     }
 
     public void SwitchScene(string gameScene)
@@ -32,6 +33,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
+        // UIManager.Instance.SetSwappable(true);
         Destroy(gameObject);
     }
 }
