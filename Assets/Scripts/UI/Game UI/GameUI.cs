@@ -17,7 +17,7 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
-        if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
+        if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.P)))
         {
             Pause();
         }

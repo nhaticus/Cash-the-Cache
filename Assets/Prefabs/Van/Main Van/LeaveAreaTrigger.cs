@@ -75,10 +75,6 @@ public class LeaveAreaTrigger : MonoBehaviour
 
     void ShowResultScreen()
     {
-        // make player invincible
-        PlayerHealth player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<PlayerHealth>();
-        if (player)
-            player.canHurt = false;
 
         singleAudio.PlaySFX("drive_away");
 

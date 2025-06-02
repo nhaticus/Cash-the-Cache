@@ -26,7 +26,8 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        // Interact
+        // Interact if pressed interact button, able to interact,
+        // hovering over an interactable object, and game is not paused
         if (((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0)))
             && objRef != null && (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)

@@ -66,8 +66,6 @@ public class PlayerManager : MonoBehaviour
         }
 
         backpack = DataSystem.GetOrCreateItem("Backpack");
-        Debug.Log("level " + backpack.level);
-        Debug.Log("level " + backpack.statValue);
         runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
         flashlight = DataSystem.GetOrCreateItem("Flashlight");
         screwdriver = DataSystem.GetOrCreateItem("Screwdriver");

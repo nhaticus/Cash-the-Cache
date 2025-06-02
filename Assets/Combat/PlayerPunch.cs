@@ -19,7 +19,7 @@ public class PlayerPunch : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if ((UserInput.Instance && UserInput.Instance.Punch) || (UserInput.Instance == null && Input.GetMouseButtonDown(1)))
             StartCoroutine(Punch());
     }
 

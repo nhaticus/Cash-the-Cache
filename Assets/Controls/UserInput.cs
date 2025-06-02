@@ -15,6 +15,7 @@ public class UserInput : MonoBehaviour
     public Vector2 Move { get; private set;  }
     public Vector2 Camera { get; private set; }
     public bool Interact { get; private set; }
+    public bool Punch { get; private set; }
     public bool Inventory { get; private set; }
     public bool Cancel { get; private set; }
     public bool Pause { get; private set; }
@@ -23,6 +24,7 @@ public class UserInput : MonoBehaviour
     InputAction moveAction;
     InputAction cameraAction;
     InputAction interactAction;
+    InputAction punchAction;
     InputAction inventoryAction;
     InputAction cancelAction;
     InputAction pauseAction;
@@ -52,6 +54,7 @@ public class UserInput : MonoBehaviour
         moveAction = playerInput.actions["Move"];
         cameraAction = playerInput.actions["Camera"];
         interactAction = playerInput.actions["Interact"];
+        punchAction = playerInput.actions["Punch"];
         inventoryAction = playerInput.actions["Inventory"];
         cancelAction = playerInput.actions["Cancel"];
         pauseAction = playerInput.actions["Pause"];
@@ -62,6 +65,7 @@ public class UserInput : MonoBehaviour
         Move = moveAction.ReadValue<Vector2>();
         Camera = cameraAction.ReadValue<Vector2>();
         Interact = interactAction.WasPressedThisFrame();
+        Punch = punchAction.WasPressedThisFrame();
         Inventory = inventoryAction.WasPressedThisFrame();
         Cancel = cancelAction.WasPressedThisFrame();
         Pause = pauseAction.WasPressedThisFrame();
