@@ -46,11 +46,17 @@ public class CarController : MonoBehaviour
         MyInput();
         HandleMotor();
         HandleSteering();
+
+
+        float currentSpeedMPH = GetCurrentSpeedMPH();
+        Debug.Log($"Current Speed: {currentSpeedMPH:F1} MPH");
     }
 
     private void Tick()
     {
         UpdateWheels();
+
+
     }
 
     private void MyInput()
@@ -71,8 +77,27 @@ public class CarController : MonoBehaviour
 
     private void HandleMotor()
     {
-        frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
-        frontRightWheelCollider.motorTorque = verticalInput * motorForce;
+        float currentSpeedMPH = GetCurrentSpeedMPH();
+
+        // Ease in: less force at higher speed
+        float accelerationMultiplier = 0.5f;
+
+
+
+
+        // CAP max speed ? no force if over 120
+        if (currentSpeedMPH >= 120f && verticalInput > 0f)
+        {
+            frontLeftWheelCollider.motorTorque = 0f;
+            frontRightWheelCollider.motorTorque = 0f;
+        }
+        else
+        {
+            frontLeftWheelCollider.motorTorque = verticalInput * motorForce * accelerationMultiplier;
+            frontRightWheelCollider.motorTorque = verticalInput * motorForce * accelerationMultiplier;
+        }
+
+        // Brakes
         currentbreakForce = isBreaking ? breakForce : 0f;
         ApplyBreaking();
     }
@@ -109,7 +134,7 @@ public class CarController : MonoBehaviour
         wheelTransform.position = pos;
     }
 
-    public float GetCurrentSpeedKMH()
+    public float GetCurrentSpeedMPH()
     {
         return rb.velocity.magnitude * 2.23694f; // Converts from m/s to mph
     }
