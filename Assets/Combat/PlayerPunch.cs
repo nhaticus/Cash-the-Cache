@@ -1,4 +1,3 @@
-using Mapbox.Unity.MeshGeneration.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +5,12 @@ using UnityEngine;
 public class PlayerPunch : MonoBehaviour
 {
     [SerializeField] private Hitbox punchHitbox;
-    [SerializeField] private float punchDuration = 0.2f;
-
+    [SerializeField] private float punchDuration = 0.5f;
+    [SerializeField] private Animator fistAnimator;
+    [SerializeField] private GameObject vrArms;
     Collider punchCollider;
+    private bool isPunching = false;
+    private bool isLeftPunch = true;
 
     void Start()
     {
@@ -19,15 +21,38 @@ public class PlayerPunch : MonoBehaviour
 
     void Update()
     {
-        if ((UserInput.Instance && UserInput.Instance.Punch) || (UserInput.Instance == null && Input.GetMouseButtonDown(1)))
+        if (Input.GetMouseButtonDown(0) && !isPunching) 
+        { 
             StartCoroutine(Punch());
+        }
     }
 
     IEnumerator Punch()
     {
-        // Debug.Log("Punching!");
-        punchCollider.enabled = true;                // ? enable the trigger
+        isPunching = true;                 //set the punching state to true
+        //vrArms.SetActive(true);
+        
+        if (isLeftPunch)
+        {
+            fistAnimator.SetTrigger("PunchLeft");
+            yield return new WaitForSeconds(.5f);
+        }
+        else 
+        { 
+            fistAnimator.SetTrigger("PunchRight");
+            yield return new WaitForSeconds(.5f);
+        }
+
+
+        isLeftPunch = !isLeftPunch;
+       // Debug.Log("Punching!");
+        punchCollider.enabled = true;                //enable the trigger
+
+
         yield return new WaitForSeconds(punchDuration);
-        punchCollider.enabled = false;               // ? disable it again
+
+       // vrArms.SetActive(false);
+        punchCollider.enabled = false;               //disable it again
+        isPunching = false;                //reset the punching state
     }
 }
