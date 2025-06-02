@@ -15,14 +15,14 @@ public class NPCDetection : MonoBehaviour
 {
     /*  Detection  */
     [Header("Sight Range")]
-    public float sightDistance;
-    public int sightAngle; // Angle of the detection cone
+    [SerializeField] float sightDistance;
+    [SerializeField] int sightAngle; // Angle of the detection cone
 
     [Header("Behaviors")]
-    public float cooldownMaxTime = 1.5f; // Time after losing sight of player to begin normal behavior
+    [SerializeField] float cooldownMaxTime = 1.5f; // Time after losing sight of player to begin normal behavior
     float cooldownTimer = 0.0f;
 
-    public float sightCountdown = 1.5f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
+    [SerializeField] float sightCountdown = 1.5f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
     float sightTimer = 0.0f;
 
     [Header("Dependencies")]
@@ -56,6 +56,8 @@ public class NPCDetection : MonoBehaviour
         bool objectDetected = Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, sightDistance); // fire raycast in direction of player
         if(objectDetected)
             CheckForPlayer(hit);
+        else if(!objectDetected && playerStartUndetected == false)
+            PlayerSightingLost();
     }
 
     public Action<Vector3> PlayerNoticed;
@@ -67,6 +69,7 @@ public class NPCDetection : MonoBehaviour
     {
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+        
         if (angleToPlayer <= sightAngle)
         {
             if (objectDetected.transform.gameObject.CompareTag("Player")) // player checking
@@ -74,11 +77,6 @@ public class NPCDetection : MonoBehaviour
                 PlayerNoticed.Invoke(objectDetected.transform.position);
                 PlayerSightedBehavior();
             }
-        }
-        else
-        {
-            Debug.Log("can't find player");
-            PlayerSightingLost();
         }
     }
 
@@ -88,7 +86,9 @@ public class NPCDetection : MonoBehaviour
         // increase sighting value
         sightTimer += Time.deltaTime;
         detectionSlider.value = sightTimer / sightCountdown;
-        
+
+        playerStartUndetected = false;
+
         // if completed sighting: send event for NPC
         if (sightTimer >= sightCountdown)
         {
@@ -105,20 +105,20 @@ public class NPCDetection : MonoBehaviour
         PlayerStartLost.Invoke();
 
         playerStartUndetected = true;
-        cooldownTimer = 0;
     }
 
     bool playerEndUndetected = false;
     public Action PlayerCompleteLost;
     void PlayerCheckUndetected()
     {
-        Debug.Log("undetected: " + cooldownTimer);
         cooldownTimer += Time.deltaTime; // stop and wait until cooldown
+        Debug.Log(cooldownTimer);
         if (cooldownTimer >= cooldownMaxTime) // cooldown finished and continue normal behavior
         {
             playerStartUndetected = false;
             playerEndUndetected = true;
             PlayerCompleteLost.Invoke();
+            cooldownTimer = 0;
         }
     }
 
@@ -138,7 +138,7 @@ public class NPCDetection : MonoBehaviour
         // range angle
         Vector3 leftLimit = Quaternion.Euler(0, -sightAngle, 0) * transform.forward;
         Vector3 rightLimit = Quaternion.Euler(0, sightAngle, 0) * transform.forward;
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.yellow;
         Gizmos.DrawRay(transform.position, leftLimit * sightDistance);
         Gizmos.DrawRay(transform.position, rightLimit * sightDistance);
     }

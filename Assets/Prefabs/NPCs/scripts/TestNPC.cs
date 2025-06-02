@@ -13,37 +13,31 @@ public class TestNPC : MonoBehaviour
     void Start()
     {
         npcDetection = GetComponent<NPCDetection>();
-        npcDetection.PlayerRecognized += PlayerDetected;
+        npcDetection.PlayerNoticed += PlayerNoticed;
+        npcDetection.PlayerRecognized += PlayerRecognized;
         npcDetection.PlayerStartLost += PlayerLost;
-        report.text = "normal path";
+        npcDetection.PlayerCompleteLost += PlayerCompleteLost;
+        report.text = "normal";
     }
 
-
-    void Update()
+    void PlayerNoticed(Vector3 player)
     {
-        if (playerLost)
-        {
-            maxTime -= Time.deltaTime;
-            report.text = "stand still";
-            if (maxTime <= 0)
-            {
-                report.text = "normal path";
-                maxTime = 1;
-                playerLost = false;
-            }
-            
-        }
+        report.text = "notice player";
     }
 
-    // when the slider value is full
-    void PlayerDetected()
+    void PlayerRecognized()
     {
-        report.text = "running away and turn timer on";
+        report.text = "COMPLETE DETECTED";
     }
 
     // if the player moves away from sight
     void PlayerLost()
     {
-        playerLost = true;
+        report.text = "player lost";
+    }
+
+    void PlayerCompleteLost()
+    {
+        report.text = "normal";
     }
 }
