@@ -19,7 +19,7 @@ public class KeyboardConfig : MonoBehaviour
 
     private void Start()
     {
-        float sensitivity = PlayerPrefs.GetFloat("KeyboardCam Sensitivity", defaultSensitivity);
+        float sensitivity = DataSystem.SettingsData.controls.mouseSensitivity;
         sensSlider.minValue = minSens;
         sensSlider.maxValue = maxSens;
         if (sensitivity > maxSens)

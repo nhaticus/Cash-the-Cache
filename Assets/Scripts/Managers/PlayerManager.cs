@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Mapbox.Unity.MeshGeneration.Modifiers.MeshModifiers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,8 +12,8 @@ public class PlayerManager : MonoBehaviour
     PlayerMovement playerMovementScript;
 
     //Player Stats
-    [Header("Mouse Sensitivity")]
-    public float mouseSensitivity;
+    // [Header("Mouse Sensitivity")]
+    // public float mouseSensitivity;
     
     [Header("Controller Sensitivity")]
     public float controllerSensitivity;
@@ -40,6 +41,7 @@ public class PlayerManager : MonoBehaviour
     Item runningShoe;
     Item flashlight;
     Item screwdriver;
+    ControlSettingsData controlsData;
 
     private void Awake()
     {
@@ -65,6 +67,7 @@ public class PlayerManager : MonoBehaviour
             playerMovementScript = player.GetComponent<PlayerMovement>();
         }
 
+        controlsData = DataSystem.SettingsData.controls;
         backpack = DataSystem.GetOrCreateItem("Backpack");
         runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
         flashlight = DataSystem.GetOrCreateItem("Flashlight");
@@ -85,7 +88,7 @@ public class PlayerManager : MonoBehaviour
             playerCameraScript = mainCamera.GetComponent<PlayerCam>();
             if (playerCameraScript)
             {
-                playerCameraScript.mouseSens = mouseSensitivity;
+                playerCameraScript.mouseSens = controlsData.mouseSensitivity;
                 playerCameraScript.controllerSens = controllerSensitivity;
             }
         }
@@ -237,9 +240,10 @@ public class PlayerManager : MonoBehaviour
 
     public void SetMouseSensitivity(float sensitivity)
     {
-        mouseSensitivity = sensitivity;
+        controlsData.mouseSensitivity = sensitivity;
+        DataSystem.SaveSettings();
         if (playerCameraScript)
-            playerCameraScript.mouseSens = mouseSensitivity;
+            playerCameraScript.mouseSens = sensitivity;
     }
     public void SetControllerSensitivity(float sensitivity)
     {
@@ -280,11 +284,10 @@ public class PlayerManager : MonoBehaviour
         hasFlashlight = flashlight.level == 1;
         boxOpening = 1 + screwdriver.level * screwdriver.statValue;;
 
-        mouseSensitivity = PlayerPrefs.GetFloat("Sensitivity", 120);
-        controllerSensitivity = PlayerPrefs.GetFloat("Controller Sensitivity", 120);
+        controllerSensitivity = controlsData.controllerSensitivity;
         if (playerCameraScript)
         {
-            playerCameraScript.mouseSens = mouseSensitivity;
+            playerCameraScript.mouseSens = controlsData.mouseSensitivity;
             playerCameraScript.controllerSens = controllerSensitivity;
         }
     }

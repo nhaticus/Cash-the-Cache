@@ -11,5 +11,5 @@ public class Item
 [System.Serializable]
 public class ItemData
 {
-    public List<Item> items = new List<Item>();
+    public List<Item> items = new();
 }

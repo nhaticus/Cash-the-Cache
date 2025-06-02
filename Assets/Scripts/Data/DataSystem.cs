@@ -5,9 +5,11 @@ using System;
 
 public static class DataSystem
 {
-    private static string filePath => Path.Combine(Application.persistentDataPath, "items.json");
-
+    private static string ItemFilePath => Path.Combine(Application.persistentDataPath, "items.json");
     private static ItemData upgradeData;
+
+    private static string SettingFilePath => Path.Combine(Application.persistentDataPath, "settings.json");
+    private static GameSettingsData settingData;
 
     public static ItemData Data
     {
@@ -22,15 +24,15 @@ public static class DataSystem
     public static void SaveItems()
     {
         string json = JsonUtility.ToJson(upgradeData, true);
-        File.WriteAllText(filePath, json);
+        File.WriteAllText(ItemFilePath, json);
         // Debug.Log("Data file path: " + filePath);
     }
 
     public static void LoadItems()
     {
-        if (File.Exists(filePath))
+        if (File.Exists(ItemFilePath))
         {
-            string json = File.ReadAllText(filePath);
+            string json = File.ReadAllText(ItemFilePath);
             upgradeData = JsonUtility.FromJson<ItemData>(json);
         }
         else
@@ -71,5 +73,43 @@ public static class DataSystem
             item.level = 0;
         }
         SaveItems();
+    }
+
+    public static GameSettingsData SettingsData
+    {
+        get
+        {
+            if (settingData == null)
+                LoadSettings();
+            return settingData;
+        }
+    }
+    public static void SaveSettings()
+    {
+        string json = JsonUtility.ToJson(settingData, true);
+        File.WriteAllText(SettingFilePath, json);
+    }
+
+    public static void LoadSettings()
+    {
+        if (File.Exists(SettingFilePath))
+        {
+            string json = File.ReadAllText(SettingFilePath);
+            settingData = JsonUtility.FromJson<GameSettingsData>(json);
+        }
+        else
+        {
+            ResetSettings();
+        }
+    }
+
+    public static void ResetSettings()
+    {
+        if (File.Exists(SettingFilePath))
+        {
+            File.Delete(SettingFilePath);
+        }
+        settingData = new GameSettingsData();
+        SaveSettings();
     }
 }
