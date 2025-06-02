@@ -26,94 +26,38 @@ public class NPCsBehavior : MonoBehaviour
     bool walkPointExist;
     public float walkPointRange;
 
+    public float cooldownBeforeWalking = 1.0f; // Time before the NPC starts walking again after being stunned
+
     /*  Detection  */
     [Header("Detection Settings")]
     public float stunDuration;
-    public float sightDistance;
-    public int sightAngle; // Angle of the detection cone
-    public float cooldownBeforeWalking = 1.0f; // Time before the NPC starts walking again after being stunned
-    [SerializeField] bool withinSight;
-    [SerializeField] bool detectedPlayer = false;
 
-    /*  Timers  */
-    public float sightCountdown = 2.0f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
-    float sightTimer = 0.0f;
+    [SerializeField] NPCDetection npcDetection;
+
     private void Awake()
     {
         if (anim != null)
-        {
             anim.SetBool("isWalking", true);
-        }
+
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
         agent.speed = agentDefaultSpeed;
         player = GameObject.Find("Player").transform;
-        if (stunDuration == 0f)
-        {
-            stunDuration = 1.0f; // default stun duration
-        }
+
+        if (stunDuration <= 0f)
+            stunDuration = 2.0f; // default stun duration
+
+        /*  NPC Detection Event Listeners  */
+        npcDetection.PlayerNoticed += SmoothLookAt; // notice = look at player
+        npcDetection.PlayerRecognized += Runaway; // recognize = run away
+        npcDetection.PlayerStartLost += PlayerLost; // couldn't find player = player lost
+        npcDetection.PlayerCompleteLost += PathingDefault; // completely lost player = normal behavior
     }
 
     void Update()
     {
         SetAnimationState(agent.velocity.magnitude > 0.1f);
-        if (detectedPlayer)
-        {
-            Runaway();
-        }
-        else
-        {
-            DetectPlayer();
-
-        }
     }
-
-    private void DetectPlayer()
-    {
-        if (Vector3.Distance(transform.position, player.position) > sightDistance)
-        {
-            withinSight = false;
-        }
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-
-        if (angleToPlayer <= sightAngle)
-        {
-            if (debugMode)
-            {
-                Debug.DrawRay(transform.position, directionToPlayer * sightDistance, Color.red);
-            }
-            if (Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, sightDistance))
-            {
-                if (((1 << hit.collider.gameObject.layer) & playerLayer) != 0)
-                {
-                    withinSight = true;
-                }
-            }
-        }
-        else
-        {
-            withinSight = false;
-        }
-        if (withinSight)
-        {
-            SmoothLookAt(player.position);
-            agent.SetDestination(transform.position);
-            sightTimer += Time.deltaTime;
-        }
-        else
-        {
-            sightTimer = Mathf.Max(0, sightTimer - Time.deltaTime);
-            PathingDefault();
-        }
-
-        if (sightTimer >= sightCountdown)
-        {
-            detectedPlayer = true;
-        }
-
-    }
-
 
     private void Runaway()
     {
@@ -127,11 +71,14 @@ public class NPCsBehavior : MonoBehaviour
 
         if (distanceToExit.magnitude < 2.0f)
         {
-
             Destroy(gameObject);
             GameManager.Instance.NPCLeaving();
         }
+    }
 
+    private void PlayerLost()
+    {
+        Debug.Log("NPC player lost");
     }
 
     private void PathingDefault()
@@ -191,48 +138,4 @@ public class NPCsBehavior : MonoBehaviour
         anim.SetBool("isWalking", isWalking);
     }
 
-    public float GetDetectionRatio()
-    {
-        // Avoid division by zero if sightCountdown = 0
-        float percentage = (sightCountdown > 0f) ? Mathf.Clamp01(sightTimer / sightCountdown) : 0f;
-        if (debugMode)
-        {
-            Debug.Log("Detection Ratio: " + percentage);
-        }
-        return percentage;
-
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if (other.CompareTag("Bat"))
-        {
-            if (debugMode)
-            {
-                Debug.Log("Detected Bat!");
-            }
-            Stun();
-        }
-    }
-    
-
-    public void Stun()
-    {
-        Debug.Log("NPC starting Wait before moving coroutine");
-        StartCoroutine(WaitBeforeMoving(stunDuration));
-    }
-    private void OnDrawGizmosSelected()
-    {
-        if (debugMode)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, sightDistance);
-
-            Vector3 leftLimit = Quaternion.Euler(0, -sightAngle, 0) * transform.forward;
-            Vector3 rightLimit = Quaternion.Euler(0, sightAngle, 0) * transform.forward;
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, leftLimit * sightDistance);
-            Gizmos.DrawRay(transform.position, rightLimit * sightDistance);
-        }
-    }
 }

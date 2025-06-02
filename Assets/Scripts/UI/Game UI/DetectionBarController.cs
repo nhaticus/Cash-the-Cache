@@ -22,7 +22,7 @@ public class DetectionBarController : MonoBehaviour
     private bool isFlashing = false;
     
 
-    // Update is called once per frame
+    /*
     void Update()
     {
         if (detectionBar == null) return;
@@ -46,6 +46,7 @@ public class DetectionBarController : MonoBehaviour
             StartCoroutine(FlashAndReset());
         }
     }
+    */
     private IEnumerator FlashAndReset()
     {
         isFlashing = true;
