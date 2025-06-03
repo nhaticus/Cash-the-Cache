@@ -1305,6 +1305,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 189964257}
     m_Modifications:
+    - target: {fileID: 547958267130559132, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -265
+      objectReference: {fileID: 0}
     - target: {fileID: 763123694368442517, guid: 77ad8eccc0b84ad489b5a235f046052a,
         type: 3}
       propertyPath: m_fontAsset
@@ -1714,6 +1719,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6679942610580165153, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6916789240339234366, guid: 77ad8eccc0b84ad489b5a235f046052a,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -1862,7 +1872,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3541262984080842366, guid: 77ad8eccc0b84ad489b5a235f046052a,
         type: 3}
-      insertIndex: 0
+      insertIndex: 1
       addedObject: {fileID: 1175989757}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77ad8eccc0b84ad489b5a235f046052a, type: 3}
@@ -1902,7 +1912,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1200, y: 2950}
+  m_SizeDelta: {x: 1200, y: 3150}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &269623717
 MonoBehaviour:
@@ -1924,12 +1934,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Head Criminal
+  m_text: 'Crime Lord
 
     Brendan Trieu
 
 
-    Assistant Spicy Lover
+    Assistant Spicy Popper Lover
 
     Aiven
     Jerel Desiderio
@@ -1957,18 +1967,23 @@ MonoBehaviour:
     Jacqueline Gracey
 
 
-    He was
-    there
+    Mail
+    Gayasa
 
     Liam Asayag
 
 
+    ARG Specialist
 
-    All Ya''ll Contract Workers
+    Pepin Turismo
 
 
 
-    RIP
+    All Ya''ll
+    Contract Workers
+
+
+
 
     Shuhao
 
@@ -1976,8 +1991,7 @@ MonoBehaviour:
 
 
 
-    Thank
-    you'
+    Thank you'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 290224d978352d74ab130834881ee3e5, type: 2}
   m_sharedMaterial: {fileID: -4241372769330499969, guid: 290224d978352d74ab130834881ee3e5,
@@ -4600,7 +4614,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 35}
   m_SizeDelta: {x: 400, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1175989758
@@ -5490,7 +5504,8 @@ MonoBehaviour:
   m_text: Clear
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 290224d978352d74ab130834881ee3e5, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: -4241372769330499969, guid: 290224d978352d74ab130834881ee3e5,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7029,7 +7044,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1850, y: 600}
+  m_SizeDelta: {x: 1850, y: 650}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1840127838
 MonoBehaviour:
@@ -7102,7 +7117,10 @@ MonoBehaviour:
 
     Left Control to crouch
 
-    I to open inventory'
+    I to open inventory
+
+    P to
+    pause'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 290224d978352d74ab130834881ee3e5, type: 2}
   m_sharedMaterial: {fileID: -4241372769330499969, guid: 290224d978352d74ab130834881ee3e5,
@@ -7134,7 +7152,7 @@ MonoBehaviour:
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 50
+  m_fontSizeMin: 40
   m_fontSizeMax: 60
   m_fontStyle: 0
   m_HorizontalAlignment: 2

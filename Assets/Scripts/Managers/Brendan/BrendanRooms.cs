@@ -101,7 +101,7 @@ public class BrendanRooms : MonoBehaviour
             // Check for room overlap
             if (!IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation))
             {
-                Debug.Log("overlap found");
+                //Debug.Log("overlap found");
                 continue;
             }
 
@@ -130,8 +130,8 @@ public class BrendanRooms : MonoBehaviour
         // either there are no more available doors or maxRooms was achieved
         if (placedRooms.Count <= minRooms)
         {
-            Debug.LogWarning("Too few rooms placed. Retrying...");
-            Debug.Log(placedRooms.Count);
+            //Debug.LogWarning("Too few rooms placed. Retrying...");
+            //Debug.Log(placedRooms.Count);
             retryNum++;
             yield return null;
             ClearAllRooms();
@@ -144,7 +144,7 @@ public class BrendanRooms : MonoBehaviour
             {
                 surface.BuildNavMesh();
             }
-            Debug.Log("finished making rooms");
+            //Debug.Log("finished making rooms");
             roomsFinished.Invoke();
         }
     }
@@ -201,7 +201,7 @@ public class BrendanRooms : MonoBehaviour
                 }
                 else if (hitDoor.CompareTag("Door"))
                 {
-                    Debug.Log("remove door");
+                    //Debug.Log("remove door");
                     //doorList.Remove(door);
                     Destroy(door);
                     removedDoors.Add(hitDoor);
@@ -223,7 +223,7 @@ public class BrendanRooms : MonoBehaviour
         BoxCollider roomCollider = roomPrefab.GetComponent<BoxCollider>();
         if (roomCollider == null)
         {
-            Debug.LogWarning("No BoxCollider found on the room prefab.");
+            //Debug.LogWarning("No BoxCollider found on the room prefab.");
             return true;
         }
 
@@ -245,7 +245,7 @@ public class BrendanRooms : MonoBehaviour
 
     void ClearAllNonStartRooms()
     {
-        Debug.Log("remove all rooms");
+        //Debug.Log("remove all rooms");
         for(int i = placedRooms.Count - 1; i >= 0; i--)
         {
             GameObject room = placedRooms[i];

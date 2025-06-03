@@ -22,8 +22,13 @@ public class NPCsBehavior : MonoBehaviour
     bool walkPointExist;
     public float walkPointRange;
 
+    bool walk = true;
+
     public float cooldownBeforeWalking = 2.0f; // Time before the NPC starts walking again after being stunned
     bool detectedPlayer = false;
+
+    bool lookAtPlayer = false;
+    GameObject objectToLookAt;
 
     private void Awake()
     {
@@ -52,10 +57,19 @@ public class NPCsBehavior : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        else if (lookAtPlayer)
+        {
+            SmoothLookAt(objectToLookAt);
+        }
+        else if (walk)
+        {
+            PathingDefault();
+        }
     }
 
     public void Runaway()
     {
+        walk = false;
         Vector3 exit = GameManager.Instance.GetNPCExitPoint();
         agent.SetDestination(exit);
         agent.speed = runningSpeed;
@@ -65,7 +79,7 @@ public class NPCsBehavior : MonoBehaviour
 
     public void PathingDefault()
     {
-        Debug.Log("normal path");
+        walk = true;
         if (!walkPointExist)
             FindWalkPoint();
         else
@@ -80,11 +94,26 @@ public class NPCsBehavior : MonoBehaviour
         }
     }
 
-    public void SmoothLookAt(Vector3 targetPosition)
+    public void BeginLookAt(GameObject player)
     {
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        walk = false;
+        lookAtPlayer = true;
+        objectToLookAt = player;
+    }
+
+    public void SmoothLookAt(GameObject obj)
+    {
+        Vector3 direction = (obj.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+    }
+
+    public void PlayerLost()
+    {
+        walk = true;
+        lookAtPlayer = false;
+        objectToLookAt = null;
+        PathingDefault();
     }
 
     private IEnumerator WaitBeforeMoving(float time)
