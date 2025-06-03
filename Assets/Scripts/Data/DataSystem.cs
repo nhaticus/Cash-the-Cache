@@ -25,7 +25,7 @@ public static class DataSystem
     {
         string json = JsonUtility.ToJson(upgradeData, true);
         File.WriteAllText(ItemFilePath, json);
-        // Debug.Log("Data file path: " + filePath);
+        Debug.Log("Data file path: " + ItemFilePath);
     }
 
     public static void LoadItems()

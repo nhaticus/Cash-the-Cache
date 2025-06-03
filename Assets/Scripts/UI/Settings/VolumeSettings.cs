@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.Audio;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 /*
  * Changes music, sfx volume and language
@@ -31,24 +32,27 @@ public class VolumeSettings : MonoBehaviour
 
     [SerializeField] AudioMixer audioMixer;
 
+    AudioSettingsData audioData;
+
     private void Start()
     {
+        audioData = DataSystem.SettingsData.audio;
         //Master
-        float masterVolume = PlayerPrefs.GetFloat("Master", defaultVolume);
+        float masterVolume = audioData.masterVolume;
         masterSlider.minValue = minVolume;
         masterSlider.maxValue = maxVolume;
         masterSlider.value = masterVolume;
         SetMaster(masterVolume);
 
         //Music
-        float musicVolume = PlayerPrefs.GetFloat("Music", defaultVolume);
+        float musicVolume = audioData.musicVolume;
         musicSlider.minValue = minVolume;
         musicSlider.maxValue = maxVolume;
         musicSlider.value = musicVolume;
         SetMusic(musicVolume);
 
         //SFX
-        float sfxVolume = PlayerPrefs.GetFloat("SFX", defaultVolume);
+        float sfxVolume = audioData.sfxVolume;
         SFXSlider.minValue = minVolume;
         SFXSlider.maxValue = maxVolume;
         SFXSlider.value = sfxVolume;
@@ -58,7 +62,8 @@ public class VolumeSettings : MonoBehaviour
     public void SetMaster(float volume)
     {
         audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20f);
-        PlayerPrefs.SetFloat("Master", volume);
+        audioData.masterVolume = volume;
+        DataSystem.SaveSettings();
         UpdateMasterText(volume);
     }
 
@@ -72,7 +77,8 @@ public class VolumeSettings : MonoBehaviour
     public void SetMusic(float volume)
     {
         audioMixer.SetFloat("Music", Mathf.Log10(volume) * 20f);
-        PlayerPrefs.SetFloat("Music", volume);
+        audioData.musicVolume = volume;
+        DataSystem.SaveSettings();
         UpdateMusicText(volume);
     }
 
@@ -86,7 +92,8 @@ public class VolumeSettings : MonoBehaviour
     public void SetSFX(float volume)
     {
         audioMixer.SetFloat("SFX", Mathf.Log10(volume) * 20f);
-        PlayerPrefs.SetFloat("SFX", volume);
+        audioData.sfxVolume = volume;
+        DataSystem.SaveSettings();
         UpdateSFXText(volume);
     }
 

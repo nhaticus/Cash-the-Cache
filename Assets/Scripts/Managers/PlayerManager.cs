@@ -247,9 +247,10 @@ public class PlayerManager : MonoBehaviour
     }
     public void SetControllerSensitivity(float sensitivity)
     {
-        controllerSensitivity = sensitivity;
+        controlsData.controllerSensitivity = sensitivity;
+        // controllerSensitivity = sensitivity;
         if (playerCameraScript)
-            playerCameraScript.controllerSens = controllerSensitivity;
+            playerCameraScript.controllerSens = sensitivity;
     }
 
     public void WeightChangeSpeed()

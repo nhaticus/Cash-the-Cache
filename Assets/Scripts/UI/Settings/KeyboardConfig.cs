@@ -33,7 +33,6 @@ public class KeyboardConfig : MonoBehaviour
     public void SetSensitivity(float sensitivity)
     {
         PlayerManager.Instance.SetMouseSensitivity(sensitivity);
-        PlayerPrefs.SetFloat("KeyboardCam Sensitivity", sensitivity);
         UpdateSensitivityText(sensitivity);
     }
     public void UpdateSensitivityText(float sensitivity)
