@@ -19,7 +19,7 @@ public class KeyboardConfig : MonoBehaviour
 
     private void Start()
     {
-        float sensitivity = DataSystem.SettingsData.controls.mouseSensitivity;
+        float sensitivity = DataSystem.SettingsData.keyboard.mouseSensitivity;
         sensSlider.minValue = minSens;
         sensSlider.maxValue = maxSens;
         if (sensitivity > maxSens)

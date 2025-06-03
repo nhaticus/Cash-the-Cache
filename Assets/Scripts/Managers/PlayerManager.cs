@@ -41,7 +41,8 @@ public class PlayerManager : MonoBehaviour
     Item runningShoe;
     Item flashlight;
     Item screwdriver;
-    ControlSettingsData controlsData;
+    ControllerSettingsData controllerData;
+    KeyboardSettingsData keyboardData;
 
     private void Awake()
     {
@@ -67,7 +68,8 @@ public class PlayerManager : MonoBehaviour
             playerMovementScript = player.GetComponent<PlayerMovement>();
         }
 
-        controlsData = DataSystem.SettingsData.controls;
+        controllerData = DataSystem.SettingsData.controller;
+        keyboardData = DataSystem.SettingsData.keyboard; 
         backpack = DataSystem.GetOrCreateItem("Backpack");
         runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
         flashlight = DataSystem.GetOrCreateItem("Flashlight");
@@ -88,8 +90,8 @@ public class PlayerManager : MonoBehaviour
             playerCameraScript = mainCamera.GetComponent<PlayerCam>();
             if (playerCameraScript)
             {
-                playerCameraScript.mouseSens = controlsData.mouseSensitivity;
-                playerCameraScript.controllerSens = controllerSensitivity;
+                playerCameraScript.mouseSens = keyboardData.mouseSensitivity;
+                playerCameraScript.controllerSens = controllerData.controllerSensitivity;
             }
         }
 
@@ -240,14 +242,14 @@ public class PlayerManager : MonoBehaviour
 
     public void SetMouseSensitivity(float sensitivity)
     {
-        controlsData.mouseSensitivity = sensitivity;
+        keyboardData.mouseSensitivity = sensitivity;
         DataSystem.SaveSettings();
         if (playerCameraScript)
             playerCameraScript.mouseSens = sensitivity;
     }
     public void SetControllerSensitivity(float sensitivity)
     {
-        controlsData.controllerSensitivity = sensitivity;
+        controllerData.controllerSensitivity = sensitivity;
         // controllerSensitivity = sensitivity;
         if (playerCameraScript)
             playerCameraScript.controllerSens = sensitivity;
@@ -285,11 +287,10 @@ public class PlayerManager : MonoBehaviour
         hasFlashlight = flashlight.level == 1;
         boxOpening = 1 + screwdriver.level * screwdriver.statValue;;
 
-        controllerSensitivity = controlsData.controllerSensitivity;
         if (playerCameraScript)
         {
-            playerCameraScript.mouseSens = controlsData.mouseSensitivity;
-            playerCameraScript.controllerSens = controllerSensitivity;
+            playerCameraScript.mouseSens = keyboardData.mouseSensitivity;
+            playerCameraScript.controllerSens = controllerData.controllerSensitivity;
         }
     }
 

@@ -1,3 +1,5 @@
+using UnityEngine.InputSystem;
+
 [System.Serializable]
 public class AudioSettingsData
 {
@@ -7,17 +9,31 @@ public class AudioSettingsData
     public float sfxVolume = 1f;
 
 }
+
 [System.Serializable]
-public class ControlSettingsData
+public class KeyBindData
 {
-    // setting default values
-    public float mouseSensitivity = 120f;
-    public float controllerSensitivity = 120f;
+    
+}
+
+[System.Serializable]
+public class ControllerSettingsData
+{
+    public float controllerSensitivity = 120f; // default sensitivity for mouse
+    public KeyBindData keyBinds = new(); // default key binds
+}
+
+[System.Serializable]
+public class KeyboardSettingsData
+{
+    public float mouseSensitivity = 120f; // default sensitivity for mouse
+    public KeyBindData keyBinds = new(); // default key binds
 }
 
 [System.Serializable]
 public class GameSettingsData
 {
     public AudioSettingsData audio = new();
-    public ControlSettingsData controls = new(); 
+    public ControllerSettingsData controller = new();
+    public KeyboardSettingsData keyboard = new();
 }
