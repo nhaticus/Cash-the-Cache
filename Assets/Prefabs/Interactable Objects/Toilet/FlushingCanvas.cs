@@ -1,9 +1,11 @@
-// Flushing canvas handles the flushing minigame, as well as the creation of the canvas
-// Player has to sync up the target and the controlled box in order to raise the meter, and doing it enough flushes the toilet
-
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+
+/* 
+ * Flushing canvas handles the creation of the Toilet Minigame canvas
+ * Player has to sync up the target and the controlled box in order to raise the meter, and doing it enough flushes the toilet
+*/
 
 public class FlushingCanvas : MonoBehaviour
 {
@@ -33,7 +35,7 @@ public class FlushingCanvas : MonoBehaviour
 
     private void Update()
     {
-        ApplyForceToControl((-0.5f)*speed);
+        ApplyForceToControl((-0.5f) * speed);
         if(powerSlider.value >= 1)
         {
             toiletOpened.Invoke();

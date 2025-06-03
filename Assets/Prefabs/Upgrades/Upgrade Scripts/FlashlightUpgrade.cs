@@ -19,6 +19,8 @@ public class FlashlightUpgrade : MonoBehaviour
         upgradeInfo.localizeLevel.gameObject.SetActive(false);
         flashlight = DataSystem.GetOrCreateItem("Flashlight");
 
+        // check if flashlight was already bought
+        // yes: set display to purchased and set PlayerManager to allow flashlight
         if (flashlight.level == 1)
         {
             purchased = true;

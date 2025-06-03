@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
- * controls the random movement and slider increment for colliding the green and black box.
+ * Controls the random movement and slider increment for colliding the green and black box.
  */
 public class Target : MonoBehaviour
 {
@@ -16,7 +16,7 @@ public class Target : MonoBehaviour
 
     [Header("Game Values")]
     [SerializeField] float timeToMove = 1;
-    [SerializeField] float sliderIncrease = 1.3f;
+    [SerializeField] float sliderIncrease = 1.1f;
     float timer = 0;
 
     Rigidbody2D rb;
@@ -24,7 +24,7 @@ public class Target : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        timeToMove = 6 / canvas.difficulty;
+        timeToMove = 5 / canvas.difficulty;
     }
 
     public void OnTriggerStay2D(Collider2D Collision)

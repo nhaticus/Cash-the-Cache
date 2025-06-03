@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Events;
 
 public class HealthController : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class HealthController : MonoBehaviour
     [SerializeField] float maxHealth = 100;
     float current;
 
-    public Action<DamageInfo> OnDamaged;
+    public UnityEvent<DamageInfo> OnDamaged;
     public Action OnDeath;
 
     void Awake() => current = maxHealth;

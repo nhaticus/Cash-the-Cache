@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 public class ShoeUpgrade : MonoBehaviour
 {

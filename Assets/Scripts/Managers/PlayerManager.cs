@@ -279,7 +279,7 @@ public class PlayerManager : MonoBehaviour
 
         maxSpeed = moveSpeedDefault + runningShoe.level * runningShoe.statValue;
         currentSpeed = maxSpeed;
-        maxWeight = maxWeightDefault + backpack.level * (int)backpack.statValue;
+        maxWeight = maxWeightDefault + (backpack.level * (int) backpack.statValue);
 
         hasFlashlight = flashlight.level == 1;
         boxOpening = 1 + screwdriver.level * screwdriver.statValue;;

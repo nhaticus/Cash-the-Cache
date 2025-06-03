@@ -34,7 +34,7 @@ public class Speedometer : MonoBehaviour
 
     void Update()
     {
-        currentSpeed = carController.GetCurrentSpeedKMH();
+        currentSpeed = carController.GetCurrentSpeedMPH();
         if (currentSpeed > speedMax) 
             currentSpeed = speedMax;
 

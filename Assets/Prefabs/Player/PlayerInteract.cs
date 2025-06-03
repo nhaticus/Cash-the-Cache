@@ -26,7 +26,8 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        // Interact
+        // Interact if pressed interact button, able to interact,
+        // hovering over an interactable object, and game is not paused
         if (((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0)))
             && objRef != null && (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)
@@ -38,19 +39,35 @@ public class PlayerInteract : MonoBehaviour
     Color origColor;
     void FixedUpdate()
     {
-        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+        SendDetectionRaycast();
+    }
+
+    void SendDetectionRaycast()
+    {
+        // create raycast from camera position
+        Transform cam = Camera.main.transform;
+        Ray ray = new Ray(cam.position, cam.forward);
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.yellow);
 
+        // get list of all objects inside raycast
         RaycastHit[] hits = Physics.RaycastAll(ray.origin, ray.direction * raycastDistance, raycastDistance);
+        CheckDetection(hits);
+    }
+
+    void CheckDetection(RaycastHit[] objectsDetected)
+    {
+        // distance variables to see which object is closest
         GameObject closestObj = null; float closestDist = 10;
         float wallDist = 10;
-        for (int i = 0; i < hits.Length; i++)
+
+        // for every object detected, see if it is Selectable or a Wall
+        for (int i = 0; i < objectsDetected.Length; i++)
         {
-            GameObject hit = hits[i].transform.gameObject;
+            GameObject hit = objectsDetected[i].transform.gameObject;
             if (hit.CompareTag("Selectable"))
             {
-                float distance = hits[i].distance;
+                // check if distance is the closest object
+                float distance = objectsDetected[i].distance;
                 if (distance < closestDist)
                 {
                     closestDist = distance;
@@ -59,7 +76,8 @@ public class PlayerInteract : MonoBehaviour
             }
             if (hit.CompareTag("Wall")) // prevent raycasting through a wall
             {
-                float distance = hits[i].distance;
+                // check if distance is the closest wall
+                float distance = objectsDetected[i].distance;
                 if (distance < wallDist)
                 {
                     wallDist = distance;
@@ -67,12 +85,12 @@ public class PlayerInteract : MonoBehaviour
             }
         }
 
-        if (closestObj == null)
+        if (closestObj == null) // no object was found
         {
             ResetHighlight();
             ObjectSelected.Invoke(null);
         }
-        else if (wallDist > closestDist && closestObj != null && closestObj != objRef)
+        else if (wallDist > closestDist && closestObj != null && closestObj != objRef) // object found but check if in front of wall
         {
             SetSelectedObject(closestObj);
         }
@@ -153,7 +171,7 @@ public class PlayerInteract : MonoBehaviour
         }
         else
         {
-            // If it’s a door, pass the player’s Transform so it can swing away
+            // If itï¿½s a door, pass the playerï¿½s Transform so it can swing away
             Doors door = obj.GetComponent<Doors>();
             if (door != null)
                 door.Interact(myTransform);          // <<< new overload 

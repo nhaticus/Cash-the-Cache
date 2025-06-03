@@ -6,12 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    [SerializeField] GameObject settingsMenu;
+
     void Start()
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        //UIManager.Instance.SetSwappable(false);
+
+        settingsMenu.SetActive(false);
     }
 
     public void SwitchScene(string gameScene)
@@ -30,10 +33,10 @@ public class PauseMenu : MonoBehaviour
     {
         // Play sound again:
         UnPause.Invoke();
+
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
-        // UIManager.Instance.SetSwappable(true);
         Destroy(gameObject);
     }
 }

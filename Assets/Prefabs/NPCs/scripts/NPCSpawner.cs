@@ -18,14 +18,6 @@ public class NPCSpawner : MonoBehaviour
     public int spawnAttemptsPerNPC = 10; // Number of attempts to spawn each NPC
     public float spawnerRadius = 20.0f; // Radius to spawn NPCs around
 
-    [SerializeField] BrendanRooms roomGenerator;
-
-    private void Start()
-    {
-        if(roomGenerator)
-            roomGenerator.roomsFinished += NPCSpawn;
-    }
-
     public void NPCSpawn()
     {
         GameManager.Instance.SpawnPolice += SpawnPolice;
@@ -60,7 +52,7 @@ public class NPCSpawner : MonoBehaviour
 
         if (spawnedCount < NPC.spawnCount)
         {
-            // Debug.Log("only spawwned " + spawnedCount + " NPCs out of " + NPC.spawnCount);
+            // Debug.Log("only spawned " + spawnedCount + " NPCs out of " + NPC.spawnCount);
         }
     }
 
