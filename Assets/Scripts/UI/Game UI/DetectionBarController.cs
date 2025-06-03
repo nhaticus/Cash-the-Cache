@@ -7,45 +7,54 @@ using UnityEngine.UI;
 public class DetectionBarController : MonoBehaviour
 {
     [Header("UI")]
-    public Image detectionBar;         // The Filled Image
+    public Image detectionBar;         // The Filled Image component that shows the notice bar
     public Color flashColor = Color.yellow;
 
-    [Header("Detection Values")]
-    public float currentDetection = 0f;
-    public float maxDetection = 2f;    // or however long it takes to fill
-
-
     [Header("NPC References")]
-    // Manually assign these in the Inspector
+    // Manually assign these in the Inspector (all NPCs whose detection you want to pool)
     public List<NPCsBehavior> allNPCs = new List<NPCsBehavior>();
 
-    private bool isFlashing = false;
-    
+    [Header("Police Timer Reference")]
+    [Tooltip("Drag the PoliceTimer component (or its GameObject) here, so we can call TriggerPoliceTimer().")]
+    public PoliceTimer policeTimer;
 
-    // Update is called once per frame
+    private bool isFlashing = false;
+    private bool hasTriggeredPolice = false;
+
     void Update()
     {
         if (detectionBar == null) return;
-        // Update the bar fill
 
+        // 1) Find the highest detection ratio among all NPCs
         float highestRatio = 0f;
         foreach (NPCsBehavior npc in allNPCs)
         {
             if (npc == null) continue;
-            // Each NPC might have a different sightTimer / sightCountdown
-            float ratio = npc.GetDetectionRatio(); // e.g. sightTimer / sightCountdown
+            float ratio = npc.GetDetectionRatio();
             if (ratio > highestRatio)
                 highestRatio = ratio;
         }
 
-        // 2) Update the bar fill
+        // 2) Update the UI bar fill
         detectionBar.fillAmount = highestRatio;
-        // 3) If bar is full (>= 1), flash
-        if (highestRatio >= 1f && !isFlashing)
+
+        // 3) As soon as that pooled ratio hits 1.0, trigger the police timer once
+        if (highestRatio >= 1f && !hasTriggeredPolice)
         {
-            StartCoroutine(FlashAndReset());
+            hasTriggeredPolice = true;
+
+            // Start the global police countdown
+            if (policeTimer != null)
+                policeTimer.TriggerPoliceTimer();
+            else
+                Debug.LogWarning("No PoliceTimer assigned on DetectionBarController.");
+
+            // Begin flashing the bar (optional)
+            if (!isFlashing)
+                StartCoroutine(FlashAndReset());
         }
     }
+
     private IEnumerator FlashAndReset()
     {
         isFlashing = true;
@@ -68,28 +77,11 @@ public class DetectionBarController : MonoBehaviour
             elapsedTime += interval;
         }
 
-        // Reset color, fill amount, and detection
+        // Reset color and fill amount
         detectionBar.color = originalColor;
         detectionBar.fillAmount = 0f;
-        currentDetection = 0f;
 
         isFlashing = false;
+        hasTriggeredPolice = false;
     }
-
-    public void SetDetectionValue(float value)
-    {
-        currentDetection = Mathf.Clamp(value, 0f, maxDetection);
-    }
-
-    public void IncreaseDetection(float amount)
-    {
-        currentDetection = Mathf.Clamp(currentDetection + amount, 0f, maxDetection);
-    }
-
-    public void ResetDetection()
-    {
-        currentDetection = 0f;
-        detectionBar.fillAmount = 0f;
-    }
-
 }
