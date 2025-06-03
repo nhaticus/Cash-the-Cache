@@ -45,8 +45,8 @@ public class PlayerInteract : MonoBehaviour
     void SendDetectionRaycast()
     {
         // create raycast from camera position
-        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+        Transform cam = Camera.main.transform;
+        Ray ray = new Ray(cam.position, cam.forward);
         Debug.DrawRay(ray.origin, ray.direction * raycastDistance, Color.yellow);
 
         // get list of all objects inside raycast
@@ -171,7 +171,7 @@ public class PlayerInteract : MonoBehaviour
         }
         else
         {
-            // If it’s a door, pass the player’s Transform so it can swing away
+            // If itï¿½s a door, pass the playerï¿½s Transform so it can swing away
             Doors door = obj.GetComponent<Doors>();
             if (door != null)
                 door.Interact(myTransform);          // <<< new overload 
