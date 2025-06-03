@@ -12,8 +12,15 @@ public class Box : MonoBehaviour, InteractEvent
 {
     [SerializeField] GameObject[] obj;
     [SerializeField] int difficulty = 4; // difficulty determines amount of clicks (difficulty * 1.7) and number of screws
+    [SerializeField] bool setRandomDifficulty = true;
+    [SerializeField] int minDifficulty = 3, maxDifficulty = 6;
 
     [SerializeField] GameObject boxCanvas;
+    private void Start()
+    {
+        if (setRandomDifficulty)
+            difficulty = Random.Range(minDifficulty, maxDifficulty);
+    }
 
     // Create difficulty amount of screws and connect their event to ScrewOff
     public void Interact()

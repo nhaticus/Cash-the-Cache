@@ -93,7 +93,6 @@ public class PoliceTimer : MonoBehaviour
     /// <summary>
     /// Effect that turns on and off blue and red squares
     /// </summary>
-    /// <returns></returns>
     IEnumerator PoliceAlert()
     {
         policeAudio.PlaySFX("police_radio");
@@ -102,30 +101,29 @@ public class PoliceTimer : MonoBehaviour
         blueOn.a = 0.9f;
         Color blueOff = blueSquare.color;
         blueOff.a = 0.4f;
-
+        
         Color redOn = redSquare.color;
         redOn.a = 0.9f;
         Color redOff = redSquare.color;
         redOff.a = 0.4f;
 
-        Image blueImage = blueSquare.GetComponent<Image>();
-        Image redImage = redSquare.GetComponent<Image>();
         blueSquare.gameObject.SetActive(true);
         redSquare.gameObject.SetActive(true);
 
         for (int i = 0; i < 5; i++)
         {
-            blueImage.color = blueOn;
-            redImage.color = redOff;
+            blueSquare.color = blueOn;
+            redSquare.color = redOff;
             yield return new WaitForSeconds(0.3f);
-            blueImage.color = blueOff;
-            redImage.color = redOn;
+            blueSquare.color = blueOff;
+            redSquare.color = redOn;
             yield return new WaitForSeconds(0.3f);
         }
 
         // restart timer to call more police
         timeLeft = maxTime;
         timerOn = true;
+        
     }
 
     void TimerFinished()

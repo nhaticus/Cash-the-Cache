@@ -34,7 +34,6 @@ public class NPCDetection : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").transform;
-        CompleteDetection();
     }
 
     private void Update()
@@ -74,6 +73,8 @@ public class NPCDetection : MonoBehaviour
             PlayerNoticed.Invoke(objectDetected.transform.gameObject); // give game object so NPC can track position
             PlayerSightedBehavior();
         }
+        else
+            PlayerSightingLost();
 
     }
 
@@ -105,6 +106,7 @@ public class NPCDetection : MonoBehaviour
             PlayerLost.Invoke();
             playerStartUndetected = true;
         }
+
         sightTimer = Mathf.Max(0, sightTimer - Time.deltaTime);
         detectionBar.SetValue(sightTimer / sightCountdown);
     }
