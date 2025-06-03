@@ -6,9 +6,9 @@ using TMPro;
 public class PoliceTimer : MonoBehaviour
 {
     [Header("Timer")]
-    public float maxTime = 30f;
+    public float maxTime = 20f;
     float timeLeft;
-    public bool timerOn = true;
+    bool timerOn = false;
     public TMP_Text Timer_display;
     [SerializeField] Color timerDefaultColor, timerAlertColor; // remove later
 
@@ -25,14 +25,14 @@ public class PoliceTimer : MonoBehaviour
 
     private void Start()
     {
+        GetComponent<CanvasGroup>().alpha = 0;
+
         timeLeft = maxTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position
-        
-        /*  When NPC leaves start timer  */
-        GameManager.Instance.OnNPCLeaving += TickDownTimer;
+        updateTimerDisplay();
 
-        // hide object
-        gameObject.SetActive(false);
+        /*  When NPC leaves start timer  */
+        GameManager.Instance.OnNPCLeaving += StartTimer;
     }
 
     void Update()
@@ -67,14 +67,27 @@ public class PoliceTimer : MonoBehaviour
 
         // Apply shaking effect
         float shakeAmount = 5;
-        Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
+        Timer_display.rectTransform.localPosition = originalPosition + (Vector3) Random.insideUnitCircle * shakeAmount;
     }
 
-    void TimerFinished()
+    void StartTimer()
     {
+        GetComponent<CanvasGroup>().alpha = 1;
+        timerOn = true;
+        StartCoroutine(TimerDecreaseEffect());
+    }
+
+    IEnumerator TimerDecreaseEffect()
+    {
+        float shakeAmount = 4;
+        float shakeTime = 1f;
+        while (shakeTime > 0)
+        {
+            shakeTime -= Time.deltaTime;
+            Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
+            yield return null;
+        }
         Timer_display.rectTransform.localPosition = originalPosition;
-        StartCoroutine(PoliceAlert());
-        GameManager.Instance.CallSpawnPolice();
     }
 
     /// <summary>
@@ -100,7 +113,7 @@ public class PoliceTimer : MonoBehaviour
         blueSquare.gameObject.SetActive(true);
         redSquare.gameObject.SetActive(true);
 
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
             blueImage.color = blueOn;
             redImage.color = redOff;
@@ -115,31 +128,11 @@ public class PoliceTimer : MonoBehaviour
         timerOn = true;
     }
 
-    void TickDownTimer()
+    void TimerFinished()
     {
-        int timeOff = 30;
-        if (timeLeft - timeOff > timeOff)
-        {
-            timeLeft -= timeOff;
-        }
-        else if (timeLeft - timeOff <= timeOff && timeLeft >= timeOff)
-        {
-            timeLeft = timeOff;
-        }
-        StartCoroutine(TimerDecreaseEffect());
-    }
-
-    IEnumerator TimerDecreaseEffect()
-    {
-        float shakeAmount = 4;
-        float shakeTime = 1f;
-        while (shakeTime > 0)
-        {
-            shakeTime -= Time.deltaTime;
-            Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
-            yield return null;
-        }
         Timer_display.rectTransform.localPosition = originalPosition;
+        StartCoroutine(PoliceAlert());
+        GameManager.Instance.CallSpawnPolice();
     }
 
 }

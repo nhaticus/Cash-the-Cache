@@ -36,7 +36,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5741668872698132735}
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 4699019381707962327}
   debugMode: 0
-  speed: 6
+  speed: 6.5
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -194,7 +194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7208015ca4493469f979396186f84d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 35
+  OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2840751272760612795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +239,7 @@ MonoBehaviour:
   ragdollController: {fileID: 2840751272760612795}
   healthController: {fileID: 5215976980065628604}
   knockoutDuration: 10
-  launchStrength: 50
+  launchStrength: 30
   playerCamera: {fileID: 0}
   pelvisBone: {fileID: 5741668872698132703}
 --- !u!1 &5741668872697741513
@@ -2632,7 +2635,7 @@ GameObject:
   - component: {fileID: 5741668872698132735}
   - component: {fileID: 5741668872709319455}
   m_Layer: 0
-  m_Name: Character_Male_Police
+  m_Name: Police Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

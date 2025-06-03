@@ -25,6 +25,9 @@ public class NPCsBehavior : MonoBehaviour
     public float cooldownBeforeWalking = 2.0f; // Time before the NPC starts walking again after being stunned
     bool detectedPlayer = false;
 
+    bool lookAtPlayer = false;
+    GameObject objectToLookAt;
+
     private void Awake()
     {
         if (anim != null)
@@ -51,6 +54,10 @@ public class NPCsBehavior : MonoBehaviour
                 GameManager.Instance.NPCLeaving();
                 Destroy(gameObject);
             }
+        }
+        else if (lookAtPlayer)
+        {
+            SmoothLookAt(objectToLookAt);
         }
     }
 
@@ -79,9 +86,15 @@ public class NPCsBehavior : MonoBehaviour
         }
     }
 
-    public void SmoothLookAt(Vector3 targetPosition)
+    public void BeginLookAt(GameObject player)
     {
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        lookAtPlayer = true;
+        objectToLookAt = player;
+    }
+
+    public void SmoothLookAt(GameObject obj)
+    {
+        Vector3 direction = (obj.transform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
     }

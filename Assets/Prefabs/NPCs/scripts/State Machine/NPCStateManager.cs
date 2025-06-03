@@ -4,34 +4,24 @@ using TMPro;
 using UnityEngine;
 
 /*
- * State Machine only for home owners
+ * State Machine for all NPCs
  */
 
 public class NPCStateManager : MonoBehaviour
 {
-    NPCBaseState currentState;
+    public NPCBaseState currentState { get; set; }
 
-    public NPCPatrolState patrolState = new NPCPatrolState();
-    public NPCLookAtState lookAtState = new NPCLookAtState();
-    public NPCRunawayState runawayState = new NPCRunawayState();
-
-    public TMP_Text report;
-
-    public NPCDetection detection;
-
-    void Start()
+    public void Initialize(NPCBaseState state)
     {
-        SwitchState(patrolState);
-    }
-
-    void Update()
-    {
-        currentState.UpdateState(this);
+        currentState = state;
+        currentState.EnterState();
     }
 
     public void SwitchState(NPCBaseState state)
     {
+        currentState.ExitState();
         currentState = state;
-        state.EnterState(this);
+        currentState.EnterState();
     }
+
 }
