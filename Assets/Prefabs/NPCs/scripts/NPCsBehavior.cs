@@ -65,7 +65,6 @@ public class NPCsBehavior : MonoBehaviour
 
     public void PathingDefault()
     {
-        Debug.Log("normal path");
         if (!walkPointExist)
             FindWalkPoint();
         else

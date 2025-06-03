@@ -168,7 +168,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 80
+  far clip plane: 200
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -899,7 +899,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8631822987988805456}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1021,10 +1021,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   groundDrag: 5
+  canMove: 1
   cameraHolder: {fileID: 7990494941105492045}
   crouchSpeed: 2
   orientation: {fileID: 959259248682064107}
-  touchingWall: 0
   singleAudio: {fileID: 2950593277431717636}
 --- !u!114 &7454732649243971403
 MonoBehaviour:

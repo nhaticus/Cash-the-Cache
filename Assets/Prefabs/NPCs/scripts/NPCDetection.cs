@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 /*
  * A raycast attached to NPCs that looks for the player
@@ -18,11 +17,7 @@ public class NPCDetection : MonoBehaviour
     [Header("Sight Range")]
     [SerializeField] float sightDistance;
     [SerializeField] int sightAngle; // Angle of the detection cone
-    /*
-    [Header("Behaviors")]
-    [SerializeField] float cooldownMaxTime = 2f; // Time after losing sight of player to begin normal behavior
-    float cooldownTimer = 0.0f;
-    */
+
     [SerializeField] float sightCountdown = 1.3f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
     float sightTimer = 0.0f;
 
@@ -31,10 +26,11 @@ public class NPCDetection : MonoBehaviour
 
     Transform player;
 
-    public UnityEvent<Vector3> PlayerNoticed;
+    public UnityEvent<GameObject> PlayerNoticed;
     public UnityEvent PlayerRecognized;
     public UnityEvent PlayerLost;
-    bool playerUndetected = false;
+    bool playerStartUndetected = false;
+    
 
     private void Start()
     {
@@ -57,9 +53,7 @@ public class NPCDetection : MonoBehaviour
         if(objectDetected)
             CheckForPlayer(hit);
         else // object lost
-        {
             PlayerSightingLost();
-        }
     }
     
     /// <summary>
@@ -74,14 +68,12 @@ public class NPCDetection : MonoBehaviour
         // check if within sight angle
         if (angleToPlayer <= sightAngle)
         {
-            
-            if (objectDetected.transform.CompareTag("Player")) // player checking
+            if (objectDetected.transform.CompareTag("Player")) // player tag checking
             {
-                sightTimer += Time.deltaTime;
                 detectionBar.SetValue(sightTimer / sightCountdown);
                 
-                playerUndetected = false;
-                PlayerNoticed.Invoke(objectDetected.transform.position);
+                playerStartUndetected = false;
+                PlayerNoticed.Invoke(objectDetected.transform.gameObject); // give game object so NPC can track position
                 PlayerSightedBehavior();
             }
         }
@@ -100,10 +92,9 @@ public class NPCDetection : MonoBehaviour
         // if completed sighting: send event for NPC
         if (sightTimer >= sightCountdown)
         {
-            // turn self off
-            this.enabled = false;
+            this.enabled = false; // turn self off
             PlayerRecognized.Invoke(); // send out event
-            StartCoroutine(detectionBar.FlashingEffect());
+            StartCoroutine(detectionBar.FlashingEffect()); // bar special effect
         }
     }
 
@@ -113,10 +104,10 @@ public class NPCDetection : MonoBehaviour
     /// </summary>
     void PlayerSightingLost()
     {
-        if (!playerUndetected) // object just lost, send 1 signal
+        if (!playerStartUndetected) // object just lost, send 1 signal
         {
             PlayerLost.Invoke();
-            playerUndetected = true;
+            playerStartUndetected = true;
         }
         sightTimer = Mathf.Max(0, sightTimer - Time.deltaTime);
         detectionBar.SetValue(sightTimer / sightCountdown);
