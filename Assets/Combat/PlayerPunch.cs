@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class PlayerPunch : MonoBehaviour
 {
+    [Header("Hitbox")]
     [SerializeField] private Hitbox punchHitbox;
     [SerializeField] private float punchDuration = 0.5f;
+
+    [Header("Animation")]
     [SerializeField] private Animator fistAnimator;
     [SerializeField] private GameObject vrArms;
+
+    PlayerMovement playerMovement;
+
     Collider punchCollider;
     private bool isPunching = false;
     private bool isLeftPunch = true;
@@ -17,12 +23,15 @@ public class PlayerPunch : MonoBehaviour
         // cache the collider and disable it
         punchCollider = punchHitbox.GetComponent<Collider>();
         punchCollider.enabled = false;
+
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
-        // press punch button and not already punching
-        if ((UserInput.Instance && UserInput.Instance.Punch) || (UserInput.Instance == null && Input.GetMouseButtonDown(1)) && !isPunching) 
+        // press punch button, not already punching, and can punch
+        if ((UserInput.Instance && UserInput.Instance.Punch) || (UserInput.Instance == null && Input.GetMouseButtonDown(1))
+            && !isPunching && playerMovement.canMove) 
         { 
             StartCoroutine(Punch());
         }

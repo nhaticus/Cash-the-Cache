@@ -18,6 +18,8 @@ public class PlayerUI : MonoBehaviour
 
     [SerializeField] GameObject inventoryPrefab;
 
+    [SerializeField] HitMarker hitMarker;
+
     [SerializeField] float checkForPlayerRate = 0.5f;
 
     private void Start()
@@ -38,6 +40,8 @@ public class PlayerUI : MonoBehaviour
         weightUI.Initialize(player);
 
         weightIndicator.Initialize(player);
+
+        hitMarker.Initialize(player);
     }
 
     bool inventoryOpen = false; // check for if inventory or lock picking is open

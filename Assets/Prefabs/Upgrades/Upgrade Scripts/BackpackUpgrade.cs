@@ -15,13 +15,17 @@ public class BackpackUpgrade : MonoBehaviour
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
+
         backpack = DataSystem.GetOrCreateItem("Backpack");
         int level = backpack.level;
         if (level > 0)
             price = Mathf.RoundToInt(price * 1.5f * level);
+
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
+
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         upgradeInfo.localizeLevel.RefreshString();
+
         CheckPurchasable();
     }
 
