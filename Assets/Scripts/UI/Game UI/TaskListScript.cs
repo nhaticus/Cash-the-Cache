@@ -22,11 +22,7 @@ public class TaskListScript : MonoBehaviour
     [SerializeField]       
     private TextMeshProUGUI task3Text;
 
-    [SerializeField]
-    private Image task4BG;
-    [SerializeField]
-    private TextMeshProUGUI task4Text;
-
+    // steal item
     public void triggerTask1()
     {
         task1BG.color = new Color(255, 255, 255, 255);
@@ -34,6 +30,7 @@ public class TaskListScript : MonoBehaviour
         task1Text.fontStyle = FontStyles.Strikethrough;
     }
 
+    // deposit to van
     public void triggerTask2()
     {
         task2BG.color = new Color32(255, 255, 255, 255);
@@ -41,17 +38,11 @@ public class TaskListScript : MonoBehaviour
         task2Text.fontStyle = FontStyles.Strikethrough;
     }
 
+    // drive away
     public void triggerTask3()
     {
         task3BG.color = new Color32(255, 255, 255, 255);
         task3Text.color = new Color32(0, 198, 0, 255);
         task3Text.fontStyle = FontStyles.Strikethrough;
-    }
-
-    public void triggerTask4()
-    {
-        task4BG.color = new Color32(255, 255, 255, 255);
-        task4Text.color = new Color32(0, 198, 0, 255);
-        task4Text.fontStyle = FontStyles.Strikethrough;
     }
 }

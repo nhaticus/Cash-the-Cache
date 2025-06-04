@@ -10,10 +10,14 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] GameObject pausePrefab;
     [SerializeField] GameObject gameOverPrefab;
+    [SerializeField] TaskListScript taskList;
 
     private void Start()
     {
         StartCoroutine(FindPlayer());
+
+        // remove task list if played already
+        
     }
 
     private void Update()

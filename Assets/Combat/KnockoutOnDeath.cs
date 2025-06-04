@@ -72,14 +72,12 @@ public class KnockoutOnDeath : MonoBehaviour
         // launch body
         Vector3 launchDir = forward + Vector3.up * 0.3f;
         launchDir.Normalize();
-
-
         Vector3 impulse = launchDir * launchStrength;
         ragdollController.SetRagdoll(true, impulse);
 
         // 3) Wait out the KO timer
         yield return new WaitForSeconds(knockoutDuration);
-        Debug.Log("Getting up");
+
         // 4) “Get up”:
         //    - Turn off ragdoll
         //    - Reset root position to pelvis (optional but often needed)
