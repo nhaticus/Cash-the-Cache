@@ -45,31 +45,10 @@ public class LockPickingCanvas : MonoBehaviour
     private Vector3[] originalPositions;
     private bool canClick = true;
 
-    private void OnEnable()
-    {
-        Ticker.OnTickAction += Tick;
-    }
-
-    private void OnDisable()
-    {
-        Ticker.OnTickAction -= Tick;
-    }
-
     private void Start()
     {
         CreatePins(); // Create pins dynamically based on difficulty
         UpdateAttemptsUI();
-    }
-
-    private void Tick()
-    {
-        if (maxAttempts <= 0)
-        {
-            UpdateAttemptsUI();
-
-            StartCoroutine(ShowFailedMessage());
-            LockFailed.Invoke();
-        }
     }
     
     // Method to set max attempts from the Safe script
@@ -176,23 +155,39 @@ public class LockPickingCanvas : MonoBehaviour
             return;
         if (pinIndex == correctOrder[currentIndex]) // If the pin clicked is correct
         {
-                StartCoroutine(CorrectPinEffect(pinIndex));
-                currentIndex++;
-                remainingPins.Remove(pinIndex); // Remove from remainingPins so it stops flashing
-
-                if (currentIndex >= pins.Count)
-                {
-                    LockOpened.Invoke(); // All pins clicked correctly, unlock the safe
-                    ExitSafe();
-                }
+            PinSuccess(pinIndex);
         }
         else
         {
-                maxAttempts--;
-                UpdateAttemptsUI(); // Update the attempts left UI
-                StartCoroutine(WrongPinEffect(pinIndex));
+            PinFail(pinIndex);
         }
     }
+
+    void PinSuccess(int pinIndex)
+    {
+        StartCoroutine(CorrectPinEffect(pinIndex));
+        currentIndex++;
+        remainingPins.Remove(pinIndex); // Remove from remainingPins so it stops flashing
+
+        if (currentIndex >= pins.Count)
+        {
+            LockOpened.Invoke(); // All pins clicked correctly, unlock the safe
+            ExitSafe();
+        }
+    }
+
+    void PinFail(int pinIndex)
+    {
+        maxAttempts--;
+        UpdateAttemptsUI(); // Update the attempts left UI
+        StartCoroutine(WrongPinEffect(pinIndex));
+        if (maxAttempts <= 0)
+        {
+            StartCoroutine(ShowFailedMessage());
+            LockFailed.Invoke();
+        }
+    }
+
     private IEnumerator CorrectPinEffect(int pinIndex)
     {
         canClick = false;
