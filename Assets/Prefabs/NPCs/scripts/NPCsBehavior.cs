@@ -2,6 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum NPCState
+{
+    Patrol,
+    LookAt,
+    RunAway
+}
+
 public class NPCsBehavior : MonoBehaviour
 {
     NavMeshAgent agent;
@@ -22,13 +29,11 @@ public class NPCsBehavior : MonoBehaviour
     bool walkPointExist;
     public float walkPointRange;
 
-    bool walk = true;
-
     public float cooldownBeforeWalking = 2.0f; // Time before the NPC starts walking again after being stunned
-    bool detectedPlayer = false;
 
-    bool lookAtPlayer = false;
     GameObject objectToLookAt;
+
+    public NPCState currentState;
 
     private void Awake()
     {
@@ -39,47 +44,43 @@ public class NPCsBehavior : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.speed = agentDefaultSpeed;
 
-        // start walking
-        PathingDefault();
+        if(currentState == null)
+            currentState = NPCState.Patrol;
     }
 
     void Update()
     {
         SetAnimationState(agent.velocity.magnitude > 0.1f);
 
-        if (detectedPlayer) // dumb copied code from Runaway()
+        StateUpdate();
+    }
+
+    void StateUpdate()
+    {
+        if(currentState == NPCState.Patrol)
         {
+            PathingDefault();
+        }
+        else if (currentState == NPCState.LookAt)
+        {
+            SmoothLookAt(objectToLookAt);
+        }
+        else if(currentState == NPCState.RunAway)
+        {
+            // keep checking distance to exit
             Vector3 exit = GameManager.Instance.GetNPCExitPoint();
             Vector3 distanceToExit = transform.position - exit;
-            if (distanceToExit.magnitude < 2.0f)
+            if (distanceToExit.magnitude <= 3.0f)
             {
+                // reached exit: send event and destroy NPC
                 GameManager.Instance.NPCLeaving();
                 Destroy(gameObject);
             }
         }
-        else if (lookAtPlayer)
-        {
-            SmoothLookAt(objectToLookAt);
-        }
-        else if (walk)
-        {
-            PathingDefault();
-        }
-    }
-
-    public void Runaway()
-    {
-        walk = false;
-        Vector3 exit = GameManager.Instance.GetNPCExitPoint();
-        agent.SetDestination(exit);
-        agent.speed = runningSpeed;
-
-        detectedPlayer = true;
     }
 
     public void PathingDefault()
     {
-        walk = true;
         if (!walkPointExist)
             FindWalkPoint();
         else
@@ -94,10 +95,9 @@ public class NPCsBehavior : MonoBehaviour
         }
     }
 
-    public void BeginLookAt(GameObject player)
+    public void SetLookAt(GameObject player)
     {
-        walk = false;
-        lookAtPlayer = true;
+        currentState = NPCState.LookAt;
         objectToLookAt = player;
     }
 
@@ -110,12 +110,29 @@ public class NPCsBehavior : MonoBehaviour
 
     public void PlayerLost()
     {
-        walk = true;
-        lookAtPlayer = false;
+        // wait a little
+        StartCoroutine(WaitBeforeMoving(cooldownBeforeWalking));
+
+        // go back to patrolling
+        currentState = NPCState.Patrol;
         objectToLookAt = null;
-        PathingDefault();
     }
 
+    public void SetRunaway()
+    {
+        // change state
+        currentState = NPCState.RunAway;
+
+        // get exit point destination
+        Vector3 exit = GameManager.Instance.GetNPCExitPoint();
+        agent.SetDestination(exit);
+        agent.speed = runningSpeed;
+    }
+
+    /// <summary>
+    /// Stops NPC for amount of time
+    /// </summary>
+    /// <param name="time"></param>
     private IEnumerator WaitBeforeMoving(float time)
     {
         agent.isStopped = true;
@@ -123,6 +140,9 @@ public class NPCsBehavior : MonoBehaviour
         agent.isStopped = false;
     }
 
+    /// <summary>
+    /// Gets the NPC a new destination to walk to
+    /// </summary>
     private void FindWalkPoint()
     {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);

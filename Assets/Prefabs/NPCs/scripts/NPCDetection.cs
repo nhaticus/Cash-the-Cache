@@ -18,7 +18,8 @@ public class NPCDetection : MonoBehaviour
     [SerializeField] float sightDistance;
     [SerializeField] int sightAngle; // Angle of the detection cone
 
-    [SerializeField] float sightCountdown = 1.3f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
+    [SerializeField] float sightCountdown = 1.5f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
+    [SerializeField] float sightCooldown = 2f;
     float sightTimer = 0.0f;
 
     [Header("Dependencies")]
@@ -26,9 +27,10 @@ public class NPCDetection : MonoBehaviour
 
     Transform player;
 
-    public UnityEvent<GameObject> PlayerNoticed;
-    public UnityEvent PlayerRecognized;
-    public UnityEvent PlayerLost;
+    public UnityEvent<GameObject> PlayerNoticed; // when player just touched detection
+    public UnityEvent PlayerRecognized; // player stayed in detection for sightCountdown time
+    public UnityEvent PlayerLost; // player just left detection
+    public UnityEvent PlayerCompleteLost; // player left detection for sightCooldown time
     bool playerStartUndetected = false;
 
     private void Start()

@@ -27,16 +27,19 @@ public class GameUI : MonoBehaviour
     GameObject player;
     IEnumerator FindPlayer()
     {
+        // keep searching for player
         while(player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
             yield return new WaitForSeconds(0.5f);
         }
+
+        /*  Event Subscribing  */
         player.GetComponentInChildren<HealthController>().OnDeath += GameOver;
     }
 
     // creates pause menu
-    // pausing happens in PauseMenu.cs on Start()
+    // Game pausing happens in PauseMenu's Start()
     GameObject pauseRef;
     bool paused = false;
     void Pause()
@@ -60,8 +63,11 @@ public class GameUI : MonoBehaviour
 
     void GameOver()
     {
-        GameObject gameOver = Instantiate(gameOverPrefab, transform);
+        GameObject gameOver = Instantiate(gameOverPrefab, transform); // create game over screen
+
         gameOver.GetComponent<GameOver>().PlayerLose();
+
+        // pause game and unlock cursor
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
