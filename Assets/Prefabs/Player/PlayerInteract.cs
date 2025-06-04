@@ -6,16 +6,20 @@ using UnityEngine.EventSystems;
 
 public class PlayerInteract : MonoBehaviour
 {
-    GameObject objRef = null;
-    Renderer objRenderer;
-    Material originalMaterial; // Store the original material of the object
-    private Transform myTransform;
-
+    [Header("Raycasting")]
     [SerializeField] float raycastDistance = 2.8f;
     public GameObject mainCamera;
 
     [SerializeField] SingleAudio singleAudio;
 
+    // Object references
+    GameObject objRef = null;
+    Renderer objRenderer;
+    Material originalMaterial; // Store the original material of the object
+
+    Transform myTransform;
+
+    // Inventory
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
     public Tuple<(LootInfo, int)> newInventory; // type of item, number owned
 

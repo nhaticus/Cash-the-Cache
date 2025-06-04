@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,7 +36,7 @@ public class GameUI : MonoBehaviour
         }
 
         /*  Event Subscribing  */
-        player.GetComponentInChildren<HealthController>().OnDeath += GameOver;
+        player.GetComponentInChildren<HealthController>().OnDeath.AddListener(GameOver);
     }
 
     // creates pause menu
@@ -63,13 +64,32 @@ public class GameUI : MonoBehaviour
 
     void GameOver()
     {
-        GameObject gameOver = Instantiate(gameOverPrefab, transform); // create game over screen
+        StartCoroutine(CreateGameOverScreen());        
 
-        gameOver.GetComponent<GameOver>().PlayerLose();
-
-        // pause game and unlock cursor
-        Time.timeScale = 0;
+        // unlock cursor
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    float totalFadeInTime = 0.5f;
+    IEnumerator CreateGameOverScreen()
+    {
+        float pauseTimeTillCreation = 0.5f;
+        // wait for a little then create game over
+        yield return new WaitForSeconds(pauseTimeTillCreation);
+        GameObject gameOver = Instantiate(gameOverPrefab, transform); // create game over screen
+        gameOver.GetComponent<GameOver>().PlayerLose();
+
+        // fade in canvas
+        CanvasGroup gameOverCanvas = gameOver.GetComponent<CanvasGroup>();
+        gameOverCanvas.alpha = 0;
+        float fadeTimer = 0;
+        while (fadeTimer <= totalFadeInTime)
+        {
+            fadeTimer += Time.deltaTime;
+            gameOverCanvas.alpha = fadeTimer / totalFadeInTime;
+            yield return null;
+        }
+        
     }
 }

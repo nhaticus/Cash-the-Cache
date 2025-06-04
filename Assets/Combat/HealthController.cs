@@ -10,8 +10,9 @@ public class HealthController : MonoBehaviour
     [SerializeField] float maxHealth = 100;
     float current;
 
+    bool alive = true;
     public UnityEvent<DamageInfo> OnDamaged;
-    public Action OnDeath;
+    public UnityEvent OnDeath;
 
     void Awake() => current = maxHealth;
 
@@ -19,9 +20,10 @@ public class HealthController : MonoBehaviour
     {
         current -= dmg.amount;
         OnDamaged?.Invoke(dmg);
-        //Debug.Log($"Took {dmg.amount} damage. Current health: {current}");
-        if (current <= 0)
+        // Debug.Log($"{gameObject.name} took {dmg.amount} damage. Current health: {current}");
+        if (alive && current <= 0)
         {
+            alive = false;
             current = 0;
             OnDeath?.Invoke();
         }
@@ -29,6 +31,7 @@ public class HealthController : MonoBehaviour
 
     public void Revive() 
     {
+        alive = true;
         current = maxHealth;
         Debug.Log("Revived! Health restored to " + maxHealth);
     }

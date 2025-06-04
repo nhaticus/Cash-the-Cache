@@ -33,7 +33,7 @@ public class NPCsBehavior : MonoBehaviour
 
     GameObject objectToLookAt;
 
-    public NPCState currentState;
+    [SerializeField] NPCState currentState = NPCState.Patrol;
 
     private void Awake()
     {
@@ -43,9 +43,6 @@ public class NPCsBehavior : MonoBehaviour
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
         agent.speed = agentDefaultSpeed;
-
-        if(currentState == null)
-            currentState = NPCState.Patrol;
     }
 
     void Update()

@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider))]
 public class Hitbox : MonoBehaviour
 {
     public HitData hitData;           // pick the ScriptableObject
     public GameObject attackerRoot;   // drag the player or enemy root
+    public UnityEvent hitEvent;
 
     void Awake()
     {
@@ -27,7 +29,8 @@ public class Hitbox : MonoBehaviour
         if (health == null) return;
         //Debug.Log($"Hitbox overlapped {other.name} (layer={LayerMask.LayerToName(other.gameObject.layer)})");
 
-        HitMarker.Instance?.ShowHit();
+        hitEvent.Invoke();
+
         // build the DamageInfo the HealthController expects
         Vector3 dir = (other.transform.position - transform.position).normalized;
         var info = new DamageInfo(hitData.baseDamage,

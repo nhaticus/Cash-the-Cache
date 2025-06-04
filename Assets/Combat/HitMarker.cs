@@ -28,6 +28,12 @@ public class HitMarker : MonoBehaviour
         SetAlpha(0);
     }
 
+    public void Initialize(GameObject player)
+    {
+        // add player's hitbox listener to show hit effect
+        player.GetComponentInChildren<Hitbox>().hitEvent.AddListener(ShowHit);
+    }
+
     //Flash the marker white.
     public void ShowHit() => Show(hitColor);
 
@@ -37,6 +43,7 @@ public class HitMarker : MonoBehaviour
     private void Show(Color col)
     {
         StopAllCoroutines();
+
         // set each image to the chosen color + full alpha
         foreach (var img in allImages)
             img.color = new Color(col.r, col.g, col.b, 1f);
@@ -50,6 +57,9 @@ public class HitMarker : MonoBehaviour
         SetAlpha(0);
     }
 
+    /// <summary>
+    /// Set alpha of all image components
+    /// </summary>
     private void SetAlpha(float a)
     {
         foreach (var img in allImages)
