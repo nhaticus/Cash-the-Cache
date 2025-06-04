@@ -20,14 +20,12 @@ public class Hitbox : MonoBehaviour
         // ignore self?hits
         if (other.transform.IsChildOf(attackerRoot.transform)) return;
 
-        var hurt = other.GetComponent<Hurtbox>();
+        var hurt = other.GetComponentInChildren<Hurtbox>();
         if (hurt == null) return;
-
-
 
         var health = hurt.owner;
         if (health == null) return;
-        Debug.Log($"Hitbox overlapped {other.name} (layer={LayerMask.LayerToName(other.gameObject.layer)})");
+        //Debug.Log($"Hitbox overlapped {other.name} (layer={LayerMask.LayerToName(other.gameObject.layer)})");
 
         HitMarker.Instance?.ShowHit();
         // build the DamageInfo the HealthController expects

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
+ * UI object
  * Detection Bar attached to NPCs
  * Just shows how much detection and has a flashing effect
  */

@@ -19,7 +19,7 @@ public class HealthController : MonoBehaviour
     {
         current -= dmg.amount;
         OnDamaged?.Invoke(dmg);
-        Debug.Log($"Took {dmg.amount} damage. Current health: {current}");
+        //Debug.Log($"Took {dmg.amount} damage. Current health: {current}");
         if (current <= 0)
         {
             current = 0;

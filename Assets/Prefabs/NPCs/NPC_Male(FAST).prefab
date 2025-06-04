@@ -914,6 +914,7 @@ MonoBehaviour:
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
   cooldownBeforeWalking: 2
+  currentState: 0
 --- !u!114 &8911044777005145682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -947,7 +948,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2831299527764118023}
         m_TargetAssemblyTypeName: NPCsBehavior, Assembly-CSharp
-        m_MethodName: Runaway
+        m_MethodName: SetRunaway
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3398,13 +3399,14 @@ MonoBehaviour:
   sightDistance: 5
   sightAngle: 50
   sightCountdown: 1.6
+  sightCooldown: 2
   detectionBar: {fileID: 4737839354751547592}
   PlayerNoticed:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2831299527764118023}
         m_TargetAssemblyTypeName: NPCsBehavior, Assembly-CSharp
-        m_MethodName: BeginLookAt
+        m_MethodName: SetLookAt
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3419,7 +3421,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2831299527764118023}
         m_TargetAssemblyTypeName: NPCsBehavior, Assembly-CSharp
-        m_MethodName: Runaway
+        m_MethodName: SetRunaway
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3444,6 +3446,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  PlayerCompleteLost:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &7707755426634014017
 GameObject:
   m_ObjectHideFlags: 0
