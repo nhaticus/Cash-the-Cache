@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        playerMoney = PlayerPrefs.GetInt("Money", 0);
+        playerMoney = DataSystem.Data.gameState.playerMoney;
+        DataSystem.SaveData();
         PlayerPrefs.SetInt("Difficulty", 1);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -60,7 +61,8 @@ public class GameManager : MonoBehaviour
     public void AddMoney(int amount)
     {
         playerMoney += amount;
-        PlayerPrefs.SetInt("Money", playerMoney);
+        DataSystem.Data.gameState.playerMoney = playerMoney;
+        DataSystem.SaveData();
     }
 
     public void SpendMoney(int amount)
@@ -68,7 +70,9 @@ public class GameManager : MonoBehaviour
         if (playerMoney >= amount)
         {
             playerMoney -= amount;
-            PlayerPrefs.SetInt("Money", playerMoney);
+            
+        DataSystem.Data.gameState.playerMoney = playerMoney;
+        DataSystem.SaveData();
         }
     }
 

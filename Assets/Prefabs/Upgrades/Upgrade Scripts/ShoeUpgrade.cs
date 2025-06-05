@@ -30,12 +30,12 @@ public class ShoeUpgrade : MonoBehaviour
     {
         if(GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.increaseMaxMoveSpeed(runningShoe.statValue);
+            PlayerManager.Instance.setMaxMoveSpeed(runningShoe.statValue * runningShoe.level);
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
             runningShoe.level++;
-            DataSystem.SaveItems();
+            DataSystem.SaveData();
             upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = runningShoe.level.ToString() };
             upgradeInfo.localizeLevel.RefreshString();
 

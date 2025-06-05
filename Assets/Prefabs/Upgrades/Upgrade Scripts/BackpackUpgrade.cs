@@ -38,7 +38,7 @@ public class BackpackUpgrade : MonoBehaviour
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
             backpack.level++;
-            DataSystem.SaveItems();
+            DataSystem.SaveData();
             
             upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = backpack.level.ToString() };
             upgradeInfo.localizeLevel.RefreshString();
