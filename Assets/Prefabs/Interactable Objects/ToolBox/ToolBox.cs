@@ -7,7 +7,7 @@ public class ToolBox : MonoBehaviour, InteractEvent {
     [SerializeField] GameObject[] obj;
     [SerializeField] int difficulty = 4;
     [SerializeField] bool setRandomDifficulty;
-    [SerializeField] int minDifficulty = 2, maxDifficulty = 6;
+    [SerializeField] int minDifficulty = 3, maxDifficulty = 7;
 
     [SerializeField] GameObject toolboxCanvas;
 
@@ -15,6 +15,10 @@ public class ToolBox : MonoBehaviour, InteractEvent {
     {
         if (setRandomDifficulty)
             difficulty = Random.Range(minDifficulty, maxDifficulty);
+
+        difficulty += PlayerPrefs.GetInt("Difficulty") / 3;
+        if (difficulty > maxDifficulty)
+            difficulty = maxDifficulty;
     }
 
     public void Interact() {
