@@ -74,7 +74,7 @@ public static class DataSystem
         else if (item.statValue != defaultStatValue && forceUpdateStatValue)
         {
             item.statValue = defaultStatValue;
-            // Debug.Log($"Updated statValue of '{name}' to default: {defaultStatValue}");
+            Debug.Log($"Updated statValue of '{name}' to default: {defaultStatValue}");
         }
         return item;
     }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Mapbox.Unity.MeshGeneration.Modifiers.MeshModifiers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -118,6 +117,10 @@ public class PlayerManager : MonoBehaviour
     public void increaseMaxMoveSpeed(float speedIncrease)
     {
         maxSpeed += speedIncrease;
+    }
+
+    public void setMaxMoveSpeed(float speed) {
+        maxSpeed = moveSpeedDefault + speed;
     }
 
     public void decreaseMoveSpeed(float speedDecrease)
