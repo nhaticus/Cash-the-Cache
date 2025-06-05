@@ -49,7 +49,6 @@ public class PlayerManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -273,7 +272,6 @@ public class PlayerManager : MonoBehaviour
         else
             newSpeed = ChangeSpeedByPercent(0); //Player Inventory is empty
 
-        Debug.Log("Player Speed set to: " + newSpeed.ToString());
         setMoveSpeed(newSpeed);
     }
 

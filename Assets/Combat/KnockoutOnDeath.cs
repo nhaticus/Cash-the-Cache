@@ -1,5 +1,3 @@
-using Mapbox.Unity.Location;
-using Mapbox.Unity.MeshGeneration.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +7,10 @@ public class KnockoutOnDeath : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] RagdollController ragdollController;
     [SerializeField] HealthController healthController;
+
     [Header("KO Settings")]
     [Tooltip("Seconds to stay ragdolled")]
     [SerializeField] float knockoutDuration = 10f;
-
 
     [Header("Launch Settings")]
     [Tooltip("Upward force applied when knocked")]
@@ -21,12 +19,12 @@ public class KnockoutOnDeath : MonoBehaviour
     [SerializeField] private Transform pelvisBone;
     void OnEnable()
     {
-        healthController.OnDeath += HandleKnockout;
+        healthController.OnDeath.AddListener(HandleKnockout);
     }
 
     void OnDisable()
     {
-        healthController.OnDeath -= HandleKnockout;
+        healthController.OnDeath.RemoveListener(HandleKnockout);
     }
 
     private void HandleKnockout()
@@ -36,8 +34,9 @@ public class KnockoutOnDeath : MonoBehaviour
 
     private IEnumerator KnockoutRoutine()
     {
-        Debug.Log("?? RagdollOnDeath.HandleDeath() fired");
+        // Debug.Log("?? RagdollOnDeath.HandleDeath() fired");
         HitMarker.Instance?.ShowKnock();
+
         // disable root animation/AI/etc without null-conditional assignment
         if (TryGetComponent<Animator>(out var anim))
             anim.enabled = false;
@@ -52,6 +51,7 @@ public class KnockoutOnDeath : MonoBehaviour
         if (TryGetComponent<NPCsBehavior>(out var behavior))
             behavior.enabled = false;
 
+        // get camera
         Transform camTransform = null;
         if (playerCamera != null)
         {
@@ -69,16 +69,15 @@ public class KnockoutOnDeath : MonoBehaviour
         else
             forward = Vector3.forward;
 
+        // launch body
         Vector3 launchDir = forward + Vector3.up * 0.3f;
         launchDir.Normalize();
-
-
         Vector3 impulse = launchDir * launchStrength;
         ragdollController.SetRagdoll(true, impulse);
 
         // 3) Wait out the KO timer
         yield return new WaitForSeconds(knockoutDuration);
-        Debug.Log("Getting up");
+
         // 4) “Get up”:
         //    - Turn off ragdoll
         //    - Reset root position to pelvis (optional but often needed)

@@ -6,16 +6,20 @@ using UnityEngine.EventSystems;
 
 public class PlayerInteract : MonoBehaviour
 {
-    GameObject objRef = null;
-    Renderer objRenderer;
-    Material originalMaterial; // Store the original material of the object
-    private Transform myTransform;
-
+    [Header("Raycasting")]
     [SerializeField] float raycastDistance = 2.8f;
     public GameObject mainCamera;
 
     [SerializeField] SingleAudio singleAudio;
 
+    // Object references
+    GameObject objRef = null;
+    Renderer objRenderer;
+    Material originalMaterial; // Store the original material of the object
+
+    Transform myTransform;
+
+    // Inventory
     public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
     public Tuple<(LootInfo, int)> newInventory; // type of item, number owned
 
@@ -26,7 +30,8 @@ public class PlayerInteract : MonoBehaviour
 
     private void Update()
     {
-        // Interact if pressed interact button, able to interact,
+        // Interact if:
+        // pressed interact button, can interact,
         // hovering over an interactable object, and game is not paused
         if (((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0)))
             && objRef != null && (PlayerManager.Instance == null || (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))

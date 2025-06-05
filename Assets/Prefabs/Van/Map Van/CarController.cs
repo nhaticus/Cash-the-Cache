@@ -25,6 +25,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform, rearRightWheelTransform;
     private Rigidbody rb;
 
+    [SerializeField] SingleAudio singleAudio;
+
     private void OnEnable()
     {
         Ticker.OnTickAction += Tick;
@@ -55,8 +57,6 @@ public class CarController : MonoBehaviour
     private void Tick()
     {
         UpdateWheels();
-
-
     }
 
     private void MyInput()
@@ -66,12 +66,18 @@ public class CarController : MonoBehaviour
             verticalInput = UserInput.Instance.Move.y;
             horizontalInput = UserInput.Instance.Move.x;
             isBreaking = UserInput.Instance.Inventory;
+
+            if (UserInput.Instance.Punch)
+                singleAudio.PlaySFX("car horn");
         }
         else
         {
             verticalInput = Input.GetAxis("Vertical");
             horizontalInput = Input.GetAxis("Horizontal");
             isBreaking = Input.GetKey(KeyCode.Space);
+
+            if (Input.GetMouseButtonDown(1))
+                singleAudio.PlaySFX("car horn");
         }
     }
 

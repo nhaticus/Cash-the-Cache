@@ -15,6 +15,9 @@ public class Safe : MonoBehaviour, InteractEvent
 
     [Header("Diffculty = number of pins")]
     [SerializeField] int difficulty = 1; // Difficulty level = number of pins
+    [SerializeField] bool setRandomDifficulty = true;
+    [SerializeField] int minDifficulty = 3, maxDifficulty = 6;
+
     public bool isLockpickingOpen = false;  // Whether the lockpicking mini-game is open or not
 
     [Header("Canvas Settings")]
@@ -36,6 +39,12 @@ public class Safe : MonoBehaviour, InteractEvent
     private void Awake() 
     {
        // safeId = "Safe_" + globalSafeCounter++;
+    }
+
+    private void Start()
+    {
+        if (setRandomDifficulty)
+            difficulty = Random.Range(minDifficulty, maxDifficulty);
     }
 
     // This method is called when the player interacts with the safe

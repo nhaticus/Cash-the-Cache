@@ -18,12 +18,12 @@ public class RagdollOnDeath : MonoBehaviour
     void OnEnable()
     {
         health = GetComponent<HealthController>();
-        health.OnDeath += HandleDeath;
+        health.OnDeath.AddListener(HandleDeath);
     }
 
     void OnDisable()
     {
-        health.OnDeath -= HandleDeath;
+        health.OnDeath.AddListener(HandleDeath);
     }
 
     private void HandleDeath()

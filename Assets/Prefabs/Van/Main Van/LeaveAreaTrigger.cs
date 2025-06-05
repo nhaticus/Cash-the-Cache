@@ -22,6 +22,26 @@ public class LeaveAreaTrigger : MonoBehaviour
         vanInventory = transform.parent.GetComponent<VanInventory>();
     }
 
+    private void Update()
+    {
+        if (playerInLeaveArea && Input.GetKeyDown(KeyCode.E))
+        {
+            // Check for player's inventory and create result screen
+            PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
+
+            if (vanInventory && playerInventory)
+            {
+                PlayerManager.Instance.ableToInteract = false; // stop movement
+                PlayerManager.Instance.lockRotation();
+            }
+            else
+            {
+                Debug.LogError("VanInventory or PlayerInventory is NON-EXISTANT!");
+            }
+            ShowResultScreen();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -53,29 +73,8 @@ public class LeaveAreaTrigger : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (playerInLeaveArea && Input.GetKeyDown(KeyCode.E))
-        {
-            // Check for player's inventory and create result screen
-            PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
-
-            if (vanInventory && playerInventory)
-            {
-                PlayerManager.Instance.ableToInteract = false; // stop movement
-                PlayerManager.Instance.lockRotation();
-            }
-            else
-            {
-                Debug.LogError("VanInventory or PlayerInventory is NON-EXISTANT!");
-            }
-            ShowResultScreen();
-        }
-    }
-
     void ShowResultScreen()
     {
-
         singleAudio.PlaySFX("drive_away");
 
         // create and populate result screen

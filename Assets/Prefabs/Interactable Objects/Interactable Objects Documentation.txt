@@ -1,23 +1,23 @@
-----------Interactable Objects Documentation-------------
+----------  Interactable Objects Documentation  -------------
 If you want any object to be interactable when the player left clicks on it there are some important steps.
 
 (1) The player shoots out a raycast. If the raycast hits an object with a collider it will give the player a reference to it.
-If the player left clicks then it checks if the object is stealable.
-If true: it saves the objects information and executes its "interact event"
-If false: it executes its "interact event"
+If the player presses the Interact button then it checks if the object is stealable.
+  True: Saves the objects information and executes its "interact event"
+  False: Executes its "interact event"
 If there is no "interact event" attached to the object, nothing happens.
 
-(2) If you simply just want a stealable item with no special behaviors just attach the StealableObject.cs script to it which has information about the game object, name, value, and weight.
+(2) Want a stealable item with no special behaviors?
+Attach the StealableObject.cs script to it which has information about the game object, name, value, and weight.
 You can also attach a script to destroy the object when clicked.
-An example is the apple, which has StealableObject.cs and Apple.cs.
-When the player interacts with it: the player's inventory saves the StealableObject information and executes the apple's "interact event" which destroys the game object.
+When the player interacts with it: player's inventory saves the StealableObject info and executes the "interact event" to destroy the game object.
 
-(3) If you want an object to have a special behavior when clicked:
-Create a new script and give it the InteractEvent like this: public class Apple : MonoBehaviour, InteractEvent
+(3) Want an object with special behaviors when clicked?
+Create a new script and give it the InteractEvent like this:
+   public class Apple : MonoBehaviour, InteractEvent
 Give the object the public void Interact() function and put whatever behavior you want.
-An example is the door, which has Door.cs
+An example is the door
 When the player interacts with it: the door's "interact event" makes it change rotation
 
 (4) TIP: You can are not restricted when making a StealableObject. It doesn't have to be destroyed when clicked.
-An example is apple2, which has StealableObject.cs and Apple2.cs
-When the player interacts with it: the player's inventory saves the StealableObject information and executes the apple2's "interact event" which instead of destroying the game object, gives it an upwards velocity. This allows the player to continue stealing the game object.
+You can give it an InteractEvent that plays a sound or no interact event so it stays in game forever

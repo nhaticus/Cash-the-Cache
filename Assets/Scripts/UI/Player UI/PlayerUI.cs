@@ -18,6 +18,8 @@ public class PlayerUI : MonoBehaviour
 
     [SerializeField] GameObject inventoryPrefab;
 
+    [SerializeField] HitMarker hitMarker;
+
     [SerializeField] float checkForPlayerRate = 0.5f;
 
     private void Start()
@@ -38,13 +40,16 @@ public class PlayerUI : MonoBehaviour
         weightUI.Initialize(player);
 
         weightIndicator.Initialize(player);
+
+        hitMarker.Initialize(player);
     }
 
     bool inventoryOpen = false; // check for if inventory or lock picking is open
     private void Update()
     {
-        // Open inventory
-        if ((UserInput.Instance && UserInput.Instance.Inventory) || (UserInput.Instance == null && Input.GetMouseButtonDown(1))
+        // Open inventory if:
+        // pressed inventory button, can interact, and game not paused
+        if ((UserInput.Instance && UserInput.Instance.Inventory) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.I))
             && !inventoryOpen && (PlayerManager.Instance == null ||
             (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)

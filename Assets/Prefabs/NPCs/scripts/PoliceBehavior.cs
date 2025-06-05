@@ -50,24 +50,19 @@ public class PoliceBehavior : MonoBehaviour
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
+
         player = GameObject.Find("Player").transform;
         if (stunDuration == 0f)
-        {
             stunDuration = 1.0f; // default stun duration
-        }
     }
 
     void Update()
     {
         SetAnimationState(agent.velocity.magnitude > 0.5f);
         if (Physics.Raycast(transform.position, -transform.up, 2f, groundLayer))
-        {
             DetectPlayer();
-        }
         else
-        {
             agent.SetDestination(player.position);
-        }
     }
 
     private void DetectPlayer()
@@ -134,14 +129,12 @@ public class PoliceBehavior : MonoBehaviour
 
     private void ChasePlayer()
     {
-        // Debug.Log("Chasing");
         agent.SetDestination(player.position);
         SmoothLookAt(player.position);
     }
 
     private void AttackPlayer()
     {
-        Debug.Log("Attacking");
         agent.SetDestination(transform.position);
         GameManager.Instance.SetGameState(GameManager.GameState.Over);
     }

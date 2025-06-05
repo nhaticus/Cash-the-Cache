@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
+ * UI object
  * Detection Bar attached to NPCs
  * Just shows how much detection and has a flashing effect
  */
@@ -21,10 +22,12 @@ public class DetectionBarController : MonoBehaviour
 
     public IEnumerator FlashingEffect()
     {
+        detectionFill.fillAmount = 1; // fill detection bar
+
         // Store the original color
         Color originalColor = detectionFill.color;
 
-        float totalFlashTime = 3f;   // total time to flash
+        float totalFlashTime = 4f;   // total time to flash
         float interval = 0.2f;       // how long each color stays active before switching
         float elapsedTime = 0f;     // total time passed
         bool toggleColor = false;

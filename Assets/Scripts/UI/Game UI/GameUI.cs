@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,10 +10,14 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] GameObject pausePrefab;
     [SerializeField] GameObject gameOverPrefab;
+    [SerializeField] TaskListScript taskList;
 
     private void Start()
     {
         StartCoroutine(FindPlayer());
+
+        // remove task list if played already
+        
     }
 
     private void Update()
@@ -27,16 +32,19 @@ public class GameUI : MonoBehaviour
     GameObject player;
     IEnumerator FindPlayer()
     {
+        // keep searching for player
         while(player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
             yield return new WaitForSeconds(0.5f);
         }
-        player.GetComponentInChildren<HealthController>().OnDeath += GameOver;
+
+        /*  Event Subscribing  */
+        player.GetComponentInChildren<HealthController>().OnDeath.AddListener(GameOver);
     }
 
     // creates pause menu
-    // pausing happens in PauseMenu.cs on Start()
+    // Game pausing happens in PauseMenu's Start()
     GameObject pauseRef;
     bool paused = false;
     void Pause()
@@ -60,10 +68,32 @@ public class GameUI : MonoBehaviour
 
     void GameOver()
     {
-        GameObject gameOver = Instantiate(gameOverPrefab, transform);
-        gameOver.GetComponent<GameOver>().PlayerLose();
-        Time.timeScale = 0;
+        StartCoroutine(CreateGameOverScreen());        
+
+        // unlock cursor
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    float totalFadeInTime = 0.5f;
+    IEnumerator CreateGameOverScreen()
+    {
+        float pauseTimeTillCreation = 0.5f;
+        // wait for a little then create game over
+        yield return new WaitForSeconds(pauseTimeTillCreation);
+        GameObject gameOver = Instantiate(gameOverPrefab, transform); // create game over screen
+        gameOver.GetComponent<GameOver>().PlayerLose();
+
+        // fade in canvas
+        CanvasGroup gameOverCanvas = gameOver.GetComponent<CanvasGroup>();
+        gameOverCanvas.alpha = 0;
+        float fadeTimer = 0;
+        while (fadeTimer <= totalFadeInTime)
+        {
+            fadeTimer += Time.deltaTime;
+            gameOverCanvas.alpha = fadeTimer / totalFadeInTime;
+            yield return null;
+        }
+        
     }
 }

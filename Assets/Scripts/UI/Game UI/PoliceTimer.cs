@@ -6,9 +6,9 @@ using TMPro;
 public class PoliceTimer : MonoBehaviour
 {
     [Header("Timer")]
-    public float maxTime = 30f;
+    public float maxTime = 20f;
     float timeLeft;
-    public bool timerOn = true;
+    bool timerOn = false;
     public TMP_Text Timer_display;
     [SerializeField] Color timerDefaultColor, timerAlertColor; // remove later
 
@@ -25,14 +25,14 @@ public class PoliceTimer : MonoBehaviour
 
     private void Start()
     {
+        GetComponent<CanvasGroup>().alpha = 0;
+
         timeLeft = maxTime;
         originalPosition = Timer_display.rectTransform.localPosition; // Store original position
-        
-        /*  When NPC leaves start timer  */
-        GameManager.Instance.OnNPCLeaving += TickDownTimer;
+        updateTimerDisplay();
 
-        // hide object
-        gameObject.SetActive(false);
+        /*  When NPC leaves start timer  */
+        GameManager.Instance.OnNPCLeaving += StartTimer;
     }
 
     void Update()
@@ -67,65 +67,13 @@ public class PoliceTimer : MonoBehaviour
 
         // Apply shaking effect
         float shakeAmount = 5;
-        Timer_display.rectTransform.localPosition = originalPosition + (Vector3)Random.insideUnitCircle * shakeAmount;
+        Timer_display.rectTransform.localPosition = originalPosition + (Vector3) Random.insideUnitCircle * shakeAmount;
     }
 
-    void TimerFinished()
+    void StartTimer()
     {
-        Timer_display.rectTransform.localPosition = originalPosition;
-        StartCoroutine(PoliceAlert());
-        GameManager.Instance.CallSpawnPolice();
-    }
-
-    /// <summary>
-    /// Effect that turns on and off blue and red squares
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator PoliceAlert()
-    {
-        policeAudio.PlaySFX("police_radio");
-
-        Color blueOn = blueSquare.color;
-        blueOn.a = 0.9f;
-        Color blueOff = blueSquare.color;
-        blueOff.a = 0.4f;
-
-        Color redOn = redSquare.color;
-        redOn.a = 0.9f;
-        Color redOff = redSquare.color;
-        redOff.a = 0.4f;
-
-        Image blueImage = blueSquare.GetComponent<Image>();
-        Image redImage = redSquare.GetComponent<Image>();
-        blueSquare.gameObject.SetActive(true);
-        redSquare.gameObject.SetActive(true);
-
-        for(int i = 0; i < 5; i++)
-        {
-            blueImage.color = blueOn;
-            redImage.color = redOff;
-            yield return new WaitForSeconds(0.3f);
-            blueImage.color = blueOff;
-            redImage.color = redOn;
-            yield return new WaitForSeconds(0.3f);
-        }
-
-        // restart timer to call more police
-        timeLeft = maxTime;
+        GetComponent<CanvasGroup>().alpha = 1;
         timerOn = true;
-    }
-
-    void TickDownTimer()
-    {
-        int timeOff = 30;
-        if (timeLeft - timeOff > timeOff)
-        {
-            timeLeft -= timeOff;
-        }
-        else if (timeLeft - timeOff <= timeOff && timeLeft >= timeOff)
-        {
-            timeLeft = timeOff;
-        }
         StartCoroutine(TimerDecreaseEffect());
     }
 
@@ -140,6 +88,49 @@ public class PoliceTimer : MonoBehaviour
             yield return null;
         }
         Timer_display.rectTransform.localPosition = originalPosition;
+    }
+
+    /// <summary>
+    /// Effect that turns on and off blue and red squares
+    /// </summary>
+    IEnumerator PoliceAlert()
+    {
+        policeAudio.PlaySFX("police_radio");
+
+        Color blueOn = blueSquare.color;
+        blueOn.a = 0.9f;
+        Color blueOff = blueSquare.color;
+        blueOff.a = 0.4f;
+        
+        Color redOn = redSquare.color;
+        redOn.a = 0.9f;
+        Color redOff = redSquare.color;
+        redOff.a = 0.4f;
+
+        blueSquare.gameObject.SetActive(true);
+        redSquare.gameObject.SetActive(true);
+
+        for (int i = 0; i < 5; i++)
+        {
+            blueSquare.color = blueOn;
+            redSquare.color = redOff;
+            yield return new WaitForSeconds(0.3f);
+            blueSquare.color = blueOff;
+            redSquare.color = redOn;
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        // restart timer to call more police
+        timeLeft = maxTime;
+        timerOn = true;
+        
+    }
+
+    void TimerFinished()
+    {
+        Timer_display.rectTransform.localPosition = originalPosition;
+        StartCoroutine(PoliceAlert());
+        GameManager.Instance.CallSpawnPolice();
     }
 
 }
