@@ -11,12 +11,15 @@ public class KnockoutOnDeath : MonoBehaviour
     [Header("KO Settings")]
     [Tooltip("Seconds to stay ragdolled")]
     [SerializeField] float knockoutDuration = 10f;
+    [SerializeField] bool permaDeath = false;
 
     [Header("Launch Settings")]
     [Tooltip("Upward force applied when knocked")]
+    const float airForce = 0.4f;
     [SerializeField] private float launchStrength = 50f;
     [SerializeField] private Transform playerCamera;
     [SerializeField] private Transform pelvisBone;
+
     void OnEnable()
     {
         healthController.OnDeath.AddListener(HandleKnockout);
@@ -34,7 +37,6 @@ public class KnockoutOnDeath : MonoBehaviour
 
     private IEnumerator KnockoutRoutine()
     {
-        // Debug.Log("?? RagdollOnDeath.HandleDeath() fired");
         HitMarker.Instance?.ShowKnock();
 
         // disable root animation/AI/etc without null-conditional assignment
@@ -63,6 +65,7 @@ public class KnockoutOnDeath : MonoBehaviour
             if (mainCam != null)
                 camTransform = mainCam.transform;
         }
+        // launch away from camera
         Vector3 forward;
         if (camTransform != null)
             forward = camTransform.forward;
@@ -70,7 +73,7 @@ public class KnockoutOnDeath : MonoBehaviour
             forward = Vector3.forward;
 
         // launch body
-        Vector3 launchDir = forward + Vector3.up * 0.3f;
+        Vector3 launchDir = forward + Vector3.up * airForce;
         launchDir.Normalize();
         Vector3 impulse = launchDir * launchStrength;
         ragdollController.SetRagdoll(true, impulse);
@@ -78,21 +81,24 @@ public class KnockoutOnDeath : MonoBehaviour
         // 3) Wait out the KO timer
         yield return new WaitForSeconds(knockoutDuration);
 
-        // 4) “Get up”:
-        //    - Turn off ragdoll
-        //    - Reset root position to pelvis (optional but often needed)
+        //    - Revive
+        if (!permaDeath)
+        {
+            // 4) “Get up”:
+            //    - Turn off ragdoll
+            //    - Reset root position to pelvis (optional but often needed)
+            Vector3 finalPos = pelvisBone.position;
+            transform.position = finalPos;
+            ragdollController.SetRagdoll(false);
 
-        Vector3 finalPos = pelvisBone.position;
-        transform.position = finalPos;
-        ragdollController.SetRagdoll(false);
+            healthController.Revive();
 
-        //    - Revive HP
-        healthController.Revive();
-
-        //    - Re-enable your root systems
-        anim.enabled = true;
-        agent.enabled = true;
-        rootCol.enabled = true;
-        behavior.enabled = true;
+            //    - Re-enable your root systems
+            anim.enabled = true;
+            agent.enabled = true;
+            rootCol.enabled = true;
+            behavior.enabled = true;
+        }
+        
     }
 }

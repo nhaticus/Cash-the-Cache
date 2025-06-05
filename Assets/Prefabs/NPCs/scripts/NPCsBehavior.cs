@@ -66,6 +66,9 @@ public class NPCsBehavior : MonoBehaviour
         {
             // keep checking distance to exit
             Vector3 exit = GameManager.Instance.GetNPCExitPoint();
+
+            Debug.Log("running to " + exit);
+
             Vector3 distanceToExit = transform.position - exit;
             if (distanceToExit.magnitude <= 3.0f)
             {
@@ -83,8 +86,8 @@ public class NPCsBehavior : MonoBehaviour
         else
             agent.SetDestination(walkPoint);
 
+        // reached destination, wait a little
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
         if (distanceToWalkPoint.magnitude < 1.0f)
         {
             walkPointExist = false;
@@ -96,6 +99,7 @@ public class NPCsBehavior : MonoBehaviour
     {
         currentState = NPCState.LookAt;
         objectToLookAt = player;
+        agent.isStopped = true;
     }
 
     public void SmoothLookAt(GameObject obj)
@@ -132,8 +136,11 @@ public class NPCsBehavior : MonoBehaviour
     /// <param name="time"></param>
     private IEnumerator WaitBeforeMoving(float time)
     {
+        Debug.Log("wait no moving");
         agent.isStopped = true;
         yield return new WaitForSeconds(time);
+        if (agent.isStopped)
+            Debug.Log("yup its stopped");
         agent.isStopped = false;
     }
 

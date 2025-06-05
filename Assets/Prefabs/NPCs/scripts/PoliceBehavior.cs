@@ -33,7 +33,6 @@ public class PoliceBehavior : MonoBehaviour
 
     /*  Detection  */
     [Header("Detection Settings")]
-    public float stunDuration;
     public float sightDistance;
     public float reachDistance;
     [SerializeField] private bool withinSight, withinReach;
@@ -47,13 +46,15 @@ public class PoliceBehavior : MonoBehaviour
 
     private void Awake()
     {
+        // increase health and speed based on difficulty
+        speed += (PlayerPrefs.GetInt("Difficulty") / 2.5f);
+        GetComponent<HealthController>().maxHealth += (PlayerPrefs.GetInt("Difficulty") * 5);
+
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
         agent.speed = speed;
 
         player = GameObject.Find("Player").transform;
-        if (stunDuration == 0f)
-            stunDuration = 1.0f; // default stun duration
     }
 
     void Update()
@@ -136,7 +137,6 @@ public class PoliceBehavior : MonoBehaviour
     private void AttackPlayer()
     {
         agent.SetDestination(transform.position);
-        GameManager.Instance.SetGameState(GameManager.GameState.Over);
     }
 
     private void PathingDefault()
@@ -197,21 +197,5 @@ public class PoliceBehavior : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, reachDistance);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightDistance);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Bat"))
-        {
-            Debug.Log("Stunned!");
-            StartCoroutine(Stun());
-        }
-    }
-
-    private IEnumerator Stun()
-    {
-        agent.isStopped = true;
-        yield return new WaitForSeconds(stunDuration);
-        agent.isStopped = false;
     }
 }

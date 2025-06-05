@@ -128,9 +128,14 @@ public class PoliceTimer : MonoBehaviour
 
     void TimerFinished()
     {
-        Timer_display.rectTransform.localPosition = originalPosition;
-        StartCoroutine(PoliceAlert());
-        GameManager.Instance.CallSpawnPolice();
+        // check if game over to not keep spawning police
+        if(GameManager.Instance.CurrentState != GameManager.GameState.Over)
+        {
+            Timer_display.rectTransform.localPosition = originalPosition;
+            StartCoroutine(PoliceAlert());
+            GameManager.Instance.CallSpawnPolice();
+        }
+        
     }
 
 }
