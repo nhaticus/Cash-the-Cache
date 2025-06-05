@@ -7,8 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public int playerMoney;
 
-    public event Action OnNPCLeaving;
-    public event Action SpawnPolice;
+    public Action OnNPCLeaving;
+    public Action SpawnPolice;
 
     private Vector3 NPCExitPoint; // Exit for NPCs to leave the map
 
@@ -23,7 +23,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         playerMoney = PlayerPrefs.GetInt("Money", 0);
+        PlayerPrefs.SetInt("Difficulty", 1);
+
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 

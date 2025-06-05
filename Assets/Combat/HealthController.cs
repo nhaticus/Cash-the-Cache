@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class HealthController : MonoBehaviour
 {
     [Header("Stats")]
-    [SerializeField] float maxHealth = 100;
+    public float maxHealth = 100;
     float current;
 
     bool alive = true;
@@ -33,7 +33,6 @@ public class HealthController : MonoBehaviour
     {
         alive = true;
         current = maxHealth;
-        Debug.Log("Revived! Health restored to " + maxHealth);
     }
 
 }
