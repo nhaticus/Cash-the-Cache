@@ -85,6 +85,6 @@ public class LeaveAreaTrigger : MonoBehaviour
         // set flashlight to off
         Item flashlight = DataSystem.GetOrCreateItem("Flashlight");
         flashlight.level = 0;
-        DataSystem.SaveItems();
+        DataSystem.SaveData();
     }
 }

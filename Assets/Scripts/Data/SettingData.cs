@@ -1,5 +1,3 @@
-using UnityEngine.InputSystem;
-
 [System.Serializable]
 public class AudioSettingsData
 {
@@ -13,7 +11,7 @@ public class AudioSettingsData
 [System.Serializable]
 public class KeyBindData
 {
-    
+    // work in process not sure how keybinds are stored
 }
 
 [System.Serializable]

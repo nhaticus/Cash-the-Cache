@@ -5,40 +5,53 @@ using System;
 
 public static class DataSystem
 {
-    private static string ItemFilePath => Path.Combine(Application.persistentDataPath, "items.json");
-    private static ItemData upgradeData;
+    private static string GameDataFilePath => Path.Combine(Application.persistentDataPath, "game_data.json");
+    private static GameData gameData;
 
     private static string SettingFilePath => Path.Combine(Application.persistentDataPath, "settings.json");
     private static GameSettingsData settingData;
 
-    public static ItemData Data
+    public static GameData Data
     {
         get
         {
-            if (upgradeData == null)
-                LoadItems();
-            return upgradeData;
+            if (gameData == null)
+                LoadGameData();
+            return gameData;
         }
     }
 
-    public static void SaveItems()
+    public static void LoadGameData()
     {
-        string json = JsonUtility.ToJson(upgradeData, true);
-        File.WriteAllText(ItemFilePath, json);
-        Debug.Log("Data file path: " + ItemFilePath);
-    }
-
-    public static void LoadItems()
-    {
-        if (File.Exists(ItemFilePath))
+        if (File.Exists(GameDataFilePath))
         {
-            string json = File.ReadAllText(ItemFilePath);
-            upgradeData = JsonUtility.FromJson<ItemData>(json);
+            string json = File.ReadAllText(GameDataFilePath);
+            gameData = JsonUtility.FromJson<GameData>(json);
         }
         else
         {
-            upgradeData = new ItemData();
+            gameData = new GameData();
         }
+    }
+
+    public static void LoadData()
+    {
+        if (File.Exists(GameDataFilePath))
+        {
+            string json = File.ReadAllText(GameDataFilePath);
+            gameData = JsonUtility.FromJson<GameData>(json);
+        }
+        else
+        {
+            gameData = new GameData();
+        }
+    }
+
+    public static void SaveData()
+    {
+        string json = JsonUtility.ToJson(gameData, true);
+        File.WriteAllText(GameDataFilePath, json);
+        // Debug.Log("Data file path: " + GameDataFilePath);
     }
 
     public static Item GetItem(string name)
@@ -72,7 +85,13 @@ public static class DataSystem
         {
             item.level = 0;
         }
-        SaveItems();
+        SaveData();
+    }
+
+    public static void ResetData()
+    {
+        gameData = new GameData();
+        SaveData();
     }
 
     public static GameSettingsData SettingsData

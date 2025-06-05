@@ -9,7 +9,15 @@ public class Item
 }
 
 [System.Serializable]
-public class ItemData
+public class GameState
 {
+    public int currentReplay = 0;
+    public int playerMoney = 0;
+}
+
+[System.Serializable]
+public class GameData
+{
+    public GameState gameState = new();
     public List<Item> items = new();
 }

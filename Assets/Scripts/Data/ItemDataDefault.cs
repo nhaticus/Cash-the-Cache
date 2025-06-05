@@ -15,6 +15,6 @@ public class ItemDataDefault : MonoBehaviour
         DataSystem.GetOrCreateItem("RunningShoe", 0.5f, true);
         DataSystem.GetOrCreateItem("Screwdriver", 0.3f, true);
 
-        DataSystem.SaveItems();
+        DataSystem.SaveData();
     }
 }
