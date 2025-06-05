@@ -178,7 +178,6 @@ MonoBehaviour:
     m_Bits: 512
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
-  stunDuration: 0
   sightDistance: 10
   reachDistance: 2
   withinSight: 0
@@ -232,6 +231,7 @@ MonoBehaviour:
   ragdollController: {fileID: 2840751272760612795}
   healthController: {fileID: 5215976980065628604}
   knockoutDuration: 10
+  permaDeath: 0
   launchStrength: 25
   playerCamera: {fileID: 0}
   pelvisBone: {fileID: 5741668872698132703}
@@ -1561,7 +1561,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5741668872698195541
 Transform:
   m_ObjectHideFlags: 0
