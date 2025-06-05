@@ -33,7 +33,6 @@ public class ControllerConfig : MonoBehaviour
     public void SetSensitivity(float sensitivity)
     {
         PlayerManager.Instance.SetControllerSensitivity(sensitivity);
-        PlayerPrefs.SetFloat("Controller Sensitivity", sensitivity);
         UpdateSensitivityText(sensitivity);
     }
     public void UpdateSensitivityText(float sensitivity)

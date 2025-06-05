@@ -39,7 +39,7 @@ public class FlashlightUpgrade : MonoBehaviour
             GameManager.Instance.SpendMoney(price);
 
             flashlight.level = 1; // set level to 1 mean purchased and 0 means not purchased
-            DataSystem.SaveItems();
+            DataSystem.SaveData();
 
             upgradeInfo.localizeLevel.gameObject.SetActive(true); // purchased text
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
