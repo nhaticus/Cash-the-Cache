@@ -33,9 +33,4 @@ public class TaskManager : MonoBehaviour
     {
         taskList.triggerTask3();
     }
-
-    public void task4Complete()
-    {
-        taskList.triggerTask4();
-    }
 }

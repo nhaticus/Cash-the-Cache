@@ -176,7 +176,6 @@ MonoBehaviour:
     m_Bits: 512
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 10
-  stunDuration: 0
   sightDistance: 10
   reachDistance: 2
   withinSight: 0
@@ -197,6 +196,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 35
   OnDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &2840751272760612795
@@ -239,8 +241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ragdollController: {fileID: 2840751272760612795}
   healthController: {fileID: 5215976980065628604}
-  knockoutDuration: 10
-  launchStrength: 25
+  knockoutDuration: 6
+  launchStrength: 20
   playerCamera: {fileID: 0}
   pelvisBone: {fileID: 5741668872698132703}
 --- !u!1 &4257278104179066665
@@ -311,6 +313,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitData: {fileID: 11400000, guid: 3d494e9ac0916a6488528a42639b9ab4, type: 2}
   attackerRoot: {fileID: 5741668872697762269}
+  hitEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5741668872697741513
 GameObject:
   m_ObjectHideFlags: 0
