@@ -37,9 +37,6 @@ public class NPCsBehavior : MonoBehaviour
 
     private void Awake()
     {
-        if (anim != null)
-            anim.SetBool("isWalking", true);
-
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
         agent.speed = agentDefaultSpeed;
@@ -47,8 +44,6 @@ public class NPCsBehavior : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState(agent.velocity.magnitude > 0.1f);
-
         StateUpdate();
     }
 
@@ -78,6 +73,8 @@ public class NPCsBehavior : MonoBehaviour
 
     public void PathingDefault()
     {
+        SetAnimationState("isWalking", agent.velocity.magnitude > 0.1f);
+
         if (!walkPointExist)
             FindWalkPoint();
         else
@@ -118,8 +115,11 @@ public class NPCsBehavior : MonoBehaviour
 
     public void SetRunaway()
     {
+        agent.isStopped = false;
+
         // change state
         currentState = NPCState.RunAway;
+        SetAnimationState("isRunning", true);
 
         // get exit point destination
         Vector3 exit = GameManager.Instance.GetNPCExitPoint();
@@ -159,10 +159,10 @@ public class NPCsBehavior : MonoBehaviour
         }
     }
 
-    private void SetAnimationState(bool isWalking)
+    private void SetAnimationState(string animation, bool value)
     {
         if (anim == null) return;
-        anim.SetBool("isWalking", isWalking);
+        anim.SetBool(animation, value);
     }
 
 }

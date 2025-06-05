@@ -59,7 +59,7 @@ public class PoliceBehavior : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState(agent.velocity.magnitude > 0.5f);
+        SetAnimationState("isRunning", agent.velocity.magnitude > 0.2f);
         if (Physics.Raycast(transform.position, -transform.up, 2f, groundLayer))
             DetectPlayer();
         else
@@ -185,10 +185,10 @@ public class PoliceBehavior : MonoBehaviour
         }
     }
 
-    private void SetAnimationState(bool isWalking)
+    private void SetAnimationState(string animation, bool value)
     {
         if (anim == null) return;
-        anim.SetBool("isWalking", isWalking);
+        anim.SetBool(animation, value);
     }
 
     private void OnDrawGizmosSelected()

@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     {
         CurrentState = newState;
     }
+
     public void AddMoney(int amount)
     {
         playerMoney += amount;

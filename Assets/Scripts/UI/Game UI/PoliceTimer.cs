@@ -15,7 +15,6 @@ public class PoliceTimer : MonoBehaviour
     [Header("Police")]
     [SerializeField] GameObject police;
     [SerializeField] int numPoliceToSpawn = 1;
-    [SerializeField] Transform[] spawnPos;
     [SerializeField] SingleAudio policeAudio;
 
     [Header("Sirens")]
@@ -100,12 +99,12 @@ public class PoliceTimer : MonoBehaviour
         Color blueOn = blueSquare.color;
         blueOn.a = 0.9f;
         Color blueOff = blueSquare.color;
-        blueOff.a = 0.4f;
+        blueOff.a = 0.3f;
         
         Color redOn = redSquare.color;
         redOn.a = 0.9f;
         Color redOff = redSquare.color;
-        redOff.a = 0.4f;
+        redOff.a = 0.3f;
 
         blueSquare.gameObject.SetActive(true);
         redSquare.gameObject.SetActive(true);
