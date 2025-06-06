@@ -10,7 +10,6 @@ public class PlayerPunch : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] private Animator fistAnimator;
-    [SerializeField] private GameObject vrArms;
 
     PlayerMovement playerMovement;
 
@@ -39,8 +38,7 @@ public class PlayerPunch : MonoBehaviour
 
     IEnumerator Punch()
     {
-        isPunching = true;                 //set the punching state to true
-        //vrArms.SetActive(true);
+        isPunching = true;                 // set the punching state to true
         
         if (isLeftPunch)
         {
@@ -54,15 +52,14 @@ public class PlayerPunch : MonoBehaviour
         }
 
 
-        isLeftPunch = !isLeftPunch;
-       // Debug.Log("Punching!");
-        punchCollider.enabled = true;                //enable the trigger
+        isLeftPunch = !isLeftPunch;     // switch punching arm
+        Debug.Log("Punching!");
+        punchCollider.enabled = true;
 
 
         yield return new WaitForSeconds(punchDuration);
 
-       // vrArms.SetActive(false);
-        punchCollider.enabled = false;               //disable it again
-        isPunching = false;                //reset the punching state
+        punchCollider.enabled = false;  // reset the punching state
+        isPunching = false;                
     }
 }

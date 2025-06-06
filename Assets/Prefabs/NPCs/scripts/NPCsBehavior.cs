@@ -105,6 +105,9 @@ public class NPCsBehavior : MonoBehaviour
 
     public void PlayerLost()
     {
+        agent.speed = agentDefaultSpeed;
+        SetAnimationState("isRunning", false);
+
         // wait a little
         StartCoroutine(WaitBeforeMoving(cooldownBeforeWalking));
 

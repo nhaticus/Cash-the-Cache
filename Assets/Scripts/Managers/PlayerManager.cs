@@ -230,6 +230,7 @@ public class PlayerManager : MonoBehaviour
 
     public void ToggleCursor()
     {
+        Debug.Log("cursor toggled");
         if (Cursor.lockState == CursorLockMode.Locked)
         {
             Cursor.lockState = CursorLockMode.None;
