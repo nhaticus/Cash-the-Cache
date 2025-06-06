@@ -5,11 +5,15 @@ using UnityEngine.EventSystems;
 
 public class MenuOnEnableSelectButton : MonoBehaviour
 {
-    [SerializeField] GameObject button;
-    [SerializeField] EventSystem eventSystem;
+    [SerializeField]
+    GameObject button;
+
+    [SerializeField]
+    EventSystem eventSystem;
 
     private void OnEnable()
     {
+        eventSystem.SetSelectedGameObject(null);
         eventSystem.SetSelectedGameObject(button);
     }
 }

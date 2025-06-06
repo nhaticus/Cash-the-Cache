@@ -12,27 +12,45 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-    [SerializeField] GameObject volumeSetting, controlSetting, miscSetting;
-    
-    [SerializeField] GameObject volumeButton, controlButton, miscButton;
-    GameObject selectedButton;
+    [SerializeField]
+    GameObject volumeSetting,
+        controlSetting,
+        miscSetting;
 
-    [SerializeField] Color selectionButtonSelected;
-    
+    [SerializeField]
+    Button volumeButton,
+        controlButton,
+        miscButton;
+
+    [SerializeField]
+    Button volumeDownTargetButton,
+        controlDownTargetButton,
+        miscDownTargetButton;
+
+    Button selectedButton;
+
+    [SerializeField]
+    Color selectionButtonSelected;
+
     private void Start()
     {
         OpenVolume();
     }
-    
+
     public void OpenVolume()
     {
         volumeSetting.SetActive(true);
         controlSetting.SetActive(false);
         miscSetting.SetActive(false);
-        if(selectedButton)
-            selectedButton.GetComponent<Image>().color = Color.white;// reset previous selected button
+        if (selectedButton)
+            selectedButton.GetComponent<Image>().color = Color.white; // reset previous selected button
         selectedButton = volumeButton;
         selectedButton.GetComponent<Image>().color = selectionButtonSelected; // change to look selected
+
+        // Update new down button target
+        Navigation nav = volumeButton.navigation;
+        nav.selectOnDown = volumeDownTargetButton;
+        volumeButton.navigation = nav;
     }
 
     public void OpenControls()
@@ -44,6 +62,11 @@ public class Settings : MonoBehaviour
             selectedButton.GetComponent<Image>().color = Color.white; // reset previous selected button
         selectedButton = controlButton;
         selectedButton.GetComponent<Image>().color = selectionButtonSelected; // change to look selected
+
+        // Update new down button target
+        Navigation nav = controlButton.navigation;
+        nav.selectOnDown = controlDownTargetButton;
+        controlButton.navigation = nav;
     }
 
     public void OpenMISC()
@@ -55,5 +78,10 @@ public class Settings : MonoBehaviour
             selectedButton.GetComponent<Image>().color = Color.white; // reset previous selected button
         selectedButton = miscButton;
         selectedButton.GetComponent<Image>().color = selectionButtonSelected; // change to look selected
+
+        // Update new down button target
+        Navigation nav = miscButton.navigation;
+        nav.selectOnDown = miscDownTargetButton;
+        miscButton.navigation = nav;
     }
 }
