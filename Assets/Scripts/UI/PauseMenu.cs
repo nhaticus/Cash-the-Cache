@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] GameObject settingsMenu;
+    [SerializeField]
+    GameObject settingsMenu;
+
+    [SerializeField]
+    GameObject firstPauseButton,
+        firstSettingsButton;
 
     void Start()
     {
@@ -14,7 +21,15 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        settingsMenu.SetActive(false);
+        ToggleSettings(false);
+    }
+
+    public void ToggleSettings(bool isToggled)
+    {
+        settingsMenu.SetActive(isToggled);
+
+        GameObject selectedButton = isToggled ? firstSettingsButton : firstPauseButton;
+        EventSystem.current.SetSelectedGameObject(selectedButton);
     }
 
     public void SwitchScene(string gameScene)
@@ -28,7 +43,9 @@ public class PauseMenu : MonoBehaviour
         Application.Quit();
     }
 
-    [HideInInspector] public UnityEvent UnPause;
+    [HideInInspector]
+    public UnityEvent UnPause;
+
     public void ReturnToGame()
     {
         // Play sound again:

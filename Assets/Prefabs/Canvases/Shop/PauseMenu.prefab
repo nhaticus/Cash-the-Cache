@@ -90,10 +90,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnUp: {fileID: 7644372679194186990}
+    m_SelectOnDown: {fileID: 524807484809734094}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -751,12 +751,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 7644372679194186990}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 7644372679194186990}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1060,11 +1060,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnUp: {fileID: 9101947277411350228}
+    m_SelectOnDown: {fileID: 246261787230879009}
+    m_SelectOnLeft: {fileID: 9101947277411350228}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -1091,16 +1091,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3711430767950991492}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 8716199312020002544}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: ToggleSettings
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: MainMenu
+          m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &7897246047091369411
@@ -1197,7 +1197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861c33e4dcd41ad458ba08e74bbd625a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsMenu: {fileID: 0}
+  settingsMenu: {fileID: 3711430767950991492}
+  firstPauseButton: {fileID: 7797354943475027371}
+  firstSettingsButton: {fileID: 7778561451403099664}
   UnPause:
     m_PersistentCalls:
       m_Calls: []
@@ -1467,9 +1469,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 246261787230879009}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -1518,10 +1520,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3126871692335667844}
     m_Modifications:
+    - target: {fileID: 1447013736557026246, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_text
+      value: Esc
+      objectReference: {fileID: 0}
     - target: {fileID: 2145043976536486929, guid: 77ad8eccc0b84ad489b5a235f046052a,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023338246664050543, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_text
+      value: J/A/S/D
       objectReference: {fileID: 0}
     - target: {fileID: 4159177484863866546, guid: 77ad8eccc0b84ad489b5a235f046052a,
         type: 3}
@@ -1645,6 +1657,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5630478305039653835, guid: 77ad8eccc0b84ad489b5a235f046052a,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5630478305039653835, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 6
       objectReference: {fileID: 0}
@@ -1652,16 +1669,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3711430767950991492}
+      objectReference: {fileID: 8716199312020002544}
     - target: {fileID: 5630478305039653835, guid: 77ad8eccc0b84ad489b5a235f046052a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
+      value: ToggleSettings
       objectReference: {fileID: 0}
     - target: {fileID: 5630478305039653835, guid: 77ad8eccc0b84ad489b5a235f046052a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
+      value: PauseMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5630478305039653835, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5630478305039653835, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7181452304856971429, guid: 77ad8eccc0b84ad489b5a235f046052a,
         type: 3}
@@ -1731,6 +1758,12 @@ GameObject:
 --- !u!224 &5446858591363753825 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4732960484309135703, guid: 77ad8eccc0b84ad489b5a235f046052a,
+    type: 3}
+  m_PrefabInstance: {fileID: 736896525307844150}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7778561451403099664 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7046720618034374694, guid: 77ad8eccc0b84ad489b5a235f046052a,
     type: 3}
   m_PrefabInstance: {fileID: 736896525307844150}
   m_PrefabAsset: {fileID: 0}
