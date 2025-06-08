@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.Audio;
-using UnityEditor.Localization.Plugins.XLIFF.V20;
 
 /*
  * Changes music, sfx volume and language
