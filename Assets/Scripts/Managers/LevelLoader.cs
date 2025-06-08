@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 /*
  * Loading screen for Level Gen
@@ -9,26 +10,12 @@ using UnityEngine.Events;
 
 public class LevelLoader : MonoBehaviour
 {
-    [SerializeField] GameObject gear;
-    [SerializeField] float spinSpeed = 100;
-
-    bool finishLoading = false;
+    [SerializeField] Image littleVan;
     public UnityEvent loadingComplete;
 
     private void Start()
     {
-        StartCoroutine(RotateGear());
         StopPlayer();
-    }
-
-    private IEnumerator RotateGear()
-    {
-        while (!finishLoading)
-        {
-            // rotate
-            gear.transform.Rotate(0, 0, spinSpeed * -Time.deltaTime);
-            yield return null;
-        }   
     }
 
     [SerializeField] PlayerMovement playerMovement;
@@ -40,13 +27,28 @@ public class LevelLoader : MonoBehaviour
     public void EndLoading()
     {
         loadingComplete.Invoke();
-        finishLoading = true;
 
+        StartCoroutine(FadeOutLittleVan());
         StartCoroutine(RotateCanvas());
     }
 
+    float fadeTime = 0.5f;
+    IEnumerator FadeOutLittleVan()
+    {
+        float timer = fadeTime;
+        while(timer >= 0)
+        {
+            timer -= Time.deltaTime;
+            Color color = littleVan.color;
+            color.a = timer / fadeTime;
+            littleVan.color = color;
+            yield return null;
+        }
+        
+    }
+
     [SerializeField] GameObject pivot;
-    [SerializeField] float unloadSpeed = 80;
+    [SerializeField] float canvasRotateSpeed = 80;
 
     /// <summary>
     /// Rotate canvas so it feels like door is opening
@@ -55,7 +57,7 @@ public class LevelLoader : MonoBehaviour
     {
         while (pivot.transform.eulerAngles.y < 100)
         {
-            pivot.transform.Rotate(0, unloadSpeed * Time.deltaTime, 0);
+            pivot.transform.Rotate(0, canvasRotateSpeed * Time.deltaTime, 0);
             yield return null;
         }
         gameObject.SetActive(false);

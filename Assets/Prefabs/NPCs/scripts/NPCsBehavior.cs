@@ -37,9 +37,6 @@ public class NPCsBehavior : MonoBehaviour
 
     private void Awake()
     {
-        if (anim != null)
-            anim.SetBool("isWalking", true);
-
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();
         agent.speed = agentDefaultSpeed;
@@ -47,8 +44,6 @@ public class NPCsBehavior : MonoBehaviour
 
     void Update()
     {
-        SetAnimationState(agent.velocity.magnitude > 0.1f);
-
         StateUpdate();
     }
 
@@ -66,9 +61,6 @@ public class NPCsBehavior : MonoBehaviour
         {
             // keep checking distance to exit
             Vector3 exit = GameManager.Instance.GetNPCExitPoint();
-
-            Debug.Log("running to " + exit);
-
             Vector3 distanceToExit = transform.position - exit;
             if (distanceToExit.magnitude <= 3.0f)
             {
@@ -81,6 +73,8 @@ public class NPCsBehavior : MonoBehaviour
 
     public void PathingDefault()
     {
+        SetAnimationState("isWalking", agent.velocity.magnitude > 0.1f);
+
         if (!walkPointExist)
             FindWalkPoint();
         else
@@ -111,6 +105,9 @@ public class NPCsBehavior : MonoBehaviour
 
     public void PlayerLost()
     {
+        agent.speed = agentDefaultSpeed;
+        SetAnimationState("isRunning", false);
+
         // wait a little
         StartCoroutine(WaitBeforeMoving(cooldownBeforeWalking));
 
@@ -121,8 +118,11 @@ public class NPCsBehavior : MonoBehaviour
 
     public void SetRunaway()
     {
+        agent.isStopped = false;
+
         // change state
         currentState = NPCState.RunAway;
+        SetAnimationState("isRunning", true);
 
         // get exit point destination
         Vector3 exit = GameManager.Instance.GetNPCExitPoint();
@@ -136,11 +136,8 @@ public class NPCsBehavior : MonoBehaviour
     /// <param name="time"></param>
     private IEnumerator WaitBeforeMoving(float time)
     {
-        Debug.Log("wait no moving");
         agent.isStopped = true;
         yield return new WaitForSeconds(time);
-        if (agent.isStopped)
-            Debug.Log("yup its stopped");
         agent.isStopped = false;
     }
 
@@ -165,10 +162,10 @@ public class NPCsBehavior : MonoBehaviour
         }
     }
 
-    private void SetAnimationState(bool isWalking)
+    private void SetAnimationState(string animation, bool value)
     {
         if (anim == null) return;
-        anim.SetBool("isWalking", isWalking);
+        anim.SetBool(animation, value);
     }
 
 }

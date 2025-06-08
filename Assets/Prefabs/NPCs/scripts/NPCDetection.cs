@@ -30,6 +30,7 @@ public class NPCDetection : MonoBehaviour
     public UnityEvent PlayerRecognized; // player stayed in detection for sightCountdown time
     public UnityEvent PlayerLost; // player just left detection
     bool playerStartUndetected = false;
+    bool sendRaycast = true;
 
     private void Start()
     {
@@ -38,7 +39,8 @@ public class NPCDetection : MonoBehaviour
 
     private void Update()
     {
-        SendDetectionRaycast();
+        if(sendRaycast)
+            SendDetectionRaycast();
     }
 
     /// <summary>
@@ -113,15 +115,16 @@ public class NPCDetection : MonoBehaviour
 
     public void CompleteDetection()
     {
-        this.enabled = false; // turn self off
+        sendRaycast = false; // stop looking for player
         PlayerRecognized.Invoke(); // send out event
         StartCoroutine(detectionBar.FlashingEffect()); // bar special effect
     }
 
     public void EmptyDetection()
     {
-        sightTimer = 0;
-        detectionBar.SetValue(sightTimer / sightCountdown);
+        sendRaycast = true; // reset looking for player
+        sightTimer = 0; // empty out sight bar
+        detectionBar.SetValue(0);
     }
 
     private void OnDrawGizmosSelected()

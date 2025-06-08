@@ -13,9 +13,10 @@ public class GameMusic : MonoBehaviour
     void Start()
     {
         if(onStart)
-            singleAudio.PlayMusic(musicName, _loop: true);
+            BeginMusic();
     }
 
+    // just here for loading
     public void BeginMusic()
     {
         singleAudio.PlayMusic(musicName, _loop: true);

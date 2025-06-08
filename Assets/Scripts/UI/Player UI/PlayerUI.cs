@@ -42,6 +42,8 @@ public class PlayerUI : MonoBehaviour
         weightIndicator.Initialize(player);
 
         hitMarker.Initialize(player);
+
+        player.GetComponent<HealthController>().OnDeath.AddListener(HidePlayerUI);
     }
 
     bool inventoryOpen = false; // check for if inventory or lock picking is open
@@ -70,6 +72,11 @@ public class PlayerUI : MonoBehaviour
     void HideInventory()
     {
         inventoryOpen = false;
+    }
+
+    void HidePlayerUI()
+    {
+        gameObject.SetActive(false);
     }
 
 }

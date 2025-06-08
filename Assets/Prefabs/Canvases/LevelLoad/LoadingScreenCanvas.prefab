@@ -228,14 +228,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79689d4ae47502345af4d03e2791f01a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gear: {fileID: 5953031965606650178}
-  spinSpeed: 60
+  littleVan: {fileID: 5922358472329450464}
   loadingComplete:
     m_PersistentCalls:
       m_Calls: []
   playerMovement: {fileID: 0}
   pivot: {fileID: 2023863251058404071}
-  unloadSpeed: 80
+  canvasRotateSpeed: 80
 --- !u!1 &5953031965606650178
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,8 +246,9 @@ GameObject:
   - component: {fileID: 2291152209561165180}
   - component: {fileID: 1207640318142072979}
   - component: {fileID: 5922358472329450464}
+  - component: {fileID: 9006982733635984106}
   m_Layer: 5
-  m_Name: Gear
+  m_Name: Little Van
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,8 +270,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120, y: 120}
+  m_AnchoredPosition: {x: 700, y: -370}
+  m_SizeDelta: {x: 370, y: 230}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1207640318142072979
 CanvasRenderer:
@@ -294,14 +294,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -1614832858, guid: ab5ffb6719b3c0f42b3be8948a95344e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -311,6 +311,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &9006982733635984106
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5953031965606650178}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 81fb7e447592fd04cb21cd24830e7e1b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6658274631198812762
 GameObject:
   m_ObjectHideFlags: 0

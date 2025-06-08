@@ -7,6 +7,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum PoliceState
+{
+    Patrol,
+    LookAt,
+    Chase,
+    Attack
+}
+
 public class PoliceBehavior : MonoBehaviour
 {
     NavMeshAgent agent;
@@ -44,10 +52,13 @@ public class PoliceBehavior : MonoBehaviour
     public float chaseDuration = 3.0f; // Time for how long the enemy will chase the player before giving up
     private float chaseTimer = 0.0f;
 
+    [Header("State Machine")]
+    PoliceState currentState = PoliceState.Chase; // currently only state is chase because police know where player is already
+
     private void Awake()
     {
         // increase health and speed based on difficulty
-        speed += (PlayerPrefs.GetInt("Difficulty") / 2.5f);
+        speed += PlayerPrefs.GetInt("Difficulty") / 2.5f;
         GetComponent<HealthController>().maxHealth += (PlayerPrefs.GetInt("Difficulty") * 5);
 
         /*  Setting up variables    */
@@ -55,19 +66,32 @@ public class PoliceBehavior : MonoBehaviour
         agent.speed = speed;
 
         player = GameObject.Find("Player").transform;
+
+        SetChasePlayer();
     }
 
     void Update()
     {
-        SetAnimationState(agent.velocity.magnitude > 0.5f);
-        if (Physics.Raycast(transform.position, -transform.up, 2f, groundLayer))
-            DetectPlayer();
-        else
-            agent.SetDestination(player.position);
+        StateUpdate(); 
+    }
+
+    void StateUpdate()
+    {
+        // only states now are run after player and attack
+        if(currentState == PoliceState.Chase)
+        {
+            ChasePlayer();
+        }
+        /*
+        else if (currentState == PoliceState.Attack){
+            AttackPlayer();
+        }
+        */
     }
 
     private void DetectPlayer()
     {
+        // detect for player in 45 degree angle
         for (int i = -45; i <= 45; i += 5)
         {
             Vector3 direction = Quaternion.Euler(0, i, 0) * transform.forward;
@@ -113,40 +137,49 @@ public class PoliceBehavior : MonoBehaviour
             alreadyChasing = true;
             ChasePlayer();
         }
-
         else if (withinSight && withinReach)
         {
             chaseTimer = 0;
-            // If within reach, attack or something
             AttackPlayer();
         }
-
         else
         {
-            // Idle
             PathingDefault();
         }
     }
 
-    private void ChasePlayer()
+    public void SetChasePlayer()
+    {
+        currentState = PoliceState.Chase;
+        agent.SetDestination(player.position);
+    }
+
+    void ChasePlayer()
     {
         agent.SetDestination(player.position);
         SmoothLookAt(player.position);
+        /*
+        // if player is in range of attack = attack
+        withinReach = Physics.CheckSphere(transform.position, reachDistance, playerLayer);
+        if (withinReach)
+        {
+            AttackPlayer();
+        }
+        */
     }
 
     private void AttackPlayer()
     {
+        currentState = PoliceState.Attack;
         agent.SetDestination(transform.position);
     }
 
     private void PathingDefault()
     {
-        if (!walkPointExist) FindWalkPoint();
-
-        if (walkPointExist)
-        {
+        if (!walkPointExist)
+            FindWalkPoint();
+        else
             agent.SetDestination(walkPoint);
-        }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
@@ -171,7 +204,6 @@ public class PoliceBehavior : MonoBehaviour
         agent.isStopped = false;
     }
 
-
     private void FindWalkPoint()
     {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
@@ -185,10 +217,10 @@ public class PoliceBehavior : MonoBehaviour
         }
     }
 
-    private void SetAnimationState(bool isWalking)
+    private void SetAnimationState(string animation, bool value)
     {
         if (anim == null) return;
-        anim.SetBool("isWalking", isWalking);
+        anim.SetBool(animation, value);
     }
 
     private void OnDrawGizmosSelected()
