@@ -6,7 +6,6 @@ using UnityEngine.Events;
 
 public class Box_Screw : MonoBehaviour
 {
-
     [HideInInspector] public float clicksRequired = 0;
     float clicks = 0;
 
@@ -17,7 +16,7 @@ public class Box_Screw : MonoBehaviour
     private void Start()
     {
         // get access to parent single Audio
-        singleAudio = transform.parent.GetComponent<SingleAudio>();
+        singleAudio = transform.parent.GetComponent<BoxCanvas>().singleAudio;
     }
 
     public void Clicked()

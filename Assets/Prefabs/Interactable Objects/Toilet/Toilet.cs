@@ -25,7 +25,7 @@ public class Toilet : MonoBehaviour, InteractEvent
     [SerializeField] Texture2D cursorImage;
 
     [Header("Loot")]
-    [SerializeField] List<GameObject> loot;
+    [SerializeField] GameObject[] loot;
     [SerializeField] Transform spawnPos;
 
 
@@ -112,9 +112,8 @@ public class Toilet : MonoBehaviour, InteractEvent
 
         for (int i = 0; i < spawnAmount; i++)
         {
-            Instantiate(loot[Random.Range(0, loot.Count)], spawnPos.position, transform.rotation);
+            Instantiate(loot[Random.Range(0, loot.Length)], spawnPos.position, transform.rotation);
         }
-
     }
 
     private void ResetToilet()

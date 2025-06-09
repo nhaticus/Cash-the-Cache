@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ToolBox : MonoBehaviour, InteractEvent {
 
-    [SerializeField] GameObject[] obj;
+    [SerializeField] GameObject[] loot;
 
     [Header("Difficulty")]
     [SerializeField] int difficulty = 4;
@@ -54,9 +54,25 @@ public class ToolBox : MonoBehaviour, InteractEvent {
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.WeightChangeSpeed();
 
-        // spawn a random object at box position
-        if(obj.Length > 0)
-            Instantiate(obj[Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
+        SpawnLoot();
+
         Destroy(gameObject);
+    }
+
+    private void SpawnLoot()
+    {
+        int spawnAmount = 0;
+
+        if (difficulty <= 3)
+            spawnAmount = 1;
+        else if (difficulty <= 5)
+            spawnAmount = 2;
+        else
+            spawnAmount = 4;
+
+        for (int i = 0; i < spawnAmount; i++)
+        {
+            Instantiate(loot[Random.Range(0, loot.Length)], transform.position, transform.rotation);
+        }
     }
 }
