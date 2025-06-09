@@ -16,6 +16,8 @@ public class ResultScreen : MonoBehaviour
 {
     public Dictionary<string, (int, LootInfo)> inventoryRef; // reference to any inventory (should be van but possible for player's)
 
+    [SerializeField] float itemDelay = 0.25f;
+
     [Header("Dependencies")]
     [SerializeField] GameObject resultElement; // prefab that shows item stolen
     [SerializeField] Transform resultGridTransform;
@@ -36,7 +38,7 @@ public class ResultScreen : MonoBehaviour
 
     IEnumerator CalculateTotalValue()
     {
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.75f);
         int total = 0;
         foreach (var loot in inventoryRef)
         {
@@ -51,8 +53,9 @@ public class ResultScreen : MonoBehaviour
 
             if (!scrollClicked)
                 scrollbar.value = 0;
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(itemDelay);
         }
+
         GameManager.Instance.AddMoney(total);
         continueButton.SetActive(true);
     }

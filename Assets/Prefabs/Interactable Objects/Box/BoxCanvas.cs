@@ -8,6 +8,8 @@ public class BoxCanvas : MonoBehaviour
     [SerializeField] GameObject screw;
     int screwsLeft = 0;
 
+    public SingleAudio singleAudio;
+
     public int difficulty;
     void Start()
     {

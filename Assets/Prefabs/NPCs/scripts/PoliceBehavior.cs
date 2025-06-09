@@ -82,13 +82,9 @@ public class PoliceBehavior : MonoBehaviour
         {
             ChasePlayer();
         }
-        /*
-        else if (currentState == PoliceState.Attack){
-            AttackPlayer();
-        }
-        */
     }
 
+    // unused
     private void DetectPlayer()
     {
         // detect for player in 45 degree angle
@@ -152,20 +148,13 @@ public class PoliceBehavior : MonoBehaviour
     {
         currentState = PoliceState.Chase;
         agent.SetDestination(player.position);
+        SetAnimationState("isRunning", true);
     }
 
     void ChasePlayer()
     {
         agent.SetDestination(player.position);
         SmoothLookAt(player.position);
-        /*
-        // if player is in range of attack = attack
-        withinReach = Physics.CheckSphere(transform.position, reachDistance, playerLayer);
-        if (withinReach)
-        {
-            AttackPlayer();
-        }
-        */
     }
 
     private void AttackPlayer()
