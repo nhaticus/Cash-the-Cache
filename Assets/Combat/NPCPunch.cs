@@ -19,6 +19,10 @@ public class NPCPunch : MonoBehaviour
     [Header("Animation")]
     [SerializeField] Animator fistAnimator;
 
+    [Header("Sounds")]
+    [SerializeField] string[] hitSounds;
+    [SerializeField] SingleAudio singleAudio;
+
     private Collider punchCollider;
     private bool isLeftPunch = true;
     private bool isPunching;
@@ -74,5 +78,18 @@ public class NPCPunch : MonoBehaviour
         punchCollider.enabled = false;                 // damage window closed
 
         isPunching = false;
+    }
+
+    /// <summary>
+    /// Choose random hit sound to play
+    /// Called on Hitbox hit event
+    /// </summary>
+    public void PlayHitSound()
+    {
+        // play hit sound if exists
+        if (hitSounds.Length > 0)
+        {
+            singleAudio.PlaySFX(hitSounds[Random.Range(0, hitSounds.Length - 1)]);
+        }
     }
 }

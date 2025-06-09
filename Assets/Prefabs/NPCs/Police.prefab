@@ -41,10 +41,10 @@ Transform:
   m_Children:
   - {fileID: 5741668872698132735}
   - {fileID: 5741668872698195541}
-  - {fileID: 2493642209862851854}
   - {fileID: 5742019540678900345}
   - {fileID: 6348700459889324162}
   - {fileID: 1052699050558815814}
+  - {fileID: 2493642209862851854}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4699019381707962327
@@ -326,7 +326,19 @@ MonoBehaviour:
   attackerRoot: {fileID: 1593302400742073529}
   hitEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3238525349944731265}
+        m_TargetAssemblyTypeName: NPCPunch, Assembly-CSharp
+        m_MethodName: PlayHitSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4720414930767584205
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,6 +476,12 @@ MonoBehaviour:
   punchDuration: 0.5
   attackRate: 1
   fistAnimator: {fileID: 4699019381707962327}
+  hitSounds:
+  - hit 1
+  - hit 2
+  - hit 3
+  - hit 4
+  singleAudio: {fileID: 8921132560052718310}
 --- !u!1 &5741668872697741513
 GameObject:
   m_ObjectHideFlags: 0
@@ -3227,8 +3245,8 @@ Transform:
   m_GameObject: {fileID: 6515664373324059456}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9166666, y: 0.9166666, z: 0.9166666}
+  m_LocalPosition: {x: 0, y: 0.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8845260661164786225}
@@ -3253,7 +3271,9 @@ MonoBehaviour:
   - name: hit 1
     clip: {fileID: 8300000, guid: 1b07f4d2c2b8fbc4ab884a6738bd6be5, type: 3}
   - name: hit 2
-    clip: {fileID: 8300000, guid: 1b07f4d2c2b8fbc4ab884a6738bd6be5, type: 3}
+    clip: {fileID: 8300000, guid: f994d6821de3502449c1cbf5f251bd73, type: 3}
+  - name: hit 3
+    clip: {fileID: 8300000, guid: 48e15392ab7a62e41bd223b429726572, type: 3}
   musicSource: {fileID: 0}
   sfxSource: {fileID: 1771945737134528208}
 --- !u!1 &8065439196356206889
