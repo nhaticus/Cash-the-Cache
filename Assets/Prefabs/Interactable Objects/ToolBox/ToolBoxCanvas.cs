@@ -13,16 +13,20 @@ public class ToolBoxCanvas : MonoBehaviour
     [HideInInspector] public float difficulty = 0;
 
     [Header("Dependencies")]
-    [SerializeField] GameObject LockPick;
+    [SerializeField] GameObject lockPick;
     AnchoredRotation lockRotation;
     [SerializeField] GameObject lockGoal;
     [SerializeField] Transform LockGoalParent;
+    [SerializeField] SingleAudio singleAudio;
 
     [Header("Animation")]
     [SerializeField] Transform starGridTransform;
     [SerializeField] GameObject starObj;
     [SerializeField] float starSpacing = 35;
     List<GameObject> starList = new List<GameObject>();
+
+    [Header("Canvas")]
+    [SerializeField] Texture2D cursorImage;
 
     [HideInInspector] public UnityEvent OpenToolBox;
 
@@ -38,19 +42,23 @@ public class ToolBoxCanvas : MonoBehaviour
     #region Init and Update
     
     private void Start() {
-        lockPickCollider = LockPick.GetComponent<BoxCollider2D>();
+        lockPickCollider = lockPick.GetComponent<BoxCollider2D>();
         lockGoalCollider = lockGoal.GetComponent<BoxCollider2D>();
 
         CreateStars();
 
-        lockRotation = LockPick.GetComponent<AnchoredRotation>();
+        // create moving lock
+        lockRotation = lockPick.GetComponent<AnchoredRotation>();
         lockRotation.SetRotationSpeed(difficulty);
-        RadiusOfLock = LockPick.transform.localPosition.y;
+        RadiusOfLock = lockPick.transform.localPosition.y;
         MoveLockGoal();
+
+        // change cursor
+        Cursor.SetCursor(cursorImage, Vector2.zero, CursorMode.ForceSoftware);
     }
 
     private void Update() {
-        if ((UserInput.Instance && (UserInput.Instance.Cancel || UserInput.Instance.Pause)) ||
+        if ((UserInput.Instance && UserInput.Instance.Cancel) ||
             (!UserInput.Instance && Input.GetKeyDown(KeyCode.Escape))) {
             ExitToolBox();
         }
@@ -61,8 +69,10 @@ public class ToolBoxCanvas : MonoBehaviour
     #region Public Functions
 
     public void ExitToolBox() {
+        // reset cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
 
         PlayerManager.Instance.ableToInteract = true;
         PlayerManager.Instance.unlockRotation();
@@ -71,8 +81,10 @@ public class ToolBoxCanvas : MonoBehaviour
     }
 
     public void TryPick() {
-        if (lockPickCollider.IsTouching(lockGoalCollider)) {
-            starList[currentLocksBroken].GetComponent<Animator>().SetBool("Full", true);
+        if (lockPickCollider.IsTouching(lockGoalCollider)) { // success
+            singleAudio.PlaySFX("Success"); // sound effect
+            starList[currentLocksBroken].GetComponent<Animator>().SetBool("Full", true); // fill in star
+
             currentLocksBroken += 1;
             StartCoroutine(lockRotation.FreezeObject(0.3f));
             if (currentLocksBroken >= TotalLocks) {
@@ -81,9 +93,10 @@ public class ToolBoxCanvas : MonoBehaviour
                 MoveLockGoal();
             }
 
-        } else {
-            // stop spinning dot
-            StartCoroutine(lockRotation.ShakeObject(0.75f));
+        } else { // fail
+            singleAudio.PlaySFX("Fail");
+
+            StartCoroutine(lockRotation.ShakeObject(0.75f)); // stop spinning dot
         }
     }
 

@@ -154,12 +154,12 @@ public class PlayerInteract : MonoBehaviour
         if (stealObj != null)
         {
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight > PlayerManager.Instance.getMaxWeight()){
-                singleAudio.PlaySFX("inventory_full");
+                singleAudio.PlaySFX("inventory full");
             }
 
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
-                singleAudio.PlaySFX("collect_item_sound");
+                singleAudio.PlaySFX("item collect");
                 AddItemToInventory(stealObj.lootInfo);
 
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());

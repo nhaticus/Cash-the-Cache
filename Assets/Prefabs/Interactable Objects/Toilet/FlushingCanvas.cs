@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 /* 
- * Flushing canvas handles the creation of the Toilet Minigame canvas
+ * Toilet Minigame canvas
  * Player has to sync up the target and the controlled box in order to raise the meter, and doing it enough flushes the toilet
 */
 
@@ -52,6 +52,7 @@ public class FlushingCanvas : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
 
         PlayerManager.Instance.ableToInteract = true;
         PlayerManager.Instance.unlockRotation();

@@ -5,11 +5,16 @@ using UnityEngine;
 public class ToolBox : MonoBehaviour, InteractEvent {
 
     [SerializeField] GameObject[] obj;
+
+    [Header("Difficulty")]
     [SerializeField] int difficulty = 4;
     [SerializeField] bool setRandomDifficulty;
     [SerializeField] int minDifficulty = 3, maxDifficulty = 7;
 
+    [Header("Canvas")]
     [SerializeField] GameObject toolboxCanvas;
+    [SerializeField] Texture2D cursorImage;
+
 
     private void Start()
     {
@@ -25,11 +30,15 @@ public class ToolBox : MonoBehaviour, InteractEvent {
         //if(AnalyticsManager.Instance)
         //    AnalyticsManager.Instance.TrackMinigameStarted("Toolbox Minigame");
 
+        // create toolbox canvas
         GameObject canvas = Instantiate(toolboxCanvas, transform);
         canvas.GetComponent<ToolBoxCanvas>().OpenToolBox.AddListener(OpenToolBox);
         canvas.GetComponent<ToolBoxCanvas>().difficulty = difficulty;
+
+        // set cursor
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        Cursor.SetCursor(cursorImage, Vector2.zero, CursorMode.ForceSoftware);
 
         PlayerManager.Instance.ableToInteract = false;
         PlayerManager.Instance.lockRotation();
@@ -39,6 +48,7 @@ public class ToolBox : MonoBehaviour, InteractEvent {
     void OpenToolBox() {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
 
         PlayerManager.Instance.ableToInteract = true;
         PlayerManager.Instance.unlockRotation();

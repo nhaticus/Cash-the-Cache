@@ -15,17 +15,19 @@ public class Toilet : MonoBehaviour, InteractEvent
     [Header("Difficulty = Time it takes to flush")]
     [SerializeField] int difficulty = 3; // Difficulty level = number of seconds x 1
     [SerializeField] bool setRandomDifficulty = true;
-    [SerializeField] int minDifficulty = 3, maxDifficulty = 6;
+    [SerializeField] int minDifficulty = 3, maxDifficulty = 9;
 
     public bool isFlushingOpen = false;  // Whether the flushing mini-game is open or not
 
-    [Header("Canvas Settings")]
+    [Header("Canvas")]
     [SerializeField] GameObject FlushingCanvasPrefab; // Prefab for the flushing UI canvas
     private GameObject currentCanvas; // Reference to the currently active canvas
+    [SerializeField] Texture2D cursorImage;
 
-    [Header("Loot Settings")]
+    [Header("Loot")]
     [SerializeField] List<GameObject> loot;
     [SerializeField] Transform spawnPos;
+
 
     private void Start()
     {
@@ -54,6 +56,9 @@ public class Toilet : MonoBehaviour, InteractEvent
         else
             currentCanvas.SetActive(true);
 
+        // change cursor
+        Cursor.SetCursor(cursorImage, Vector2.zero, CursorMode.ForceSoftware);
+
         LockPlayerControls();
     }
 
@@ -61,9 +66,9 @@ public class Toilet : MonoBehaviour, InteractEvent
     {
         currentCanvas = Instantiate(FlushingCanvasPrefab, transform);
         currentCanvas.SetActive(true);
-        FlushingCanvas canvasScript = currentCanvas.GetComponent<FlushingCanvas>();
 
         // Set the difficulty for mini-game and add listeners for success
+        FlushingCanvas canvasScript = currentCanvas.GetComponent<FlushingCanvas>();
         canvasScript.difficulty = difficulty;
         canvasScript.toiletOpened.AddListener(OnFlushingCompleted);
     }
@@ -98,12 +103,12 @@ public class Toilet : MonoBehaviour, InteractEvent
         // Spawn loot depending on difficulty level (example: gold, silver, etc.)?
         int spawnAmount = 0;
 
-        if (difficulty <= 4)
+        if (difficulty <= 3)
             spawnAmount = 1;
-        else if (difficulty <= 7)
+        else if (difficulty <= 5)
             spawnAmount = 2;
         else
-            spawnAmount = 3;
+            spawnAmount = 4;
 
         for (int i = 0; i < spawnAmount; i++)
         {

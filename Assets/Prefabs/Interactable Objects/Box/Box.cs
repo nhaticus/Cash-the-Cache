@@ -15,7 +15,10 @@ public class Box : MonoBehaviour, InteractEvent
     [SerializeField] bool setRandomDifficulty = true;
     [SerializeField] int minDifficulty = 3, maxDifficulty = 6;
 
+    [Header("Canvas")]
     [SerializeField] GameObject boxCanvas;
+    [SerializeField] Texture2D cursorImage;
+
     private void Start()
     {
         if (setRandomDifficulty)
@@ -25,13 +28,15 @@ public class Box : MonoBehaviour, InteractEvent
     // Create difficulty amount of screws and connect their event to ScrewOff
     public void Interact()
     {
-       // AnalyticsManager.Instance.TrackMinigameStarted("Box Minigame");
+        // AnalyticsManager.Instance.TrackMinigameStarted("Box Minigame");
         GameObject canvas = Instantiate(boxCanvas, transform);
         canvas.GetComponent<BoxCanvas>().difficulty = difficulty;
         canvas.GetComponent<BoxCanvas>().OpenBox.AddListener(OpenBox);
 
+        // change cursor
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        Cursor.SetCursor(cursorImage, Vector2.zero, CursorMode.ForceSoftware);
 
         PlayerManager.Instance.ableToInteract = false;
         PlayerManager.Instance.lockRotation();
@@ -40,9 +45,12 @@ public class Box : MonoBehaviour, InteractEvent
 
     void OpenBox()
     {
+        // reset cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
 
+        // reset player
         PlayerManager.Instance.ableToInteract = true;
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.WeightChangeSpeed();

@@ -16,7 +16,7 @@ public class Target : MonoBehaviour
 
     [Header("Game Values")]
     [SerializeField] float timeToMove = 1;
-    [SerializeField] float sliderIncrease = 1.1f;
+    [SerializeField] float timeIncrease = 1.3f;
     float timer = 0;
 
     Rigidbody2D rb;
@@ -29,7 +29,7 @@ public class Target : MonoBehaviour
 
     public void OnTriggerStay2D(Collider2D Collision)
     {
-        completionSlider.value += Time.deltaTime / (sliderIncrease * canvas.difficulty);
+        completionSlider.value += Time.deltaTime / (timeIncrease * canvas.difficulty);
     }
 
     private void Update()

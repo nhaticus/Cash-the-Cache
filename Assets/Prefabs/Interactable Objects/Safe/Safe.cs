@@ -23,23 +23,11 @@ public class Safe : MonoBehaviour, InteractEvent
     [Header("Canvas Settings")]
     [SerializeField] GameObject lockCanvasPrefab; // Prefab for the lockpicking UI canvas
     private GameObject currentCanvas; // Reference to the currently active canvas
+    [SerializeField] Texture2D cursorImage;
 
     [Header("Loot Settings")]
     [SerializeField] GameObject gold;
     [SerializeField] Transform spawnPos;
-
-
-    //private int interactCount = 0;
-
-
-    //private static int globalSafeCounter = 0;
-    //private string safeId;
-
-
-    private void Awake() 
-    {
-       // safeId = "Safe_" + globalSafeCounter++;
-    }
 
     private void Start()
     {
@@ -55,10 +43,10 @@ public class Safe : MonoBehaviour, InteractEvent
             Debug.Log("Already interacting with the lockpicking minigame.");
             return;  // If lockpicking is already open, don't allow further interaction
         }
+
         //AnalyticsManager.Instance.TrackMinigameStarted("Lockpicking Minigame");
         //interactCount++;
         //AnalyticsManager.Instance.LockPickingInteractionCount(interactCount, safeId);
-       
 
         isLockpickingOpen = true;
         
@@ -77,8 +65,6 @@ public class Safe : MonoBehaviour, InteractEvent
 
             LockPickingCanvas canvasScript = currentCanvas.GetComponent<LockPickingCanvas>();
 
-            // Restart the flashing effect but don't reset the order of the pins
-            //StartCoroutine(canvasScript.AssignPinOrderEffect()); // Re-start flashing
             canvasScript.StartFlashingOrder();
         }
 
@@ -103,6 +89,7 @@ public class Safe : MonoBehaviour, InteractEvent
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        Cursor.SetCursor(cursorImage, Vector2.zero, CursorMode.ForceSoftware);
 
         PlayerManager.Instance.ableToInteract = false;
         PlayerManager.Instance.lockRotation();

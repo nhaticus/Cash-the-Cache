@@ -235,6 +235,7 @@ public class LockPickingCanvas : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.ForceSoftware);
 
         PlayerManager.Instance.ableToInteract = true;
         PlayerManager.Instance.unlockRotation();
