@@ -30,7 +30,7 @@ public class PlayerPunch : MonoBehaviour
     {
         // press punch button, not already punching, and can punch
         if ((UserInput.Instance && UserInput.Instance.Punch) || (UserInput.Instance == null && Input.GetMouseButtonDown(1))
-            && !isPunching && playerMovement.canMove) 
+            && !isPunching && PlayerManager.Instance.ableToInteract) 
         { 
             StartCoroutine(Punch());
         }
