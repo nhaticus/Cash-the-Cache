@@ -8,19 +8,21 @@ public class BrendanRooms : MonoBehaviour
 {
     [Header("Setup (optional)")]
     public GameObject[] startRooms;
-    Vector3 levelSpawnPosition;
-    Quaternion levelSpawnRotation;
     public int maxRooms = 10;
     public int minRooms = 5;
     public int maxRetries = 30;
     public NavMeshSurface surface;
+
+    Vector3 levelSpawnPosition;
+    Quaternion levelSpawnRotation;
 
     [Header("House Rooms")]
     public GameObject[] roomPrefabs; // list of all rooms that can be spawned
 
     [Header("AI Rooms")]
     public List<GameObject> aiRoomPrefabs;
-    Stack<Transform> availableDoors = new Stack<Transform>();
+
+    Queue<Transform> availableDoors = new Queue<Transform>();
     List<GameObject> placedRooms = new List<GameObject>();
     int roomCount = 0;
     int retryNum = 0;
@@ -56,20 +58,21 @@ public class BrendanRooms : MonoBehaviour
         startRoom.transform.SetParent(transform);
         placedRooms.Add(startRoom);
         roomCount++;
+
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
+        // push all doors to door stack
         if (startRoomScript != null)
         {
-            // push all doors to door stack
             foreach (Transform door in startRoomScript.doorPoints)
             {
-                availableDoors.Push(door);
+                availableDoors.Enqueue(door);
             }
         }
     }
 
     /// <summary>
     /// IEnumerator that determines which rooms to spawn and creates them all.<br />
-    /// IEnumerator because it needs to be able to run without freezing the game to generate rooms.
+    /// IEnumerator because it needs to run without freezing the game to generate rooms.
     /// </summary>
     /// <returns></returns>
     IEnumerator GenerateRooms()
@@ -82,18 +85,18 @@ public class BrendanRooms : MonoBehaviour
 
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
-            // Select possible door from list
-            int randomDoor = Random.Range(0, availableDoors.Count - 1);
-
-            Transform currentDoor = availableDoors.Pop(); // choose door at top of stack to spawn at
+            Transform currentDoor = availableDoors.Dequeue(); // choose door at top of stack to spawn at
 
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length - 1)]; // select random room
-            RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
-            if (newRoomScript == null || newRoomScript.doorPoints.Length == 0)
+            RoomInfo newRoomInfo = spawningRoom.GetComponent<RoomInfo>();
+            if (newRoomInfo == null || newRoomInfo.doorPoints.Length == 0)
+            {
+                Debug.Log("no room info");
                 continue;
+            }
 
             // select a door
-            Transform selectedDoor = newRoomScript.doorPoints[Random.Range(0, newRoomScript.doorPoints.Length)];
+            Transform selectedDoor = newRoomInfo.doorPoints[Random.Range(0, newRoomInfo.doorPoints.Length)];
 
             // Align opposing directions
             Vector3 horizontalCurrentForward = new Vector3(currentDoor.forward.x, 0, currentDoor.forward.z).normalized;
@@ -105,11 +108,12 @@ public class BrendanRooms : MonoBehaviour
             Vector3 newRoomPosition = currentDoor.position - newRoomRotation * doorOffset;
 
             // Check for room overlap
-            if (!IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation))
+            if (IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation) == false)
             {
+                Debug.Log("bad placement");
                 continue;
             }
-
+                
             // Spawn room
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
             newRoom.transform.SetParent(transform);
@@ -118,15 +122,16 @@ public class BrendanRooms : MonoBehaviour
 
             placedRooms.Add(newRoom);
 
-            RoomInfo newRoomInstanceScript = newRoom.GetComponent<RoomInfo>();
-            // add room's doors to list
-            if (newRoomInstanceScript != null)
+            // add room's door points to list unless it is the currently spawned door point
+            if (newRoomInfo != null)
             {
-                foreach (Transform door in newRoomInstanceScript.doorPoints)
+                foreach (Transform door in newRoomInfo.doorPoints)
                 {
-                    availableDoors.Push(door);
+                    if(door != selectedDoor)
+                        availableDoors.Enqueue(door);
                 }
             }
+            Debug.Log("added: " + availableDoors.Count);
 
             yield return null;
         }
@@ -184,7 +189,7 @@ public class BrendanRooms : MonoBehaviour
                 {
                     continue; // Check for self
                 }
-                if (removedDoors.Contains(hitDoor))
+                else if (removedDoors.Contains(hitDoor))
                 {
                     continue;
                 }
@@ -224,7 +229,7 @@ public class BrendanRooms : MonoBehaviour
             GameObject hitObject = hit.gameObject;
             if (hitObject.CompareTag("Room"))
             {
-                return false;
+                //return false;
             }
         }
         return true;
