@@ -10,7 +10,7 @@ public class ItemDataDefault : MonoBehaviour
 {
     private void Awake()
     {
-        DataSystem.GetOrCreateItem("Backpack", 10.0f, true);
+        DataSystem.GetOrCreateItem("Backpack", 5.0f, true);
         DataSystem.GetOrCreateItem("Flashlight", 1.0f, true); 
         DataSystem.GetOrCreateItem("RunningShoe", 0.5f, true);
         DataSystem.GetOrCreateItem("Screwdriver", 0.3f, true);
