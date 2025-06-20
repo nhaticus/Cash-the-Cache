@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class BrendanRooms : MonoBehaviour
 {
     [Header("Setup (optional)")]
-    public GameObject startRoomPrefab;
+    public GameObject[] startRooms;
     Vector3 levelSpawnPosition;
     Quaternion levelSpawnRotation;
     public int maxRooms = 10;
@@ -20,11 +20,10 @@ public class BrendanRooms : MonoBehaviour
 
     [Header("AI Rooms")]
     public List<GameObject> aiRoomPrefabs;
-    private Stack<Transform> availableDoors = new Stack<Transform>();
-    private List<GameObject> placedRooms = new List<GameObject>();
-    private int roomCount = 0;
-    private int retryNum = 0;
-    private GameObject startRoom;
+    Stack<Transform> availableDoors = new Stack<Transform>();
+    List<GameObject> placedRooms = new List<GameObject>();
+    int roomCount = 0;
+    int retryNum = 0;
 
     // send event when All Rooms Generated
     public UnityEvent roomsFinished;
@@ -46,10 +45,14 @@ public class BrendanRooms : MonoBehaviour
 
     void CreateStartRoom()
     {
-        if (startRoomPrefab == null)
+        // get starting room from either startRooms or roomPrefabs if startRooms is empty
+        GameObject startRoomPrefab;
+        if (startRooms.Length > 0)
+            startRoomPrefab = startRooms[Random.Range(0, startRooms.Length - 1)];
+        else
             startRoomPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Length - 1)];
 
-        startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, levelSpawnRotation);
+        GameObject startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, levelSpawnRotation);
         startRoom.transform.SetParent(transform);
         placedRooms.Add(startRoom);
         roomCount++;
@@ -104,7 +107,6 @@ public class BrendanRooms : MonoBehaviour
             // Check for room overlap
             if (!IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation))
             {
-                //Debug.Log("overlap found");
                 continue;
             }
 
@@ -132,8 +134,6 @@ public class BrendanRooms : MonoBehaviour
         // either there are no more available doors or maxRooms was achieved
         if (placedRooms.Count <= minRooms)
         {
-            //Debug.LogWarning("Too few rooms placed. Retrying...");
-            //Debug.Log(placedRooms.Count);
             retryNum++;
             yield return null;
             ClearAllRooms();
@@ -146,7 +146,6 @@ public class BrendanRooms : MonoBehaviour
             {
                 surface.BuildNavMesh();
             }
-            //Debug.Log("finished making rooms");
             roomsFinished.Invoke();
         }
     }
@@ -156,18 +155,6 @@ public class BrendanRooms : MonoBehaviour
     /// </summary>
     void RemoveOverlappingDoors()
     {
-        // list of doors from placedRooms
-        /*
-        List<GameObject> doorList = new List<GameObject>();
-        for(int i = 0; i < placedRooms.Count; i++)
-        {
-            Transform[] doors = placedRooms[i].GetComponent<RoomInfo>().doorPoints;
-            foreach(Transform door in doors)
-            {
-                doorList.Append(door.gameObject);
-            }
-        }
-        */
         GameObject[] doorList = GameObject.FindGameObjectsWithTag("Door");
         List<GameObject> removedDoors = new List<GameObject>();
         foreach (GameObject door in doorList)
@@ -203,8 +190,6 @@ public class BrendanRooms : MonoBehaviour
                 }
                 else if (hitDoor.CompareTag("Door"))
                 {
-                    //Debug.Log("remove door");
-                    //doorList.Remove(door);
                     Destroy(door);
                     removedDoors.Add(hitDoor);
                     break;

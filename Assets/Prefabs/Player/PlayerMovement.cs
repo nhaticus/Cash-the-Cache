@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Crouch Settings")]
     public Transform cameraHolder;
-    public float crouchSpeed = 2f;
+    public float crouchSpeed = 1.8f;
     private float originalSpeed;
     private Vector3 standingCamPos, crouchingCamPos;
     private bool isCrouching = false;
@@ -46,12 +46,15 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         rb.drag = groundDrag;
-        MyInput();
+
+        HandleMovement();
         HandleCrouch();
 
         SpeedControl();
 
         HandleFootstepSound();
+
+        // move camera based on crouching
         Vector3 targetCamPos = isCrouching ? crouchingCamPos : standingCamPos;
         cameraHolder.localPosition = Vector3.Lerp(cameraHolder.localPosition, targetCamPos, Time.deltaTime * 10f);
     }
@@ -60,20 +63,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if(canMove)
             MovePlayer();
-    }
-
-    private void MyInput()
-    {
-        if (UserInput.Instance)
-        {
-            verticalInput = UserInput.Instance.Move.y;
-            horizontalInput = UserInput.Instance.Move.x;
-        }
-        else
-        {
-            verticalInput = Input.GetAxis("Vertical");
-            horizontalInput = Input.GetAxis("Horizontal");
-        }
     }
 
     private void MovePlayer()
@@ -123,23 +112,72 @@ public class PlayerMovement : MonoBehaviour
         tf.eulerAngles = new Vector3(0f, 0f, 0f);
     }
 
+    void HandleMovement()
+    {
+        if (UserInput.Instance)
+        {
+            verticalInput = UserInput.Instance.Move.y;
+            horizontalInput = UserInput.Instance.Move.x;
+        }
+        else
+        {
+            verticalInput = Input.GetAxis("Vertical");
+            horizontalInput = Input.GetAxis("Horizontal");
+        }
+    }
+
+    /// <summary>
+    /// Check if player pressed crouch to toggle crouching
+    /// </summary>
     private void HandleCrouch()
     {
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (UserInput.Instance)
         {
-            if (!isCrouching)
+            if (UserInput.Instance.Crouch)
             {
-                PlayerManager.Instance.setMoveSpeed(crouchSpeed);
-                isCrouching = true;
+                if (!isCrouching)
+                {
+                    PlayerManager.Instance.setMoveSpeed(crouchSpeed);
+                    isCrouching = true;
+                }
+                else
+                {
+                    PlayerManager.Instance.setMoveSpeed(originalSpeed);
+                    isCrouching = false;
+                }
+                
             }
         }
         else
         {
-            if (isCrouching)
+            if (Input.GetKey(KeyCode.LeftControl))
             {
-                PlayerManager.Instance.setMoveSpeed(originalSpeed);
-                isCrouching = false;
+                if (!isCrouching)
+                {
+                    PlayerManager.Instance.setMoveSpeed(crouchSpeed);
+                    isCrouching = true;
+                }
             }
+            else
+            {
+                if (isCrouching)
+                {
+                    PlayerManager.Instance.setMoveSpeed(originalSpeed);
+                    isCrouching = false;
+                }
+            }
+        }
+    }
+
+    void HandleJump()
+    {
+        if (UserInput.Instance)
+        {
+
+        }
+        else
+        {
+
         }
     }
 
