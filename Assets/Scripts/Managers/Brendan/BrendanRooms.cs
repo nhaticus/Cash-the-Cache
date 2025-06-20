@@ -16,11 +16,11 @@ public class BrendanRooms : MonoBehaviour
     public NavMeshSurface surface;
 
     [Header("House Rooms")]
-    public GameObject[] roomPrefabs;
+    public GameObject[] roomPrefabs; // list of all rooms that can be spawned
 
     [Header("AI Rooms")]
     public List<GameObject> aiRoomPrefabs;
-    private List<Transform> availableDoors = new List<Transform>();
+    private Stack<Transform> availableDoors = new Stack<Transform>();
     private List<GameObject> placedRooms = new List<GameObject>();
     private int roomCount = 0;
     private int retryNum = 0;
@@ -55,7 +55,13 @@ public class BrendanRooms : MonoBehaviour
         roomCount++;
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
         if (startRoomScript != null)
-            availableDoors.AddRange(startRoomScript.doorPoints);
+        {
+            // push all doors to door stack
+            foreach (Transform door in startRoomScript.doorPoints)
+            {
+                availableDoors.Push(door);
+            }
+        }
     }
 
     /// <summary>
@@ -76,15 +82,12 @@ public class BrendanRooms : MonoBehaviour
             // Select possible door from list
             int randomDoor = Random.Range(0, availableDoors.Count - 1);
 
-            Transform currentDoor = availableDoors[randomDoor]; // choose random door to spawn at
-            availableDoors.RemoveAt(randomDoor);
+            Transform currentDoor = availableDoors.Pop(); // choose door at top of stack to spawn at
 
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length - 1)]; // select random room
             RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
             if (newRoomScript == null || newRoomScript.doorPoints.Length == 0)
-            {
                 continue;
-            }
 
             // select a door
             Transform selectedDoor = newRoomScript.doorPoints[Random.Range(0, newRoomScript.doorPoints.Length)];
@@ -119,8 +122,7 @@ public class BrendanRooms : MonoBehaviour
             {
                 foreach (Transform door in newRoomInstanceScript.doorPoints)
                 {
-                    if (door != selectedDoor)
-                        availableDoors.Add(door);
+                    availableDoors.Push(door);
                 }
             }
 
@@ -243,25 +245,9 @@ public class BrendanRooms : MonoBehaviour
         return true;
     }
 
-    void ClearAllNonStartRooms()
-    {
-        //Debug.Log("remove all rooms");
-        for(int i = placedRooms.Count - 1; i >= 0; i--)
-        {
-            GameObject room = placedRooms[i];
-            if (room == startRoom)
-                continue;
-
-            placedRooms.Remove(room);
-            foreach (Transform door in room.GetComponent<RoomInfo>().doorPoints)
-            {
-                availableDoors.Remove(door);
-            }
-            roomCount--;
-            Destroy(room);
-        }
-    }
-
+    /// <summary>
+    /// Remove all placed rooms
+    /// </summary>
     void ClearAllRooms()
     {
         foreach (GameObject room in placedRooms)

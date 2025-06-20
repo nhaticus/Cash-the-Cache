@@ -86,7 +86,8 @@ public class GameUI : MonoBehaviour
         // play death sound
         singleAudio.PlaySFX("death");
 
-        GameObject gameOver = Instantiate(gameOverPrefab, transform); // create game over screen
+        // create game over screen
+        GameObject gameOver = Instantiate(gameOverPrefab, transform);
         gameOver.GetComponent<GameOver>().PlayerLose();
         // hide game over
         CanvasGroup gameOverCanvas = gameOver.GetComponent<CanvasGroup>();
