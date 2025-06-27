@@ -11,8 +11,6 @@ public class PlayerPunch : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator fistAnimator;
 
-    PlayerMovement playerMovement;
-
     Collider punchCollider;
     private bool isPunching = false;
     private bool isLeftPunch = true;
@@ -22,8 +20,6 @@ public class PlayerPunch : MonoBehaviour
         // cache the collider and disable it
         punchCollider = punchHitbox.GetComponent<Collider>();
         punchCollider.enabled = false;
-
-        playerMovement = GetComponent<PlayerMovement>();
     }
 
     void Update()
@@ -53,7 +49,6 @@ public class PlayerPunch : MonoBehaviour
 
 
         isLeftPunch = !isLeftPunch;     // switch punching arm
-        Debug.Log("Punching!");
         punchCollider.enabled = true;
 
 

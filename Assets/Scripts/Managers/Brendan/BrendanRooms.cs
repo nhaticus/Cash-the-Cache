@@ -13,19 +13,16 @@ public class BrendanRooms : MonoBehaviour
     public int maxRetries = 30;
     public NavMeshSurface surface;
 
-    Vector3 levelSpawnPosition;
-    Quaternion levelSpawnRotation;
-
     [Header("House Rooms")]
     public GameObject[] roomPrefabs; // list of all rooms that can be spawned
 
-    [Header("AI Rooms")]
-    public List<GameObject> aiRoomPrefabs;
-
-    Queue<Transform> availableDoors = new Queue<Transform>();
+    List<Transform> availableDoors = new List<Transform>();
     List<GameObject> placedRooms = new List<GameObject>();
+
     int roomCount = 0;
     int retryNum = 0;
+    Vector3 levelSpawnPosition;
+    Quaternion levelSpawnRotation;
 
     // send event when All Rooms Generated
     public UnityEvent roomsFinished;
@@ -47,7 +44,6 @@ public class BrendanRooms : MonoBehaviour
 
     void CreateStartRoom()
     {
-        // get starting room from either startRooms or roomPrefabs if startRooms is empty
         GameObject startRoomPrefab;
         if (startRooms.Length > 0)
             startRoomPrefab = startRooms[Random.Range(0, startRooms.Length - 1)];
@@ -58,21 +54,14 @@ public class BrendanRooms : MonoBehaviour
         startRoom.transform.SetParent(transform);
         placedRooms.Add(startRoom);
         roomCount++;
-
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
-        // push all doors to door stack
         if (startRoomScript != null)
-        {
-            foreach (Transform door in startRoomScript.doorPoints)
-            {
-                availableDoors.Enqueue(door);
-            }
-        }
+            availableDoors.AddRange(startRoomScript.doorPoints);
     }
 
     /// <summary>
     /// IEnumerator that determines which rooms to spawn and creates them all.<br />
-    /// IEnumerator because it needs to run without freezing the game to generate rooms.
+    /// IEnumerator because it needs to be able to run without freezing the game to generate rooms.
     /// </summary>
     /// <returns></returns>
     IEnumerator GenerateRooms()
@@ -85,18 +74,21 @@ public class BrendanRooms : MonoBehaviour
 
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
-            Transform currentDoor = availableDoors.Dequeue(); // choose door at top of stack to spawn at
+            // Select possible door from list
+            int randomDoor = Random.Range(0, availableDoors.Count - 1);
+
+            Transform currentDoor = availableDoors[randomDoor]; // choose random door to spawn at
+            availableDoors.RemoveAt(randomDoor);
 
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length - 1)]; // select random room
-            RoomInfo newRoomInfo = spawningRoom.GetComponent<RoomInfo>();
-            if (newRoomInfo == null || newRoomInfo.doorPoints.Length == 0)
+            RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
+            if (newRoomScript == null || newRoomScript.doorPoints.Length == 0)
             {
-                Debug.Log("no room info");
                 continue;
             }
 
             // select a door
-            Transform selectedDoor = newRoomInfo.doorPoints[Random.Range(0, newRoomInfo.doorPoints.Length)];
+            Transform selectedDoor = newRoomScript.doorPoints[Random.Range(0, newRoomScript.doorPoints.Length)];
 
             // Align opposing directions
             Vector3 horizontalCurrentForward = new Vector3(currentDoor.forward.x, 0, currentDoor.forward.z).normalized;
@@ -108,12 +100,12 @@ public class BrendanRooms : MonoBehaviour
             Vector3 newRoomPosition = currentDoor.position - newRoomRotation * doorOffset;
 
             // Check for room overlap
-            if (IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation) == false)
+            if (!IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation))
             {
-                Debug.Log("bad placement");
+                Debug.Log("overlap found");
                 continue;
             }
-                
+
             // Spawn room
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
             newRoom.transform.SetParent(transform);
@@ -122,16 +114,16 @@ public class BrendanRooms : MonoBehaviour
 
             placedRooms.Add(newRoom);
 
-            // add room's door points to list unless it is the currently spawned door point
-            if (newRoomInfo != null)
+            RoomInfo newRoomInstanceScript = newRoom.GetComponent<RoomInfo>();
+            // add room's doors to list
+            if (newRoomInstanceScript != null)
             {
-                foreach (Transform door in newRoomInfo.doorPoints)
+                foreach (Transform door in newRoomInstanceScript.doorPoints)
                 {
-                    if(door != selectedDoor)
-                        availableDoors.Enqueue(door);
+                    if (door != selectedDoor)
+                        availableDoors.Add(door);
                 }
             }
-            Debug.Log("added: " + availableDoors.Count);
 
             yield return null;
         }
@@ -139,6 +131,8 @@ public class BrendanRooms : MonoBehaviour
         // either there are no more available doors or maxRooms was achieved
         if (placedRooms.Count <= minRooms)
         {
+            Debug.LogWarning("Too few rooms placed. Retrying...");
+            Debug.Log(placedRooms.Count);
             retryNum++;
             yield return null;
             ClearAllRooms();
@@ -151,6 +145,7 @@ public class BrendanRooms : MonoBehaviour
             {
                 surface.BuildNavMesh();
             }
+            Debug.Log("finished making rooms");
             roomsFinished.Invoke();
         }
     }
@@ -164,12 +159,12 @@ public class BrendanRooms : MonoBehaviour
         List<GameObject> removedDoors = new List<GameObject>();
         foreach (GameObject door in doorList)
         {
-            
+
             if (removedDoors.Contains(door))
             {
                 continue;
             }
-            
+
             Collider doorCollider = door.GetComponent<Collider>();
             if (doorCollider == null)
             {
@@ -186,13 +181,9 @@ public class BrendanRooms : MonoBehaviour
             {
                 GameObject hitDoor = hit.gameObject;
                 if (hitDoor == door)
-                {
                     continue; // Check for self
-                }
                 else if (removedDoors.Contains(hitDoor))
-                {
                     continue;
-                }
                 else if (hitDoor.CompareTag("Door"))
                 {
                     Destroy(door);
@@ -215,7 +206,7 @@ public class BrendanRooms : MonoBehaviour
         BoxCollider roomCollider = roomPrefab.GetComponent<BoxCollider>();
         if (roomCollider == null)
         {
-            //Debug.LogWarning("No BoxCollider found on the room prefab.");
+            Debug.LogWarning("No BoxCollider found on the room prefab.");
             return true;
         }
 
@@ -229,15 +220,12 @@ public class BrendanRooms : MonoBehaviour
             GameObject hitObject = hit.gameObject;
             if (hitObject.CompareTag("Room"))
             {
-                //return false;
+                return false;
             }
         }
         return true;
     }
 
-    /// <summary>
-    /// Remove all placed rooms
-    /// </summary>
     void ClearAllRooms()
     {
         foreach (GameObject room in placedRooms)
@@ -247,25 +235,6 @@ public class BrendanRooms : MonoBehaviour
         placedRooms.Clear();
         availableDoors.Clear();
         roomCount = 0;
-    }
-
-    /// <summary>
-    /// Loops through each placed room, checking if it has an AI room.
-    /// </summary>
-    /// <returns></returns>
-    bool HasAICheck()
-    {
-        foreach (GameObject room in placedRooms)
-        {
-            foreach (GameObject aiRoom in aiRoomPrefabs)
-            {
-                if (room.name.Contains(aiRoom.name)) // Match by prefab name
-                {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     void OnDrawGizmosSelected()
