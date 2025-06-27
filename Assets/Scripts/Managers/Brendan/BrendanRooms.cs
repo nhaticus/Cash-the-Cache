@@ -240,7 +240,7 @@ public class BrendanRooms : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = UnityEngine.Color.green;
         Gizmos.DrawSphere(levelSpawnPosition, 0.5f);
     }
 }
