@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,7 +17,7 @@ public class BrendanRooms : MonoBehaviour
     [Header("House Rooms")]
     public GameObject[] roomPrefabs; // list of all rooms that can be spawned
 
-    List<Transform> availableDoors = new List<Transform>();
+    Queue<Transform> availableDoors = new Queue<Transform>();
     List<GameObject> placedRooms = new List<GameObject>();
 
     int roomCount = 0;
@@ -56,7 +57,12 @@ public class BrendanRooms : MonoBehaviour
         roomCount++;
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
         if (startRoomScript != null)
-            availableDoors.AddRange(startRoomScript.doorPoints);
+        {
+            foreach(Transform door in startRoomScript.doorPoints)
+            {
+                availableDoors.Enqueue(door);
+            }
+        }
     }
 
     /// <summary>
@@ -74,11 +80,7 @@ public class BrendanRooms : MonoBehaviour
 
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
-            // Select possible door from list
-            int randomDoor = Random.Range(0, availableDoors.Count - 1);
-
-            Transform currentDoor = availableDoors[randomDoor]; // choose random door to spawn at
-            availableDoors.RemoveAt(randomDoor);
+            Transform currentDoor = availableDoors.Dequeue(); // choose random door to spawn at
 
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length - 1)]; // select random room
             RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
@@ -114,14 +116,13 @@ public class BrendanRooms : MonoBehaviour
 
             placedRooms.Add(newRoom);
 
-            RoomInfo newRoomInstanceScript = newRoom.GetComponent<RoomInfo>();
             // add room's doors to list
-            if (newRoomInstanceScript != null)
+            if (newRoomScript != null)
             {
-                foreach (Transform door in newRoomInstanceScript.doorPoints)
+                foreach (Transform door in newRoomScript.doorPoints)
                 {
                     if (door != selectedDoor)
-                        availableDoors.Add(door);
+                        availableDoors.Enqueue(door);
                 }
             }
 
