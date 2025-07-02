@@ -29,6 +29,11 @@ public class Hitbox : MonoBehaviour
         if (health == null) return;
         //Debug.Log($"Hitbox overlapped {other.name} (layer={LayerMask.LayerToName(other.gameObject.layer)})");
 
+        SuccessHit(other, health);
+    }
+
+    void SuccessHit(Collider other, HealthController health)
+    {
         hitEvent.Invoke();
 
         // build the DamageInfo the HealthController expects

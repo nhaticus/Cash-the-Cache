@@ -410,7 +410,7 @@ RectTransform:
   m_GameObject: {fileID: 3561104888593039843}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 165, y: 70, z: 1}
+  m_LocalScale: {x: 140, y: 70, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9296538337360663}
@@ -418,7 +418,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -358, y: 0}
+  m_AnchoredPosition: {x: -369, y: 0}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8477263893905206294
@@ -771,7 +771,7 @@ RectTransform:
   m_GameObject: {fileID: 4728094210398441625}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 65, y: 70, z: 1}
+  m_LocalScale: {x: 60, y: 70, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1390567939254570702}
@@ -905,12 +905,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 2500683646631844615}
   completionSlider: {fileID: 558400507943152002}
-  minForce: 200000
-  maxForce: 350000
-  lowerBound: -368
-  upperBound: 368
+  minForce: 250000
+  maxForce: 330000
+  lowerBound: -410
+  upperBound: 410
   timeToMove: 1
-  sliderIncrease: 1.1
+  timeIncrease: 1.4
 --- !u!1 &5549012231124857742
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,6 +1476,7 @@ GameObject:
   - component: {fileID: 3113019941263405307}
   - component: {fileID: 5000845379213737473}
   - component: {fileID: 4822459340811092022}
+  - component: {fileID: 711930513589604499}
   m_Layer: 0
   m_Name: toilet
   m_TagString: Untagged
@@ -1540,6 +1541,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &711930513589604499
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6478351578800272270}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6816596540670137108
 GameObject:
   m_ObjectHideFlags: 0

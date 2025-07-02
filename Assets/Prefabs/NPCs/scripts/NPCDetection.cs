@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -50,34 +51,36 @@ public class NPCDetection : MonoBehaviour
     {
         // find direction to player
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        bool objectDetected = Physics.Raycast(transform.position, directionToPlayer, out RaycastHit hit, sightDistance); // fire raycast in direction of player
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, directionToPlayer, sightDistance); // fire raycast in direction of player
         
         // find if player is within sight cone
         float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
-        // check if within sight cone
-        if (objectDetected && angleToPlayer <= sightAngle)
-            CheckForPlayer(hit);
+        if (hits.Length > 0 && angleToPlayer <= sightAngle)
+            CheckForPlayer(hits);
         else // object lost
             PlayerSightingLost();
     }
-    
+
     /// <summary>
-    /// Given a raycast hit, check if player is within range
+    /// Given raycast hit, check if player is in objects found
     /// </summary>
     /// <param name="objectDetected"></param>
-    void CheckForPlayer(RaycastHit objectDetected)
+    void CheckForPlayer(RaycastHit[] objectsDetected)
     {
-        if (objectDetected.transform.CompareTag("Player")) // player tag checking
+        for (int i = 0; i < objectsDetected.Length; i++)
         {
-            detectionBar.SetValue(sightTimer / sightCountdown);
+            if (objectsDetected[i].transform.CompareTag("Player")) // player tag checking
+            {
+                detectionBar.SetValue(sightTimer / sightCountdown);
 
-            playerStartUndetected = false;
-            PlayerNoticed.Invoke(objectDetected.transform.gameObject); // give game object so NPC can track position
-            PlayerSightedBehavior();
+                playerStartUndetected = false;
+                PlayerNoticed.Invoke(objectsDetected[i].transform.gameObject); // give game object so NPC can track position
+                PlayerSightedBehavior();
+                return;
+            }
         }
-        else
-            PlayerSightingLost();
 
+        PlayerSightingLost();
     }
 
     /// <summary>
@@ -120,6 +123,7 @@ public class NPCDetection : MonoBehaviour
         StartCoroutine(detectionBar.FlashingEffect()); // bar special effect
     }
 
+    // happens when NPC is knocked out
     public void EmptyDetection()
     {
         sendRaycast = true; // reset looking for player
@@ -134,9 +138,9 @@ public class NPCDetection : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sightDistance);
 
         // sight cone
+        Gizmos.color = Color.yellow;
         Vector3 leftLimit = Quaternion.Euler(0, -sightAngle, 0) * transform.forward;
         Vector3 rightLimit = Quaternion.Euler(0, sightAngle, 0) * transform.forward;
-        Gizmos.color = Color.yellow;
         Gizmos.DrawRay(transform.position, leftLimit * sightDistance);
         Gizmos.DrawRay(transform.position, rightLimit * sightDistance);
     }

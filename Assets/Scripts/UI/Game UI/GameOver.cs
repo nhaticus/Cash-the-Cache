@@ -8,7 +8,7 @@ public class GameOver : MonoBehaviour
 
     public void PlayerLose()
     {
-        GameManager.Instance.playerMoney -= 250;
+        GameManager.Instance.playerMoney -= 300;
         if (GameManager.Instance.playerMoney < 0)
             GameManager.Instance.playerMoney = 0;
     }

@@ -505,6 +505,7 @@ MonoBehaviour:
   ragdollController: {fileID: 342958251649020562}
   healthController: {fileID: 7052067989342340475}
   knockoutDuration: 10
+  permaDeath: 0
   launchStrength: 10
   playerCamera: {fileID: 0}
   pelvisBone: {fileID: 4589281271856054477}
@@ -1410,7 +1411,7 @@ Transform:
   m_GameObject: {fileID: 3393240921411027778}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.64, z: 0}
+  m_LocalPosition: {x: 0, y: 1.64, z: -0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1428,9 +1429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fc5fa79789c194b9f2c1d60c2861d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightDistance: 5
-  sightAngle: 50
-  sightCountdown: 1.6
+  sightDistance: 6
+  sightAngle: 35
+  sightCountdown: 1.2
   detectionBar: {fileID: 5257388027574726457}
   PlayerNoticed:
     m_PersistentCalls:

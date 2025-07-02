@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Toolbox Minigame
+ * Moves lock picker
+ */
+
 public class AnchoredRotation : MonoBehaviour
 {
     [Header("Settings")]
