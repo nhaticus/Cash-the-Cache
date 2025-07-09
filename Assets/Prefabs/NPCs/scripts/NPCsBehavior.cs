@@ -16,7 +16,7 @@ public class NPCsBehavior : MonoBehaviour
 
     /*  Navmesh Agent Settings   */
     [Header("Navmesh Agent Settings")]
-    [SerializeField] float agentDefaultSpeed = 3.5f;
+    [SerializeField] float defaultSpeed = 3.5f;
     [SerializeField] float runningSpeed = 5;
 
     /*  Layers for detection    */
@@ -38,8 +38,15 @@ public class NPCsBehavior : MonoBehaviour
     private void Awake()
     {
         /*  Setting up variables    */
+        defaultSpeed *= (PlayerPrefs.GetInt("Difficulty") * 1.1f) + (0.12f * DataSystem.Data.gameState.currentReplay);
+        defaultSpeed = Mathf.Min(defaultSpeed, 10); // max value is 10
+
+        runningSpeed *= (PlayerPrefs.GetInt("Difficulty") * 1.2f) + (0.12f * DataSystem.Data.gameState.currentReplay);
+        runningSpeed = Mathf.Min(runningSpeed, 10);
+
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = agentDefaultSpeed;
+        agent.speed = defaultSpeed;
+        GetComponent<HealthController>().maxHealth += Mathf.Floor((PlayerPrefs.GetInt("Difficulty") * 1.3f) * (1.12f * DataSystem.Data.gameState.currentReplay));
     }
 
     void Update()
@@ -105,7 +112,7 @@ public class NPCsBehavior : MonoBehaviour
 
     public void PlayerLost()
     {
-        agent.speed = agentDefaultSpeed;
+        agent.speed = defaultSpeed;
         SetAnimationState("isRunning", false);
 
         // wait a little

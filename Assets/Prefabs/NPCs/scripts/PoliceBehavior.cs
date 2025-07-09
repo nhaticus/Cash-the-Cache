@@ -26,7 +26,7 @@ public class PoliceBehavior : MonoBehaviour
 
     /*  Navmesh Agent Settings   */
     [Header("Navmesh Agent Settings")]
-    public float speed = 3.5f; // default speed 3.5f
+    public float speed = 6.5f;
 
     /*  Layers for detection    */
     [Header("Layers for Detection")]
@@ -59,7 +59,8 @@ public class PoliceBehavior : MonoBehaviour
     {
         // increase health and speed based on difficulty
         speed += PlayerPrefs.GetInt("Difficulty") / 2.5f;
-        GetComponent<HealthController>().maxHealth += (PlayerPrefs.GetInt("Difficulty") * 5);
+        GetComponent<HealthController>().maxHealth += Mathf.Floor((PlayerPrefs.GetInt("Difficulty") * 1.4f) + (0.15f * DataSystem.Data.gameState.currentReplay));
+        speed = Mathf.Min(speed, 12); // max value is 12
 
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();

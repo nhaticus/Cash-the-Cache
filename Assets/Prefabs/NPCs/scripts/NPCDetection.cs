@@ -36,6 +36,8 @@ public class NPCDetection : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").transform;
+        sightCountdown /= (PlayerPrefs.GetInt("Difficulty") * 1.05f) + (0.1f * DataSystem.Data.gameState.currentReplay);
+        sightCountdown = Mathf.Min(sightCountdown, 1); // max value is 1 second
     }
 
     private void Update()
@@ -67,20 +69,38 @@ public class NPCDetection : MonoBehaviour
     /// <param name="objectDetected"></param>
     void CheckForPlayer(RaycastHit[] objectsDetected)
     {
+        float playerDist = 10;
+        float wallDist = 10;
+        GameObject player = null;
+
         for (int i = 0; i < objectsDetected.Length; i++)
         {
             if (objectsDetected[i].transform.CompareTag("Player")) // player tag checking
             {
-                detectionBar.SetValue(sightTimer / sightCountdown);
-
-                playerStartUndetected = false;
-                PlayerNoticed.Invoke(objectsDetected[i].transform.gameObject); // give game object so NPC can track position
-                PlayerSightedBehavior();
-                return;
+                player = objectsDetected[i].transform.gameObject;
+                float distance = objectsDetected[i].distance;
+                if (distance < playerDist)
+                    playerDist = distance;
+            }
+            else if (objectsDetected[i].transform.CompareTag("Wall")) // prevent raycasting through a wall
+            {
+                // check if distance is the closest wall
+                float distance = objectsDetected[i].distance;
+                if (distance < wallDist)
+                    wallDist = distance;
             }
         }
 
-        PlayerSightingLost();
+        if (player && playerDist < wallDist)
+        {
+            detectionBar.SetValue(sightTimer / sightCountdown);
+
+            playerStartUndetected = false;
+            PlayerNoticed.Invoke(player); // give game object so NPC can track position
+            PlayerSightedBehavior();
+        }
+        else
+            PlayerSightingLost();
     }
 
     /// <summary>

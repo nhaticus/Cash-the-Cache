@@ -13,8 +13,6 @@ public class PoliceTimer : MonoBehaviour
     [SerializeField] Color timerDefaultColor, timerAlertColor; // remove later
 
     [Header("Police")]
-    [SerializeField] GameObject police;
-    [SerializeField] int numPoliceToSpawn = 1;
     [SerializeField] SingleAudio policeAudio;
 
     [Header("Sirens")]

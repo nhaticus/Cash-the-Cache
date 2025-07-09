@@ -18,7 +18,6 @@ public class PlayerCam : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // mouseSens = PlayerPrefs.GetFloat("KeyboardCam Sensitivity", 120);
         controllerSens = PlayerPrefs.GetFloat("Controller Sensitivity", 120);
     }
 
@@ -28,11 +27,7 @@ public class PlayerCam : MonoBehaviour
         {
             float camX = 0f;
             float camY = 0f;
-            /*
-            Vector2 stick = UserInput.Instance.Camera;
-            camX = stick.x * Time.deltaTime * controllerSens;
-            camY = stick.y * Time.deltaTime * controllerSens;
-            */
+
             // Check for controller input otherwise use mouse sensitivity
             if (Gamepad.current != null && Gamepad.current.rightStick.ReadValue() != Vector2.zero)
             {

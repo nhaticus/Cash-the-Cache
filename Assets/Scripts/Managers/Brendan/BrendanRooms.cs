@@ -30,7 +30,14 @@ public class BrendanRooms : MonoBehaviour
 
     void Start()
     {
+        SetDifficulty();
         BuildHouse();
+    }
+
+    void SetDifficulty()
+    {
+        minRooms = 5 + (int)Mathf.Floor(1.3f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
+        maxRooms = 7 + (int) Mathf.Floor(1.3f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
     }
 
     public void BuildHouse()

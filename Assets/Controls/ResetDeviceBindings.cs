@@ -21,5 +21,6 @@ public class ResetDeviceBindings : MonoBehaviour
                 action.RemoveBindingOverride(InputBinding.MaskByGroup(targetControlScheme));
             }
         }
+        PlayerPrefs.DeleteKey("rebinds");
     }
 }

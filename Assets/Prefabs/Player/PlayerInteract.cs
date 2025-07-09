@@ -84,9 +84,7 @@ public class PlayerInteract : MonoBehaviour
                 // check if distance is the closest wall
                 float distance = objectsDetected[i].distance;
                 if (distance < wallDist)
-                {
                     wallDist = distance;
-                }
             }
         }
 
