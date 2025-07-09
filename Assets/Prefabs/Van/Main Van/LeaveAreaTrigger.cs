@@ -86,5 +86,8 @@ public class LeaveAreaTrigger : MonoBehaviour
         Item flashlight = DataSystem.GetOrCreateItem("Flashlight");
         flashlight.level = 0;
         DataSystem.SaveData();
+
+        // increase amount of plays
+        DataSystem.Data.gameState.currentReplay++;
     }
 }

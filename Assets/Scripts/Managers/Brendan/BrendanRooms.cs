@@ -111,7 +111,7 @@ public class BrendanRooms : MonoBehaviour
             // Check for room overlap
             if (!IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation))
             {
-                Debug.Log("overlap found");
+                //Debug.Log("overlap found");
                 continue;
             }
 
@@ -139,8 +139,7 @@ public class BrendanRooms : MonoBehaviour
         // either there are no more available doors or maxRooms was achieved
         if (placedRooms.Count <= minRooms)
         {
-            Debug.LogWarning("Too few rooms placed. Retrying...");
-            Debug.Log(placedRooms.Count);
+            //Debug.LogWarning("Too few rooms placed. Retrying...");
             retryNum++;
             yield return null;
             ClearAllRooms();
@@ -153,7 +152,7 @@ public class BrendanRooms : MonoBehaviour
             {
                 surface.BuildNavMesh();
             }
-            Debug.Log("finished making rooms");
+            //Debug.Log("finished making rooms");
             roomsFinished.Invoke();
         }
     }
