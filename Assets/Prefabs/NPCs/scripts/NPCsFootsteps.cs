@@ -12,17 +12,30 @@ public class NPCFootsteps : MonoBehaviour
 
     void Awake()
     {
-        // Ensure the NPC has an AudioSource configured for 3D sound
-        AudioSource sfxSource = singleAudio.PickUnusedSFXSource();
-        if (sfxSource == null)
-            sfxSource = gameObject.AddComponent<AudioSource>();
-        sfxSource.spatialBlend = 1f; // Full 3D sound
-        sfxSource.loop = true;
-        sfxSource.playOnAwake = false;
+        // set all sfx sources to spatial audio
+        foreach (AudioSource source in singleAudio.sfxSources)
+        {
+            source.spatialBlend = 1f; // Full 3D sound
+            source.loop = true;
+            source.playOnAwake = false;
 
-        sfxSource.minDistance = 2f;  // max volume at 2 units
-        sfxSource.maxDistance = 8f;  // fades from 8
-        sfxSource.rolloffMode = AudioRolloffMode.Linear; // Use linear falloff for consistent reduction
+            source.minDistance = 2f;  // max volume at 2 units
+            source.maxDistance = 8f;  // fades from 8
+            source.rolloffMode = AudioRolloffMode.Linear; // Use linear falloff for consistent reduction
+        }
+
+        // create new source
+        if (singleAudio.sfxSources.Length == 0)
+        {
+            AudioSource sfxSource = singleAudio.gameObject.AddComponent<AudioSource>();
+            sfxSource.spatialBlend = 1f; // Full 3D sound
+            sfxSource.loop = true;
+            sfxSource.playOnAwake = false;
+
+            sfxSource.minDistance = 2f;  // max volume at 2 units
+            sfxSource.maxDistance = 8f;  // fades from 8
+            sfxSource.rolloffMode = AudioRolloffMode.Linear; // Use linear falloff for consistent reduction
+        }
 
         // Get the NavMeshAgent 
         agent = GetComponent<NavMeshAgent>();
@@ -52,13 +65,14 @@ public class NPCFootsteps : MonoBehaviour
 
     private void PlayFootsteps()
     {
-        singleAudio.PlaySFX(footstepClipName);
+        Debug.Log("play footstep");
+        singleAudio.PlaySFX(footstepClipName, singleAudio.sfxSources[0]);
         isPlayingFootsteps = true;
     }
 
     private void StopFootsteps()
     {
-        singleAudio.StopSelectSFX("footsteps");
+        singleAudio.StopSelectSFX("footsteps", singleAudio.sfxSources[0]);
         isPlayingFootsteps = false;
     }
 }

@@ -3807,13 +3807,18 @@ PrefabInstance:
     - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
         type: 3}
       propertyPath: sfxSources.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
         type: 3}
       propertyPath: musicSources.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: sfxSources.Array.data[1]
+      value: 
+      objectReference: {fileID: 5628337033179422228}
     - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
         type: 3}
       propertyPath: sfxSounds.Array.data[0].clip
@@ -3892,6 +3897,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22386221f82a9304fabb6e0543bffa78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &5628337033179422228 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7552203542665645185, guid: 2adc23e863cdd154494a247a57f91b11,
+    type: 3}
+  m_PrefabInstance: {fileID: 2798159983393215125}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8857588110400644862 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6645473399776408683, guid: 2adc23e863cdd154494a247a57f91b11,

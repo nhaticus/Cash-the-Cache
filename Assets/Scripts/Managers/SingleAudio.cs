@@ -14,7 +14,7 @@ public class SingleAudio : MonoBehaviour
     public Sound[] musicSounds, sfxSounds;
     public AudioSource[] musicSources, sfxSources;
 
-    public void PlayMusic(string name, bool _loop = false)
+    public void PlayMusic(string name = "", bool _loop = false, AudioSource source = null)
     {
         Sound s = System.Array.Find(musicSounds, sound => sound.name == name);
         if (s == null)
@@ -23,14 +23,19 @@ public class SingleAudio : MonoBehaviour
         }
         else
         {
-            AudioSource validSource = PickUnusedMusicSource();
+            AudioSource validSource;
+            if (source)
+                validSource = source;
+            else
+                validSource = GetAnyMusicSource();
+
             validSource.clip = s.clip;
             validSource.loop = _loop;
             validSource.Play();
         }
 
     }
-    public void PlaySFX(string name, bool loop = false)
+    public void PlaySFX(string name = "", bool loop = false, AudioSource source = null)
     {
         Sound s = System.Array.Find(sfxSounds, sound => sound.name == name);
         if (s == null)
@@ -39,7 +44,13 @@ public class SingleAudio : MonoBehaviour
         }
         else
         {
-            AudioSource validSource = PickUnusedSFXSource();
+            AudioSource validSource;
+            if (source)
+                validSource = source;
+            else
+                validSource = GetAnySFXSource();
+                
+
             validSource.clip = s.clip;
             validSource.loop = loop;
             validSource.Play();
@@ -59,12 +70,6 @@ public class SingleAudio : MonoBehaviour
             }
         }
 
-        if (validSource == null) // all sources are used
-        {
-            validSource = gameObject.AddComponent<AudioSource>(); // add new source
-            // set source mixer
-        }
-
         return validSource;
     }
 
@@ -81,13 +86,30 @@ public class SingleAudio : MonoBehaviour
             }
         }
 
-        if (validSource == null) // all sources are used
-        {
-            validSource = gameObject.AddComponent<AudioSource>(); // add new source
-            // set source mixer
-        }
-
         return validSource;
+    }
+
+    /// <summary>
+    /// Tries to get an unused source first
+    /// If not then takes first source
+    /// </summary>
+    /// <returns></returns>
+    public AudioSource GetAnyMusicSource()
+    {
+        AudioSource source = PickUnusedMusicSource();
+        if (source == null)
+            source = musicSources[0];
+
+        return source;
+    }
+
+    public AudioSource GetAnySFXSource()
+    {
+        AudioSource source = PickUnusedSFXSource();
+        if(source == null)
+            source = sfxSources[0];
+
+        return source;
     }
 
     /// <summary>
@@ -104,14 +126,20 @@ public class SingleAudio : MonoBehaviour
         return null; // none found
     }
 
-    public void StopSelectSFX(string name)
+    public void StopSelectSFX(string name, AudioSource source = null)
     {
-        AudioSource source = FindSource(name, sfxSources);
+        // check if source is given
+        AudioSource chosenSource;
         if (source)
+            chosenSource = source;
+        else
+            chosenSource = FindSource(name, sfxSources);
+
+        if (chosenSource)
         {
-            source.Stop();
-            source.loop = false;
-            source.clip = null; // Force reset
+            chosenSource.Stop();
+            chosenSource.loop = false;
+            chosenSource.clip = null; // Force reset
         }
     }
 
