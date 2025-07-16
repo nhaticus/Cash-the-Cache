@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /*
 Same as AudioManager but for individual game objects
@@ -10,7 +12,7 @@ Basically, if you do not want the component to persist between scenes
 public class SingleAudio : MonoBehaviour
 {
     public Sound[] musicSounds, sfxSounds;
-    public AudioSource musicSource, sfxSource;
+    public AudioSource[] musicSources, sfxSources;
 
     public void PlayMusic(string name, bool _loop = false)
     {
@@ -18,59 +20,144 @@ public class SingleAudio : MonoBehaviour
         if (s == null)
         {
             Debug.Log("Sound: " + name + " not found!");
-            return;
         }
         else
         {
-            musicSource.clip = s.clip;
-            musicSource.loop = _loop;
-            musicSource.Play();
+            AudioSource validSource = PickUnusedMusicSource();
+            validSource.clip = s.clip;
+            validSource.loop = _loop;
+            validSource.Play();
         }
 
     }
-
     public void PlaySFX(string name, bool loop = false)
     {
         Sound s = System.Array.Find(sfxSounds, sound => sound.name == name);
         if (s == null)
         {
             Debug.Log("Sound: " + name + " not found!");
-            return;
         }
         else
         {
-            sfxSource.clip = s.clip;
-            sfxSource.loop = loop;
-            sfxSource.Play();
+            AudioSource validSource = PickUnusedSFXSource();
+            validSource.clip = s.clip;
+            validSource.loop = loop;
+            validSource.Play();
         }
     }
 
-    public void StopSFX()
+    public AudioSource PickUnusedMusicSource()
     {
-        sfxSource.Stop();
-        sfxSource.loop = false;
-        sfxSource.clip = null; // Force reset
+        // loop through musicSource, find unused source, and play music in that source
+        AudioSource validSource = null;
+        foreach (AudioSource source in musicSources)
+        {
+            if (!source.isPlaying)
+            {
+                validSource = source;
+                break;
+            }
+        }
+
+        if (validSource == null) // all sources are used
+        {
+            validSource = gameObject.AddComponent<AudioSource>(); // add new source
+            // set source mixer
+        }
+
+        return validSource;
     }
 
-    // USE THIS CODE FOR SOUND PANEL:
+    public AudioSource PickUnusedSFXSource()
+    {
+        // loop through musicSource, find unused source, and play music in that source
+        AudioSource validSource = null;
+        foreach (AudioSource source in sfxSources)
+        {
+            if (!source.isPlaying)
+            {
+                validSource = source;
+                break;
+            }
+        }
+
+        if (validSource == null) // all sources are used
+        {
+            validSource = gameObject.AddComponent<AudioSource>(); // add new source
+            // set source mixer
+        }
+
+        return validSource;
+    }
+
+    /// <summary>
+    /// Find source that is playing sound
+    /// </summary>
+    /// <param name="name"></param>
+    public AudioSource FindSource(string name, AudioSource[] sources)
+    {
+        foreach (AudioSource source in musicSources)
+        {
+            if (source.clip.name == name)
+                return source;
+        }
+        return null; // none found
+    }
+
+    public void StopSelectSFX(string name)
+    {
+        AudioSource source = FindSource(name, sfxSources);
+        if (source)
+        {
+            source.Stop();
+            source.loop = false;
+            source.clip = null; // Force reset
+        }
+    }
+
+    public void StopAllSFX()
+    {
+        // stop all sfx
+        foreach (AudioSource source in musicSources)
+        {
+            source.Stop();
+            source.loop = false;
+            source.clip = null; // Force reset
+        }
+    }
+
+    /*   ---- SOUND PANEL ----   */
 
     public void ToggleMusic()
     {
-        musicSource.mute = !musicSource.mute;
+        // toggle all music sources
+        foreach (AudioSource source in musicSources)
+        {
+            source.mute = !source.mute;
+        }
     }
     public void ToggleSFX()
     {
-        sfxSource.mute = !sfxSource.mute;
+        foreach (AudioSource source in sfxSources)
+        {
+            source.mute = !source.mute;
+        }
     }
 
     public void MusicVolume(float volume)
     {
-        musicSource.volume = volume;
+        foreach (AudioSource source in musicSources)
+        {
+            source.volume = volume;
+        }
     }
 
     public void SFXVolume(float volume)
     {
-        sfxSource.volume = volume;
+        foreach (AudioSource source in sfxSources)
+        {
+            source.volume = volume;
+        }
     }
 
 }

@@ -89,18 +89,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Time.timeScale <= 0 && isPlayingFootsteps) // prevent footstep sound when paused
         {
-            singleAudio.StopSFX();
+            singleAudio.StopSelectSFX("footsteps");
             isPlayingFootsteps = false;
             return;
         }
-        // Check if player is moving horizontally
-        bool isMoving = rb.velocity.magnitude > 0.1f;
+
+        // Check if player is moving horizontally and movement input is true
+        bool isMoving = rb.velocity.magnitude > 0.1f && moveDirection != Vector3.zero;
         if (isMoving && !isPlayingFootsteps) {
             singleAudio.PlaySFX("footsteps", true);
             isPlayingFootsteps = true;
         }
         else if (!isMoving && isPlayingFootsteps) {
-            singleAudio.StopSFX();
+            singleAudio.StopSelectSFX("footsteps");
             isPlayingFootsteps = false;
         }
     }

@@ -45,7 +45,7 @@ public class Doors : MonoBehaviour, InteractEvent
 
         if (singleAudio != null)
         {
-            AudioSource doorAudioSource = singleAudio.sfxSource;
+            AudioSource doorAudioSource = singleAudio.PickUnusedSFXSource();
             if (doorAudioSource == null)
                 doorAudioSource = gameObject.AddComponent<AudioSource>();
 

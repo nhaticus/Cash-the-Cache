@@ -13,7 +13,7 @@ public class NPCFootsteps : MonoBehaviour
     void Awake()
     {
         // Ensure the NPC has an AudioSource configured for 3D sound
-        AudioSource sfxSource = singleAudio.sfxSource;
+        AudioSource sfxSource = singleAudio.PickUnusedSFXSource();
         if (sfxSource == null)
             sfxSource = gameObject.AddComponent<AudioSource>();
         sfxSource.spatialBlend = 1f; // Full 3D sound
@@ -54,26 +54,11 @@ public class NPCFootsteps : MonoBehaviour
     {
         singleAudio.PlaySFX(footstepClipName);
         isPlayingFootsteps = true;
-        /*
-        Sound s = System.Array.Find(AudioManager.Instance.sfxSounds, sound => sound.name == footstepClipName);
-        if (s != null)
-        {
-            singleAudio.PlaySFX(footstepClipName);
-            audioSource.clip = s.clip;
-            audioSource.Play();
-            isPlayingFootsteps = true;
-        }
-        else
-        {
-            Debug.LogWarning("Footstep sound not found in AudioManager.");
-        }
-        */
     }
 
     private void StopFootsteps()
     {
-        if (singleAudio.sfxSource.isPlaying)
-            singleAudio.sfxSource.Stop();
+        singleAudio.StopSelectSFX("footsteps");
         isPlayingFootsteps = false;
     }
 }
