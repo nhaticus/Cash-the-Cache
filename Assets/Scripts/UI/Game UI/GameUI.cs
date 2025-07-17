@@ -18,10 +18,6 @@ public class GameUI : MonoBehaviour
     private void Start()
     {
         StartCoroutine(FindPlayer());
-
-        // remove task list if played already
-        if (DataSystem.Data.gameState.currentReplay > 0)
-            taskList.transform.gameObject.SetActive(false);
     }
 
     private void Update()

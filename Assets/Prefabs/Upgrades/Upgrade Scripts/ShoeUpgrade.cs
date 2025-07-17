@@ -6,8 +6,6 @@ public class ShoeUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
 
-    [SerializeField] SingleAudio singleAudio;
-
     public int price = 40;
 
     Item runningShoe;
@@ -41,13 +39,13 @@ public class ShoeUpgrade : MonoBehaviour
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
-            singleAudio.PlaySFX("purchase upgrade");
+            upgradeInfo.singleAudio.PlaySFX("purchase upgrade");
             upgradeInfo.upgradePurchased.Invoke();
             CheckPurchasable();
         }
         else
         {
-            singleAudio.PlaySFX("deny");
+            upgradeInfo.singleAudio.PlaySFX("deny");
         }
     }
 

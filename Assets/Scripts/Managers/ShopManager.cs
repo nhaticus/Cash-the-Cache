@@ -13,6 +13,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] GameObject shopUI;
     [SerializeField] Transform shopPanelTransform;
     [SerializeField] SingleAudio singleAudio;
+    [SerializeField] SingleAudio upgradeSingleAudio;
 
     public TMP_Text moneyText;
 
@@ -77,6 +78,7 @@ public class ShopManager : MonoBehaviour
             GameObject created = Instantiate(item, shopPanelTransform);
             created.GetComponent<UpgradeInfo>().shopManager = this;
             created.GetComponent<UpgradeInfo>().upgradePurchased.AddListener(CheckUpgrades);
+            created.GetComponent<UpgradeInfo>().singleAudio = upgradeSingleAudio; // give single audio reference
         }
     }
 

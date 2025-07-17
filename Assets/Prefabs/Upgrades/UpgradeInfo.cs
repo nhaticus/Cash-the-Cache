@@ -9,6 +9,7 @@ public class UpgradeInfo : MonoBehaviour
 {
     [HideInInspector] public ShopManager shopManager;
     [HideInInspector] public UnityEvent upgradePurchased;
+    [HideInInspector] public SingleAudio singleAudio;
 
     public LocalizeStringEvent localizeName;
     public TMP_Text itemPrice;

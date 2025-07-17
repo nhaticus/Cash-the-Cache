@@ -11,8 +11,14 @@ public class BoxCanvas : MonoBehaviour
     public SingleAudio singleAudio;
 
     public int difficulty;
+    [HideInInspector] public float boxOpenStrength;
+
     void Start()
     {
+        // get box open strength
+        Item screwdriver = DataSystem.GetItem("Screwdriver");
+        boxOpenStrength = 1 + screwdriver.level * screwdriver.statValue;
+
         // create screws
         screwsLeft = difficulty;
         for (int i = 0; i < screwsLeft; i++)
@@ -23,6 +29,7 @@ public class BoxCanvas : MonoBehaviour
             Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
             screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.7f);
             screwScript.removeScrew.AddListener(ScrewOff);
+            screwScript.clickStrength = boxOpenStrength;
         }
     }
 

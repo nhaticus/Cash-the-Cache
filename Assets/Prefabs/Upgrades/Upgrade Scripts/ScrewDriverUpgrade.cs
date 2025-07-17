@@ -6,8 +6,6 @@ public class ScrewDriverUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
 
-    [SerializeField] SingleAudio singleAudio;
-
     public int price = 50;
 
     Item screwdriver;
@@ -30,7 +28,6 @@ public class ScrewDriverUpgrade : MonoBehaviour
     {
         if (GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.IncreaseBoxOpening(screwdriver.statValue);
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
@@ -41,13 +38,13 @@ public class ScrewDriverUpgrade : MonoBehaviour
 
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
-            singleAudio.PlaySFX("purchase upgrade");
+            upgradeInfo.singleAudio.PlaySFX("purchase upgrade");
             upgradeInfo.upgradePurchased.Invoke();
             CheckPurchasable();
         }
         else
         {
-            singleAudio.PlaySFX("deny");
+            upgradeInfo.singleAudio.PlaySFX("deny");
         }
     }
 

@@ -1,30 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
-public class BackpackUpgrade : MonoBehaviour
+public class BoxingGloveUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
 
-    public int price = 40;
+    public int price = 75;
 
-    Item backpack;
+    Item boxingGloves;
 
     private void Start()
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
 
-        backpack = DataSystem.GetOrCreateItem("Backpack");
-        int level = backpack.level;
-        if (level > 0)
+        // get current level
+        boxingGloves = DataSystem.GetOrCreateItem("BoxingGloves");
+        int level = boxingGloves.level;
+        if (level > 0) // set price
             price = Mathf.RoundToInt(price * 1.5f * level);
 
+        // set text
         upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         upgradeInfo.localizeLevel.RefreshString();
-
         CheckPurchasable();
     }
 
@@ -32,16 +34,18 @@ public class BackpackUpgrade : MonoBehaviour
     {
         if (GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.increaseMaxWeight((int)backpack.statValue);
+            // set price
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
             upgradeInfo.itemPrice.text = "Price: " + price.ToString();
-            backpack.level++;
-            DataSystem.SaveData();
-            
-            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = backpack.level.ToString() };
-            upgradeInfo.localizeLevel.RefreshString();
 
+            // increase level
+            boxingGloves.level++;
+            DataSystem.SaveData();
+
+            // set text
+            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = boxingGloves.level.ToString() };
+            upgradeInfo.localizeLevel.RefreshString();
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
             upgradeInfo.singleAudio.PlaySFX("purchase upgrade");

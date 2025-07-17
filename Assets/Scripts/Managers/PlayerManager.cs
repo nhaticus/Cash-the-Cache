@@ -9,10 +9,6 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager Instance;
     PlayerCam playerCameraScript;
     PlayerMovement playerMovementScript;
-
-    //Player Stats
-    // [Header("Mouse Sensitivity")]
-    // public float mouseSensitivity;
     
     [Header("Controller Sensitivity")]
     public float controllerSensitivity;
@@ -29,10 +25,6 @@ public class PlayerManager : MonoBehaviour
 
     private static float moveSpeedDefault = 5f;
 
-    // STATS
-    public bool hasFlashlight = false;
-    float boxOpening = 1;
-
     public bool ableToInteract = true;
 
     [Header("Data")]
@@ -40,6 +32,7 @@ public class PlayerManager : MonoBehaviour
     Item runningShoe;
     Item flashlight;
     Item screwdriver;
+    Item boxingGloves;
     ControllerSettingsData controllerData;
     KeyboardSettingsData keyboardData;
 
@@ -72,6 +65,7 @@ public class PlayerManager : MonoBehaviour
         runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
         flashlight = DataSystem.GetOrCreateItem("Flashlight");
         screwdriver = DataSystem.GetOrCreateItem("Screwdriver");
+        boxingGloves = DataSystem.GetOrCreateItem("BoxingGloves");
         LoadUpgrades();
     }
 
@@ -199,18 +193,6 @@ public class PlayerManager : MonoBehaviour
         return maxWeight;
     }
 
-    public void IncreaseBoxOpening(float increase)
-    {
-        boxOpening += increase;
-        PlayerPrefs.SetFloat("BoxOpening", boxOpening);
-    }
-
-    public float GetBoxOpening()
-    {
-        return boxOpening;
-    }
-
-
     //Locks rotation of player camera
     public void lockRotation()
     {
@@ -285,8 +267,8 @@ public class PlayerManager : MonoBehaviour
         currentSpeed = maxSpeed;
         maxWeight = maxWeightDefault + (backpack.level * (int) backpack.statValue);
 
-        hasFlashlight = flashlight.level == 1;
-        boxOpening = 1 + screwdriver.level * screwdriver.statValue;;
+        //hasFlashlight = flashlight.level == 1;
+        //boxOpening = 1 + screwdriver.level * screwdriver.statValue;
 
         if (playerCameraScript)
         {
@@ -301,6 +283,5 @@ public class PlayerManager : MonoBehaviour
         PlayerPrefs.SetInt("MaxWeight", maxWeight);
         maxSpeed = moveSpeedDefault;
         currentSpeed = maxSpeed;
-        boxOpening = 1;
     }
 }

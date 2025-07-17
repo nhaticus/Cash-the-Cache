@@ -8,6 +8,7 @@ public class Box_Screw : MonoBehaviour
 {
     [HideInInspector] public float clicksRequired = 0;
     float clicks = 0;
+    [HideInInspector] public float clickStrength = 1;
 
     SingleAudio singleAudio;
 
@@ -22,7 +23,7 @@ public class Box_Screw : MonoBehaviour
     public void Clicked()
     {
         // increase clicks
-        clicks += PlayerManager.Instance.GetBoxOpening();
+        clicks += clickStrength;
 
         // play sound
         singleAudio.PlaySFX("unscrew");

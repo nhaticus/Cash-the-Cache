@@ -22,6 +22,13 @@ public class TaskListScript : MonoBehaviour
     [SerializeField]       
     private TextMeshProUGUI task3Text;
 
+    private void Start()
+    {
+        // remove task list if played already
+        if (DataSystem.Data.gameState.currentReplay > 0)
+            gameObject.SetActive(false);
+    }
+
     // steal item
     public void triggerTask1()
     {

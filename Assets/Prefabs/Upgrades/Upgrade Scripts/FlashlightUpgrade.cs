@@ -5,8 +5,6 @@ public class FlashlightUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
 
-    [SerializeField] SingleAudio singleAudio;
-
     public int price = 60;
     bool purchased = false;
     Item flashlight;
@@ -20,11 +18,10 @@ public class FlashlightUpgrade : MonoBehaviour
         flashlight = DataSystem.GetOrCreateItem("Flashlight");
 
         // check if flashlight was already bought
-        // yes: set display to purchased and set PlayerManager to allow flashlight
+        // yes: set display to purchased
         if (flashlight.level == 1)
         {
             purchased = true;
-            PlayerManager.Instance.hasFlashlight = true;
             GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
             upgradeInfo.localizeLevel.gameObject.SetActive(true); // show purchased
         }
@@ -35,7 +32,6 @@ public class FlashlightUpgrade : MonoBehaviour
     {
         if (!purchased && GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.hasFlashlight = true;
             GameManager.Instance.SpendMoney(price);
 
             flashlight.level = 1; // set level to 1 mean purchased and 0 means not purchased
@@ -45,13 +41,13 @@ public class FlashlightUpgrade : MonoBehaviour
             upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
             purchased = true;
 
-            singleAudio.PlaySFX("purchase upgrade");
+            upgradeInfo.singleAudio.PlaySFX("purchase upgrade");
             upgradeInfo.upgradePurchased.Invoke();
             GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
         }
         else
         {
-            singleAudio.PlaySFX("deny");
+            upgradeInfo.singleAudio.PlaySFX("deny");
         }
     }
     public void CheckPurchasable()

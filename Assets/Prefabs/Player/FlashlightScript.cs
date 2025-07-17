@@ -5,9 +5,12 @@ public class FlashlightScript : MonoBehaviour
     [SerializeField] PlayerCam playerCam;
     [SerializeField] GameObject lightObj;
 
+    bool hasFlashlight = false;
+
     void Start()
     {
-        lightObj.SetActive(PlayerManager.Instance.hasFlashlight);
+        hasFlashlight = DataSystem.GetOrCreateItem("Flashlight").level == 1;
+        lightObj.SetActive(false);
     }
 
     private void Update()
@@ -17,7 +20,7 @@ public class FlashlightScript : MonoBehaviour
             transform.rotation = Quaternion.Euler(playerCam.xRotation, playerCam.yRotation, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && PlayerManager.Instance.hasFlashlight)
+        if (Input.GetKeyDown(KeyCode.F) && hasFlashlight)
         {
             lightObj.SetActive(!lightObj.activeSelf);
         }
