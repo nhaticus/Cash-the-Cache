@@ -20,6 +20,9 @@ public class PlayerPunch : MonoBehaviour
         // cache the collider and disable it
         punchCollider = punchHitbox.GetComponent<Collider>();
         punchCollider.enabled = false;
+
+        // increase damage
+        // punchHitbox.
     }
 
     void Update()
