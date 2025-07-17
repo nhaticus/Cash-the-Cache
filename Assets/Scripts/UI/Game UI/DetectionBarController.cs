@@ -13,7 +13,7 @@ public class DetectionBarController : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] Image detectionFill;         // The Filled Image
-    [SerializeField] Color flashColor = Color.yellow;
+    [SerializeField] Color flashColor = Color.red;
 
     public void SetValue(float value)
     {
@@ -32,7 +32,7 @@ public class DetectionBarController : MonoBehaviour
         float elapsedTime = 0f;     // total time passed
         bool toggleColor = false;
 
-        // Keep toggling between Yellow and Red for the specified time
+        // Keep toggling between colors for the specified time
         while (elapsedTime < totalFlashTime)
         {
             detectionFill.color = toggleColor ? flashColor : originalColor;

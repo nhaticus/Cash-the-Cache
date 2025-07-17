@@ -118,10 +118,12 @@ public class SingleAudio : MonoBehaviour
     /// <param name="name"></param>
     public AudioSource FindSource(string name, AudioSource[] sources)
     {
-        foreach (AudioSource source in musicSources)
+        foreach (AudioSource source in sources)
         {
             if (source.clip.name == name)
+            {
                 return source;
+            }  
         }
         return null; // none found
     }

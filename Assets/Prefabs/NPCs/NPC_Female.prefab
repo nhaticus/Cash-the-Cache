@@ -319,7 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anim: {fileID: 7680575574409977099}
   defaultSpeed: 3.5
-  runningSpeed: 7
+  runningSpeed: 6
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -384,7 +384,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2831299527764118023}
         m_TargetAssemblyTypeName: NPCsBehavior, Assembly-CSharp
-        m_MethodName: PlayerLost
+        m_MethodName: SetAsleep
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -439,6 +439,9 @@ MonoBehaviour:
   launchStrength: 10
   playerCamera: {fileID: 0}
   pelvisBone: {fileID: 4589281271856054477}
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1160277434120777709
 GameObject:
   m_ObjectHideFlags: 0
@@ -2925,7 +2928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionFill: {fileID: 7533429750536754162}
-  flashColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  flashColor: {r: 0.90188676, g: 0.23128182, b: 0.114012085, a: 1}
 --- !u!1 &7256308831757117729
 GameObject:
   m_ObjectHideFlags: 0
@@ -3201,7 +3204,7 @@ GameObject:
   - component: {fileID: 7865821109944103160}
   - component: {fileID: 7533429750536754162}
   m_Layer: 5
-  m_Name: Red Fill
+  m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3247,7 +3250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.0047169924, b: 0.0047169924, a: 1}
+  m_Color: {r: 1, g: 0.9098039, b: 0.3137255, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

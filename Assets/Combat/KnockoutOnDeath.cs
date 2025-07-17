@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class KnockoutOnDeath : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class KnockoutOnDeath : MonoBehaviour
     [SerializeField] private float launchStrength = 50f;
     [SerializeField] private Transform playerCamera;
     [SerializeField] private Transform pelvisBone;
+
+    public UnityEvent OnRevive;
 
     void OnEnable()
     {
@@ -92,6 +95,10 @@ public class KnockoutOnDeath : MonoBehaviour
             ragdollController.SetRagdoll(false);
 
             healthController.Revive();
+            OnRevive.Invoke(); // emit revive event
+
+            // search for npc detection and turn on
+            GetComponentInChildren<NPCDetection>().enabled = true;
 
             //    - Re-enable your root systems
             anim.enabled = true;

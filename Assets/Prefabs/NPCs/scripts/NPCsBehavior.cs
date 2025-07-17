@@ -6,7 +6,8 @@ public enum NPCState
 {
     Patrol,
     LookAt,
-    RunAway
+    RunAway,
+    Asleep
 }
 
 public class NPCsBehavior : MonoBehaviour
@@ -96,6 +97,7 @@ public class NPCsBehavior : MonoBehaviour
         }
     }
 
+    /*  LOOK AT  */
     public void SetLookAt(GameObject player)
     {
         currentState = NPCState.LookAt;
@@ -110,6 +112,7 @@ public class NPCsBehavior : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
     }
 
+    /*  STATE CHANGERS  */
     public void PlayerLost()
     {
         agent.speed = defaultSpeed;
@@ -135,6 +138,17 @@ public class NPCsBehavior : MonoBehaviour
         Vector3 exit = GameManager.Instance.GetNPCExitPoint();
         agent.SetDestination(exit);
         agent.speed = runningSpeed;
+    }
+
+    // When NPC is asleep/dead
+    // stop moving, lose Player sight, and stop detecting player
+    public void SetAsleep()
+    {
+        currentState = NPCState.Asleep;
+        PlayerLost();
+
+        // search for npc detection and turn off
+        GetComponentInChildren<NPCDetection>().enabled = false;
     }
 
     /// <summary>

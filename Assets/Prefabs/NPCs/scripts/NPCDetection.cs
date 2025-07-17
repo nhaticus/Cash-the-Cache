@@ -36,6 +36,8 @@ public class NPCDetection : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").transform;
+
+        // alter sight based on difficulty
         sightCountdown /= (PlayerPrefs.GetInt("Difficulty") * 1.05f) + (0.1f * DataSystem.Data.gameState.currentReplay);
         sightCountdown = Mathf.Min(sightCountdown, 1); // max value is 1 second
     }
