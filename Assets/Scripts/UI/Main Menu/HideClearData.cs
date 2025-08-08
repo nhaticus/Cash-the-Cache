@@ -10,7 +10,11 @@ using UnityEngine.EventSystems;
 
 public class HideClearData : MonoBehaviour
 {
+    [Header("Dependencies")]
     [SerializeField] EventSystem eventSystem;
+    [SerializeField] SingleAudio singleAudio;
+
+    [Header("UI Panels")]
     [SerializeField] GameObject panel1, panel2, main, settings;
     [SerializeField] GameObject settingsButton;
 
@@ -21,11 +25,15 @@ public class HideClearData : MonoBehaviour
 
     IEnumerator HideCutscene()
     {
+        singleAudio.PlaySFX("explosion");
+        singleAudio.PlaySFX("disappear");
         yield return FadeOutEffect(panel2, 0.9f);
         yield return new WaitForSeconds(0.5f);
+        singleAudio.PlaySFX("disappear");
         yield return FadeOutEffect(panel1, 0.9f);
         yield return new WaitForSeconds(0.5f);
         main.SetActive(true);
+        singleAudio.PlaySFX("disappear");
         yield return FadeOutEffect(settings, 0.9f);
         eventSystem.SetSelectedGameObject(settingsButton); // set selected button
     }
