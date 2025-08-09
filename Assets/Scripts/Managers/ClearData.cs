@@ -7,6 +7,10 @@ public class ClearData : MonoBehaviour
     [SerializeField] GameObject panel1, panel2;
     public void StartFadeInPanel(GameObject panel)
     {
+        // set panel alphas
+        panel1.GetComponent<CanvasGroup>().alpha = 1;
+        panel2.GetComponent<CanvasGroup>().alpha = 1;
+
         StartCoroutine(FadeInPanel(panel, 0.4f));
     }
 
@@ -21,6 +25,7 @@ public class ClearData : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
+        panelGroup.alpha = 1; // making sure alpha is set
     }
 
     void Clear()

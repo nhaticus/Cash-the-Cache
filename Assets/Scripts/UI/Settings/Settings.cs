@@ -19,8 +19,9 @@ public class Settings : MonoBehaviour
 
     [SerializeField] Color selectionButtonSelected;
     
-    private void Start()
+    private void OnEnable()
     {
+        GetComponent<CanvasGroup>().alpha = 1; // reseting alpha because clear data fades it out
         OpenVolume();
     }
     

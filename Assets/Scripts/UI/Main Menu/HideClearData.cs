@@ -15,7 +15,8 @@ public class HideClearData : MonoBehaviour
     [SerializeField] SingleAudio singleAudio;
 
     [Header("UI Panels")]
-    [SerializeField] GameObject panel1, panel2, main, settings;
+    [SerializeField] GameObject settings;
+    [SerializeField] GameObject panel1, panel2, main;
     [SerializeField] GameObject settingsButton;
 
     public void HideObjects() {
@@ -25,16 +26,22 @@ public class HideClearData : MonoBehaviour
 
     IEnumerator HideCutscene()
     {
+        // destroy panel 2
         singleAudio.PlaySFX("explosion");
         singleAudio.PlaySFX("disappear");
         yield return FadeOutEffect(panel2, 0.9f);
         yield return new WaitForSeconds(0.5f);
+
+        // panel 1
         singleAudio.PlaySFX("disappear");
         yield return FadeOutEffect(panel1, 0.9f);
         yield return new WaitForSeconds(0.5f);
+
+        // back to main
         main.SetActive(true);
         singleAudio.PlaySFX("disappear");
         yield return FadeOutEffect(settings, 0.9f);
+
         eventSystem.SetSelectedGameObject(settingsButton); // set selected button
     }
 
@@ -49,6 +56,7 @@ public class HideClearData : MonoBehaviour
             time -= Time.deltaTime;
             yield return null;
         }
+        group.alpha = 0; // making sure alpha is set
         obj.SetActive(false);
     }
 }
