@@ -65,7 +65,6 @@ public class NPCFootsteps : MonoBehaviour
 
     private void PlayFootsteps()
     {
-        Debug.Log("play footstep");
         singleAudio.PlaySFX(footstepClipName, singleAudio.sfxSources[0]);
         isPlayingFootsteps = true;
     }

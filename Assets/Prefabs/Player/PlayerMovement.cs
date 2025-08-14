@@ -37,6 +37,10 @@ public class PlayerMovement : MonoBehaviour
         {
             originalSpeed = PlayerManager.Instance.getMoveSpeed();
             moveSpeed = PlayerManager.Instance.getMoveSpeed();
+
+            // increase max health
+            Item vitamins = DataSystem.GetItem("Vitamins");
+            //GetComponent<HealthController>().maxHealth += vitamins.level * vitamins.statValue;
         }
 
         standingCamPos = new Vector3(0f, 1f, 0f);

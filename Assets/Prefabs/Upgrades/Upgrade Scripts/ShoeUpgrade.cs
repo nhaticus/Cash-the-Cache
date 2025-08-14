@@ -15,10 +15,12 @@ public class ShoeUpgrade : MonoBehaviour
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
         runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
+
         int level = runningShoe.level;
         if (level > 0)
             price = Mathf.RoundToInt(price * 1.5f * level);
-        upgradeInfo.itemPrice.text = "Price: " + price.ToString();
+        upgradeInfo.itemPrice.text = "$" + price.ToString();
+
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         upgradeInfo.localizeLevel.RefreshString();
         CheckPurchasable();
@@ -31,16 +33,14 @@ public class ShoeUpgrade : MonoBehaviour
             PlayerManager.Instance.setMaxMoveSpeed(runningShoe.statValue * runningShoe.level);
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
-            upgradeInfo.itemPrice.text = "Price: " + price.ToString();
+            upgradeInfo.itemPrice.text = "$" + price.ToString();
+
             runningShoe.level++;
             DataSystem.SaveData();
             upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = runningShoe.level.ToString() };
             upgradeInfo.localizeLevel.RefreshString();
 
-            upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
-
-            upgradeInfo.singleAudio.PlaySFX("purchase upgrade");
-            upgradeInfo.upgradePurchased.Invoke();
+            upgradeInfo.PurchaseUpdate();
             CheckPurchasable();
         }
         else

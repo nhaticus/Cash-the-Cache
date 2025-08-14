@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ public class BackpackUpgrade : MonoBehaviour
         if (level > 0)
             price = Mathf.RoundToInt(price * 1.5f * level);
 
-        upgradeInfo.itemPrice.text = "Price: " + price.ToString();
+        upgradeInfo.itemPrice.text = "$" + price.ToString();
 
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         upgradeInfo.localizeLevel.RefreshString();
@@ -35,17 +36,14 @@ public class BackpackUpgrade : MonoBehaviour
             PlayerManager.Instance.increaseMaxWeight((int)backpack.statValue);
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
-            upgradeInfo.itemPrice.text = "Price: " + price.ToString();
+            upgradeInfo.itemPrice.text = "$" + price.ToString();
             backpack.level++;
             DataSystem.SaveData();
             
             upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = backpack.level.ToString() };
             upgradeInfo.localizeLevel.RefreshString();
 
-            upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
-
-            upgradeInfo.singleAudio.PlaySFX("purchase upgrade");
-            upgradeInfo.upgradePurchased.Invoke();
+            upgradeInfo.PurchaseUpdate();
             CheckPurchasable();
         }
         else

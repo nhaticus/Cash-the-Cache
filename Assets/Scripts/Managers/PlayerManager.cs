@@ -30,9 +30,6 @@ public class PlayerManager : MonoBehaviour
     [Header("Data")]
     Item backpack;
     Item runningShoe;
-    Item flashlight;
-    Item screwdriver;
-    Item boxingGloves;
     ControllerSettingsData controllerData;
     KeyboardSettingsData keyboardData;
 
@@ -63,9 +60,6 @@ public class PlayerManager : MonoBehaviour
         keyboardData = DataSystem.SettingsData.keyboard; 
         backpack = DataSystem.GetOrCreateItem("Backpack");
         runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
-        flashlight = DataSystem.GetOrCreateItem("Flashlight");
-        screwdriver = DataSystem.GetOrCreateItem("Screwdriver");
-        boxingGloves = DataSystem.GetOrCreateItem("BoxingGloves");
         LoadUpgrades();
     }
 
@@ -266,9 +260,6 @@ public class PlayerManager : MonoBehaviour
         maxSpeed = moveSpeedDefault + runningShoe.level * runningShoe.statValue;
         currentSpeed = maxSpeed;
         maxWeight = maxWeightDefault + (backpack.level * (int) backpack.statValue);
-
-        //hasFlashlight = flashlight.level == 1;
-        //boxOpening = 1 + screwdriver.level * screwdriver.statValue;
 
         if (playerCameraScript)
         {

@@ -4,12 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 using UnityEngine.Events;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
 public class UpgradeInfo : MonoBehaviour
 {
     [HideInInspector] public ShopManager shopManager;
     [HideInInspector] public UnityEvent upgradePurchased;
-    [HideInInspector] public SingleAudio singleAudio;
+    public SingleAudio singleAudio;
 
     public LocalizeStringEvent localizeName;
     public TMP_Text itemPrice;
@@ -22,5 +23,17 @@ public class UpgradeInfo : MonoBehaviour
     public void UpdateItem()
     {
         updateItem.Invoke();
+    }
+
+    /// <summary>
+    /// Generic function to update money text, play sound, and invoke updateItem event
+    /// </summary>
+    public void PurchaseUpdate()
+    {
+        shopManager.moneyText.StringReference["money"] = new StringVariable { Value = GameManager.Instance.playerMoney.ToString() };
+        shopManager.moneyText.RefreshString();
+
+        singleAudio.PlaySFX("purchase upgrade");
+        upgradePurchased.Invoke();
     }
 }

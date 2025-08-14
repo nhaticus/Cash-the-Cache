@@ -10,15 +10,10 @@ public class Box_Screw : MonoBehaviour
     float clicks = 0;
     [HideInInspector] public float clickStrength = 1;
 
-    SingleAudio singleAudio;
+    public SingleAudio singleAudio; // given by box canvas
 
     [HideInInspector] public UnityEvent removeScrew;
 
-    private void Start()
-    {
-        // get access to parent single Audio
-        singleAudio = transform.parent.GetComponent<BoxCanvas>().singleAudio;
-    }
 
     public void Clicked()
     {

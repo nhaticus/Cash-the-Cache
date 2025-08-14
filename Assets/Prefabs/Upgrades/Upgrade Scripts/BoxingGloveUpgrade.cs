@@ -10,7 +10,7 @@ public class BoxingGloveUpgrade : MonoBehaviour
 
     public int price = 75;
 
-    Item boxingGloves;
+    Item vitamins;
 
     private void Start()
     {
@@ -18,13 +18,12 @@ public class BoxingGloveUpgrade : MonoBehaviour
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
 
         // get current level
-        boxingGloves = DataSystem.GetOrCreateItem("BoxingGloves");
-        int level = boxingGloves.level;
+        vitamins = DataSystem.GetOrCreateItem("Vitamins");
+        int level = vitamins.level;
         if (level > 0) // set price
             price = Mathf.RoundToInt(price * 1.5f * level);
+        upgradeInfo.itemPrice.text = "$" + price.ToString();
 
-        // set text
-        upgradeInfo.itemPrice.text = "Price: " + price.ToString();
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         upgradeInfo.localizeLevel.RefreshString();
         CheckPurchasable();
@@ -37,19 +36,18 @@ public class BoxingGloveUpgrade : MonoBehaviour
             // set price
             GameManager.Instance.SpendMoney(price);
             price = Mathf.RoundToInt(price * 1.5f);
-            upgradeInfo.itemPrice.text = "Price: " + price.ToString();
+            upgradeInfo.itemPrice.text = "$" + price.ToString();
 
             // increase level
-            boxingGloves.level++;
+            vitamins.level++;
             DataSystem.SaveData();
 
             // set text
-            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = boxingGloves.level.ToString() };
+            upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = vitamins.level.ToString() };
             upgradeInfo.localizeLevel.RefreshString();
-            upgradeInfo.shopManager.moneyText.text = "Money: $" + GameManager.Instance.playerMoney.ToString();
 
-            upgradeInfo.singleAudio.PlaySFX("purchase upgrade");
-            upgradeInfo.upgradePurchased.Invoke();
+            upgradeInfo.PurchaseUpdate();
+
             CheckPurchasable();
         }
         else
