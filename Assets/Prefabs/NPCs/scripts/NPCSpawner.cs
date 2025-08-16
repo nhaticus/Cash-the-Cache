@@ -15,21 +15,38 @@ public class NPCSpawner : MonoBehaviour
     public NPCSpawnData[] PoliceList; // NPCs to spawn (assigned in the inspector)
 
     [Header("Spawn Settings")]
+    [SerializeField] int amountOfNPCs = 2;
     public int spawnAttemptsPerNPC = 10; // Number of attempts to spawn each NPC
     public float spawnerRadius = 20.0f; // Radius to spawn NPCs around
+
+    private void Start()
+    {
+        SetDifficulty();
+    }
+
+    void SetDifficulty()
+    {
+        Debug.Log("Spawn more: " + (int)Mathf.Floor(0.15f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty")));
+        amountOfNPCs += (int) Mathf.Floor(0.15f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
+        Debug.Log("total spawn: " + amountOfNPCs);
+    }
+
 
     public void NPCSpawn()
     {
         GameManager.Instance.SpawnPolice += SpawnPolice;
 
-        foreach (NPCSpawnData NPC in NPCList)
+        for(int i = 0; i < amountOfNPCs; i++)
         {
+            Debug.Log("spawn: " + i);
+            NPCSpawnData NPC = NPCList[Random.Range(0, NPCList.Length)];
             SpawnNPC(NPC);
         }
     }
 
     void SpawnNPC(NPCSpawnData NPC)
     {
+        Debug.Log("called spawn");
         int spawnedCount = 0;
         int spawnAttempts = 0;
         int maxSpawnAttempts = NPC.spawnCount * spawnAttemptsPerNPC; // Limit the number of attempts to avoid infinite loops 
@@ -40,18 +57,12 @@ public class NPCSpawner : MonoBehaviour
             Vector3 randomPoint = Random.insideUnitSphere * spawnerRadius + transform.position;
             randomPoint.y = 1;
 
-            //Debug.DrawRay(randomPoint, Vector3.down * 10f, Color.red, 1f);
             // raycast to the ground and spawn NPC
             if (Physics.Raycast(randomPoint, Vector3.down, out RaycastHit hit, 10f, NPC.spawnLayer))
             {
                 Instantiate(NPC.NPCPrefab, hit.point, Quaternion.identity);
                 spawnedCount++;
             }
-        }
-
-        if (spawnedCount < NPC.spawnCount)
-        {
-            // Debug.Log("only spawned " + spawnedCount + " NPCs out of " + NPC.spawnCount);
         }
     }
 

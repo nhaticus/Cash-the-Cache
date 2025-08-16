@@ -89,7 +89,7 @@ public class NPCPunch : MonoBehaviour
         // play hit sound if exists
         if (hitSounds.Length > 0)
         {
-            singleAudio.PlaySFX(hitSounds[Random.Range(0, hitSounds.Length - 1)]);
+            singleAudio.PlaySFX(hitSounds[Random.Range(0, hitSounds.Length)]);
         }
     }
 }

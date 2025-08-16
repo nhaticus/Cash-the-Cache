@@ -149,7 +149,7 @@ public class RoomGenerator : MonoBehaviour
             if (npcGen)
             {
                 NPCSpawner npcGenScript = npcGen.GetComponent<NPCSpawner>();
-                npcGenScript.NPCSpawn();
+                //npcGenScript.NPCSpawn();
             }
             isComplete = true;
             roomsFinished.Invoke();

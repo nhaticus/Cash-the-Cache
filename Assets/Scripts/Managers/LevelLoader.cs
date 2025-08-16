@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 /*
  * Loading screen for Level Gen
- * Waits for RoomGenerator's roomsFinished event to stop loading
+ * Stops player from moving until received RoomGenerator's roomsFinished event to stop loading
  */
 
 public class LevelLoader : MonoBehaviour

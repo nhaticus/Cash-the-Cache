@@ -24,11 +24,9 @@ public class UserInput : MonoBehaviour
 
     PlayerInput playerInput;
     InputAction moveAction;
-    //InputAction cameraAction;
-    InputAction interactAction;
+    public InputAction interactAction;
     InputAction punchAction;
     InputAction crouchAction;
-    //InputAction jumpAction;
     InputAction inventoryAction;
     InputAction cancelAction;
     InputAction pauseAction;
@@ -57,11 +55,9 @@ public class UserInput : MonoBehaviour
     void SetupInputActions()
     {
         moveAction = playerInput.actions["Move"];
-        //cameraAction = playerInput.actions["Camera"];
         interactAction = playerInput.actions["Interact"];
         punchAction = playerInput.actions["Punch"];
         crouchAction = playerInput.actions["Crouch"];
-        //jumpAction = playerInput.actions["Jump"];
         inventoryAction = playerInput.actions["Inventory"];
         cancelAction = playerInput.actions["Cancel"];
         pauseAction = playerInput.actions["Pause"];
@@ -70,11 +66,9 @@ public class UserInput : MonoBehaviour
     void UpdateInput()
     {
         Move = moveAction.ReadValue<Vector2>();
-        //Camera = cameraAction.ReadValue<Vector2>();
-        Interact = interactAction.WasPressedThisFrame();
+        Interact = interactAction.ReadValue<float>() > 0.3f;
         Punch = punchAction.WasPressedThisFrame();
         Crouch = crouchAction.WasPressedThisFrame();
-        //Jump = jumpAction.WasPressedThisFrame();
         Inventory = inventoryAction.WasPressedThisFrame();
         Cancel = cancelAction.WasPressedThisFrame();
         Pause = pauseAction.WasPressedThisFrame();

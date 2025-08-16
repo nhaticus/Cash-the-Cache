@@ -36,6 +36,10 @@ public class NPCsBehavior : MonoBehaviour
 
     [SerializeField] NPCState currentState = NPCState.Patrol;
 
+    [Header("Sounds")]
+    [SerializeField] SingleAudio singleAudio;
+    [SerializeField] string[] noticeSFX, runSFX, deathSFX;
+
     private void Awake()
     {
         /*  Setting up variables    */
@@ -100,6 +104,9 @@ public class NPCsBehavior : MonoBehaviour
     /*  LOOK AT  */
     public void SetLookAt(GameObject player)
     {
+        if (noticeSFX.Length > 0)
+            singleAudio.PlaySFX(noticeSFX[Random.Range(0, noticeSFX.Length)]);
+
         currentState = NPCState.LookAt;
         objectToLookAt = player;
         agent.isStopped = true;
@@ -128,6 +135,9 @@ public class NPCsBehavior : MonoBehaviour
 
     public void SetRunaway()
     {
+        if (runSFX.Length > 0)
+            singleAudio.PlaySFX(runSFX[Random.Range(0, runSFX.Length)]);
+
         agent.isStopped = false;
 
         // change state
@@ -144,6 +154,9 @@ public class NPCsBehavior : MonoBehaviour
     // stop moving, lose Player sight, and stop detecting player
     public void SetAsleep()
     {
+        if (deathSFX.Length > 0)
+            singleAudio.PlaySFX(deathSFX[Random.Range(0, deathSFX.Length)]);
+
         currentState = NPCState.Asleep;
         PlayerLost();
 

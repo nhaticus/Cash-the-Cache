@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Components;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -21,7 +23,7 @@ public class ResultScreen : MonoBehaviour
     [Header("Dependencies")]
     [SerializeField] GameObject resultElement; // prefab that shows item stolen
     [SerializeField] Transform resultGridTransform;
-    [SerializeField] TMP_Text totalStolenText;
+    [SerializeField] LocalizeStringEvent totalStolenText;
     [SerializeField] GameObject continueButton;
 
     [SerializeField] Scrollbar scrollbar;
@@ -49,7 +51,8 @@ public class ResultScreen : MonoBehaviour
             result.GetComponent<ResultElement>().Initialize(lootInfo.sprite, lootInfo.name, amount, lootInfo.value);
 
             total += lootInfo.value * amount;
-            totalStolenText.text = "Total Stolen: " + total;
+            totalStolenText.StringReference["money"] = new StringVariable { Value = total.ToString() };
+            totalStolenText.RefreshString();
 
             if (!scrollClicked)
                 scrollbar.value = 0;
