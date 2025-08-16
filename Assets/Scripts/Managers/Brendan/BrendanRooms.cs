@@ -146,6 +146,13 @@ public class BrendanRooms : MonoBehaviour
             Debug.Log("position");
             newRoom.transform.position = newRoomPosition;
 
+            //GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
+            //newRoom.transform.SetParent(transform);
+
+            roomCount++;
+
+            placedRooms.Add(newRoom);
+
             // should not be here but just testing
             // should be before building is spawned, if room is not good just dont spawn that room instead of retrying everythign
             if (IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation) == false)
@@ -154,13 +161,6 @@ public class BrendanRooms : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
                 continue;
             }
-
-            //GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
-            //newRoom.transform.SetParent(transform);
-
-            roomCount++;
-
-            placedRooms.Add(newRoom);
 
             // add room's doors to list
             if (newRoomScript != null)
@@ -249,14 +249,12 @@ public class BrendanRooms : MonoBehaviour
             return true;
         }
 
-        /*
-         * worldCenter = position + rotation * roomCollider.center;
-        matrix = roomCollider.transform.localToWorldMatrix;
-        */
-        halfExtents = new Vector3(roomCollider.size.x, roomCollider.size.y, roomCollider.size.z);
         
+        worldCenter = position + rotation * roomCollider.center;
         matrix = roomCollider.transform.localToWorldMatrix;
-        worldCenter = roomCollider.transform.TransformPoint(roomCollider.center);
+        halfExtents = roomCollider.size * 0.5f;
+
+        //worldCenter = roomCollider.transform.TransformPoint(roomCollider.center);
         //halfExtents = roomCollider.transform.TransformVector(roomCollider.size * 0.5f);
 
         // Check for overlap
@@ -278,13 +276,14 @@ public class BrendanRooms : MonoBehaviour
     {
         Gizmos.color = UnityEngine.Color.red;
         Gizmos.matrix = matrix;
-        Gizmos.DrawWireCube(worldCenter, halfExtents);
+        Gizmos.DrawWireCube(worldCenter, halfExtents * 2);
     }
 
     void ClearAllRooms()
     {
         foreach (GameObject room in placedRooms)
         {
+            Debug.Log("destroy: " + room.name);
             Destroy(room);
         }
         placedRooms.Clear();
