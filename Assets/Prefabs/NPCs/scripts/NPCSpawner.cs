@@ -38,7 +38,6 @@ public class NPCSpawner : MonoBehaviour
 
         for(int i = 0; i < amountOfNPCs; i++)
         {
-            Debug.Log("spawn: " + i);
             NPCSpawnData NPC = NPCList[Random.Range(0, NPCList.Length)];
             SpawnNPC(NPC);
         }
@@ -46,7 +45,6 @@ public class NPCSpawner : MonoBehaviour
 
     void SpawnNPC(NPCSpawnData NPC)
     {
-        Debug.Log("called spawn");
         int spawnedCount = 0;
         int spawnAttempts = 0;
         int maxSpawnAttempts = NPC.spawnCount * spawnAttemptsPerNPC; // Limit the number of attempts to avoid infinite loops 

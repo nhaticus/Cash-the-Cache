@@ -37,10 +37,15 @@ public class WeightUI : MonoBehaviour
 
     public void UpdateWeightDisplay()
     {
-        currWeightText.text = PlayerManager.Instance.getWeight().ToString();
+        if (PlayerManager.Instance)
+        {
+            Debug.Log("weight: " +
+                PlayerManager.Instance.getWeight());
+            currWeightText.text = PlayerManager.Instance.getWeight().ToString();
 
-        float percentage = PlayerManager.Instance.getWeight() / (float) PlayerManager.Instance.getMaxWeight();
-        fillBar.fillAmount = percentage;
+            float percentage = PlayerManager.Instance.getWeight() / (float)PlayerManager.Instance.getMaxWeight();
+            fillBar.fillAmount = percentage;
+        }
     }
 
     // show you cannot pick up item

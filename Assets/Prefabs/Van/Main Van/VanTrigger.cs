@@ -19,7 +19,6 @@ public class VanTrigger : MonoBehaviour
     Coroutine depositCoroutine;
 
     [Header("Deposit Timing")]
-    //[SerializeField] float baseLoadingTime = 1.0f; // Time before first item is deposited
     [SerializeField] float extraTimePerItem = 0.5f; // Time per item
 
     VanInventory vanInventory;
@@ -73,8 +72,9 @@ public class VanTrigger : MonoBehaviour
         if (!playerInRange || playerInventory == null) return;
 
         // Player hold mouse down to deposit
-        if ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0)))
+        if (Input.GetKeyDown(KeyCode.E))
         {
+            Debug.Log("e prss");
             // If not already depositing, start the coroutine
             if (depositCoroutine == null)
             {
@@ -90,8 +90,9 @@ public class VanTrigger : MonoBehaviour
                 }
             }
         }
-        else if ((UserInput.Instance && UserInput.Instance.Interact == false) || (UserInput.Instance == null && Input.GetMouseButtonUp(0))) // mouse up to stop depositing
+        else if (Input.GetKeyUp(KeyCode.E)) // mouse up to stop depositing
         {
+            Debug.Log("e up");
             // If player releases, stop partial deposit if deposit was running
             if (depositCoroutine != null)
             {
@@ -115,6 +116,8 @@ public class VanTrigger : MonoBehaviour
     // ------------------------------------------------------
     private IEnumerator DepositItemsOverTime()
     {
+        Debug.Log("depositing");
+
         // Flatten or count your items first:
         List<(string, LootInfo)> allItems = FlattenInventory(playerInventory);
         int totalItems = allItems.Count;
@@ -137,7 +140,7 @@ public class VanTrigger : MonoBehaviour
             while (itemTimer < extraTimePerItem)
             {
                 // If player releases, stop immediately
-                if ((UserInput.Instance && UserInput.Instance.Interact == false) || (UserInput.Instance == null && Input.GetMouseButtonUp(0)))
+                if (!Input.GetKey(KeyCode.E))
                     yield break; // canceled
 
                 itemTimer += Time.deltaTime;

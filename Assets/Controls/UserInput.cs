@@ -66,7 +66,7 @@ public class UserInput : MonoBehaviour
     void UpdateInput()
     {
         Move = moveAction.ReadValue<Vector2>();
-        Interact = interactAction.ReadValue<float>() > 0.3f;
+        Interact = interactAction.WasPressedThisFrame();
         Punch = punchAction.WasPressedThisFrame();
         Crouch = crouchAction.WasPressedThisFrame();
         Inventory = inventoryAction.WasPressedThisFrame();
