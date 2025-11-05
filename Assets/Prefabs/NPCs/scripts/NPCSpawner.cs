@@ -26,9 +26,7 @@ public class NPCSpawner : MonoBehaviour
 
     void SetDifficulty()
     {
-        Debug.Log("Spawn more: " + (int)Mathf.Floor(0.15f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty")));
         amountOfNPCs += (int) Mathf.Floor(0.15f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
-        Debug.Log("total spawn: " + amountOfNPCs);
     }
 
 

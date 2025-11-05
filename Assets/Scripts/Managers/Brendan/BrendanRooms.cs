@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
@@ -102,7 +101,7 @@ public class BrendanRooms : MonoBehaviour
 
             // select a door
             Transform selectedDoor = newRoomScript.doorPoints[Random.Range(0, newRoomScript.doorPoints.Length)];
-            Debug.Log("door: " + selectedDoor.parent.name + " to " + currentDoor.parent.name);
+            Debug.Log("connect door: " + selectedDoor.parent.name + " to " + currentDoor.parent.name);
 
             /*
              * Rotate room to be same rotation as old door
@@ -112,11 +111,11 @@ public class BrendanRooms : MonoBehaviour
             Vector3 horizontalCurrentForward = new Vector3(currentDoor.forward.x, 0, currentDoor.forward.z).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(horizontalCurrentForward);
             Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedDoor.rotation);
-            newRoomRotation = newRoomRotation * spawningRoom.transform.rotation;
+            //newRoomRotation *= spawningRoom.transform.rotation;
 
             Vector3 doorOffset = selectedDoor.position - spawningRoom.transform.position;
             Vector3 newRoomPosition = currentDoor.position - newRoomRotation * doorOffset;
-            
+            Debug.Log("new room pos: " + newRoomPosition);
 
             /*
             // Align opposing directions
@@ -134,31 +133,36 @@ public class BrendanRooms : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
                 continue;
             }
-            */
 
-            // Spawn room
-            GameObject newRoom = Instantiate(spawningRoom);
-            newRoom.transform.SetParent(transform);
-            yield return new WaitForSeconds(0.7f);
-            Debug.Log("rotate");
-            newRoom.transform.rotation = newRoomRotation;
-            yield return new WaitForSeconds(0.7f);
-            Debug.Log("position");
-            newRoom.transform.position = newRoomPosition;
-
+            // SHOULD BE THIS INSTEAD OF BELOW
             //GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
             //newRoom.transform.SetParent(transform);
+            */
 
+            // Spawn room (CHANGE LATER, ONLY HERE TO SEE WHAT IT SHOULD BE DOING)
+            Debug.Log("get box size before spawn: " + spawningRoom.GetComponent<BoxCollider>().size);
+
+            GameObject newRoom = Instantiate(spawningRoom);
+            newRoom.transform.SetParent(transform);
+            yield return new WaitForSeconds(0.75f);
+            Debug.Log("rotate");
+            newRoom.transform.rotation = newRoomRotation;
+            yield return new WaitForSeconds(0.75f);
+            Debug.Log("position");
+            newRoom.transform.position = newRoomPosition;
+            yield return new WaitForSeconds(0.5f);
+            
             roomCount++;
 
             placedRooms.Add(newRoom);
 
+            Debug.Log("Check is placement valid");
             // should not be here but just testing
-            // should be before building is spawned, if room is not good just dont spawn that room instead of retrying everythign
+            // should be before building is spawned, if room is not good just dont spawn that room instead of retrying everything
             if (IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation) == false)
             {
                 Debug.Log("exit loop");
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.75f);
                 continue;
             }
 
@@ -172,7 +176,7 @@ public class BrendanRooms : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSeconds(0.75f);
         }
 
         // either no more available doors or maxRooms was achieved
@@ -192,6 +196,11 @@ public class BrendanRooms : MonoBehaviour
 
             roomsFinished.Invoke();
         }
+    }
+
+    void PlaceRoom(GameObject spawningRoom)
+    {
+
     }
 
     /// <summary>
@@ -233,12 +242,15 @@ public class BrendanRooms : MonoBehaviour
             }
         }
     }
-
+    
+    // gizmo helpers
     Matrix4x4 matrix;
-    Vector3 worldCenter;
-    Vector3 halfExtents;
+    Vector3 roomPlacementTransform;
+    Vector3 roomSize;
+    Quaternion orientation = Quaternion.identity;
+
     /// <summary>
-    /// Takes roomPrefab and checks if its collider overlaps any other Room colliders
+    /// Takes "roomPrefab" and checks if its collider overlaps any other Room colliders
     /// </summary>
     bool IsPlacementValid(GameObject roomPrefab, Vector3 position, Quaternion rotation)
     {
@@ -249,16 +261,21 @@ public class BrendanRooms : MonoBehaviour
             return true;
         }
 
-        
-        worldCenter = position + rotation * roomCollider.center;
-        matrix = roomCollider.transform.localToWorldMatrix;
-        halfExtents = roomCollider.size * 0.5f;
+        // place overlap box using room position
+        Vector3 localCenter = roomCollider.center;
+        roomPlacementTransform = roomCollider.transform.TransformPoint(localCenter);
+        Debug.Log("box collider pos: " + roomPlacementTransform);
+
+        matrix = Matrix4x4.TRS(transform.position, rotation, Vector3.one);
+        orientation = rotation;
+        Debug.Log("rotation: " + orientation);
+        roomSize = roomCollider.size;
 
         //worldCenter = roomCollider.transform.TransformPoint(roomCollider.center);
         //halfExtents = roomCollider.transform.TransformVector(roomCollider.size * 0.5f);
 
         // Check for overlap
-        Collider[] hitColliders = Physics.OverlapBox(worldCenter, halfExtents, roomCollider.transform.rotation);
+        Collider[] hitColliders = Physics.OverlapBox(transform.position + roomPlacementTransform, roomSize / 2, rotation);
         foreach (Collider hit in hitColliders)
         {
             GameObject hitObject = hit.gameObject;
@@ -268,15 +285,49 @@ public class BrendanRooms : MonoBehaviour
                 return false;
             }
         }
-        Debug.Log("good placement");
+        Debug.Log("GOOD placement");
         return true;
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = UnityEngine.Color.red;
+        Gizmos.color = Color.red;
         Gizmos.matrix = matrix;
-        Gizmos.DrawWireCube(worldCenter, halfExtents * 2);
+        //Gizmos.DrawWireCube(roomPlacementTransform, roomSize);
+        DrawBox(roomPlacementTransform, orientation, roomSize, Color.red);
+    }
+
+    // https://gist.github.com/unitycoder/58f4b5d80f423d29e35c814a9556f9d9
+    public void DrawBox(Vector3 pos, Quaternion rot, Vector3 scale, Color c)
+    {
+        // create matrix
+        Matrix4x4 m = new Matrix4x4();
+        m.SetTRS(pos, rot, scale);
+
+        var point1 = m.MultiplyPoint(new Vector3(-0.5f, -0.5f, 0.5f));
+        var point2 = m.MultiplyPoint(new Vector3(0.5f, -0.5f, 0.5f));
+        var point3 = m.MultiplyPoint(new Vector3(0.5f, -0.5f, -0.5f));
+        var point4 = m.MultiplyPoint(new Vector3(-0.5f, -0.5f, -0.5f));
+
+        var point5 = m.MultiplyPoint(new Vector3(-0.5f, 0.5f, 0.5f));
+        var point6 = m.MultiplyPoint(new Vector3(0.5f, 0.5f, 0.5f));
+        var point7 = m.MultiplyPoint(new Vector3(0.5f, 0.5f, -0.5f));
+        var point8 = m.MultiplyPoint(new Vector3(-0.5f, 0.5f, -0.5f));
+
+        Debug.DrawLine(point1, point2, c);
+        Debug.DrawLine(point2, point3, c);
+        Debug.DrawLine(point3, point4, c);
+        Debug.DrawLine(point4, point1, c);
+
+        Debug.DrawLine(point5, point6, c);
+        Debug.DrawLine(point6, point7, c);
+        Debug.DrawLine(point7, point8, c);
+        Debug.DrawLine(point8, point5, c);
+
+        Debug.DrawLine(point1, point5, c);
+        Debug.DrawLine(point2, point6, c);
+        Debug.DrawLine(point3, point7, c);
+        Debug.DrawLine(point4, point8, c);
     }
 
     void ClearAllRooms()
