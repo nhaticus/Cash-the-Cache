@@ -111,7 +111,6 @@ public class BrendanRooms : MonoBehaviour
             Vector3 horizontalCurrentForward = new Vector3(currentDoor.forward.x, 0, currentDoor.forward.z).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(horizontalCurrentForward);
             Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedDoor.rotation);
-            //newRoomRotation *= spawningRoom.transform.rotation;
 
             Vector3 doorOffset = selectedDoor.position - spawningRoom.transform.position;
             Vector3 newRoomPosition = currentDoor.position - newRoomRotation * doorOffset;
@@ -140,8 +139,7 @@ public class BrendanRooms : MonoBehaviour
             */
 
             // Spawn room (CHANGE LATER, ONLY HERE TO SEE WHAT IT SHOULD BE DOING)
-            Debug.Log("get box size before spawn: " + spawningRoom.GetComponent<BoxCollider>().size);
-
+            /*
             GameObject newRoom = Instantiate(spawningRoom);
             newRoom.transform.SetParent(transform);
             yield return new WaitForSeconds(0.75f);
@@ -149,22 +147,37 @@ public class BrendanRooms : MonoBehaviour
             newRoom.transform.rotation = newRoomRotation;
             yield return new WaitForSeconds(0.75f);
             Debug.Log("position");
+
             newRoom.transform.position = newRoomPosition;
-            yield return new WaitForSeconds(0.5f);
+            BoxCollider box = newRoom.GetComponent<BoxCollider>();
+            Vector3 roomPlacement = box.transform.TransformPoint(box.center);
             
+            yield return new WaitForSeconds(0.5f);
+
             roomCount++;
 
             placedRooms.Add(newRoom);
 
+            */
+
+            BoxCollider box = spawningRoom.GetComponent<BoxCollider>();
+            Vector3 roomPlacement = box.transform.TransformPoint(box.center);
+
             Debug.Log("Check is placement valid");
             // should not be here but just testing
             // should be before building is spawned, if room is not good just dont spawn that room instead of retrying everything
-            if (IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation) == false)
+            if (IsPlacementValid(spawningRoom, roomPlacement, newRoomRotation) == false)
             {
                 Debug.Log("exit loop");
                 yield return new WaitForSeconds(0.75f);
                 continue;
             }
+
+            roomCount++;
+
+            GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
+            newRoom.transform.SetParent(transform);
+            placedRooms.Add(newRoom);
 
             // add room's doors to list
             if (newRoomScript != null)
@@ -198,11 +211,6 @@ public class BrendanRooms : MonoBehaviour
         }
     }
 
-    void PlaceRoom(GameObject spawningRoom)
-    {
-
-    }
-
     /// <summary>
     /// Checks rooms if there are any overlapping doors and chooses one to remove
     /// </summary>
@@ -212,7 +220,6 @@ public class BrendanRooms : MonoBehaviour
         List<GameObject> removedDoors = new List<GameObject>();
         foreach (GameObject door in doorList)
         {
-
             if (removedDoors.Contains(door))
                 continue;
 
@@ -262,20 +269,17 @@ public class BrendanRooms : MonoBehaviour
         }
 
         // place overlap box using room position
-        Vector3 localCenter = roomCollider.center;
-        roomPlacementTransform = roomCollider.transform.TransformPoint(localCenter);
-        Debug.Log("box collider pos: " + roomPlacementTransform);
+        roomPlacementTransform = position;
 
         matrix = Matrix4x4.TRS(transform.position, rotation, Vector3.one);
         orientation = rotation;
-        Debug.Log("rotation: " + orientation);
         roomSize = roomCollider.size;
 
         //worldCenter = roomCollider.transform.TransformPoint(roomCollider.center);
         //halfExtents = roomCollider.transform.TransformVector(roomCollider.size * 0.5f);
 
         // Check for overlap
-        Collider[] hitColliders = Physics.OverlapBox(transform.position + roomPlacementTransform, roomSize / 2, rotation);
+        Collider[] hitColliders = Physics.OverlapBox(roomPlacementTransform, roomSize / 2, rotation);
         foreach (Collider hit in hitColliders)
         {
             GameObject hitObject = hit.gameObject;
@@ -292,9 +296,9 @@ public class BrendanRooms : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.matrix = matrix;
-        //Gizmos.DrawWireCube(roomPlacementTransform, roomSize);
+        //Gizmos.matrix = matrix;
         DrawBox(roomPlacementTransform, orientation, roomSize, Color.red);
+        //Gizmos.DrawWireCube(roomPlacementTransform, roomSize);
     }
 
     // https://gist.github.com/unitycoder/58f4b5d80f423d29e35c814a9556f9d9

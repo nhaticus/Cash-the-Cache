@@ -9,7 +9,7 @@ public class TestBox2 : MonoBehaviour
     [SerializeField] GameObject room;
 
     [SerializeField] Vector3 position;
-    [SerializeField] bool UseVector2 = false;
+    [SerializeField] bool UseVector2 = true;
     BoxCollider box;
     Vector3 boxSize;
 
@@ -24,11 +24,10 @@ public class TestBox2 : MonoBehaviour
     {
         Vector3 localCenter = box.center;
         worldCenter = box.transform.TransformPoint(localCenter);
-
         if (Input.GetKeyDown(KeyCode.C))
         {
             Debug.Log("try find");
-            Collider[] hitColliders = Physics.OverlapBox(room.transform.position, size / 2, orientation);
+            Collider[] hitColliders = Physics.OverlapBox(position + worldCenter, boxSize / 2, orientation);
             foreach (Collider hit in hitColliders)
             {
                 Debug.Log("hit: " + hit.name);
@@ -37,14 +36,11 @@ public class TestBox2 : MonoBehaviour
 
     }
 
+    // good but doesn't rotate gizmo
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.matrix = Matrix4x4.TRS(transform.position, orientation, Vector3.one);
-        if (UseVector2 == false)
-            DrawBox(worldCenter, orientation, boxSize, Color.red);
-        else
-            Gizmos.DrawWireCube(position, size);
+        DrawBox(position + worldCenter, orientation, boxSize, Color.red);
     }
 
     public void DrawBox(Vector3 pos, Quaternion rot, Vector3 scale, Color c)
