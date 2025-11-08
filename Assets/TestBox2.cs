@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestBox2 : MonoBehaviour
@@ -8,30 +9,54 @@ public class TestBox2 : MonoBehaviour
     [SerializeField] Quaternion orientation;
     [SerializeField] GameObject room;
 
-    [SerializeField] Vector3 position;
-    [SerializeField] bool UseVector2 = true;
+    [SerializeField] Vector3 expectedPosition;
+    [SerializeField] GameObject dummy;
     BoxCollider box;
     Vector3 boxSize;
+
+    Vector3 boxPosition;
 
     private void Start()
     {
         box = room.GetComponent<BoxCollider>();
         boxSize = box.size;
+
+        Vector3 localCenter = box.center;
+        boxCenter = box.transform.TransformPoint(localCenter);
+        boxPosition = transform.position + expectedPosition + boxCenter;
+        Debug.Log("boxPosition: " + boxPosition);
+
+        Vector3 assume = RotatePointAroundPivot(dummy.transform.position, boxPosition, new Vector3(0, 90, 0));
+        Debug.Log("box Position: " + RotatePointAroundPivot(dummy.transform.position, boxPosition, new Vector3(0, 90, 0)));
+        Debug.Log("box center: " + RotatePointAroundPivot(dummy.transform.position, boxCenter, new Vector3(0, 90, 0)));
+        Debug.Log("expectedPosition: " + RotatePointAroundPivot(dummy.transform.position, expectedPosition, new Vector3(0, 90, 0)));
+        Debug.Log("transform.position: " + RotatePointAroundPivot(dummy.transform.position, transform.position, new Vector3(0, 90, 0)));
+        Debug.Log("box.position: " + RotatePointAroundPivot(dummy.transform.position, box.transform.position, new Vector3(0, 90, 0)));
+        Debug.Log("room.position: " + RotatePointAroundPivot(dummy.transform.position, room.transform.position, new Vector3(0, 90, 0)));
+        dummy.transform.position = assume;
+        dummy.transform.localScale = boxSize;
+        dummy.transform.Rotate(new Vector3(0, 90, 0));
     }
 
-    Vector3 worldCenter;
+    Vector3 boxCenter;
     void Update()
     {
         Vector3 localCenter = box.center;
-        worldCenter = box.transform.TransformPoint(localCenter);
+        boxCenter = box.transform.TransformPoint(localCenter);
+        boxPosition = transform.position + expectedPosition + boxCenter;
+
         if (Input.GetKeyDown(KeyCode.C))
         {
             Debug.Log("try find");
-            Collider[] hitColliders = Physics.OverlapBox(position + worldCenter, boxSize / 2, orientation);
+            Collider[] hitColliders = Physics.OverlapBox(boxPosition, boxSize / 2, orientation);
             foreach (Collider hit in hitColliders)
             {
                 Debug.Log("hit: " + hit.name);
             }
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            Debug.Log("boxPosition: " + boxPosition);
         }
 
     }
@@ -40,7 +65,12 @@ public class TestBox2 : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        DrawBox(position + worldCenter, orientation, boxSize, Color.red);
+        DrawBox(boxPosition, orientation, boxSize, Color.red);
+    }
+
+    private Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+    {
+        return Quaternion.Euler(angles) * (point - pivot) + pivot;
     }
 
     public void DrawBox(Vector3 pos, Quaternion rot, Vector3 scale, Color c)

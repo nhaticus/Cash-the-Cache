@@ -79,7 +79,6 @@ public class BrendanRooms : MonoBehaviour
     /// </summary>
     IEnumerator GenerateRooms()
     {
-        Debug.Log("start generate rooms");
         yield return new WaitForSeconds(0.3f);
 
         if (retryNum > maxRetries)
@@ -138,47 +137,65 @@ public class BrendanRooms : MonoBehaviour
             //newRoom.transform.SetParent(transform);
             */
 
-            // Spawn room (CHANGE LATER, ONLY HERE TO SEE WHAT IT SHOULD BE DOING)
-            /*
-            GameObject newRoom = Instantiate(spawningRoom);
-            newRoom.transform.SetParent(transform);
-            yield return new WaitForSeconds(0.75f);
-            Debug.Log("rotate");
-            newRoom.transform.rotation = newRoomRotation;
-            yield return new WaitForSeconds(0.75f);
-            Debug.Log("position");
 
-            newRoom.transform.position = newRoomPosition;
+            BoxCollider box2 = spawningRoom.GetComponent<BoxCollider>();
+            Vector3 boxCenter = box2.transform.TransformPoint(box2.center);
+            Vector3 added = newRoomPosition + boxCenter;
+            Debug.Log("box center: " + boxCenter + "   added: " + added);
+            Debug.Log("world space box center: " + transform.TransformPoint(boxCenter) + " world added: " + transform.TransformPoint(added));
+            Debug.Log("super: " + RotatePointAroundPivot(added, transform.position, newRoomPosition));
+            // Spawn room (CHANGE LATER, ONLY HERE TO SEE WHAT IT SHOULD BE DOING)
+            GameObject newRoom = Instantiate(spawningRoom);
+
             BoxCollider box = newRoom.GetComponent<BoxCollider>();
             Vector3 roomPlacement = box.transform.TransformPoint(box.center);
+            Debug.Log("spawn box center: " + roomPlacement);
+
+            newRoom.transform.SetParent(transform);
+            yield return new WaitForSeconds(0.75f);
+            newRoom.transform.rotation = newRoomRotation;
+
+            roomPlacement = box.transform.TransformPoint(box.center);
+            Debug.Log("rotated box center: " + roomPlacement);
+            yield return new WaitForSeconds(0.75f);
+
+            newRoom.transform.position = newRoomPosition;
             
+            
+            roomPlacement = box.transform.TransformPoint(box.center);
+            Debug.Log("after move box center: " + roomPlacement);
             yield return new WaitForSeconds(0.5f);
 
             roomCount++;
 
             placedRooms.Add(newRoom);
 
-            */
-
+            
+            /*
             BoxCollider box = spawningRoom.GetComponent<BoxCollider>();
             Vector3 roomPlacement = box.transform.TransformPoint(box.center);
+            */
+            Vector3 boxPosition = transform.position + newRoomPosition;
+            Debug.Log("transform.position + room position: " + boxPosition);
 
-            Debug.Log("Check is placement valid");
             // should not be here but just testing
             // should be before building is spawned, if room is not good just dont spawn that room instead of retrying everything
-            if (IsPlacementValid(spawningRoom, roomPlacement, newRoomRotation) == false)
+            Debug.Log("Check is placement valid");
+            if (IsPlacementValid(spawningRoom, added, newRoomRotation) == false)
             {
                 Debug.Log("exit loop");
                 yield return new WaitForSeconds(0.75f);
                 continue;
             }
 
-            roomCount++;
+            yield return new WaitForSeconds(0.75f);
 
+            /*
+            roomCount++;
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
             newRoom.transform.SetParent(transform);
             placedRooms.Add(newRoom);
-
+            */
             // add room's doors to list
             if (newRoomScript != null)
             {
@@ -209,6 +226,11 @@ public class BrendanRooms : MonoBehaviour
 
             roomsFinished.Invoke();
         }
+    }
+
+    private Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+    {
+        return Quaternion.Euler(angles) * (point - pivot) + pivot;
     }
 
     /// <summary>
@@ -251,7 +273,6 @@ public class BrendanRooms : MonoBehaviour
     }
     
     // gizmo helpers
-    Matrix4x4 matrix;
     Vector3 roomPlacementTransform;
     Vector3 roomSize;
     Quaternion orientation = Quaternion.identity;
@@ -271,12 +292,8 @@ public class BrendanRooms : MonoBehaviour
         // place overlap box using room position
         roomPlacementTransform = position;
 
-        matrix = Matrix4x4.TRS(transform.position, rotation, Vector3.one);
         orientation = rotation;
         roomSize = roomCollider.size;
-
-        //worldCenter = roomCollider.transform.TransformPoint(roomCollider.center);
-        //halfExtents = roomCollider.transform.TransformVector(roomCollider.size * 0.5f);
 
         // Check for overlap
         Collider[] hitColliders = Physics.OverlapBox(roomPlacementTransform, roomSize / 2, rotation);
@@ -295,10 +312,7 @@ public class BrendanRooms : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        //Gizmos.matrix = matrix;
         DrawBox(roomPlacementTransform, orientation, roomSize, Color.red);
-        //Gizmos.DrawWireCube(roomPlacementTransform, roomSize);
     }
 
     // https://gist.github.com/unitycoder/58f4b5d80f423d29e35c814a9556f9d9
@@ -338,7 +352,6 @@ public class BrendanRooms : MonoBehaviour
     {
         foreach (GameObject room in placedRooms)
         {
-            Debug.Log("destroy: " + room.name);
             Destroy(room);
         }
         placedRooms.Clear();
