@@ -141,9 +141,7 @@ public class BrendanRooms : MonoBehaviour
             BoxCollider box2 = spawningRoom.GetComponent<BoxCollider>();
             Vector3 boxCenter = box2.transform.TransformPoint(box2.center);
             Vector3 added = newRoomPosition + boxCenter;
-            Debug.Log("box center: " + boxCenter + "   added: " + added);
-            Debug.Log("world space box center: " + transform.TransformPoint(boxCenter) + " world added: " + transform.TransformPoint(added));
-            Debug.Log("super: " + RotatePointAroundPivot(added, transform.position, newRoomPosition));
+
             // Spawn room (CHANGE LATER, ONLY HERE TO SEE WHAT IT SHOULD BE DOING)
             GameObject newRoom = Instantiate(spawningRoom);
 

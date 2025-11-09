@@ -1,54 +1,64 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TestBox2 : MonoBehaviour
 {
     [SerializeField] Vector3 size;
     [SerializeField] Quaternion orientation;
-    [SerializeField] GameObject room;
-
+    Vector3 orientVector;
     [SerializeField] Vector3 expectedPosition;
+
+    [SerializeField] GameObject roomPrefab;
+
     [SerializeField] GameObject dummy;
+    [SerializeField] GameObject dummyRoom;
+
     BoxCollider box;
     Vector3 boxSize;
 
+    Vector3 boxCenter;
     Vector3 boxPosition;
 
     private void Start()
     {
-        box = room.GetComponent<BoxCollider>();
+        orientVector = orientation.eulerAngles;
+
+        box = roomPrefab.GetComponent<BoxCollider>();
         boxSize = box.size;
 
-        Vector3 localCenter = box.center;
-        boxCenter = box.transform.TransformPoint(localCenter);
-        boxPosition = transform.position + expectedPosition + boxCenter;
-        Debug.Log("boxPosition: " + boxPosition);
+        boxCenter = box.transform.TransformPoint(box.center); // try doing it without using spawned room
+        boxPosition = expectedPosition + boxCenter;
+        Debug.Log("expected pos: " + expectedPosition + "  boxcenter: " + boxCenter);
+        Debug.Log("boxPosition: " + boxPosition); // gives correct position without rotation
 
-        Vector3 assume = RotatePointAroundPivot(dummy.transform.position, boxPosition, new Vector3(0, 90, 0));
-        Debug.Log("box Position: " + RotatePointAroundPivot(dummy.transform.position, boxPosition, new Vector3(0, 90, 0)));
-        Debug.Log("box center: " + RotatePointAroundPivot(dummy.transform.position, boxCenter, new Vector3(0, 90, 0)));
-        Debug.Log("expectedPosition: " + RotatePointAroundPivot(dummy.transform.position, expectedPosition, new Vector3(0, 90, 0)));
-        Debug.Log("transform.position: " + RotatePointAroundPivot(dummy.transform.position, transform.position, new Vector3(0, 90, 0)));
-        Debug.Log("box.position: " + RotatePointAroundPivot(dummy.transform.position, box.transform.position, new Vector3(0, 90, 0)));
-        Debug.Log("room.position: " + RotatePointAroundPivot(dummy.transform.position, room.transform.position, new Vector3(0, 90, 0)));
-        dummy.transform.position = assume;
+        // set dummy
+        dummy.transform.position = boxPosition;
+        dummy.transform.rotation = orientation;
         dummy.transform.localScale = boxSize;
-        dummy.transform.Rotate(new Vector3(0, 90, 0));
+
+        // check if correct with dummy room
+        dummyRoom.transform.position = expectedPosition;
+        dummyRoom.transform.rotation = orientation;
+
+        // set room to rotation
+        
+        dummy.transform.position = RotatePointAroundPivot(dummy.transform.position, expectedPosition, orientVector);
     }
 
-    Vector3 boxCenter;
     void Update()
     {
-        Vector3 localCenter = box.center;
-        boxCenter = box.transform.TransformPoint(localCenter);
-        boxPosition = transform.position + expectedPosition + boxCenter;
+        boxCenter = box.transform.TransformPoint(box.center);
+        boxPosition = expectedPosition + boxCenter;
+
+        Vector3 x = RotatePointAroundPivot(boxPosition, expectedPosition, orientVector);
+        dummy.transform.position = x;
+        dummyRoom.transform.position = expectedPosition;
+        dummyRoom.transform.rotation = orientation;
 
         if (Input.GetKeyDown(KeyCode.C))
         {
             Debug.Log("try find");
-            Collider[] hitColliders = Physics.OverlapBox(boxPosition, boxSize / 2, orientation);
+            Collider[] hitColliders = Physics.OverlapBox(x, boxSize / 2, orientation);
             foreach (Collider hit in hitColliders)
             {
                 Debug.Log("hit: " + hit.name);
@@ -61,13 +71,31 @@ public class TestBox2 : MonoBehaviour
 
     }
 
+    float rot = 0;
+    IEnumerator RotateDummy()
+    {
+        Vector3 rotation;
+        yield return new WaitForSeconds(1f);
+        while (true)
+        {
+            rot += 90 * Time.deltaTime;
+            rotation = new Vector3(0, rot, 0);
+            dummy.transform.position = RotatePointAroundPivot(dummy.transform.position, expectedPosition, rotation);
+            // dummyRoom.transform.rotation = Quaternion.Euler(rotation);
+            yield return new WaitForSeconds(0.4f);
+        }
+    }
+
     // good but doesn't rotate gizmo
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        DrawBox(boxPosition, orientation, boxSize, Color.red);
+        DrawBox(RotatePointAroundPivot(boxPosition, expectedPosition, orientVector), orientation, boxSize, Color.red);
     }
 
+    /// <summary>
+    /// https://stackoverflow.com/questions/65982489/predict-transform-position-after-rotation
+    /// </summary>
     private Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
     {
         return Quaternion.Euler(angles) * (point - pivot) + pivot;
