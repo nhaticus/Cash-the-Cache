@@ -17,15 +17,15 @@ public class BrendanRooms : MonoBehaviour
     [Header("House Rooms")]
     public GameObject[] roomPrefabs; // list of all rooms that can be spawned
 
-    Queue<Transform> availableDoors = new Queue<Transform>();
-    List<GameObject> placedRooms = new List<GameObject>();
+    Queue<Transform> availableDoors = new Queue<Transform>(); // queue of all doors available to spawn from
+    List<GameObject> placedRooms = new List<GameObject>(); // list of all placed rooms
 
     int roomCount = 0;
     int retryNum = 0;
     Vector3 levelSpawnPosition;
     Quaternion levelSpawnRotation;
 
-    // send event when All Rooms Generated
+    // send event when enough Rooms Generated
     public UnityEvent roomsFinished;
 
     void Start()
@@ -36,8 +36,9 @@ public class BrendanRooms : MonoBehaviour
 
     void SetDifficulty()
     {
-        minRooms += (int) Mathf.Floor(1.15f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
-        maxRooms += (int) Mathf.Floor(1.15f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
+        // increase number of rooms based on number of plays and difficulty
+        minRooms += (int) Mathf.Floor(1.12f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
+        maxRooms += (int) Mathf.Floor(1.12f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
     }
 
     public void BuildHouse()
@@ -74,7 +75,7 @@ public class BrendanRooms : MonoBehaviour
 
     /// <summary>
     /// IEnumerator that determines which rooms to spawn and creates them all.<br />
-    /// IEnumerator because it needs to be able to run without freezing the game to generate rooms.
+    /// IEnumerator because it needs to be able to run without freezing the game to generate rooms.<br />
     /// Must be called after a room has already been created, because it expects doors from the queue
     /// </summary>
     IEnumerator GenerateRooms()
@@ -91,9 +92,11 @@ public class BrendanRooms : MonoBehaviour
         // and haven't hit max rooms yet
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
-            Transform currentDoor = availableDoors.Dequeue(); // choose random door to spawn at
+            Transform currentDoor = availableDoors.Peek(); // choose next door to spawn at
+            Debug.Log("number of available doors: " + availableDoors.Count);
 
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length)]; // select random room
+
             RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
             if (newRoomScript == null || newRoomScript.doorPoints.Length == 0)
                 continue;
@@ -106,94 +109,37 @@ public class BrendanRooms : MonoBehaviour
              * Rotate room to be same rotation as old door
              * Put new door at same position as old door
              */
-
             Vector3 horizontalCurrentForward = new Vector3(currentDoor.forward.x, 0, currentDoor.forward.z).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(horizontalCurrentForward);
             Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedDoor.rotation);
 
             Vector3 doorOffset = selectedDoor.position - spawningRoom.transform.position;
             Vector3 newRoomPosition = currentDoor.position - newRoomRotation * doorOffset;
-            Debug.Log("new room pos: " + newRoomPosition);
+            Debug.Log("new room position: " + newRoomPosition);
 
-            /*
-            // Align opposing directions
-            Vector3 horizontalCurrentForward = new Vector3(currentDoor.forward.x, 0, currentDoor.forward.z).normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(-horizontalCurrentForward);
-            Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedDoor.rotation);
-
-            // Use world offset between prefab origin and door
-            Vector3 doorOffset = selectedDoor.position - spawningRoom.transform.position;
-            Vector3 newRoomPosition = currentDoor.position - newRoomRotation * doorOffset;
-            
-            // Check for room overlap
-            if (IsPlacementValid(spawningRoom, newRoomPosition, newRoomRotation) == false)
-            {
-                yield return new WaitForSeconds(0.5f);
-                continue;
-            }
-
-            // SHOULD BE THIS INSTEAD OF BELOW
-            //GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
-            //newRoom.transform.SetParent(transform);
-            */
-
-
-            BoxCollider box2 = spawningRoom.GetComponent<BoxCollider>();
-            Vector3 boxCenter = box2.transform.TransformPoint(box2.center);
-            Vector3 added = newRoomPosition + boxCenter;
-
-            // Spawn room (CHANGE LATER, ONLY HERE TO SEE WHAT IT SHOULD BE DOING)
-            GameObject newRoom = Instantiate(spawningRoom);
-
-            BoxCollider box = newRoom.GetComponent<BoxCollider>();
-            Vector3 roomPlacement = box.transform.TransformPoint(box.center);
-            Debug.Log("spawn box center: " + roomPlacement);
-
-            newRoom.transform.SetParent(transform);
-            yield return new WaitForSeconds(0.75f);
-            newRoom.transform.rotation = newRoomRotation;
-
-            roomPlacement = box.transform.TransformPoint(box.center);
-            Debug.Log("rotated box center: " + roomPlacement);
-            yield return new WaitForSeconds(0.75f);
-
-            newRoom.transform.position = newRoomPosition;
-            
-            
-            roomPlacement = box.transform.TransformPoint(box.center);
-            Debug.Log("after move box center: " + roomPlacement);
-            yield return new WaitForSeconds(0.5f);
-
-            roomCount++;
-
-            placedRooms.Add(newRoom);
-
-            
-            /*
             BoxCollider box = spawningRoom.GetComponent<BoxCollider>();
-            Vector3 roomPlacement = box.transform.TransformPoint(box.center);
-            */
-            Vector3 boxPosition = transform.position + newRoomPosition;
-            Debug.Log("transform.position + room position: " + boxPosition);
+            Vector3 boxCenter = box.transform.TransformPoint(box.center);
+            
+            Vector3 boxPosition = newRoomPosition + boxCenter;
+            Vector3 rotatedCenter = RotatePointAroundPivot(boxPosition, newRoomPosition, newRoomRotation.eulerAngles); // rotated room center
+            Debug.Log("rotated center: " + rotatedCenter);
 
-            // should not be here but just testing
-            // should be before building is spawned, if room is not good just dont spawn that room instead of retrying everything
-            Debug.Log("Check is placement valid");
-            if (IsPlacementValid(spawningRoom, added, newRoomRotation) == false)
+            if (IsPlacementValid(spawningRoom, rotatedCenter, newRoomRotation) == false)
             {
                 Debug.Log("exit loop");
-                yield return new WaitForSeconds(0.75f);
+                yield return new WaitForSeconds(1f);
                 continue;
             }
 
             yield return new WaitForSeconds(0.75f);
 
-            /*
             roomCount++;
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
             newRoom.transform.SetParent(transform);
             placedRooms.Add(newRoom);
-            */
+
+            yield return new WaitForSeconds(0.75f);
+            
             // add room's doors to list
             if (newRoomScript != null)
             {
@@ -203,6 +149,7 @@ public class BrendanRooms : MonoBehaviour
                         availableDoors.Enqueue(door);
                 }
             }
+            availableDoors.Dequeue(); // door was successful so remove
 
             yield return new WaitForSeconds(0.75f);
         }
@@ -226,9 +173,55 @@ public class BrendanRooms : MonoBehaviour
         }
     }
 
+
+    // gizmo helpers
+    Vector3 roomPlacementTransform;
+    Vector3 roomSize;
+    Quaternion orientation = Quaternion.identity;
+
+    /// <summary>
+    /// Takes "roomPrefab" and checks if its collider overlaps any other Room colliders
+    /// </summary>
+    bool IsPlacementValid(GameObject roomPrefab, Vector3 position, Quaternion rotation)
+    {
+        BoxCollider roomCollider = roomPrefab.GetComponent<BoxCollider>();
+        if (roomCollider == null)
+        {
+            Debug.LogWarning("No BoxCollider found on the room prefab.");
+            return true;
+        }
+
+        // place overlap box using room position
+        roomPlacementTransform = position;
+        orientation = rotation;
+        roomSize = roomCollider.size;
+
+        // Check for overlap
+        Collider[] hitColliders = Physics.OverlapBox(position, roomSize / 2, rotation);
+        foreach (Collider hit in hitColliders)
+        {
+            GameObject hitObject = hit.gameObject;
+            if (hitObject.CompareTag("Room") && hitObject != roomPrefab)
+            {
+                Debug.Log("BAD placement collided with: " + hitObject.name);
+                return false;
+            }
+        }
+        Debug.Log("GOOD placement");
+        return true;
+    }
+
+    /// <summary>
+    /// Get position of "point" when rotated to "angles" around "pivot"
+    /// </summary>
     private Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
     {
         return Quaternion.Euler(angles) * (point - pivot) + pivot;
+    }
+
+    private void OnDrawGizmos()
+    {
+        DrawBox(roomPlacementTransform, orientation, roomSize, Color.red);
     }
 
     /// <summary>
@@ -270,50 +263,10 @@ public class BrendanRooms : MonoBehaviour
         }
     }
     
-    // gizmo helpers
-    Vector3 roomPlacementTransform;
-    Vector3 roomSize;
-    Quaternion orientation = Quaternion.identity;
-
-    /// <summary>
-    /// Takes "roomPrefab" and checks if its collider overlaps any other Room colliders
-    /// </summary>
-    bool IsPlacementValid(GameObject roomPrefab, Vector3 position, Quaternion rotation)
-    {
-        BoxCollider roomCollider = roomPrefab.GetComponent<BoxCollider>();
-        if (roomCollider == null)
-        {
-            Debug.LogWarning("No BoxCollider found on the room prefab.");
-            return true;
-        }
-
-        // place overlap box using room position
-        roomPlacementTransform = position;
-
-        orientation = rotation;
-        roomSize = roomCollider.size;
-
-        // Check for overlap
-        Collider[] hitColliders = Physics.OverlapBox(roomPlacementTransform, roomSize / 2, rotation);
-        foreach (Collider hit in hitColliders)
-        {
-            GameObject hitObject = hit.gameObject;
-            if (hitObject.CompareTag("Room") && hitObject != roomPrefab)
-            {
-                Debug.Log("BAD placement collided with: " + hitObject.name);
-                return false;
-            }
-        }
-        Debug.Log("GOOD placement");
-        return true;
-    }
-
-    private void OnDrawGizmos()
-    {
-        DrawBox(roomPlacementTransform, orientation, roomSize, Color.red);
-    }
-
     // https://gist.github.com/unitycoder/58f4b5d80f423d29e35c814a9556f9d9
+    /// <summary>
+    /// Makes a rotated gizmo cube
+    /// </summary>
     public void DrawBox(Vector3 pos, Quaternion rot, Vector3 scale, Color c)
     {
         // create matrix
