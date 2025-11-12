@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.UIElements;
 
 public class BrendanRooms : MonoBehaviour
@@ -37,8 +38,8 @@ public class BrendanRooms : MonoBehaviour
     void SetDifficulty()
     {
         // increase number of rooms based on number of plays and difficulty
-        minRooms += (int) Mathf.Floor(1.12f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
-        maxRooms += (int) Mathf.Floor(1.12f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
+        minRooms += (int) Mathf.Floor(1.12f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.5f);
+        maxRooms += (int) Mathf.Floor(1.1f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.3f);
     }
 
     public void BuildHouse()
@@ -92,66 +93,87 @@ public class BrendanRooms : MonoBehaviour
         // and haven't hit max rooms yet
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
-            Transform currentDoor = availableDoors.Peek(); // choose next door to spawn at
-            Debug.Log("number of available doors: " + availableDoors.Count);
+            Transform doorToConnectTo = availableDoors.Peek(); // choose next door to spawn at
+
+            // raycast to see if door is too close to other room
+            // if not good: remove door
+            while (IsPlacementValid(doorToConnectTo.position, Quaternion.identity, new Vector3(5, 5, 5)) == false)
+            {
+                availableDoors.Dequeue();
+                doorToConnectTo = availableDoors.Peek(); // choose next door to spawn at
+            }
 
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length)]; // select random room
 
-            RoomInfo newRoomScript = spawningRoom.GetComponent<RoomInfo>();
-            if (newRoomScript == null || newRoomScript.doorPoints.Length == 0)
+            GameObject dummy = Instantiate(spawningRoom);
+
+            RoomInfo spawningRoomInfo = spawningRoom.GetComponent<RoomInfo>();
+            if (spawningRoomInfo == null || spawningRoomInfo.doorPoints.Length == 0)
                 continue;
 
             // select a door
-            Transform selectedDoor = newRoomScript.doorPoints[Random.Range(0, newRoomScript.doorPoints.Length)];
-            Debug.Log("connect door: " + selectedDoor.parent.name + " to " + currentDoor.parent.name);
-
+            Transform selectedSpawingDoor = spawningRoomInfo.doorPoints[Random.Range(0, spawningRoomInfo.doorPoints.Length)];
+            Debug.Log("connect selected door: " + selectedSpawingDoor.parent.name + " to " + doorToConnectTo.parent.name);
+            
             /*
              * Rotate room to be same rotation as old door
              * Put new door at same position as old door
              */
-            Vector3 horizontalCurrentForward = new Vector3(currentDoor.forward.x, 0, currentDoor.forward.z).normalized;
+            Vector3 horizontalCurrentForward = new Vector3(doorToConnectTo.forward.x, 0, doorToConnectTo.forward.z).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(horizontalCurrentForward);
-            Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedDoor.rotation);
+            Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedSpawingDoor.rotation);
+            Debug.Log("horizontalCurrentForward: " + horizontalCurrentForward + "  target: " + targetRotation.eulerAngles + "  new rot: " + newRoomRotation.eulerAngles);
 
-            Vector3 doorOffset = selectedDoor.position - spawningRoom.transform.position;
-            Vector3 newRoomPosition = currentDoor.position - newRoomRotation * doorOffset;
+            Vector3 doorOffset = selectedSpawingDoor.position - spawningRoom.transform.position;
+            Vector3 newRoomPosition = doorToConnectTo.position - newRoomRotation * doorOffset; // get current door's real world position
+            Debug.Log("curr door: " + doorToConnectTo.position + "  rot: " + newRoomRotation.eulerAngles + "  offset: " + doorOffset);
             Debug.Log("new room position: " + newRoomPosition);
+
+            yield return new WaitForSeconds(0.3f);
+            dummy.transform.rotation = newRoomRotation;
+            dummy.transform.position = newRoomPosition;
+            yield return new WaitForSeconds(0.75f);
 
             BoxCollider box = spawningRoom.GetComponent<BoxCollider>();
             Vector3 boxCenter = box.transform.TransformPoint(box.center);
             
             Vector3 boxPosition = newRoomPosition + boxCenter;
             Vector3 rotatedCenter = RotatePointAroundPivot(boxPosition, newRoomPosition, newRoomRotation.eulerAngles); // rotated room center
-            Debug.Log("rotated center: " + rotatedCenter);
-
-            if (IsPlacementValid(spawningRoom, rotatedCenter, newRoomRotation) == false)
+            
+            Destroy(dummy);
+            
+            yield return new WaitForSeconds(0.3f);
+            if (IsPlacementValid(rotatedCenter, newRoomRotation, spawningRoom.GetComponent<BoxCollider>().size) == false)
             {
                 Debug.Log("exit loop");
                 yield return new WaitForSeconds(1f);
                 continue;
             }
 
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.4f);
 
             roomCount++;
             GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
             newRoom.transform.SetParent(transform);
             placedRooms.Add(newRoom);
 
-            yield return new WaitForSeconds(0.75f);
-            
+            yield return new WaitForSeconds(0.4f);
+
             // add room's doors to list
-            if (newRoomScript != null)
+             if (spawningRoomInfo != null)
             {
-                foreach (Transform door in newRoomScript.doorPoints)
+                RoomInfo newRoomInfo = newRoom.GetComponent<RoomInfo>();
+                Vector3 selectedDoorPos = newRoom.transform.position + selectedSpawingDoor.position; // get selectedDoor's world position
+                foreach (Transform door in newRoomInfo.doorPoints)
                 {
-                    if (door != selectedDoor)
+                    if (door.position != selectedDoorPos) // don't add attached door
                         availableDoors.Enqueue(door);
                 }
             }
+
             availableDoors.Dequeue(); // door was successful so remove
 
-            yield return new WaitForSeconds(0.75f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         // either no more available doors or maxRooms was achieved
@@ -182,26 +204,21 @@ public class BrendanRooms : MonoBehaviour
     /// <summary>
     /// Takes "roomPrefab" and checks if its collider overlaps any other Room colliders
     /// </summary>
-    bool IsPlacementValid(GameObject roomPrefab, Vector3 position, Quaternion rotation)
+    bool IsPlacementValid(Vector3 position, Quaternion rotation, Vector3 size)
     {
-        BoxCollider roomCollider = roomPrefab.GetComponent<BoxCollider>();
-        if (roomCollider == null)
-        {
-            Debug.LogWarning("No BoxCollider found on the room prefab.");
-            return true;
-        }
+        //BoxCollider roomCollider = roomPrefab.GetComponent<BoxCollider>();
 
         // place overlap box using room position
         roomPlacementTransform = position;
         orientation = rotation;
-        roomSize = roomCollider.size;
+        roomSize = size;
 
         // Check for overlap
         Collider[] hitColliders = Physics.OverlapBox(position, roomSize / 2, rotation);
         foreach (Collider hit in hitColliders)
         {
             GameObject hitObject = hit.gameObject;
-            if (hitObject.CompareTag("Room") && hitObject != roomPrefab)
+            if (hitObject.CompareTag("Room"))
             {
                 Debug.Log("BAD placement collided with: " + hitObject.name);
                 return false;
