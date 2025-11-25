@@ -69,21 +69,6 @@ public class TestBox2 : MonoBehaviour
 
     }
 
-    float rot = 0;
-    IEnumerator RotateDummy()
-    {
-        Vector3 rotation;
-        yield return new WaitForSeconds(1f);
-        while (true)
-        {
-            rot += 90 * Time.deltaTime;
-            rotation = new Vector3(0, rot, 0);
-            dummy.transform.position = RotatePointAroundPivot(dummy.transform.position, expectedPosition, rotation);
-            yield return new WaitForSeconds(0.4f);
-        }
-    }
-
-    // good but doesn't rotate gizmo
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
