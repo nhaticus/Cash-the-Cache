@@ -22,7 +22,6 @@ public class RoomLookAt : MonoBehaviour
     [SerializeField] Transform dummy;
 
     [Header("Room to connect to")]
-    [SerializeField] Transform roomConnectTo;
     [SerializeField] Transform connectPoint;
 
     void Start()

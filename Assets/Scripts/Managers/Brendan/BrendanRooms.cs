@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.ProBuilder.Shapes;
-using UnityEngine.UIElements;
-
 public class BrendanRooms : MonoBehaviour
 {
     [Header("Setup (optional)")]
     public GameObject[] startRooms;
     public int maxRooms = 7;
     public int minRooms = 5;
-    public int maxRetries = 30;
+    public int maxRetries = 20;
     public NavMeshSurface surface;
 
     [Header("House Rooms")]
@@ -40,6 +37,10 @@ public class BrendanRooms : MonoBehaviour
         // increase number of rooms based on number of plays and difficulty
         minRooms += (int) Mathf.Floor(1.12f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.5f);
         maxRooms += (int) Mathf.Floor(1.1f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.3f);
+
+        // limit minRooms to 13 and maxRooms to 20
+        minRooms = Mathf.Min(minRooms, 13);
+        maxRooms = Mathf.Min(maxRooms, 20);
     }
 
     public void BuildHouse()
@@ -54,16 +55,22 @@ public class BrendanRooms : MonoBehaviour
 
     void CreateStartRoom()
     {
+        // pick a start room
         GameObject startRoomPrefab;
         if (startRooms.Length > 0) // take from startRooms
             startRoomPrefab = startRooms[Random.Range(0, startRooms.Length)];
         else // take from any room
             startRoomPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Length)];
 
-        GameObject startRoom = Instantiate(startRoomPrefab, levelSpawnPosition, levelSpawnRotation);
+        BoxCollider startRoomBox = startRoomPrefab.GetComponent<BoxCollider>();
+        Vector3 spawnPos = levelSpawnPosition + startRoomBox.center; // get box center to spawn correctly
+        spawnPos.y = levelSpawnPosition.y; // keep y position
+        GameObject startRoom = Instantiate(startRoomPrefab, spawnPos, levelSpawnRotation);
         startRoom.transform.SetParent(transform);
         placedRooms.Add(startRoom);
         roomCount++;
+
+        // add room's doors to queue
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
         if (startRoomScript != null)
         {
@@ -97,15 +104,31 @@ public class BrendanRooms : MonoBehaviour
 
             // raycast to see if door is too close to other room
             // if not good: remove door
-            while (IsPlacementValid(doorToConnectTo.position, Quaternion.identity, new Vector3(5, 5, 5)) == false)
+            float checkDistance = 5;
+            Vector3 checkPos = doorToConnectTo.position + (doorToConnectTo.forward * (checkDistance / 2));
+            checkPos.y += checkDistance / 2;
+            while (IsPlacementValid(checkPos, Quaternion.identity, new Vector3(checkDistance, checkDistance, checkDistance)) == false)
             {
                 availableDoors.Dequeue();
+                if (availableDoors.Count == 0 && roomCount < minRooms)
+                {
+                    goto ExitLoop;
+                }
+
                 doorToConnectTo = availableDoors.Peek(); // choose next door to spawn at
+                checkPos = doorToConnectTo.position + (doorToConnectTo.forward * (checkDistance / 2));
+                yield return new WaitForSeconds(0.3f);
             }
+            yield return new WaitForSeconds(0.3f);
+
+            /*
+             * 1. Find needed rotation
+             * 2. Get the position of the selected door when RotatePointAroundPivot()
+             * 3. Get the difference between Rotate() selected door and door to connect to
+             * 4. Get needed raycast position by adding difference and rotated box center
+             */
 
             GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length)]; // select random room
-
-            GameObject dummy = Instantiate(spawningRoom);
 
             RoomInfo spawningRoomInfo = spawningRoom.GetComponent<RoomInfo>();
             if (spawningRoomInfo == null || spawningRoomInfo.doorPoints.Length == 0)
@@ -113,71 +136,64 @@ public class BrendanRooms : MonoBehaviour
 
             // select a door
             Transform selectedSpawingDoor = spawningRoomInfo.doorPoints[Random.Range(0, spawningRoomInfo.doorPoints.Length)];
-            Debug.Log("connect selected door: " + selectedSpawingDoor.parent.name + " to " + doorToConnectTo.parent.name);
-            
-            /*
-             * Rotate room to be same rotation as old door
-             * Put new door at same position as old door
-             */
-            Vector3 horizontalCurrentForward = new Vector3(doorToConnectTo.forward.x, 0, doorToConnectTo.forward.z).normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(horizontalCurrentForward);
-            Quaternion newRoomRotation = targetRotation * Quaternion.Inverse(selectedSpawingDoor.rotation);
-            Debug.Log("horizontalCurrentForward: " + horizontalCurrentForward + "  target: " + targetRotation.eulerAngles + "  new rot: " + newRoomRotation.eulerAngles);
+            // Debug.Log("connect selected door: " + selectedSpawingDoor.parent.name + " to " + doorToConnectTo.parent.name);
 
-            Vector3 doorOffset = selectedSpawingDoor.position - spawningRoom.transform.position;
-            Vector3 newRoomPosition = doorToConnectTo.position - newRoomRotation * doorOffset; // get current door's real world position
-            Debug.Log("curr door: " + doorToConnectTo.position + "  rot: " + newRoomRotation.eulerAngles + "  offset: " + doorOffset);
-            Debug.Log("new room position: " + newRoomPosition);
+            // reset prefab
+            spawningRoom.transform.position = Vector3.zero;
+            spawningRoom.transform.rotation = Quaternion.identity;
 
-            yield return new WaitForSeconds(0.3f);
-            dummy.transform.rotation = newRoomRotation;
-            dummy.transform.position = newRoomPosition;
-            yield return new WaitForSeconds(0.75f);
+            // find needed rotation
+            float needRot = doorToConnectTo.rotation.eulerAngles.y - selectedSpawingDoor.rotation.eulerAngles.y - 180;
 
+            // get position of RotatePivot(door)
+            Vector3 rotatedDoorPos = RotatePointAroundPivot(selectedSpawingDoor.position, spawningRoom.transform.position, new Vector3(0, needRot, 0));
+
+            // get difference between Rotated door and door to connect to
+            Vector3 difference = (rotatedDoorPos - doorToConnectTo.position) * -1;
+
+            // draw box stuff
             BoxCollider box = spawningRoom.GetComponent<BoxCollider>();
-            Vector3 boxCenter = box.transform.TransformPoint(box.center);
-            
-            Vector3 boxPosition = newRoomPosition + boxCenter;
-            Vector3 rotatedCenter = RotatePointAroundPivot(boxPosition, newRoomPosition, newRoomRotation.eulerAngles); // rotated room center
-            
-            Destroy(dummy);
-            
+            Vector3 rotBoxCenter = RotatePointAroundPivot(box.center, spawningRoom.transform.position, new Vector3(0, needRot, 0));
+            Quaternion newRoomRotation = Quaternion.Euler(new Vector3(0, needRot, 0));
             yield return new WaitForSeconds(0.3f);
-            if (IsPlacementValid(rotatedCenter, newRoomRotation, spawningRoom.GetComponent<BoxCollider>().size) == false)
+
+            if (IsPlacementValid(difference + rotBoxCenter, newRoomRotation, box.size) == false)
             {
-                Debug.Log("exit loop");
                 yield return new WaitForSeconds(1f);
                 continue;
             }
 
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.3f);
 
             roomCount++;
-            GameObject newRoom = Instantiate(spawningRoom, newRoomPosition, newRoomRotation);
+            GameObject newRoom = Instantiate(spawningRoom, difference, newRoomRotation);
             newRoom.transform.SetParent(transform);
             placedRooms.Add(newRoom);
 
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.3f);
 
-            // add room's doors to list
+            // add room's doors to queue
              if (spawningRoomInfo != null)
             {
                 RoomInfo newRoomInfo = newRoom.GetComponent<RoomInfo>();
-                Vector3 selectedDoorPos = newRoom.transform.position + selectedSpawingDoor.position; // get selectedDoor's world position
+                // need to get it rotated
+                Vector3 selectedDoorPos = RotatePointAroundPivot(newRoom.transform.position + selectedSpawingDoor.position, newRoom.transform.position, new Vector3(0, needRot, 0));
                 foreach (Transform door in newRoomInfo.doorPoints)
                 {
-                    if (door.position != selectedDoorPos) // don't add attached door
+                    if (door.position != selectedDoorPos)
+                    { // don't add door that was just connected
                         availableDoors.Enqueue(door);
+                    }
                 }
             }
 
-            availableDoors.Dequeue(); // door was successful so remove
-
+            availableDoors.Dequeue(); // selected door was successful so remove
             yield return new WaitForSeconds(0.5f);
         }
 
+        ExitLoop:
         // either no more available doors or maxRooms was achieved
-        if (placedRooms.Count <= minRooms)
+        if (placedRooms.Count < minRooms) // too few rooms placed
         {
             Debug.LogWarning("No more available doors and too few rooms placed. Retrying...");
             retryNum++;
@@ -185,7 +201,7 @@ public class BrendanRooms : MonoBehaviour
             ClearAllRooms();
             BuildHouse();
         }
-        else // success
+        else // >= minRooms placed: success
         {
             RemoveOverlappingDoors();
             if (surface)
@@ -206,8 +222,6 @@ public class BrendanRooms : MonoBehaviour
     /// </summary>
     bool IsPlacementValid(Vector3 position, Quaternion rotation, Vector3 size)
     {
-        //BoxCollider roomCollider = roomPrefab.GetComponent<BoxCollider>();
-
         // place overlap box using room position
         roomPlacementTransform = position;
         orientation = rotation;
@@ -224,7 +238,6 @@ public class BrendanRooms : MonoBehaviour
                 return false;
             }
         }
-        Debug.Log("GOOD placement");
         return true;
     }
 
@@ -325,11 +338,5 @@ public class BrendanRooms : MonoBehaviour
         placedRooms.Clear();
         availableDoors.Clear();
         roomCount = 0;
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = UnityEngine.Color.green;
-        Gizmos.DrawSphere(levelSpawnPosition, 0.5f);
     }
 }

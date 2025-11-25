@@ -3862,6 +3862,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1359177003}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &164941918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 164941919}
+  - component: {fileID: 164941920}
+  m_Layer: 0
+  m_Name: Prevent Room Wall (3)
+  m_TagString: Room
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &164941919
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164941918}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 71, y: 53, z: 89.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855924718}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &164941920
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164941918}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 65, y: 3.5, z: 2.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &165231855 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4442300809455952, guid: 4350fc4d79cb63a4990e7e575fe2c61f,
@@ -5215,7 +5268,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 57.333977, y: 3.5824971, z: 2.591425}
+  m_Size: {x: 60, y: 3.5, z: 2.5}
   m_Center: {x: -3.6669884, y: 1.2912486, z: 0.31174755}
 --- !u!4 &220483937
 Transform:
@@ -11042,6 +11095,7 @@ Transform:
   - {fileID: 580990118}
   - {fileID: 180677516}
   - {fileID: 220483937}
+  - {fileID: 855924718}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &495390806
@@ -19632,6 +19686,41 @@ RectTransform:
   m_AnchoredPosition: {x: 1.307792, y: -0.006777159}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &855924717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 855924718}
+  m_Layer: 0
+  m_Name: Prevent Room Walls
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &855924718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 855924717}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1728238997}
+  - {fileID: 1908657205}
+  - {fileID: 918263754}
+  - {fileID: 164941919}
+  m_Father: {fileID: 492739267}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &858424620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4271606401288934, guid: 2122ac2d547f3554a9ac5dc8129dff7e,
@@ -20634,6 +20723,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 918182384}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &918263753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 918263754}
+  - component: {fileID: 918263755}
+  m_Layer: 0
+  m_Name: Prevent Room Wall (2)
+  m_TagString: Room
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &918263754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918263753}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 39, y: 53, z: 60}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855924718}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &918263755
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918263753}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 65, y: 3.5, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &921455876
 GameObject:
   m_ObjectHideFlags: 0
@@ -37729,6 +37871,59 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1726474591}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1728238996
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1728238997}
+  - component: {fileID: 1728238998}
+  m_Layer: 0
+  m_Name: Prevent Room Wall
+  m_TagString: Room
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1728238997
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728238996}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 67, y: 53, z: 31}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855924718}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1728238998
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728238996}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 65, y: 3.5, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1728808512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39658,7 +39853,27 @@ MonoBehaviour:
   maxRetries: 30
   surface: {fileID: 963203983}
   roomPrefabs:
+  - {fileID: 5337031496908436910, guid: 703680716b3f6ba4480e6eaee726754f, type: 3}
+  - {fileID: 5337031496908436910, guid: 3d49e7421c1f3f146a3e0966f0fb7607, type: 3}
+  - {fileID: 5337031496908436910, guid: eb8bd146b8bb1c346bb245d6957864a6, type: 3}
+  - {fileID: 5337031496908436910, guid: 4d246ccbbe2cc9f4299b768db862e85c, type: 3}
+  - {fileID: 5337031496908436910, guid: fd6a13a8f61d00b418b1460532e8d3b1, type: 3}
+  - {fileID: 5337031496908436910, guid: a99ac9c1cde46bb489dca06ab5460c57, type: 3}
   - {fileID: 5337031496908436910, guid: 1a19b56e23f158f498f203d8d047add7, type: 3}
+  - {fileID: 7568025620152173659, guid: d39fafc80d8f41d44b920f8a2cad417a, type: 3}
+  - {fileID: 8390636993472047776, guid: 52d2ddb44cd24be40b52a3144e1c2700, type: 3}
+  - {fileID: 8511122524623800716, guid: b6ba0391d1f04c04b9fb4fe49e35e4d0, type: 3}
+  - {fileID: 2124806386778454684, guid: d3f59139b93876f438bb1ced0e5c31b5, type: 3}
+  - {fileID: 178630818483521952, guid: 2aabf94837a1e7f408179c4fffb33e9b, type: 3}
+  - {fileID: 4893221460004858002, guid: 4a15ead679d00bc45bc977ad927a5323, type: 3}
+  - {fileID: 5098071776437310891, guid: 548905c8b4c256046bfac8c1d03448ee, type: 3}
+  - {fileID: 6901965993465517956, guid: ae8411899a766b84f962c6f0fddf004a, type: 3}
+  - {fileID: 9072881963456483317, guid: d3cd7f69cdca81746b23995e1c503cdd, type: 3}
+  - {fileID: 9072881963456483317, guid: 6e15059801bc16246b8976a141b854d9, type: 3}
+  - {fileID: 5153683854362127054, guid: 7cdc43e02cd53d6458a08cd8e732c7cf, type: 3}
+  - {fileID: 9072881963456483317, guid: 244456c2ee1b4bf4c92ccda196ef3ccb, type: 3}
+  - {fileID: 9072881963456483317, guid: 46756eb6fc3e5464481f3fe25cc48fe4, type: 3}
+  - {fileID: 8766226712066637565, guid: 4563fa3b38bb4a24592b84d18d302d7c, type: 3}
   roomsFinished:
     m_PersistentCalls:
       m_Calls:
@@ -41121,6 +41336,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 283ee93a31feed4458d3a2d3f5cf34ea, type: 3}
+--- !u!1 &1908657204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1908657205}
+  - component: {fileID: 1908657206}
+  m_Layer: 0
+  m_Name: Prevent Room Wall (1)
+  m_TagString: Room
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1908657205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908657204}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 98, y: 53, z: 60}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 855924718}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &1908657206
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908657204}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 65, y: 3.5, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1909267425
 PrefabInstance:
   m_ObjectHideFlags: 0
