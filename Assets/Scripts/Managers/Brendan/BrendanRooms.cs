@@ -88,7 +88,7 @@ public class BrendanRooms : MonoBehaviour
     /// </summary>
     IEnumerator GenerateRooms()
     {
-        yield return new WaitForSeconds(0.3f);
+        // yield return new WaitForSeconds(0.3f);
 
         if (retryNum > maxRetries)
         {
@@ -117,9 +117,9 @@ public class BrendanRooms : MonoBehaviour
 
                 doorToConnectTo = availableDoors.Peek(); // choose next door to spawn at
                 checkPos = doorToConnectTo.position + (doorToConnectTo.forward * (checkDistance / 2));
-                yield return new WaitForSeconds(0.3f);
+                // yield return new WaitForSeconds(0.3f);
             }
-            yield return new WaitForSeconds(0.3f);
+            // yield return new WaitForSeconds(0.3f);
 
             /*
              * 1. Find needed rotation
@@ -155,7 +155,7 @@ public class BrendanRooms : MonoBehaviour
             BoxCollider box = spawningRoom.GetComponent<BoxCollider>();
             Vector3 rotBoxCenter = RotatePointAroundPivot(box.center, spawningRoom.transform.position, new Vector3(0, needRot, 0));
             Quaternion newRoomRotation = Quaternion.Euler(new Vector3(0, needRot, 0));
-            yield return new WaitForSeconds(0.3f);
+            // yield return new WaitForSeconds(0.3f);
 
             if (IsPlacementValid(difference + rotBoxCenter, newRoomRotation, box.size) == false)
             {
@@ -163,14 +163,14 @@ public class BrendanRooms : MonoBehaviour
                 continue;
             }
 
-            yield return new WaitForSeconds(0.3f);
+            // yield return new WaitForSeconds(0.3f);
 
             roomCount++;
             GameObject newRoom = Instantiate(spawningRoom, difference, newRoomRotation);
             newRoom.transform.SetParent(transform);
             placedRooms.Add(newRoom);
 
-            yield return new WaitForSeconds(0.3f);
+            // yield return new WaitForSeconds(0.3f);
 
             // add room's doors to queue
              if (spawningRoomInfo != null)
@@ -188,7 +188,7 @@ public class BrendanRooms : MonoBehaviour
             }
 
             availableDoors.Dequeue(); // selected door was successful so remove
-            yield return new WaitForSeconds(0.5f);
+            // yield return new WaitForSeconds(0.5f);
         }
 
         ExitLoop:
@@ -234,7 +234,7 @@ public class BrendanRooms : MonoBehaviour
             GameObject hitObject = hit.gameObject;
             if (hitObject.CompareTag("Room"))
             {
-                Debug.Log("BAD placement collided with: " + hitObject.name);
+                // Debug.Log("BAD placement collided with: " + hitObject.name);
                 return false;
             }
         }

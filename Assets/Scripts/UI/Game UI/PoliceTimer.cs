@@ -6,11 +6,11 @@ using TMPro;
 public class PoliceTimer : MonoBehaviour
 {
     [Header("Timer")]
-    public float maxTime = 20f;
+    public float maxTime = 15f;
     float timeLeft;
     bool timerOn = false;
     public TMP_Text Timer_display;
-    [SerializeField] Color timerDefaultColor, timerAlertColor; // remove later
+    [SerializeField] Color timerDefaultColor, timerAlertColor;
 
     [Header("Police")]
     [SerializeField] SingleAudio policeAudio;

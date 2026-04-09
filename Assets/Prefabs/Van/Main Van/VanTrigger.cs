@@ -5,12 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Localization;
 
 public class VanTrigger : MonoBehaviour
 {
     bool playerInRange = false;
+    bool depositing = false;
     PlayerInteract playerInventory;
     [SerializeField] GameObject vanText;
 
@@ -72,35 +72,38 @@ public class VanTrigger : MonoBehaviour
         if (!playerInRange || playerInventory == null) return;
 
         // Player hold mouse down to deposit
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("e prss");
-            // If not already depositing, start the coroutine
-            if (depositCoroutine == null)
+        if((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0))){
+            
+            depositing = !depositing;
+
+            if (depositing)
             {
-                // If no items, show no items message
-                if (GetTotalItemCount() == 0)
+                // if not already depositing
+                if (depositCoroutine == null)
                 {
-                    noItemsToDepositString.StringChanged += UpdateVanText;
-                    noItemsToDepositString.RefreshString();
-                }
-                else
-                {
-                    depositCoroutine = StartCoroutine(DepositItemsOverTime());
+                    // If no items, show no items message
+                    if (GetTotalItemCount() == 0)
+                    {
+                        noItemsToDepositString.StringChanged += UpdateVanText;
+                        noItemsToDepositString.RefreshString();
+                    }
+                    else
+                    {
+                        depositCoroutine = StartCoroutine(DepositItemsOverTime());
+                    }
                 }
             }
-        }
-        else if (Input.GetKeyUp(KeyCode.E)) // mouse up to stop depositing
-        {
-            Debug.Log("e up");
-            // If player releases, stop partial deposit if deposit was running
-            if (depositCoroutine != null)
+            else // stop depositing
             {
-                StopCoroutine(depositCoroutine);
-                depositCoroutine = null;
-                
-                depositCanceledString.StringChanged += UpdateVanText;
-                depositCanceledString.RefreshString();                
+                // If player releases, stop partial deposit if deposit was running
+                if (depositCoroutine != null)
+                {
+                    StopCoroutine(depositCoroutine);
+                    depositCoroutine = null;
+
+                    depositCanceledString.StringChanged += UpdateVanText;
+                    depositCanceledString.RefreshString();
+                }
             }
         }
     }
@@ -116,8 +119,6 @@ public class VanTrigger : MonoBehaviour
     // ------------------------------------------------------
     private IEnumerator DepositItemsOverTime()
     {
-        Debug.Log("depositing");
-
         // Flatten or count your items first:
         List<(string, LootInfo)> allItems = FlattenInventory(playerInventory);
         int totalItems = allItems.Count;
@@ -139,9 +140,6 @@ public class VanTrigger : MonoBehaviour
             float itemTimer = 0f;
             while (itemTimer < extraTimePerItem)
             {
-                // If player releases, stop immediately
-                if (!Input.GetKey(KeyCode.E))
-                    yield break; // canceled
 
                 itemTimer += Time.deltaTime;
                 depositTimer += Time.deltaTime;

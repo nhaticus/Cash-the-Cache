@@ -24,7 +24,8 @@ public class LeaveAreaTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (playerInLeaveArea && Input.GetKeyDown(KeyCode.E))
+        if (playerInLeaveArea &&
+            ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0))))
         {
             // Check for player's inventory and create result screen
             PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
