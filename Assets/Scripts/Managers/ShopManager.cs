@@ -106,7 +106,6 @@ public class ShopManager : MonoBehaviour
             itemsChosen[i] = randNum;
             CreateItem(randNum);
         }
-        Debug.Log("END populate");
     }
 
     void CreateItem(int itemNum)

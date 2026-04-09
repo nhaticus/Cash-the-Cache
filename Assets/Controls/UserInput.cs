@@ -17,7 +17,7 @@ public class UserInput : MonoBehaviour
     public bool Interact { get; private set; }
     public bool Punch { get; private set; }
     public bool Crouch { get; private set; }
-    public bool Jump { get; private set; }
+    // public bool Jump { get; private set; } // unused
     public bool Inventory { get; private set; }
     public bool Cancel { get; private set; }
     public bool Pause { get; private set; }

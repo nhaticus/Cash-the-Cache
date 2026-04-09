@@ -7,6 +7,8 @@ using UnityEngine.UI;
  */
 public class GameUI : MonoBehaviour
 {
+    [SerializeField] bool uiPossible = true;
+
     [Header("UI Dependencies")]
     [SerializeField] GameObject pausePrefab;
     [SerializeField] GameObject gameOverPrefab;
@@ -22,9 +24,13 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
-        if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.P)))
+        // prevent pause when game is not loaded
+        if (uiPossible)
         {
-            Pause();
+            if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.P)))
+            {
+                Pause();
+            }
         }
     }
 
@@ -141,5 +147,10 @@ public class GameUI : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void SetGameUIPossible(bool possible)
+    {
+        uiPossible = possible;
     }
 }
