@@ -96,14 +96,13 @@ public class BrendanRooms : MonoBehaviour
             retryNum = 0;
         }
 
-        // while there are doors to add rooms to
-        // and haven't hit max rooms yet
+        // while there are doors to add rooms to and haven't hit max rooms yet
         while (availableDoors.Count > 0 && roomCount < maxRooms)
         {
             Transform doorToConnectTo = availableDoors.Peek(); // choose next door to spawn at
 
             // raycast to see if door is too close to other room
-            // if not good: remove door
+            // not good = remove door and move onto next door if exists
             float checkDistance = 5;
             Vector3 checkPos = doorToConnectTo.position + (doorToConnectTo.forward * (checkDistance / 2));
             checkPos.y += checkDistance / 2;
@@ -114,9 +113,12 @@ public class BrendanRooms : MonoBehaviour
                 {
                     goto ExitLoop;
                 }
+                else
+                {
+                    doorToConnectTo = availableDoors.Peek(); // choose next door to spawn at
+                    checkPos = doorToConnectTo.position + (doorToConnectTo.forward * (checkDistance / 2));
+                }
 
-                doorToConnectTo = availableDoors.Peek(); // choose next door to spawn at
-                checkPos = doorToConnectTo.position + (doorToConnectTo.forward * (checkDistance / 2));
                 // yield return new WaitForSeconds(0.3f);
             }
             // yield return new WaitForSeconds(0.3f);

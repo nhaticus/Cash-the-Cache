@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
             // increase max health
             Item vitamins = DataSystem.GetItem("Vitamins");
-            //GetComponent<HealthController>().maxHealth += vitamins.level * vitamins.statValue;
+            GetComponent<HealthController>().maxHealth += vitamins.level * vitamins.statValue;
         }
 
         standingCamPos = new Vector3(0f, 1f, 0f);
@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         rb.drag = groundDrag;
 
         HandleMovement();
-        HandleCrouch();
+        //HandleCrouch();
 
         SpeedControl();
 

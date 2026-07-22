@@ -915,6 +915,10 @@ MonoBehaviour:
   walkPointRange: 20
   cooldownBeforeWalking: 2.8
   currentState: 0
+  singleAudio: {fileID: 4208435967718053448}
+  noticeSFX: []
+  runSFX: []
+  deathSFX: []
 --- !u!114 &8911044777005145682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -997,6 +1001,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  singleAudio: {fileID: 4208435967718053448}
+  hurtSFX:
+  - hurt1
+  - hurt2
+  - hurt3
 --- !u!114 &8184773718625823157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3805,7 +3814,7 @@ PrefabInstance:
     - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
         type: 3}
       propertyPath: sfxSounds.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
         type: 3}
@@ -3831,6 +3840,41 @@ PrefabInstance:
         type: 3}
       propertyPath: sfxSounds.Array.data[0].name
       value: footstep_sound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 6e04562535d211f46ba81f4fa46f92fc, type: 3}
+    - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[1].name
+      value: hurt1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8ccb615f55187804486d27b4fd869eef, type: 3}
+    - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[2].name
+      value: hurt2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ea9be780cf1a7244abb8a7b582151781, type: 3}
+    - target: {fileID: 2067804904425145565, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[3].name
+      value: hurt3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5662264391357702008, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 6645473399776408683, guid: 2adc23e863cdd154494a247a57f91b11,
         type: 3}
@@ -3881,6 +3925,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7552203542665645185, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

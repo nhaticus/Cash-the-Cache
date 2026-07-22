@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.Events;
 
 public class HealthController : MonoBehaviour
@@ -13,6 +12,10 @@ public class HealthController : MonoBehaviour
     bool alive = true;
     public UnityEvent<DamageInfo> OnDamaged;
     public UnityEvent OnDeath;
+
+    [Header("Sounds")]
+    [SerializeField] SingleAudio singleAudio;
+    [SerializeField] string[] hurtSFX;
 
     void Awake() => current = maxHealth;
 
@@ -26,6 +29,11 @@ public class HealthController : MonoBehaviour
             alive = false;
             current = 0;
             OnDeath?.Invoke();
+        }
+        else // play hurt sound if not dead
+        {
+            if (hurtSFX.Length > 0)
+                singleAudio.PlaySFX(hurtSFX[Random.Range(0, hurtSFX.Length)]);
         }
     }
 
