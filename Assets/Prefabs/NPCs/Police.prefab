@@ -184,6 +184,11 @@ MonoBehaviour:
   withinReach: 0
   sightCountdown: 2
   chaseDuration: 3
+  singleAudio: {fileID: 2005892169980542834}
+  deathSFX:
+  - death1
+  - death2
+  - death3
 --- !u!114 &5215976980065628604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +208,11 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls: []
+  singleAudio: {fileID: 2005892169980542834}
+  hurtSFX:
+  - hurt1
+  - hurt2
+  - hurt3
 --- !u!114 &2840751272760612795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +245,9 @@ MonoBehaviour:
   launchStrength: 25
   playerCamera: {fileID: 0}
   pelvisBone: {fileID: 5741668872698132703}
+  OnRevive:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &5407746695565583323
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3292,6 +3305,11 @@ PrefabInstance:
       propertyPath: sfxSounds.Array.data[3].name
       value: hit 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5662264391357702008, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 6645473399776408683, guid: 2adc23e863cdd154494a247a57f91b11,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3341,6 +3359,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7552203542665645185, guid: 2adc23e863cdd154494a247a57f91b11,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

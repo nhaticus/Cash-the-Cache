@@ -52,6 +52,10 @@ public class PoliceBehavior : MonoBehaviour
     public float chaseDuration = 3.0f; // Time for how long the enemy will chase the player before giving up
     private float chaseTimer = 0.0f;
 
+    [Header("Sounds")]
+    [SerializeField] SingleAudio singleAudio;
+    [SerializeField] string[] deathSFX;
+
     [Header("State Machine")]
     PoliceState currentState = PoliceState.Chase; // currently only state is chase because police know where player is already
 

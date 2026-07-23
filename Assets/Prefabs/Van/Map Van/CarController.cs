@@ -14,7 +14,7 @@ public class CarController : MonoBehaviour
     private bool isBreaking;
 
     // Settings
-    [SerializeField] private float motorForce, breakForce, maxSteerAngle;
+    [SerializeField] private float motorForce, breakForce, maxSteerAngle, maxSpeed, maxReverseSpeed, normalDrag, slowdownDrag;
 
     // Wheel Colliders
     [SerializeField] private WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
@@ -88,11 +88,13 @@ public class CarController : MonoBehaviour
         // Ease in: less force at higher speed
         float accelerationMultiplier = 0.5f;
 
-
-
-
-        // CAP max speed ? no force if over 120
-        if (currentSpeedMPH >= 120f && verticalInput > 0f)
+        // CAP max speed ? no force if over 60
+        if (currentSpeedMPH >= maxSpeed && verticalInput > 0.2f)
+        {
+            frontLeftWheelCollider.motorTorque = 0f;
+            frontRightWheelCollider.motorTorque = 0f;
+        }
+        else if (currentSpeedMPH <= -maxReverseSpeed && verticalInput < 0.2f) // cap reverse speed to 30
         {
             frontLeftWheelCollider.motorTorque = 0f;
             frontRightWheelCollider.motorTorque = 0f;
@@ -101,6 +103,20 @@ public class CarController : MonoBehaviour
         {
             frontLeftWheelCollider.motorTorque = verticalInput * motorForce * accelerationMultiplier;
             frontRightWheelCollider.motorTorque = verticalInput * motorForce * accelerationMultiplier;
+
+            // increase drag if not moving and speed is low
+            if (verticalInput > -0.2f && verticalInput < 0.2f)
+            {
+                // increase drag is speed low
+                if (currentSpeedMPH < 30)
+                {
+                    rb.drag = slowdownDrag;
+                }
+            }
+            else // set drag to normal is speed high
+            {
+                rb.drag = normalDrag;
+            }
         }
 
         // Brakes
