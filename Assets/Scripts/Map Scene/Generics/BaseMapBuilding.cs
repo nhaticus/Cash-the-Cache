@@ -10,7 +10,7 @@ using UnityEngine;
 public abstract class BaseMapBuilding : MonoBehaviour, InteractEvent
 {
     [SerializeField] GameObject canvas;
-    float spawnY = 5;
+    float spawnY = 5.5f;
 
     private void Awake()
     {
