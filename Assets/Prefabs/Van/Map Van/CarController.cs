@@ -14,7 +14,7 @@ public class CarController : MonoBehaviour
     private bool isBreaking;
 
     // Settings
-    [SerializeField] private float motorForce, breakForce, maxSteerAngle, maxSpeed, maxReverseSpeed, normalDrag, slowdownDrag;
+    [SerializeField] private float motorForce, breakForce, maxSteerAngle, maxSpeed, maxReverseSpeed, normalDrag, slowdownDrag, extremeSlowdownDrag;
 
     // Wheel Colliders
     [SerializeField] private WheelCollider frontLeftWheelCollider, frontRightWheelCollider;
@@ -49,9 +49,10 @@ public class CarController : MonoBehaviour
         HandleMotor();
         HandleSteering();
 
-
+        /*
         float currentSpeedMPH = GetCurrentSpeedMPH();
         Debug.Log($"Current Speed: {currentSpeedMPH:F1} MPH");
+        */
     }
 
     private void Tick()
@@ -108,9 +109,12 @@ public class CarController : MonoBehaviour
             if (verticalInput > -0.2f && verticalInput < 0.2f)
             {
                 // increase drag is speed low
-                if (currentSpeedMPH < 30)
+                if (currentSpeedMPH < 35)
                 {
-                    rb.drag = slowdownDrag;
+                    if (currentSpeedMPH < 20)
+                        rb.drag = extremeSlowdownDrag;
+                    else
+                        rb.drag = slowdownDrag;
                 }
             }
             else // set drag to normal is speed high

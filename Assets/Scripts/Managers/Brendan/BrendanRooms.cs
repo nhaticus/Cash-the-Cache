@@ -18,7 +18,6 @@ public class BrendanRooms : MonoBehaviour
     Queue<Transform> availableDoors = new Queue<Transform>(); // queue of all doors available to spawn from
     List<GameObject> placedRooms = new List<GameObject>(); // list of all placed rooms
 
-    int roomCount = 0;
     int retryNum = 0;
     Vector3 levelSpawnPosition;
     Quaternion levelSpawnRotation;
@@ -38,8 +37,8 @@ public class BrendanRooms : MonoBehaviour
         minRooms += (int) Mathf.Floor(1.12f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.5f);
         maxRooms += (int) Mathf.Floor(1.1f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.3f);
 
-        // limit minRooms to 13 and maxRooms to 20
-        minRooms = Mathf.Min(minRooms, 13);
+        // limit minRooms to 12 and maxRooms to 20
+        minRooms = Mathf.Min(minRooms, 12);
         maxRooms = Mathf.Min(maxRooms, 20);
     }
 
@@ -68,7 +67,6 @@ public class BrendanRooms : MonoBehaviour
         GameObject startRoom = Instantiate(startRoomPrefab, spawnPos, levelSpawnRotation);
         startRoom.transform.SetParent(transform);
         placedRooms.Add(startRoom);
-        roomCount++;
 
         // add room's doors to queue
         RoomInfo startRoomScript = startRoom.GetComponent<RoomInfo>();
@@ -97,7 +95,7 @@ public class BrendanRooms : MonoBehaviour
         }
 
         // while there are doors to add rooms to and haven't hit max rooms yet
-        while (availableDoors.Count > 0 && roomCount < maxRooms)
+        while (availableDoors.Count > 0 && placedRooms.Count < maxRooms)
         {
             Transform doorToConnectTo = availableDoors.Peek(); // choose next door to spawn at
 
@@ -109,7 +107,9 @@ public class BrendanRooms : MonoBehaviour
             while (IsPlacementValid(checkPos, Quaternion.identity, new Vector3(checkDistance, checkDistance, checkDistance)) == false)
             {
                 availableDoors.Dequeue();
-                if (availableDoors.Count == 0 && roomCount < minRooms)
+                Debug.Log("doors left: " + availableDoors.Count);
+                // no more doors and not enough rooms
+                if (availableDoors.Count == 0 && placedRooms.Count < minRooms)
                 {
                     goto ExitLoop;
                 }
@@ -138,7 +138,7 @@ public class BrendanRooms : MonoBehaviour
 
             // select a door
             Transform selectedSpawingDoor = spawningRoomInfo.doorPoints[Random.Range(0, spawningRoomInfo.doorPoints.Length)];
-            // Debug.Log("connect selected door: " + selectedSpawingDoor.parent.name + " to " + doorToConnectTo.parent.name);
+             Debug.Log("connect selected door: " + selectedSpawingDoor.parent.name + " to " + doorToConnectTo.parent.name);
 
             // reset prefab
             spawningRoom.transform.position = Vector3.zero;
@@ -159,15 +159,15 @@ public class BrendanRooms : MonoBehaviour
             Quaternion newRoomRotation = Quaternion.Euler(new Vector3(0, needRot, 0));
             // yield return new WaitForSeconds(0.3f);
 
+
             if (IsPlacementValid(difference + rotBoxCenter, newRoomRotation, box.size) == false)
             {
-                yield return new WaitForSeconds(1f);
+                // yield return new WaitForSeconds(1f);
                 continue;
             }
 
             // yield return new WaitForSeconds(0.3f);
 
-            roomCount++;
             GameObject newRoom = Instantiate(spawningRoom, difference, newRoomRotation);
             newRoom.transform.SetParent(transform);
             placedRooms.Add(newRoom);
@@ -339,6 +339,5 @@ public class BrendanRooms : MonoBehaviour
         }
         placedRooms.Clear();
         availableDoors.Clear();
-        roomCount = 0;
     }
 }

@@ -6,10 +6,11 @@ using UnityEngine.Events;
 public class HealthController : MonoBehaviour
 {
     [Header("Stats")]
-    public float maxHealth = 100;
-    float current;
+    public float maxHealth = 50;
+    float currentHealth;
+    float invincibilityTime = 0.15f, currentInvincibility = 0;
 
-    bool alive = true;
+    bool alive = true, canDamage = true;
     public UnityEvent<DamageInfo> OnDamaged;
     public UnityEvent OnDeath;
 
@@ -17,17 +18,22 @@ public class HealthController : MonoBehaviour
     [SerializeField] SingleAudio singleAudio;
     [SerializeField] string[] hurtSFX;
 
-    void Awake() => current = maxHealth;
+    void Awake() => currentHealth = maxHealth;
 
     public void TakeDamage(DamageInfo dmg)
     {
-        current -= dmg.amount;
+        if (canDamage == false)
+            return;
+
+        StartCoroutine(SetInvincible());
+
+        currentHealth -= dmg.amount;
         OnDamaged?.Invoke(dmg);
-        // Debug.Log($"{gameObject.name} took {dmg.amount} damage. Current health: {current}");
-        if (alive && current <= 0)
+        //Debug.Log($"{gameObject.name} took {dmg.amount} damage. Current health: {currentHealth}");
+        if (alive && currentHealth <= 0)
         {
             alive = false;
-            current = 0;
+            currentHealth = 0;
             OnDeath?.Invoke();
         }
         else // play hurt sound if not dead
@@ -37,10 +43,22 @@ public class HealthController : MonoBehaviour
         }
     }
 
+    IEnumerator SetInvincible()
+    {
+        canDamage = false;
+        currentInvincibility = invincibilityTime;
+        while(currentInvincibility > 0)
+        {
+            currentInvincibility -= Time.deltaTime;
+            yield return null;
+        }
+        canDamage = true;
+    }
+
     public void Revive() 
     {
         alive = true;
-        current = maxHealth;
+        currentHealth = maxHealth;
     }
 
 }

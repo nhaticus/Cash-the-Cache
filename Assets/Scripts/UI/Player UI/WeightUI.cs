@@ -39,8 +39,6 @@ public class WeightUI : MonoBehaviour
     {
         if (PlayerManager.Instance)
         {
-            Debug.Log("weight: " +
-                PlayerManager.Instance.getWeight());
             currWeightText.text = PlayerManager.Instance.getWeight().ToString();
 
             float percentage = PlayerManager.Instance.getWeight() / (float)PlayerManager.Instance.getMaxWeight();

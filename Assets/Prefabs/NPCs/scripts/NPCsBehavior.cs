@@ -43,15 +43,17 @@ public class NPCsBehavior : MonoBehaviour
     private void Awake()
     {
         /*  Setting up variables    */
-        defaultSpeed *= (PlayerPrefs.GetInt("Difficulty") * 1.1f) + (0.12f * DataSystem.Data.gameState.currentReplay);
-        defaultSpeed = Mathf.Min(defaultSpeed, 10); // max value is 10
+        defaultSpeed *= (PlayerPrefs.GetInt("Difficulty") * 1.1f) + (0.1f * DataSystem.Data.gameState.currentReplay);
+        defaultSpeed = Mathf.Min(defaultSpeed, 8); // max value is 10
 
-        runningSpeed *= (PlayerPrefs.GetInt("Difficulty") * 1.2f) + (0.12f * DataSystem.Data.gameState.currentReplay);
-        runningSpeed = Mathf.Min(runningSpeed, 10);
+        runningSpeed *= (PlayerPrefs.GetInt("Difficulty") * 1.15f) + (0.1f * DataSystem.Data.gameState.currentReplay);
+        runningSpeed = Mathf.Min(runningSpeed, 12);
+
+        GetComponent<HealthController>().maxHealth += Mathf.Floor((PlayerPrefs.GetInt("Difficulty") * 1.3f) * (0.1f * DataSystem.Data.gameState.currentReplay));
 
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = defaultSpeed;
-        GetComponent<HealthController>().maxHealth += Mathf.Floor((PlayerPrefs.GetInt("Difficulty") * 1.3f) * (1.12f * DataSystem.Data.gameState.currentReplay));
+        if(agent)
+            agent.speed = defaultSpeed;
     }
 
     void Update()
@@ -72,14 +74,18 @@ public class NPCsBehavior : MonoBehaviour
         else if(currentState == NPCState.RunAway)
         {
             // keep checking distance to exit
-            Vector3 exit = GameManager.Instance.GetNPCExitPoint();
-            Vector3 distanceToExit = transform.position - exit;
-            if (distanceToExit.magnitude <= 3.0f)
+            if (GameManager.Instance)
             {
-                // reached exit: send event and destroy NPC
-                GameManager.Instance.NPCLeaving();
-                Destroy(gameObject);
+                Vector3 exit = GameManager.Instance.GetNPCExitPoint();
+                Vector3 distanceToExit = transform.position - exit;
+                if (distanceToExit.magnitude <= 3.0f)
+                {
+                    // reached exit: send event and destroy NPC
+                    GameManager.Instance.NPCLeaving();
+                    Destroy(gameObject);
+                }
             }
+            
         }
     }
 
@@ -145,9 +151,12 @@ public class NPCsBehavior : MonoBehaviour
         SetAnimationState("isRunning", true);
 
         // get exit point destination
-        Vector3 exit = GameManager.Instance.GetNPCExitPoint();
-        agent.SetDestination(exit);
-        agent.speed = runningSpeed;
+        if (GameManager.Instance)
+        {
+            Vector3 exit = GameManager.Instance.GetNPCExitPoint();
+            agent.SetDestination(exit);
+            agent.speed = runningSpeed;
+        }
     }
 
     // When NPC is asleep/dead
