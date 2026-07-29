@@ -14,6 +14,7 @@ public class LeaveAreaTrigger : MonoBehaviour
     VanInventory vanInventory;
 
     bool playerInLeaveArea = false;
+    bool canLeave = true;
 
     private void Start()
     {
@@ -24,9 +25,13 @@ public class LeaveAreaTrigger : MonoBehaviour
 
     private void Update()
     {
+        if (canLeave == false) return;
+
         if (playerInLeaveArea &&
             ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0))))
         {
+            canLeave = false; // prevent player from constantly leaving and adding stuff to stolen inventory
+
             // Check for player's inventory and create result screen
             PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
 

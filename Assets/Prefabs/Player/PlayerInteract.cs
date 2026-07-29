@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -9,6 +10,11 @@ public class PlayerInteract : MonoBehaviour
     [Header("Raycasting")]
     [SerializeField] float raycastDistance = 2.8f;
     public GameObject mainCamera;
+
+    [Header("Animation")]
+    [SerializeField] Animator leftArm;
+    [SerializeField] Animator rightArm;
+    bool isLeftArm = true;
 
     [SerializeField] SingleAudio singleAudio;
 
@@ -157,6 +163,7 @@ public class PlayerInteract : MonoBehaviour
 
             if (PlayerManager.Instance.getWeight() + stealObj.lootInfo.weight <= PlayerManager.Instance.getMaxWeight())
             {
+                AnimateArm();
                 singleAudio.PlaySFX("item collect");
                 AddItemToInventory(stealObj.lootInfo);
 
@@ -181,6 +188,20 @@ public class PlayerInteract : MonoBehaviour
             else
                 ExecuteEvents.Execute<InteractEvent>(obj, null, (x, y) => x.Interact());
         }
+    }
+
+    void AnimateArm()
+    {
+        if (isLeftArm)
+        {
+            leftArm.SetTrigger("Take");
+        }
+        else
+        {
+            rightArm.SetTrigger("Take");
+        }
+
+        isLeftArm = !isLeftArm;     // switch punching arm
     }
 
     void AddItemToInventory(LootInfo info)

@@ -107,9 +107,9 @@ public class BrendanRooms : MonoBehaviour
             while (IsPlacementValid(checkPos, Quaternion.identity, new Vector3(checkDistance, checkDistance, checkDistance)) == false)
             {
                 availableDoors.Dequeue();
-                Debug.Log("doors left: " + availableDoors.Count);
-                // no more doors and not enough rooms
-                if (availableDoors.Count == 0 && placedRooms.Count < minRooms)
+
+                // no more doors, will check if there are enough rooms later
+                if (availableDoors.Count == 0)
                 {
                     goto ExitLoop;
                 }

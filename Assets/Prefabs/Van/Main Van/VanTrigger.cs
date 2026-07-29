@@ -71,7 +71,7 @@ public class VanTrigger : MonoBehaviour
     {
         if (!playerInRange || playerInventory == null) return;
 
-        // Player hold mouse down to deposit
+        // Player mouse down to toggle deposit
         if((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0))){
             
             depositing = !depositing;

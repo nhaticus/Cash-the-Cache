@@ -6,10 +6,11 @@ public class PlayerPunch : MonoBehaviour
 {
     [Header("Hitbox")]
     [SerializeField] private Hitbox punchHitbox;
-    [SerializeField] private float punchDuration = 0.5f;
+    [SerializeField] private float punchDuration = 0.4f;
 
     [Header("Animation")]
-    [SerializeField] private Animator fistAnimator;
+    [SerializeField] Animator leftArm;
+    [SerializeField] Animator rightArm;
 
     Collider punchCollider;
     private bool isPunching = false;
@@ -17,12 +18,9 @@ public class PlayerPunch : MonoBehaviour
 
     void Start()
     {
-        // cache the collider and disable it
+        // disable hitbox
         punchCollider = punchHitbox.GetComponent<Collider>();
         punchCollider.enabled = false;
-
-        // increase damage
-        // punchHitbox.
     }
 
     void Update()
@@ -30,34 +28,34 @@ public class PlayerPunch : MonoBehaviour
         // press punch button, not already punching, and can punch
         if ((UserInput.Instance && UserInput.Instance.Punch) || (UserInput.Instance == null && Input.GetMouseButtonDown(1))
             && !isPunching && PlayerManager.Instance.ableToInteract) 
-        { 
+        {
             StartCoroutine(Punch());
         }
     }
 
     IEnumerator Punch()
     {
-        isPunching = true;                 // set the punching state to true
+        isPunching = true;   // set the punching state to true
         
         if (isLeftPunch)
         {
-            fistAnimator.SetTrigger("PunchLeft");
-            yield return new WaitForSeconds(.5f);
+            leftArm.SetTrigger("Punch");
+            yield return new WaitForSeconds(0.1f);
         }
         else 
-        { 
-            fistAnimator.SetTrigger("PunchRight");
-            yield return new WaitForSeconds(.5f);
+        {
+            rightArm.SetTrigger("Punch");
+            yield return new WaitForSeconds(0.1f);
         }
-
 
         isLeftPunch = !isLeftPunch;     // switch punching arm
         punchCollider.enabled = true;
-
-
+        
         yield return new WaitForSeconds(punchDuration);
 
         punchCollider.enabled = false;  // reset the punching state
-        isPunching = false;                
+        isPunching = false;
+
+        yield return new WaitForSeconds(0.2f); // delay to prevent constant punching
     }
 }
