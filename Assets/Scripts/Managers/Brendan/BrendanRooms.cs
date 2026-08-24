@@ -138,7 +138,7 @@ public class BrendanRooms : MonoBehaviour
 
             // select a door
             Transform selectedSpawingDoor = spawningRoomInfo.doorPoints[Random.Range(0, spawningRoomInfo.doorPoints.Length)];
-             Debug.Log("connect selected door: " + selectedSpawingDoor.parent.name + " to " + doorToConnectTo.parent.name);
+            // Debug.Log("connect selected door: " + selectedSpawingDoor.parent.name + " to " + doorToConnectTo.parent.name);
 
             // reset prefab
             spawningRoom.transform.position = Vector3.zero;
