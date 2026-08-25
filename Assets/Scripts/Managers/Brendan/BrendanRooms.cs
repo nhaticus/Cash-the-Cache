@@ -101,7 +101,7 @@ public class BrendanRooms : MonoBehaviour
 
             // raycast to see if door is too close to other room
             // not good = remove door and move onto next door if exists
-            float checkDistance = 5;
+            float checkDistance = 7;
             Vector3 checkPos = doorToConnectTo.position + (doorToConnectTo.forward * (checkDistance / 2));
             checkPos.y += checkDistance / 2;
             while (IsPlacementValid(checkPos, Quaternion.identity, new Vector3(checkDistance, checkDistance, checkDistance)) == false)
@@ -140,7 +140,7 @@ public class BrendanRooms : MonoBehaviour
             Transform selectedSpawingDoor = spawningRoomInfo.doorPoints[Random.Range(0, spawningRoomInfo.doorPoints.Length)];
             // Debug.Log("connect selected door: " + selectedSpawingDoor.parent.name + " to " + doorToConnectTo.parent.name);
 
-            // reset prefab
+            // reset prefab transformations
             spawningRoom.transform.position = Vector3.zero;
             spawningRoom.transform.rotation = Quaternion.identity;
 
@@ -157,17 +157,18 @@ public class BrendanRooms : MonoBehaviour
             BoxCollider box = spawningRoom.GetComponent<BoxCollider>();
             Vector3 rotBoxCenter = RotatePointAroundPivot(box.center, spawningRoom.transform.position, new Vector3(0, needRot, 0));
             Quaternion newRoomRotation = Quaternion.Euler(new Vector3(0, needRot, 0));
-            // yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.3f);
 
 
             if (IsPlacementValid(difference + rotBoxCenter, newRoomRotation, box.size) == false)
             {
-                // yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(1f);
                 continue;
             }
 
-            // yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.3f);
 
+            difference.y = levelSpawnPosition.y; // keep y position
             GameObject newRoom = Instantiate(spawningRoom, difference, newRoomRotation);
             newRoom.transform.SetParent(transform);
             placedRooms.Add(newRoom);
@@ -236,7 +237,7 @@ public class BrendanRooms : MonoBehaviour
             GameObject hitObject = hit.gameObject;
             if (hitObject.CompareTag("Room"))
             {
-                // Debug.Log("BAD placement collided with: " + hitObject.name);
+                Debug.Log("BAD placement collided with: " + hitObject.name);
                 return false;
             }
         }
