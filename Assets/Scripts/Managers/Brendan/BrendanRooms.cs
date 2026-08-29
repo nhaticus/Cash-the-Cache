@@ -157,16 +157,15 @@ public class BrendanRooms : MonoBehaviour
             BoxCollider box = spawningRoom.GetComponent<BoxCollider>();
             Vector3 rotBoxCenter = RotatePointAroundPivot(box.center, spawningRoom.transform.position, new Vector3(0, needRot, 0));
             Quaternion newRoomRotation = Quaternion.Euler(new Vector3(0, needRot, 0));
-            yield return new WaitForSeconds(0.3f);
-
+            // yield return new WaitForSeconds(0.3f);
 
             if (IsPlacementValid(difference + rotBoxCenter, newRoomRotation, box.size) == false)
             {
-                yield return new WaitForSeconds(1f);
+                // yield return new WaitForSeconds(1f);
                 continue;
             }
 
-            yield return new WaitForSeconds(0.3f);
+            // yield return new WaitForSeconds(0.3f);
 
             difference.y = levelSpawnPosition.y; // keep y position
             GameObject newRoom = Instantiate(spawningRoom, difference, newRoomRotation);
