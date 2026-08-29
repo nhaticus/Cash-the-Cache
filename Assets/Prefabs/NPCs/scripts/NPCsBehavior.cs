@@ -164,7 +164,10 @@ public class NPCsBehavior : MonoBehaviour
     public void SetAsleep()
     {
         if (deathSFX.Length > 0)
+        {
+            Debug.Log(deathSFX[Random.Range(0, deathSFX.Length)]);
             singleAudio.PlaySFX(deathSFX[Random.Range(0, deathSFX.Length)]);
+        }
 
         currentState = NPCState.Asleep;
         PlayerLost();

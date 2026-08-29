@@ -19,6 +19,8 @@ public class NPCSpawner : MonoBehaviour
     public int spawnAttemptsPerNPC = 10; // Number of attempts to spawn each NPC
     public float spawnerRadius = 20.0f; // Radius to spawn NPCs around
 
+    [SerializeField] GameObject policeSpawnPoint;
+
     private void Start()
     {
         SetDifficulty();
@@ -66,7 +68,8 @@ public class NPCSpawner : MonoBehaviour
     {
         foreach (NPCSpawnData Police in PoliceList)
         {
-            SpawnNPC(Police);
+            for(int i = 0; i < Police.spawnCount; i++)
+                Instantiate(Police.NPCPrefab, policeSpawnPoint.transform.position, Quaternion.identity);
         }
     }
 

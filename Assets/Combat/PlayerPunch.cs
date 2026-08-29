@@ -6,7 +6,7 @@ public class PlayerPunch : MonoBehaviour
 {
     [Header("Hitbox")]
     [SerializeField] private Hitbox punchHitbox;
-    [SerializeField] private float punchDuration = 0.4f;
+    [SerializeField] private float punchDuration = 0.25f;
 
     [Header("Animation")]
     [SerializeField] Animator leftArm;
@@ -26,7 +26,7 @@ public class PlayerPunch : MonoBehaviour
     void Update()
     {
         // press punch button, not already punching, and can punch
-        if ((UserInput.Instance && UserInput.Instance.Punch) || (UserInput.Instance == null && Input.GetMouseButtonDown(1))
+        if (((UserInput.Instance && UserInput.Instance.Punch) || (UserInput.Instance == null && Input.GetMouseButtonDown(1)))
             && !isPunching && PlayerManager.Instance.ableToInteract) 
         {
             StartCoroutine(Punch());

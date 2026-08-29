@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 3162480546038240319}
   - component: {fileID: 3792034717107574560}
   - component: {fileID: 7393112429883918575}
+  - component: {fileID: 8676271939645083462}
   m_Layer: 0
   m_Name: DeskLamp
   m_TagString: Selectable
@@ -379,6 +380,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.2, y: 0.5, z: 0.17}
   m_Center: {x: -0.04411531, y: 0.27628645, z: -0.0000012218956}
+--- !u!114 &8676271939645083462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7753660354067658828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03fd4984c666ec447b6eec13dc843420, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minStrength: 350
+  maxStrength: 475
+  strengthVariation: 20
+  lightOffPercentage: 0.4
 --- !u!1 &8229571244320079743
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,7 +441,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 237.5897
+  m_Intensity: 475.1794
   m_Range: 2
   m_SpotAngle: 60
   m_InnerSpotAngle: 5
@@ -486,7 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 200
+  m_Intensity: 400
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 15
