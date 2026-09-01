@@ -29,7 +29,8 @@ public class PoliceTimer : MonoBehaviour
         updateTimerDisplay();
 
         /*  When NPC leaves start timer  */
-        GameManager.Instance.OnNPCLeaving += StartTimer;
+        if(PlayerManager.Instance && PlayerManager.Instance.isPlayerActive)
+            GameManager.Instance.OnNPCLeaving += StartTimer;
     }
 
     void Update()

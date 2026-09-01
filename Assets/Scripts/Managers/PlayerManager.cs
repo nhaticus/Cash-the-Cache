@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     private static float moveSpeedDefault = 5f;
 
     public bool ableToInteract = true;
+    public bool isPlayerActive = true; // player is not usable such as exiting van
 
     [Header("Data")]
     Item backpack;

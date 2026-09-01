@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class NPCSpawner : MonoBehaviour
@@ -11,12 +12,12 @@ public class NPCSpawner : MonoBehaviour
     }
 
     [Header("NPC Spawn Data")]
-    public NPCSpawnData[] NPCList;  // NPCs to spawn (assigned in the inspector)
-    public NPCSpawnData[] PoliceList; // NPCs to spawn (assigned in the inspector)
+    public NPCSpawnData[] NPCList;  // NPCs to spawn
+    public NPCSpawnData[] PoliceList; // Police to spawn
 
     [Header("Spawn Settings")]
     [SerializeField] int amountOfNPCs = 2;
-    public int spawnAttemptsPerNPC = 10; // Number of attempts to spawn each NPC
+    public int spawnAttemptsPerNPC = 10;
     public float spawnerRadius = 20.0f; // Radius to spawn NPCs around
 
     [SerializeField] GameObject policeSpawnPoint;
@@ -28,7 +29,8 @@ public class NPCSpawner : MonoBehaviour
 
     void SetDifficulty()
     {
-        amountOfNPCs += (int) Mathf.Floor(0.15f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
+        amountOfNPCs += (int) Mathf.Floor(0.14f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
+        amountOfNPCs = Mathf.Min(amountOfNPCs, 8);
     }
 
 
@@ -64,12 +66,22 @@ public class NPCSpawner : MonoBehaviour
         }
     }
 
+    [SerializeField] float policeSpawnDelay = 0.3f;
     void SpawnPolice()
+    {
+        if(PlayerManager.Instance && PlayerManager.Instance.isPlayerActive)
+            StartCoroutine(DelaySpawnPolice(policeSpawnDelay));
+    }
+
+    IEnumerator DelaySpawnPolice(float delayTime)
     {
         foreach (NPCSpawnData Police in PoliceList)
         {
-            for(int i = 0; i < Police.spawnCount; i++)
+            for (int i = 0; i < Police.spawnCount; i++)
+            {
                 Instantiate(Police.NPCPrefab, policeSpawnPoint.transform.position, Quaternion.identity);
+                yield return new WaitForSeconds(delayTime);
+            }
         }
     }
 

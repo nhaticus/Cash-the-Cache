@@ -20,6 +20,7 @@ public class NPCDetection : MonoBehaviour
     [SerializeField] int sightAngle; // Angle of the detection cone
 
     [SerializeField] float sightCountdown = 1.5f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
+    [SerializeField] float minSightCountdown = 1f;
     float sightTimer = 0.0f;
 
     [Header("Dependencies")]
@@ -37,15 +38,17 @@ public class NPCDetection : MonoBehaviour
     {
         player = GameObject.Find("Player").transform;
 
-        // alter sight based on difficulty
-        sightCountdown /= (PlayerPrefs.GetInt("Difficulty") * 1.05f) + (0.1f * DataSystem.Data.gameState.currentReplay);
-        sightCountdown = Mathf.Min(sightCountdown, 1); // max value is 1 second
+        // alter sight countdown based on difficulty
+        sightCountdown /= PlayerPrefs.GetInt("Difficulty") * 1.03f;
+        sightCountdown = Mathf.Max(sightCountdown, minSightCountdown);
     }
 
     private void Update()
     {
+        // send raycast if not dead and player is active
         if(sendRaycast)
-            SendDetectionRaycast();
+            if ((PlayerManager.Instance == null) || (PlayerManager.Instance && PlayerManager.Instance.isPlayerActive))
+                SendDetectionRaycast();
     }
 
     /// <summary>
@@ -56,7 +59,10 @@ public class NPCDetection : MonoBehaviour
         // find direction to player
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
         RaycastHit[] hits = Physics.RaycastAll(transform.position, directionToPlayer, sightDistance); // fire raycast in direction of player
-        
+
+        // SORT HITS: Nearest objects will now always be at index 0
+        System.Array.Sort(hits, (x, y) => x.distance.CompareTo(y.distance));
+
         // find if player is within sight cone
         float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
         if (hits.Length > 0 && angleToPlayer <= sightAngle)
@@ -77,14 +83,15 @@ public class NPCDetection : MonoBehaviour
 
         for (int i = 0; i < objectsDetected.Length; i++)
         {
-            if (objectsDetected[i].transform.CompareTag("Player")) // player tag checking
+            Transform currObject = objectsDetected[i].transform;
+            if (currObject.CompareTag("Player")) // player tag checking
             {
-                player = objectsDetected[i].transform.gameObject;
+                player = currObject.gameObject;
                 float distance = objectsDetected[i].distance;
                 if (distance < playerDist)
                     playerDist = distance;
             }
-            else if (objectsDetected[i].transform.CompareTag("Wall")) // prevent raycasting through a wall
+            else if (currObject.CompareTag("Wall") || currObject.gameObject.name.Contains("Door")) // prevent raycasting through wall
             {
                 // check if distance is the closest wall
                 float distance = objectsDetected[i].distance;

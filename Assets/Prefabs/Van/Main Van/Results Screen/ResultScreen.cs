@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
@@ -18,6 +19,7 @@ public class ResultScreen : MonoBehaviour
 {
     public Dictionary<string, (int, LootInfo)> inventoryRef; // reference to any inventory (should be van but possible for player's)
 
+    [SerializeField] float startDelay = 0.5f;
     [SerializeField] float itemDelay = 0.25f;
 
     [Header("Dependencies")]
@@ -38,21 +40,19 @@ public class ResultScreen : MonoBehaviour
         StartCoroutine(CalculateTotalValue());
     }
 
+    bool canCreateNextElement = true;
     IEnumerator CalculateTotalValue()
     {
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(startDelay);
         int total = 0;
         foreach (var loot in inventoryRef)
         {
             int amount = loot.Value.Item1;
             LootInfo lootInfo = loot.Value.Item2;
+            canCreateNextElement = false;
 
-            GameObject result = Instantiate(resultElement, resultGridTransform);
-            result.GetComponent<ResultElement>().Initialize(lootInfo.sprite, lootInfo.name, amount, lootInfo.value);
-
-            total += lootInfo.value * amount;
-            totalStolenText.StringReference["money"] = new StringVariable { Value = total.ToString() };
-            totalStolenText.RefreshString();
+            CreateElement(lootInfo, amount, total);
+            yield return new WaitUntil(() => canCreateNextElement);
 
             if (!scrollClicked)
                 scrollbar.value = 0;
@@ -61,6 +61,25 @@ public class ResultScreen : MonoBehaviour
 
         GameManager.Instance.AddMoney(total);
         continueButton.SetActive(true);
+    }
+
+    void CreateElement(LootInfo lootInfo, int amount, int currentTotal)
+    {
+        GameObject result = Instantiate(resultElement, resultGridTransform);
+        ResultElement RE = result.GetComponent<ResultElement>();
+        RE.OnTranslationFinished += HandleElementFinished;
+
+        RE.Initialize(lootInfo.sprite, lootInfo.translatedName, amount, lootInfo.value);
+        int total = lootInfo.value * amount;
+        totalStolenText.StringReference["money"] = new StringVariable { Value = total.ToString() };
+        totalStolenText.RefreshString();
+
+        currentTotal += total;
+    }
+
+    void HandleElementFinished()
+    {
+        canCreateNextElement = true;
     }
 
     public void ScrollBarClicked()

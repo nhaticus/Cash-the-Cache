@@ -30,22 +30,30 @@ public class LeaveAreaTrigger : MonoBehaviour
         if (playerInLeaveArea &&
             ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0))))
         {
-            canLeave = false; // prevent player from constantly leaving and adding stuff to stolen inventory
-
-            // Check for player's inventory and create result screen
-            PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
-
-            if (vanInventory && playerInventory)
-            {
-                PlayerManager.Instance.ableToInteract = false; // stop movement
-                PlayerManager.Instance.lockRotation();
-            }
-            else
-            {
-                Debug.LogError("VanInventory or PlayerInventory is NON-EXISTANT!");
-            }
-            ShowResultScreen();
+            PlayerLeave();
         }
+    }
+
+    void PlayerLeave()
+    {
+        if(PlayerManager.Instance)
+            PlayerManager.Instance.isPlayerActive = false;
+
+        canLeave = false; // prevent player from constantly leaving and adding stuff to stolen inventory
+
+        // Check for player's inventory and create result screen
+        PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
+
+        if (vanInventory && playerInventory)
+        {
+            PlayerManager.Instance.ableToInteract = false; // stop movement
+            PlayerManager.Instance.lockRotation();
+        }
+        else
+        {
+            Debug.LogError("VanInventory or PlayerInventory is NON-EXISTANT!");
+        }
+        ShowResultScreen();
     }
 
     private void OnTriggerEnter(Collider other)
