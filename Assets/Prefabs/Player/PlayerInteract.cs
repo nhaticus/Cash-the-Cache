@@ -4,6 +4,7 @@ using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.Localization;
 
 public class PlayerInteract : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class PlayerInteract : MonoBehaviour
     Transform myTransform;
 
     // Inventory
-    public Dictionary<string, (int, LootInfo)> inventory = new Dictionary<string, (int, LootInfo)>(); // Dictionary for inventory items
+    public Dictionary<LocalizedString, (int, LootInfo)> inventory = new Dictionary<LocalizedString, (int, LootInfo)>(); // Dictionary for inventory items
     public Tuple<(LootInfo, int)> newInventory; // type of item, number owned
 
     private void Awake()
@@ -206,10 +207,10 @@ public class PlayerInteract : MonoBehaviour
 
     void AddItemToInventory(LootInfo info)
     {
-        if (inventory.ContainsKey(info.itemName))
-            inventory[info.itemName] = (inventory[info.itemName].Item1 + 1, info);
+        if (inventory.ContainsKey(info.translatedName))
+            inventory[info.translatedName] = (inventory[info.translatedName].Item1 + 1, info);
         else
-            inventory.Add(info.itemName, (1, info));
+            inventory.Add(info.translatedName, (1, info));
 
         PlayerManager.Instance.addWeight(info.weight);
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.SceneManagement;
@@ -17,7 +18,7 @@ using UnityEngine.UI;
 
 public class ResultScreen : MonoBehaviour
 {
-    public Dictionary<string, (int, LootInfo)> inventoryRef; // reference to any inventory (should be van but possible for player's)
+    public Dictionary<LocalizedString, (int, LootInfo)> inventoryRef; // reference to any inventory (should be van but possible for player's)
 
     [SerializeField] float startDelay = 0.5f;
     [SerializeField] float itemDelay = 0.25f;

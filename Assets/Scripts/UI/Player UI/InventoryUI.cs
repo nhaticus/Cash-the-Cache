@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 /*
@@ -34,7 +34,7 @@ public class InventoryUI : MonoBehaviour
 
     private void Update()
     {
-        if ((UserInput.Instance && (UserInput.Instance.Inventory || UserInput.Instance.Pause)) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
+        if ((UserInput.Instance && UserInput.Instance.Inventory) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
         {
             Hide();
         }
@@ -67,7 +67,7 @@ public class InventoryUI : MonoBehaviour
         }
 
         // fill grid
-        foreach (KeyValuePair<string, (int, LootInfo)> info in playerInteract.inventory)
+        foreach (KeyValuePair<LocalizedString, (int, LootInfo)> info in playerInteract.inventory)
         {
             GameObject newElement = Instantiate(gridElement, gridTransform);
             newElement.GetComponent<GridElement>().lootInfo = info.Value.Item2;
@@ -78,6 +78,7 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
+    LocalizedString stringReference;
     [SerializeField] TMP_Text itemName, itemWeight;
     [SerializeField] Image itemImg;
     LootInfo selectedItem;
@@ -92,11 +93,17 @@ public class InventoryUI : MonoBehaviour
         }
         else
         {
-            itemName.text = selectedItem.itemName;
+            stringReference = selectedItem.translatedName;
+            stringReference.StringChanged += TranslateOnReady;
+            // itemName.text = selectedItem.translatedName;
             itemWeight.text = "weight: " + selectedItem.weight;
             itemImg.sprite = selectedItem.sprite;
         }
-        
+    }
+
+    void TranslateOnReady(string translatedText)
+    {
+        itemName.text = translatedText;
     }
 
     public void DropItem()
@@ -114,11 +121,11 @@ public class InventoryUI : MonoBehaviour
         playerInteract.ItemTaken.Invoke(true); // update weight UI
 
         // remove from inventory
-        playerInteract.inventory[selectedItem.itemName] = (playerInteract.inventory[selectedItem.itemName].Item1 - 1, selectedItem);
-        if(playerInteract.inventory[selectedItem.itemName].Item1 == 0)
+        playerInteract.inventory[selectedItem.translatedName] = (playerInteract.inventory[selectedItem.translatedName].Item1 - 1, selectedItem);
+        if(playerInteract.inventory[selectedItem.translatedName].Item1 == 0)
         {
             // select previous item
-            playerInteract.inventory.Remove(selectedItem.itemName);
+            playerInteract.inventory.Remove(selectedItem.translatedName);
             ChangeItemInfo(null);
         }
 

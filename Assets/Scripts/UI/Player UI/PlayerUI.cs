@@ -13,6 +13,8 @@ using UnityEngine;
 
 public class PlayerUI : MonoBehaviour
 {
+    [SerializeField] bool uiPossible = false;
+
     WeightUI weightUI;
     [SerializeField] WeightIndicator weightIndicator;
 
@@ -49,14 +51,18 @@ public class PlayerUI : MonoBehaviour
     bool inventoryOpen = false; // check for if inventory or lock picking is open
     private void Update()
     {
-        // Open inventory if:
-        // pressed inventory button, can interact, and game not paused
-        if ((UserInput.Instance && UserInput.Instance.Inventory) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.I))
+        // prevent showing inventory when game is not loaded
+        if (uiPossible)
+        {
+            // Open inventory if:
+            // pressed inventory button, can interact, and game not paused
+            if ((UserInput.Instance && UserInput.Instance.Inventory) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.I))
             && !inventoryOpen && (PlayerManager.Instance == null ||
             (PlayerManager.Instance != null && PlayerManager.Instance.ableToInteract))
             && Time.timeScale > 0)
-        {
-            CreateInventory();
+            {
+                CreateInventory();
+            }
         }
 
     }
@@ -77,6 +83,11 @@ public class PlayerUI : MonoBehaviour
     void HidePlayerUI()
     {
         gameObject.SetActive(false);
+    }
+
+    public void SetGameUIPossible(bool possible)
+    {
+        uiPossible = possible;
     }
 
 }

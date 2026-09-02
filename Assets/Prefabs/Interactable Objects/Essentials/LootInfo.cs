@@ -12,7 +12,6 @@ public class LootInfo : ScriptableObject
 
     public Sprite sprite;
     public LocalizedString translatedName;
-    public string itemName;
     public int value;
     public int weight;
 }

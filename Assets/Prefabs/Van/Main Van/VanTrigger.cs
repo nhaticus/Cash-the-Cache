@@ -120,7 +120,7 @@ public class VanTrigger : MonoBehaviour
     private IEnumerator DepositItemsOverTime()
     {
         // Flatten or count your items first:
-        List<(string, LootInfo)> allItems = FlattenInventory(playerInventory);
+        List<(LocalizedString, LootInfo)> allItems = FlattenInventory(playerInventory);
         int totalItems = allItems.Count;
         if (totalItems == 0)
         {
@@ -185,12 +185,12 @@ public class VanTrigger : MonoBehaviour
     }
 
     // Convert dictionary { itemName -> (count, lootInfo) } into a list of items
-    private List<(string, LootInfo)> FlattenInventory(PlayerInteract pInv)
+    private List<(LocalizedString, LootInfo)> FlattenInventory(PlayerInteract pInv)
     {
-        var result = new List<(string, LootInfo)>();
+        var result = new List<(LocalizedString, LootInfo)>();
         foreach (var kvp in pInv.inventory)
         {
-            string itemName = kvp.Key;
+            LocalizedString itemName = kvp.Key;
             int quantity = kvp.Value.Item1;
             LootInfo info = kvp.Value.Item2;
             for (int i = 0; i < quantity; i++)
@@ -202,7 +202,7 @@ public class VanTrigger : MonoBehaviour
     }
 
     // Remove one item from player's dictionary and add to VanInventory
-    private void RemoveOneItemFromPlayer(PlayerInteract pInv, string itemName, LootInfo info)
+    private void RemoveOneItemFromPlayer(PlayerInteract pInv, LocalizedString itemName, LootInfo info)
     {
         if (!pInv.inventory.ContainsKey(itemName)) return;
 

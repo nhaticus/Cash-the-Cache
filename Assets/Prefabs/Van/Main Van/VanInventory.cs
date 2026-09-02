@@ -3,11 +3,12 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
 
 public class VanInventory : MonoBehaviour
 {
     public static VanInventory Instance; // Singleton to access from anywhere
-    public Dictionary<string, (int, LootInfo)> stolenItems = new Dictionary<string, (int, LootInfo)>(); // Dictionary of stolen items
+    public Dictionary<LocalizedString, (int, LootInfo)> stolenItems = new Dictionary<LocalizedString, (int, LootInfo)>(); // Dictionary of stolen items
     
     private void Awake()
     {
@@ -29,7 +30,7 @@ public class VanInventory : MonoBehaviour
             return;
         }
 
-        foreach (KeyValuePair<string, (int, LootInfo)> item in playerInventory.inventory)
+        foreach (KeyValuePair<LocalizedString, (int, LootInfo)> item in playerInventory.inventory)
         {
             // Add items to van inventory
             if (stolenItems.ContainsKey(item.Key))
@@ -59,7 +60,7 @@ public class VanInventory : MonoBehaviour
         stolenItems.Clear();
     }
 
-    public void DepositSingleItem(string itemName, LootInfo info)
+    public void DepositSingleItem(LocalizedString itemName, LootInfo info)
     {
         if (stolenItems.ContainsKey(itemName))
         {
