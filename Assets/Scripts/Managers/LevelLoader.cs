@@ -12,6 +12,7 @@ public class LevelLoader : MonoBehaviour
 {
     [SerializeField] Image littleVan;
     public UnityEvent loadingComplete;
+    public UnityEvent loadingScreenGone;
 
     private void Start()
     {
@@ -60,7 +61,9 @@ public class LevelLoader : MonoBehaviour
             pivot.transform.Rotate(0, canvasRotateSpeed * Time.deltaTime, 0);
             yield return null;
         }
+
         gameObject.SetActive(false);
+        loadingScreenGone.Invoke(); // just so you can't pause when the loading screen is moving
     }
 
 }

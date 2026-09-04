@@ -3,9 +3,21 @@ using System.Collections.Generic;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.Events;
+
 public class BrendanRooms : MonoBehaviour
 {
-    [Header("Setup (optional)")]
+    // Unique room that has chance to spawn when difficulty = X
+    [System.Serializable]
+    public class UniqueRoom
+    {
+        public GameObject room;
+
+        [Range(1, 5)] public int minDifficulty;
+
+        [Range(0.01f, 0.1f)] public float chance = 0.01f;
+    }
+
+    [Header("Setup")]
     public GameObject[] startRooms;
     public int maxRooms = 7;
     public int minRooms = 5;
@@ -13,7 +25,8 @@ public class BrendanRooms : MonoBehaviour
     public NavMeshSurface surface;
 
     [Header("House Rooms")]
-    public GameObject[] roomPrefabs; // list of all rooms that can be spawned
+    [SerializeField] GameObject[] roomPrefabs; // list of all rooms that can be spawned
+    [SerializeField] UniqueRoom[] uniqueRooms; // special rooms with a change to spawn
 
     Queue<Transform> availableDoors = new Queue<Transform>(); // queue of all doors available to spawn from
     List<GameObject> placedRooms = new List<GameObject>(); // list of all placed rooms
@@ -130,7 +143,7 @@ public class BrendanRooms : MonoBehaviour
              * 4. Get needed raycast position by adding difference and rotated box center
              */
 
-            GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length)]; // select random room
+            GameObject spawningRoom = ChooseRoom(); // select random room;
 
             RoomInfo spawningRoomInfo = spawningRoom.GetComponent<RoomInfo>();
             if (spawningRoomInfo == null || spawningRoomInfo.doorPoints.Length == 0)
@@ -211,6 +224,26 @@ public class BrendanRooms : MonoBehaviour
 
             roomsFinished.Invoke();
         }
+    }
+
+    GameObject ChooseRoom()
+    {
+        GameObject spawningRoom = roomPrefabs[Random.Range(0, roomPrefabs.Length)]; // select random room;
+
+        // check each unique room and if difficulty is within range
+        foreach(UniqueRoom room in uniqueRooms)
+        {
+            if(PlayerPrefs.GetInt("Difficulty") >= room.minDifficulty)
+            {
+                float chance = Random.Range(0f, 1f);
+                if(chance <= room.chance)
+                {
+                    spawningRoom = room.room;
+                }
+            }
+        }
+
+        return spawningRoom;
     }
 
 
