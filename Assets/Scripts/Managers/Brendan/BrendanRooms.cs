@@ -219,6 +219,8 @@ public class BrendanRooms : MonoBehaviour
         else // >= minRooms placed: success
         {
             RemoveOverlappingDoors();
+
+            // create navmesh now that all items are spawned
             if (surface)
                 surface.BuildNavMesh();
 
