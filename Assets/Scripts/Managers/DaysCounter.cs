@@ -6,7 +6,7 @@ using UnityEngine;
 public class DaysCounter : MonoBehaviour
 {
     [SerializeField] int daysLeft = 5, daysTotal = 45;
-    [SerializeField] TMP_Text daysText;
+    [SerializeField] TMP_Text daysText, moneyText;
     void Start()
     {
         if(daysLeft <= 0)

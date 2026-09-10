@@ -1,40 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
 
 public class HouseCanvas : BaseCanvasType
 {
     public int difficulty = 0;
-    [SerializeField] TMP_Text difficultyText;
-
-    [SerializeField] LocalizedString difficultyLocalizedString;
+    int totalDifficulty = 5;
+    [SerializeField] GameObject[] stars;
 
     private void Start()
     {
-        UpdateDifficultyText();
+        CreateDifficultyStars();
         StartCoroutine(StartUp());
     }
 
-    public void UpdateDifficultyText()
+    void CreateDifficultyStars()
     {
-        difficultyLocalizedString.StringChanged -= UpdateText;
-
-        difficultyLocalizedString.Arguments = new object[] { difficulty };
-        difficultyLocalizedString.StringChanged += UpdateText;
-        difficultyLocalizedString.RefreshString();
-    }
-
-
-    private void UpdateText(string localizedText)
-    {
-        difficultyText.text = localizedText;
-    }
-
-    private void OnDisable()
-    {
-        difficultyLocalizedString.StringChanged -= UpdateText;
+        for (int i = 0; i < totalDifficulty; i++)
+        {
+            if (i <= difficulty)
+            { // filled in star
+                stars[i].GetComponent<Animator>().SetBool("Full", true);
+            }
+        }
     }
 }
