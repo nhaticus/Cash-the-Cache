@@ -271,7 +271,7 @@ public class BrendanRooms : MonoBehaviour
             GameObject hitObject = hit.gameObject;
             if (hitObject.CompareTag("Room"))
             {
-                Debug.Log("BAD placement collided with: " + hitObject.name);
+                // Debug.Log("BAD placement collided with: " + hitObject.name);
                 return false;
             }
         }

@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public int playerMoney;
+    public int moneyToEnd = 50000;
 
     public Action OnNPCLeaving;
     public Action SpawnPolice;
