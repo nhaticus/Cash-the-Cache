@@ -6,7 +6,7 @@ public class PlayerPunch : MonoBehaviour
 {
     [Header("Hitbox")]
     [SerializeField] private Hitbox punchHitbox;
-    [SerializeField] private float punchDuration = 0.25f;
+    [SerializeField] private float punchDuration = 0.25f, punchDelay = 0.15f;
 
     [Header("Animation")]
     [SerializeField] Animator leftArm;
@@ -56,6 +56,6 @@ public class PlayerPunch : MonoBehaviour
         punchCollider.enabled = false;  // reset the punching state
         isPunching = false;
 
-        yield return new WaitForSeconds(0.2f); // delay to prevent constant punching
+        yield return new WaitForSeconds(punchDelay); // delay to prevent constant punching
     }
 }
