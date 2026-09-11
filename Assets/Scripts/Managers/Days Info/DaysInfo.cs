@@ -34,7 +34,7 @@ public class DaysInfo : MonoBehaviour
         }
 
         daysText.text = daysLeft.ToString();
-        moneyText.text = money.ToString();
+        moneyText.text = "$" + money.ToString();
         SetRotation();
     }
 

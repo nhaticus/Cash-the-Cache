@@ -47,8 +47,8 @@ public class BrendanRooms : MonoBehaviour
     void SetDifficulty()
     {
         // increase number of rooms based on number of plays and difficulty
-        minRooms += (int) Mathf.Floor(1.12f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.5f);
-        maxRooms += (int) Mathf.Floor(1.1f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.3f);
+        minRooms += (int) Mathf.Floor(1.12f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.45f);
+        maxRooms += (int) Mathf.Floor(1.1f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.28f);
 
         // limit minRooms to 12 and maxRooms to 20
         minRooms = Mathf.Min(minRooms, 12);
