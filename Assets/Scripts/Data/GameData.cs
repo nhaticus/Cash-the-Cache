@@ -13,7 +13,6 @@ public class GameState
 {
     public int currentReplay = 0;
     public int playerMoney = 0;
-    public int daysPassed = 0;
 }
 
 [System.Serializable]
