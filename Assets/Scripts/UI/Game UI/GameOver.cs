@@ -13,21 +13,23 @@ public class GameOver : MonoBehaviour
     [SerializeField] TMP_Text currentMoneyText;
     [SerializeField] LocalizeStringEvent currentMoneyTranslation;
 
-    private void Start()
-    {
-        PlayerLose();
-    }
+    [SerializeField] SingleAudio singleAudio;
 
-    public void PlayerLose()
+    public void DecreasePlayerMoney()
     {
-        /*
         if (GameManager.Instance == false)
             return;
 
         GameManager.Instance.playerMoney -= decreaseMoneyAmount;
         if (GameManager.Instance.playerMoney < 0)
             GameManager.Instance.playerMoney = 0;
-        */
+    }
+
+    public void PlayerLose()
+    {
+        if (GameManager.Instance == false)
+            return;
+
         StartCoroutine(DisplayMoneyChanges());
     }
 
@@ -37,13 +39,14 @@ public class GameOver : MonoBehaviour
         // hide total money and show when finished calculating
         currentMoneyText.alpha = 0;
         yield return StartCoroutine(RollMoneyDisplay());
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(SmackTotalAmount());
     }
 
     // show how much money lost by "rolling"
     IEnumerator RollMoneyDisplay()
     {
+        singleAudio.PlaySFX("Roll", loop: true);
         int currDecrease = 0;
         int rollAmount = 10;
         while(currDecrease < decreaseMoneyAmount)
@@ -60,20 +63,21 @@ public class GameOver : MonoBehaviour
             if(currDecrease + rollAmount > decreaseMoneyAmount)
             {
                 rollAmount = decreaseMoneyAmount - currDecrease;
-                Debug.Log("Too big, change roll amount to: " + rollAmount);
             }
         }
         penaltyText.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        singleAudio.StopSelectSFX("Roll");
     }
 
     IEnumerator SmackTotalAmount()
     {
         currentMoneyText.transform.localScale = new Vector3(2, 2, 2);
-        currentMoneyTranslation.StringReference["money"] = new StringVariable { Value = "5050" }; //GameManager.Instance.playerMoney.ToString();
+        currentMoneyTranslation.StringReference["money"] = new StringVariable { Value = GameManager.Instance.playerMoney.ToString() };
         currentMoneyTranslation.RefreshString();
         currentMoneyText.alpha = 1;
 
         float currMoneySize = currentMoneyText.transform.localScale.x;
+        singleAudio.PlaySFX("Smack");
         while (currMoneySize > 1)
         {
             currMoneySize -= 0.175f;

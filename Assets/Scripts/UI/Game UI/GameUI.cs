@@ -82,8 +82,8 @@ public class GameUI : MonoBehaviour
         Cursor.visible = true;
     }
 
-    float timeTillGameOverReveal = 0.7f;
-    float totalFadeInTime = 1f;
+    float timeTillGameOverReveal = 0.65f;
+    float totalFadeInTime = 0.75f;
     IEnumerator CreateGameOverScreen()
     {
         // play death sound
@@ -91,7 +91,8 @@ public class GameUI : MonoBehaviour
 
         // create game over screen
         GameObject gameOver = Instantiate(gameOverPrefab, transform);
-        gameOver.GetComponent<GameOver>().PlayerLose();
+        gameOver.GetComponent<GameOver>().DecreasePlayerMoney();
+
         // hide game over
         CanvasGroup gameOverCanvas = gameOver.GetComponent<CanvasGroup>();
         gameOverCanvas.alpha = 0;
@@ -110,6 +111,8 @@ public class GameUI : MonoBehaviour
             gameOverCanvas.alpha = fadeTimer / totalFadeInTime;
             yield return null;
         }
+
+        gameOver.GetComponent<GameOver>().PlayerLose();
     }
 
     float fadeInTime = 0.15f;

@@ -19,7 +19,7 @@ public class NPCDetection : MonoBehaviour
     [SerializeField] float sightDistance;
     [SerializeField] int sightAngle; // Angle of the detection cone
 
-    [SerializeField] float sightCountdown = 1.5f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
+    [SerializeField] float sightCountdown = 1.4f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
     [SerializeField] float minSightCountdown = 1f;
     float sightTimer = 0.0f;
 
