@@ -5169,6 +5169,7 @@ GameObject:
   - component: {fileID: 1318153429}
   - component: {fileID: 1318153428}
   - component: {fileID: 1318153427}
+  - component: {fileID: 1318153430}
   m_Layer: 5
   m_Name: Start btn
   m_TagString: Untagged
@@ -5240,10 +5241,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 189964253}
-        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: SwitchScene
-        m_Mode: 5
+      - m_Target: {fileID: 1318153430}
+        m_TargetAssemblyTypeName: StartButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5290,6 +5291,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1318153425}
   m_CullTransparentMesh: 1
+--- !u!114 &1318153430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318153425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e6bb0b5421bac04cbdd2fbaf23eafb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene: Map
+  cutscene: {fileID: 0}
 --- !u!1 &1331934924
 GameObject:
   m_ObjectHideFlags: 0
