@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class Cutscene : MonoBehaviour
 {
-    // display image and play sound effect
     [System.Serializable]
     public class Scene
     {
@@ -15,14 +14,15 @@ public class Cutscene : MonoBehaviour
     }
 
     [SerializeField] SingleAudio singleAudio;
-    [SerializeField] float timeToChange = 2;
+    [SerializeField] float timeToChange = 4.5f;
     [SerializeField] Image background, img1, img2;
-    int currentImg = 1;
+    public int currentImg = 1;
 
     [SerializeField] Scene[] scenes;
-    int sceneCount = 0;
+    public int sceneCount = 0;
+    public bool canSwitchScene = false;
 
-    // send event when enough Rooms Generated
+    // send event when finished
     public UnityEvent cutsceneFinished;
 
 
@@ -49,9 +49,20 @@ public class Cutscene : MonoBehaviour
         Initialize();
     }
 
+    public float timePassed = 0;
     void Update()
     {
-        // every timeToChange, changeSceneImage()
+        // every timeToChange seconds, change scene
+        // when reached end, send cutsceneFinished event
+        if(sceneCount <= scenes.Length && canSwitchScene)
+        {
+            timePassed += Time.deltaTime;
+            if (timePassed >= timeToChange)
+            {
+                StartCoroutine(BeginNextSceneChange());
+                timePassed = 0;
+            }
+        }
     }
 
     /// <summary>
@@ -64,23 +75,15 @@ public class Cutscene : MonoBehaviour
 
     IEnumerator BeginInitialize()
     {
-        yield return FadeIn(background, 1.25f);
-        yield return new WaitForSeconds(0.4f);
-        yield return FadeIn(img1, 1);
-    }
+        img1.sprite = scenes[0].sprite;
+        img2.sprite = scenes[1].sprite;
+        sceneCount = 2;
 
-    /// <summary>
-    /// Fade out one image, fade in the other
-    /// When faded out image is done, set image to next available scene image
-    /// </summary>
-    public void ChangeSceneImage()
-    {
-        if (sceneCount >= scenes.Length)
-            return;
-
-        StartCoroutine(BeginNextSceneChange());
-
-        sceneCount++;
+        StartCoroutine(FadeIn(background, 1));
+        yield return new WaitForSeconds(0.5f);
+        yield return StartCoroutine(FadeIn(img1, 1));
+        singleAudio.PlaySFX(scenes[0].sfx);
+        canSwitchScene = true;
     }
 
     /// <summary>
@@ -89,21 +92,40 @@ public class Cutscene : MonoBehaviour
     /// <returns></returns>
     IEnumerator BeginNextSceneChange()
     {
+        canSwitchScene = false;
         if (currentImg == 1)
         {
             StartCoroutine(FadeIn(img2));
             yield return StartCoroutine(FadeOut(img1));
-            img1.sprite = scenes[sceneCount].sprite;
+            if(sceneCount < scenes.Length)
+            {
+                img1.sprite = scenes[sceneCount].sprite;
+                currentImg = 2;
+            }
         }
         else
         {
             StartCoroutine(FadeIn(img1));
             yield return StartCoroutine(FadeOut(img2));
-            img2.sprite = scenes[sceneCount].sprite;
+
+            if (sceneCount < scenes.Length)
+            {
+                img2.sprite = scenes[sceneCount].sprite;
+                currentImg = 1;
+            }
+        }
+
+        singleAudio.PlaySFX(scenes[sceneCount - 1].sfx);
+        canSwitchScene = true;
+        sceneCount++;
+
+        if (sceneCount > scenes.Length)
+        {
+            cutsceneFinished.Invoke();
         }
     }
 
-    IEnumerator FadeIn(Image image, float duration = 0.75f)
+    IEnumerator FadeIn(Image image, float duration = 1.15f)
     {
         float elapsedTime = 0f;
         Color originalColor = image.color;
@@ -129,18 +151,18 @@ public class Cutscene : MonoBehaviour
         image.color = originalColor;
     }
 
-    IEnumerator FadeOut(Image image, float duration = 0.75f)
+    IEnumerator FadeOut(Image image, float duration = 1.15f)
     {
-        float elapsedTime = 0f;
+        float elapsedTime = duration;
         Color originalColor = image.color;
 
-        // Force starting alpha to 0 (fully transparent)
-        originalColor.a = 0f;
+        // Force starting alpha to 1 (fully visible)
+        originalColor.a = 1f;
         image.color = originalColor;
 
-        while (elapsedTime < duration)
+        while (elapsedTime > 0)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime -= Time.deltaTime;
 
             // Calculate the current alpha value based on time ratio
             originalColor.a = Mathf.Clamp01(elapsedTime / duration);

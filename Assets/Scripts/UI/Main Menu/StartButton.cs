@@ -17,6 +17,7 @@ public class StartButton : MonoBehaviour
         else
         {
             Instantiate(cutscene);
+            cutscene.GetComponent<Cutscene>().Initialize();
         }
     }
 
