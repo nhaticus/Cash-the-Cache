@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 /*
 Same as AudioManager but for individual game objects
@@ -14,7 +12,7 @@ public class SingleAudio : MonoBehaviour
     public Sound[] musicSounds, sfxSounds;
     public AudioSource[] musicSources, sfxSources;
 
-    public void PlayMusic(string name = "", bool _loop = false, AudioSource source = null)
+    public void PlayMusic(string name = "", bool loop = false, AudioSource source = null)
     {
         Sound s = System.Array.Find(musicSounds, sound => sound.name == name);
         if (s == null)
@@ -30,7 +28,7 @@ public class SingleAudio : MonoBehaviour
                 validSource = GetAnyMusicSource();
 
             validSource.clip = s.clip;
-            validSource.loop = _loop;
+            validSource.loop = loop;
             validSource.Play();
         }
 
@@ -145,10 +143,21 @@ public class SingleAudio : MonoBehaviour
         }
     }
 
-    public void StopAllSFX()
+    public void StopAllMusic()
     {
         // stop all sfx
         foreach (AudioSource source in musicSources)
+        {
+            source.Stop();
+            source.loop = false;
+            source.clip = null; // Force reset
+        }
+    }
+
+    public void StopAllSFX()
+    {
+        // stop all sfx
+        foreach (AudioSource source in sfxSources)
         {
             source.Stop();
             source.loop = false;

@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Cutscene : MonoBehaviour
@@ -13,21 +13,27 @@ public class Cutscene : MonoBehaviour
         public string sfx;
     }
 
+    [Header("Audio")]
     [SerializeField] SingleAudio singleAudio;
+    [SerializeField] string music;
+
+    [Header("UI")]
     [SerializeField] float timeToChange = 4.5f;
     [SerializeField] Image background, img1, img2;
-    public int currentImg = 1;
+    int currentImg = 1;
 
+    [Header("Cutscenes")]
     [SerializeField] Scene[] scenes;
-    public int sceneCount = 0;
-    public bool canSwitchScene = false;
+    int sceneCount = 0;
+    bool canSwitchScene = false;
 
     // send event when finished
-    public UnityEvent cutsceneFinished;
-
+    public event Action CutsceneFinished;
 
     void Start()
     {
+        singleAudio.PlayMusic(music, loop: true);
+
         // set img1 and img2 to first and second scene images
         img1.sprite = scenes[0].sprite;
         img2.sprite = scenes[1].sprite;
@@ -45,11 +51,9 @@ public class Cutscene : MonoBehaviour
         Color img2Color = img2.color;
         img2Color.a = 0f;
         img2.color = img2Color;
-
-        Initialize();
     }
 
-    public float timePassed = 0;
+    float timePassed = 0;
     void Update()
     {
         // every timeToChange seconds, change scene
@@ -79,7 +83,7 @@ public class Cutscene : MonoBehaviour
         img2.sprite = scenes[1].sprite;
         sceneCount = 2;
 
-        StartCoroutine(FadeIn(background, 1));
+        StartCoroutine(FadeIn(background, 1.25f));
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(FadeIn(img1, 1));
         singleAudio.PlaySFX(scenes[0].sfx);
@@ -121,7 +125,7 @@ public class Cutscene : MonoBehaviour
 
         if (sceneCount > scenes.Length)
         {
-            cutsceneFinished.Invoke();
+            CutsceneFinished.Invoke();
         }
     }
 

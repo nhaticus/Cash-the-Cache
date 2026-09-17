@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DaysInfo : MonoBehaviour
 {
@@ -15,6 +16,12 @@ public class DaysInfo : MonoBehaviour
     [SerializeField] int moneyToEnd = 50000; // when reach this, GOOD ending
     [SerializeField] TMP_Text moneyText;
 
+    [Header("Cutscene")]
+    [SerializeField] Transform canvasLocation;
+    [SerializeField] GameObject winScene, loseScene;
+    [SerializeField] string atEndScene;
+    [SerializeField] SingleAudio singleAudio; // stop music
+
     void Start()
     {
         daysLeft = DataSystem.Data.gameState.currentReplay;
@@ -24,13 +31,15 @@ public class DaysInfo : MonoBehaviour
             moneyToEnd = GameManager.Instance.moneyToEnd;
         }
 
-        if (money >= moneyToEnd)
+        if (money >= moneyToEnd) // WIN game
         {
-            // WIN game
+            GameObject cs = Instantiate(winScene, canvasLocation);
+            StartCoroutine(InitializeCutsceneWhenActive(cs));
         }
-        else if (daysLeft <= 0)
+        else if (daysLeft <= 0) // LOSE game
         {
-            // LOSE game
+            GameObject cs = Instantiate(loseScene, canvasLocation);
+            StartCoroutine(InitializeCutsceneWhenActive(cs));
         }
 
         daysText.text = daysLeft.ToString();
@@ -49,5 +58,34 @@ public class DaysInfo : MonoBehaviour
         float rotAmount = daysTotal / daysLeft;
         rotAmount = Mathf.Min(11, rotAmount);
         transform.localRotation = Quaternion.Euler(0, 0, rotAmount);
+    }
+
+    private IEnumerator InitializeCutsceneWhenActive(GameObject obj)
+    {
+        // Wait until the object is not null and active
+        yield return new WaitUntil(() => obj != null && obj.activeInHierarchy);
+
+        Cutscene cutscene = obj.GetComponent<Cutscene>();
+        cutscene.Initialize();
+        cutscene.CutsceneFinished += AtCutsceneEnd;
+
+        singleAudio.StopAllMusic();
+        singleAudio.StopAllSFX();
+    }
+
+    void AtCutsceneEnd()
+    {
+        StartCoroutine(AfterCutsceneSwitchScene());
+    }
+
+    IEnumerator AfterCutsceneSwitchScene()
+    {
+        yield return new WaitForSeconds(6);
+        SwitchScene(atEndScene);
+    }
+    public void SwitchScene(string gameScene)
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(gameScene);
     }
 }

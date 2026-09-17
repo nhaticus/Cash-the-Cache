@@ -22,6 +22,6 @@ public class GameMusic : MonoBehaviour
 
     public void BeginMusic()
     {
-        singleAudio.PlayMusic(musicName, _loop: true);
+        singleAudio.PlayMusic(musicName, loop: true);
     }
 }
