@@ -15181,6 +15181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 492739267}
+  - component: {fileID: 492739268}
   m_Layer: 0
   m_Name: Invisible Walls
   m_TagString: Untagged
@@ -15209,6 +15210,25 @@ Transform:
   - {fileID: 855924718}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &492739268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492739266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &496814402
 GameObject:
   m_ObjectHideFlags: 0
@@ -16745,6 +16765,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 549182401}
+  - component: {fileID: 549182402}
   m_Layer: 0
   m_Name: Fence
   m_TagString: Untagged
@@ -16823,6 +16844,25 @@ Transform:
   - {fileID: 1922622539}
   m_Father: {fileID: 140014053}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &549182402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549182400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &554518019
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39442,7 +39482,8 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 16
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6950148700789323958, guid: 3ea5b278084e09e47bc10735ddca40c5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -57069,10 +57110,10 @@ MonoBehaviour:
   uniqueRooms:
   - room: {fileID: 8511122524623800716, guid: d66fa8575f1d8c44c807f6dd989d2bcc, type: 3}
     minDifficulty: 3
-    chance: 0
+    chance: 0.025
   - room: {fileID: 8511122524623800716, guid: 137f17c6fb080ff4b913fa091221f3d7, type: 3}
     minDifficulty: 4
-    chance: 0.03
+    chance: 0.05
   roomsFinished:
     m_PersistentCalls:
       m_Calls:

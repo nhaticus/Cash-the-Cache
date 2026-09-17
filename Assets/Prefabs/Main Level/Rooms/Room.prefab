@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2487256271992060144}
   - component: {fileID: 6287841166765807098}
   - component: {fileID: 843986818254355828}
+  - component: {fileID: 2394725500206095834}
   m_Layer: 0
   m_Name: Roof
   m_TagString: Untagged
@@ -106,6 +107,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2394725500206095834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2838706051603734481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &5074547534549296831
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +363,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6351161a4c1753443b24f7f8a2e8322d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomName: 
   doorPoints:
   - {fileID: 4805775212615814541}
   - {fileID: 6389084813289519889}
@@ -883,11 +902,7 @@ PrefabInstance:
     - {fileID: 64570968624237962, guid: da2c64d5b97c15b4a9bd6a37e373662f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1779959747725368, guid: da2c64d5b97c15b4a9bd6a37e373662f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2590378685555986699}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da2c64d5b97c15b4a9bd6a37e373662f, type: 3}
 --- !u!4 &1078153971220726913 stripped
 Transform:
@@ -895,33 +910,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1078627673695848199}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1080403192312123199 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1779959747725368, guid: da2c64d5b97c15b4a9bd6a37e373662f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1078627673695848199}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &2590378685555986699
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1080403192312123199}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.827774, y: 0.45, z: 1.1295776}
-  m_Center: {x: 0, y: 0.23, z: -0.00000023841858}
 --- !u!1001 &1218539640897167557
 PrefabInstance:
   m_ObjectHideFlags: 0

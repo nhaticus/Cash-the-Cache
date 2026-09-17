@@ -30,7 +30,7 @@ public class NPCsBehavior : MonoBehaviour
     bool walkPointExist;
     public float walkPointRange;
 
-    public float cooldownBeforeWalking = 2.0f; // Time before the NPC starts walking again after being stunned
+    public float cooldownBeforeWalking = 2.5f; // how long NPC waits after reaching destination
 
     GameObject objectToLookAt;
 
@@ -190,6 +190,7 @@ public class NPCsBehavior : MonoBehaviour
 
     /// <summary>
     /// Gets the NPC a new destination to walk to
+    /// Picks a random area within "walkPointRange"
     /// </summary>
     private void FindWalkPoint()
     {
@@ -198,6 +199,7 @@ public class NPCsBehavior : MonoBehaviour
 
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
+        // pick destination
         Vector3 rayOrigin = new Vector3(walkPoint.x, walkPoint.y + 2f, walkPoint.z);
         if (Physics.Raycast(rayOrigin, Vector3.down, 4f, groundLayer))
         {
