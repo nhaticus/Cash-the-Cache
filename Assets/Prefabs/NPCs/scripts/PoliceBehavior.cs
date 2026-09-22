@@ -63,9 +63,9 @@ public class PoliceBehavior : MonoBehaviour
     {
         // increase health and speed based on difficulty
         speed += PlayerPrefs.GetInt("Difficulty") / 2.5f;
-        speed = Mathf.Min(speed, 12); // max value is 12
+        speed = Mathf.Min(speed, 11); // max value is 11
 
-        GetComponent<HealthController>().maxHealth += Mathf.Floor((PlayerPrefs.GetInt("Difficulty") * 1.4f) + (0.2f * DataSystem.Data.gameState.currentReplay));
+        GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 1.4f);
 
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();

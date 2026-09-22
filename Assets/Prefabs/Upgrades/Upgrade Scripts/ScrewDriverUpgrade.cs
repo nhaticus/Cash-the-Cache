@@ -7,6 +7,7 @@ public class ScrewDriverUpgrade : MonoBehaviour
     UpgradeInfo upgradeInfo;
 
     public int price = 50;
+    public int maxPrice = 250;
 
     Item screwdriver;
 
@@ -17,8 +18,8 @@ public class ScrewDriverUpgrade : MonoBehaviour
         screwdriver = DataSystem.GetOrCreateItem("Screwdriver");
 
         int level = screwdriver.level;
-        if (level > 0)
-            price = Mathf.RoundToInt(price * 1.5f * level);
+        price = CalculatePrice();
+
         upgradeInfo.itemPrice.text = "$" + price.ToString();
 
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
@@ -31,7 +32,7 @@ public class ScrewDriverUpgrade : MonoBehaviour
         if (GameManager.Instance.playerMoney >= price)
         {
             GameManager.Instance.SpendMoney(price);
-            price = Mathf.RoundToInt(price * 1.5f);
+            price = CalculatePrice();
             upgradeInfo.itemPrice.text = "$" + price.ToString();
 
             screwdriver.level++;
@@ -46,6 +47,11 @@ public class ScrewDriverUpgrade : MonoBehaviour
         {
             upgradeInfo.singleAudio.PlaySFX("deny");
         }
+    }
+
+    int CalculatePrice()
+    {
+        return Mathf.Min(Mathf.RoundToInt(price * 1.5f * screwdriver.level), maxPrice); ;
     }
 
     public void CheckPurchasable()

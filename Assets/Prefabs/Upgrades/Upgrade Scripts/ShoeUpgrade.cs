@@ -7,6 +7,7 @@ public class ShoeUpgrade : MonoBehaviour
     UpgradeInfo upgradeInfo;
 
     public int price = 40;
+    public int maxPrice = 300;
 
     Item runningShoe;
 
@@ -17,8 +18,7 @@ public class ShoeUpgrade : MonoBehaviour
         runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
 
         int level = runningShoe.level;
-        if (level > 0)
-            price = Mathf.RoundToInt(price * 1.5f * level);
+        price = CalculatePrice();
         upgradeInfo.itemPrice.text = "$" + price.ToString();
 
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
@@ -32,7 +32,7 @@ public class ShoeUpgrade : MonoBehaviour
         {
             PlayerManager.Instance.setMaxMoveSpeed(runningShoe.statValue * runningShoe.level);
             GameManager.Instance.SpendMoney(price);
-            price = Mathf.RoundToInt(price * 1.5f);
+            price = CalculatePrice();
             upgradeInfo.itemPrice.text = "$" + price.ToString();
 
             runningShoe.level++;
@@ -47,6 +47,11 @@ public class ShoeUpgrade : MonoBehaviour
         {
             upgradeInfo.singleAudio.PlaySFX("deny");
         }
+    }
+
+    int CalculatePrice()
+    {
+        return Mathf.Min(Mathf.RoundToInt(price * 1.5f * runningShoe.level), maxPrice); ;
     }
 
     public void CheckPurchasable()

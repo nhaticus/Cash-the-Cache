@@ -8,6 +8,7 @@ public class BackpackUpgrade : MonoBehaviour
     UpgradeInfo upgradeInfo;
 
     public int price = 40;
+    public int maxPrice = 300;
 
     Item backpack;
 
@@ -18,8 +19,7 @@ public class BackpackUpgrade : MonoBehaviour
 
         backpack = DataSystem.GetOrCreateItem("Backpack");
         int level = backpack.level;
-        if (level > 0)
-            price = Mathf.RoundToInt(price * 1.5f * level);
+        price = Mathf.Min(Mathf.RoundToInt(price * 1.5f * level), maxPrice);
 
         upgradeInfo.itemPrice.text = "$" + price.ToString();
 
@@ -33,11 +33,12 @@ public class BackpackUpgrade : MonoBehaviour
     {
         if (GameManager.Instance.playerMoney >= price)
         {
-            PlayerManager.Instance.increaseMaxWeight((int)backpack.statValue);
+            PlayerManager.Instance.increaseMaxWeight((int) backpack.statValue);
+
             GameManager.Instance.SpendMoney(price);
-            price = Mathf.RoundToInt(price * 1.5f);
-            upgradeInfo.itemPrice.text = "$" + price.ToString();
             backpack.level++;
+            price = CalculatePrice();
+            upgradeInfo.itemPrice.text = "$" + price.ToString();
             DataSystem.SaveData();
             
             upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = backpack.level.ToString() };
@@ -50,6 +51,11 @@ public class BackpackUpgrade : MonoBehaviour
         {
             upgradeInfo.singleAudio.PlaySFX("deny");
         }
+    }
+
+    int CalculatePrice()
+    {
+        return Mathf.Min(Mathf.RoundToInt(price * 1.5f * backpack.level), maxPrice); ;
     }
 
     public void CheckPurchasable()

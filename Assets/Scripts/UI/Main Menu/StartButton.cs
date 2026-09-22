@@ -44,12 +44,6 @@ public class StartButton : MonoBehaviour
 
     void AtCutsceneEnd()
     {
-        StartCoroutine(AfterCutsceneSwitchScene());
-    }
-
-    IEnumerator AfterCutsceneSwitchScene()
-    {
-        yield return new WaitForSeconds(6);
         SwitchScene(scene);
     }
 

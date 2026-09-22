@@ -10,9 +10,9 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Crouch Settings")]
     public Transform cameraHolder;
-    public float crouchSpeed = 1.8f;
+    // public float crouchSpeed = 1.8f;
     private float originalSpeed;
-    private Vector3 standingCamPos, crouchingCamPos;
+    private Vector3 standingCamPos = new Vector3(0f, 1f, 0f), crouchingCamPos = new Vector3(0f, 0.5f, 0f);
     private bool isCrouching = false;
 
     public Transform orientation;
@@ -41,10 +41,9 @@ public class PlayerMovement : MonoBehaviour
             // increase max health
             Item vitamins = DataSystem.GetItem("Vitamins");
             GetComponent<HealthController>().maxHealth += vitamins.level * vitamins.statValue;
+            Debug.Log("levl: " + vitamins.level);
+            Debug.Log("statValue: " + vitamins.statValue);
         }
-
-        standingCamPos = new Vector3(0f, 1f, 0f);
-        crouchingCamPos = new Vector3(0f, 0.5f, 0f);
     }
 
     private void Update()
@@ -134,6 +133,7 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>
     /// Check if player pressed crouch to toggle crouching
     /// </summary>
+   /*
     private void HandleCrouch()
     {
         if (UserInput.Instance)
@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
-
+   */
     public void ToggleMovement()
     {
         canMove = !canMove;

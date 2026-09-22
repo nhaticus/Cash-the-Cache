@@ -118,7 +118,9 @@ public class ShopManager : MonoBehaviour
     }
 
     [Header("Restock")]
-    [SerializeField] int restockPrice = 15;
+    [SerializeField] int restockPrice = 20;
+    [SerializeField] int restockIncrease = 15;
+    [SerializeField] int maxRestockPrice = 60;
     [SerializeField] LocalizeStringEvent restockText;
     public void Restock()
     {
@@ -134,7 +136,7 @@ public class ShopManager : MonoBehaviour
 
             // spend money
             GameManager.Instance.SpendMoney(restockPrice);
-            restockPrice += 15;
+            restockPrice = Mathf.Min(restockPrice + restockIncrease, maxRestockPrice);
             restockText.StringReference["price"] = new StringVariable { Value = restockPrice.ToString() };
             restockText.RefreshString();
         }

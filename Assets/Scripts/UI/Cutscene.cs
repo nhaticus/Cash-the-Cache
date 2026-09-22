@@ -28,6 +28,8 @@ public class Cutscene : MonoBehaviour
     bool canSwitchScene = false;
 
     // send event when finished
+    [Header("End Cutscene")]
+    [SerializeField] float endCutsceneTime = 2; // how much longer to show last image before sending CutsceneFinished
     public event Action CutsceneFinished;
 
     void Start()
@@ -125,6 +127,7 @@ public class Cutscene : MonoBehaviour
 
         if (sceneCount > scenes.Length)
         {
+            yield return new WaitForSeconds(endCutsceneTime);
             CutsceneFinished.Invoke();
         }
     }

@@ -4,11 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 
-public class BoxingGloveUpgrade : MonoBehaviour
+/*
+ * Increases player health
+ * Health change is done in PlayerMovement.cs
+ * PlayerMovement takes HealthController and increases by vitamins.level * vitamins.statValue
+ */
+
+public class VitaminUpgrade : MonoBehaviour
 {
     UpgradeInfo upgradeInfo;
 
     public int price = 75;
+    public int maxPrice = 350;
 
     Item vitamins;
 
@@ -20,8 +27,7 @@ public class BoxingGloveUpgrade : MonoBehaviour
         // get current level
         vitamins = DataSystem.GetOrCreateItem("Vitamins");
         int level = vitamins.level;
-        if (level > 0) // set price
-            price = Mathf.RoundToInt(price * 1.5f * level);
+        price = CalculatePrice();
         upgradeInfo.itemPrice.text = "$" + price.ToString();
 
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
@@ -35,7 +41,7 @@ public class BoxingGloveUpgrade : MonoBehaviour
         {
             // set price
             GameManager.Instance.SpendMoney(price);
-            price = Mathf.RoundToInt(price * 1.5f);
+            price = CalculatePrice();
             upgradeInfo.itemPrice.text = "$" + price.ToString();
 
             // increase level
@@ -54,6 +60,11 @@ public class BoxingGloveUpgrade : MonoBehaviour
         {
             upgradeInfo.singleAudio.PlaySFX("deny");
         }
+    }
+
+    int CalculatePrice()
+    {
+        return Mathf.Min(Mathf.RoundToInt(price * 1.5f * vitamins.level), maxPrice); ;
     }
 
     public void CheckPurchasable()
