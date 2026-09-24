@@ -8,12 +8,22 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
-    [SerializeField] int decreaseMoneyAmount = 1000;
+    [Header("Money")]
+    [SerializeField] int decreaseMoneyAmount = 2000;
+    [SerializeField] float timeToDecrease = 1.75f;
+    [SerializeField] float smackTime = 0.3f;
+
+    [Header("Text")]
     [SerializeField] TMP_Text penaltyText;
     [SerializeField] TMP_Text currentMoneyText;
     [SerializeField] LocalizeStringEvent currentMoneyTranslation;
 
     [SerializeField] SingleAudio singleAudio;
+
+    private void Start()
+    {
+        StartCoroutine(DisplayMoneyChanges());
+    }
 
     public void DecreasePlayerMoney()
     {
@@ -39,8 +49,9 @@ public class GameOver : MonoBehaviour
         // hide total money and show when finished calculating
         currentMoneyText.alpha = 0;
         yield return StartCoroutine(RollMoneyDisplay());
-        yield return new WaitForSeconds(0.5f);
-        yield return StartCoroutine(SmackTotalAmount());
+        yield return new WaitForSeconds(0.65f);
+        yield return StartCoroutine(SmackTotalAmount(100));
+        // yield return StartCoroutine(SmackTotalAmount(GameManager.Instance.playerMoney));
     }
 
     // show how much money lost by "rolling"
@@ -49,15 +60,19 @@ public class GameOver : MonoBehaviour
         singleAudio.PlaySFX("Roll", loop: true);
         int currDecrease = 0;
         int rollAmount = 10;
-        while(currDecrease < decreaseMoneyAmount)
+
+        float time = 0;
+        while(time < timeToDecrease)
         {
+            time += Time.deltaTime;
+
             // set text and slightly rotate
-            currDecrease += rollAmount;
+            currDecrease = (int) ((time / timeToDecrease) * decreaseMoneyAmount);
             penaltyText.text = "-$" + currDecrease.ToString();
 
-            float rotAmount = Random.Range(-8f, 8f);
+            float rotAmount = Random.Range(-9f, 9f);
             penaltyText.transform.localRotation = Quaternion.Euler(0, 0, rotAmount);
-            yield return new WaitForSeconds(0.05f);
+            yield return null;
 
             // if the rollAmount is too big that it will go over the total amount lost, set number to difference
             if(currDecrease + rollAmount > decreaseMoneyAmount)
@@ -65,25 +80,30 @@ public class GameOver : MonoBehaviour
                 rollAmount = decreaseMoneyAmount - currDecrease;
             }
         }
+
         penaltyText.transform.localRotation = Quaternion.Euler(0, 0, 0);
         singleAudio.StopSelectSFX("Roll");
     }
 
-    IEnumerator SmackTotalAmount()
+    IEnumerator SmackTotalAmount(int money)
     {
-        currentMoneyText.transform.localScale = new Vector3(2, 2, 2);
-        currentMoneyTranslation.StringReference["money"] = new StringVariable { Value = GameManager.Instance.playerMoney.ToString() };
+        currentMoneyText.transform.localScale = new Vector3(2.75f, 2.75f, 2.75f);
+        currentMoneyTranslation.StringReference["money"] = new StringVariable { Value = money.ToString() };
         currentMoneyTranslation.RefreshString();
         currentMoneyText.alpha = 1;
 
         float currMoneySize = currentMoneyText.transform.localScale.x;
-        singleAudio.PlaySFX("Smack");
-        while (currMoneySize > 1)
+
+        float time = smackTime;
+        while (time > 0)
         {
-            currMoneySize -= 0.175f;
+            time -= Time.deltaTime;
+            currMoneySize = time + 1 / 1;
             currentMoneyText.transform.localScale = new Vector3(currMoneySize, currMoneySize, currMoneySize);
-            yield return new WaitForSeconds(0.02f);
+            yield return null;
         }
+
+        singleAudio.PlaySFX("Smack");
         currentMoneyText.transform.localScale = new Vector3(1, 1, 1);
     }
 

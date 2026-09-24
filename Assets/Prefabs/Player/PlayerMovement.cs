@@ -41,8 +41,6 @@ public class PlayerMovement : MonoBehaviour
             // increase max health
             Item vitamins = DataSystem.GetItem("Vitamins");
             GetComponent<HealthController>().maxHealth += vitamins.level * vitamins.statValue;
-            Debug.Log("levl: " + vitamins.level);
-            Debug.Log("statValue: " + vitamins.statValue);
         }
     }
 
