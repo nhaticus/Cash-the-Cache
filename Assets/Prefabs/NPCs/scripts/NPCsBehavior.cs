@@ -30,7 +30,7 @@ public class NPCsBehavior : MonoBehaviour
     bool walkPointExist;
     public float walkPointRange;
 
-    public float cooldownBeforeWalking = 2.5f; // how long NPC waits after reaching destination
+    public float cooldownBeforeWalking = 4f; // how long NPC waits after reaching destination
 
     GameObject objectToLookAt;
 
@@ -43,13 +43,13 @@ public class NPCsBehavior : MonoBehaviour
     private void Awake()
     {
         /*  Setting up variables    */
-        defaultSpeed *= (PlayerPrefs.GetInt("Difficulty") * 1.08f) + (0.1f * DataSystem.Data.gameState.currentReplay);
+        defaultSpeed *= PlayerPrefs.GetInt("Difficulty") * 0.5f;
         defaultSpeed = Mathf.Min(defaultSpeed, 7);
 
-        runningSpeed *= (PlayerPrefs.GetInt("Difficulty") * 1.125f) + (0.1f * DataSystem.Data.gameState.currentReplay);
+        runningSpeed *= PlayerPrefs.GetInt("Difficulty") * 0.25f;
         runningSpeed = Mathf.Min(runningSpeed, 9.5f);
 
-        GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 1.3f);
+        GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 4.5f);
 
         agent = GetComponent<NavMeshAgent>();
         if(agent)

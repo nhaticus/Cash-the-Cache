@@ -29,8 +29,26 @@ public class NPCSpawner : MonoBehaviour
 
     void SetDifficulty()
     {
-        amountOfNPCs += (int) Mathf.Floor(0.14f * DataSystem.Data.gameState.currentReplay + PlayerPrefs.GetInt("Difficulty"));
-        amountOfNPCs = Mathf.Min(amountOfNPCs, 8);
+        switch (PlayerPrefs.GetInt("Difficulty"))
+        {
+            case 1:
+                amountOfNPCs = 1;
+                break;
+            case 2:
+                amountOfNPCs = Random.Range(1, 3); // 1-2
+                break;
+            case 3:
+                amountOfNPCs = 2;
+                break;
+            case 4:
+                amountOfNPCs = Random.Range(2, 5); // 2-4
+                break;
+            case 5:
+                amountOfNPCs = Random.Range(3, 6); // 3-5
+                break;
+            default:
+                break;
+        }
     }
 
 

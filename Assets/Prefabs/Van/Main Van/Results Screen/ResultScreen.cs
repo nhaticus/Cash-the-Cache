@@ -52,7 +52,8 @@ public class ResultScreen : MonoBehaviour
             LootInfo lootInfo = loot.Value.Item2;
             canCreateNextElement = false;
 
-            CreateElement(lootInfo, amount, total);
+            total += CreateElement(lootInfo, amount);
+
             yield return new WaitUntil(() => canCreateNextElement);
 
             if (!scrollClicked)
@@ -64,7 +65,7 @@ public class ResultScreen : MonoBehaviour
         continueButton.SetActive(true);
     }
 
-    void CreateElement(LootInfo lootInfo, int amount, int currentTotal)
+    int CreateElement(LootInfo lootInfo, int amount)
     {
         GameObject result = Instantiate(resultElement, resultGridTransform);
         ResultElement RE = result.GetComponent<ResultElement>();
@@ -75,7 +76,7 @@ public class ResultScreen : MonoBehaviour
         totalStolenText.StringReference["money"] = new StringVariable { Value = total.ToString() };
         totalStolenText.RefreshString();
 
-        currentTotal += total;
+        return total;
     }
 
     void HandleElementFinished()
