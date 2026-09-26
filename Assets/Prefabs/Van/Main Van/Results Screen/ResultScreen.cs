@@ -55,6 +55,9 @@ public class ResultScreen : MonoBehaviour
 
             yield return new WaitUntil(() => canCreateNextElement);
 
+            totalStolenText.StringReference["money"] = new StringVariable { Value = total.ToString() };
+            totalStolenText.RefreshString();
+
             if (!scrollClicked)
                 scrollbar.value = 0;
             yield return new WaitForSeconds(itemDelay);
@@ -72,8 +75,6 @@ public class ResultScreen : MonoBehaviour
 
         RE.Initialize(lootInfo.sprite, lootInfo.translatedName, amount, lootInfo.value);
         int total = lootInfo.value * amount;
-        totalStolenText.StringReference["money"] = new StringVariable { Value = total.ToString() };
-        totalStolenText.RefreshString();
 
         return total;
     }

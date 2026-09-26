@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class Box : MonoBehaviour, InteractEvent
 {
-    [SerializeField] GameObject[] obj;
+    [SerializeField] GameObject[] loot;
     [SerializeField] int difficulty = 4; // difficulty determines amount of clicks (difficulty * 1.7) and number of screws
     [SerializeField] bool setRandomDifficulty = true;
     [SerializeField] int minDifficulty = 3, maxDifficulty = 6;
@@ -55,8 +55,25 @@ public class Box : MonoBehaviour, InteractEvent
         PlayerManager.Instance.unlockRotation();
         PlayerManager.Instance.WeightChangeSpeed();
 
-        // spawn a random object at box position
-        Instantiate(obj[Random.Range(0, obj.Length - 1)], transform.position, transform.rotation);
+        // spawn loot at box position
+        SpawnLoot();
         Destroy(gameObject);
+    }
+
+    private void SpawnLoot()
+    {
+        int spawnAmount = 0;
+
+        if (difficulty <= 3)
+            spawnAmount = 3;
+        else if (difficulty <= 5)
+            spawnAmount = 4;
+        else
+            spawnAmount = 5;
+
+        for (int i = 0; i < spawnAmount; i++)
+        {
+            Instantiate(loot[Random.Range(0, loot.Length)], transform.position, transform.rotation);
+        }
     }
 }

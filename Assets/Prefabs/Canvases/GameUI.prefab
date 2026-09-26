@@ -1541,7 +1541,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2511,6 +2511,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
+      propertyPath: sfxSources.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: musicSources.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: sfxSources.Array.data[0]
+      value: 
+      objectReference: {fileID: 4120539581098456232}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: musicSources.Array.data[0]
+      value: 
+      objectReference: {fileID: 2496263867117806222}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
       propertyPath: sfxSounds.Array.data[0].clip
       value: 
       objectReference: {fileID: 8300000, guid: 0550d526c3cfcc546bc0e8b8b8ed6a09, type: 3}
@@ -2624,6 +2644,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 161e12d9a24261d4d8ce06163b1b6100, type: 3}
+--- !u!82 &2496263867117806222 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 582984610325533782, guid: 161e12d9a24261d4d8ce06163b1b6100,
+    type: 3}
+  m_PrefabInstance: {fileID: 3076996110385559256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!82 &4120539581098456232 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 1413205878131475056, guid: 161e12d9a24261d4d8ce06163b1b6100,

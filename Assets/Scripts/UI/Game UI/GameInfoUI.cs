@@ -1,3 +1,8 @@
+/*
+ * Unused
+ * Supposed to be used to tell information like "police nearby"
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;

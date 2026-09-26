@@ -50,9 +50,8 @@ public class BrendanRooms : MonoBehaviour
         minRooms += (int) Mathf.Floor(1.12f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.45f);
         maxRooms += (int) Mathf.Floor(1.1f * (DataSystem.Data.gameState.currentReplay / 10) + PlayerPrefs.GetInt("Difficulty") / 1.28f);
 
-        // limit minRooms to 12 and maxRooms to 20
-        minRooms = Mathf.Min(minRooms, 12);
-        maxRooms = Mathf.Min(maxRooms, 20);
+        minRooms = Mathf.Min(minRooms, 10);
+        maxRooms = Mathf.Min(maxRooms, 17);
     }
 
     public void BuildHouse()

@@ -9,7 +9,7 @@ public class ToolBox : MonoBehaviour, InteractEvent {
     [Header("Difficulty")]
     [SerializeField] int difficulty = 4;
     [SerializeField] bool setRandomDifficulty;
-    [SerializeField] int minDifficulty = 3, maxDifficulty = 7;
+    [SerializeField] int minDifficulty = 3, maxDifficulty = 6;
 
     [Header("Canvas")]
     [SerializeField] GameObject toolboxCanvas;
@@ -64,11 +64,11 @@ public class ToolBox : MonoBehaviour, InteractEvent {
         int spawnAmount = 0;
 
         if (difficulty <= 3)
-            spawnAmount = 1;
+            spawnAmount = 3;
         else if (difficulty <= 5)
-            spawnAmount = 2;
-        else
             spawnAmount = 4;
+        else
+            spawnAmount = 5;
 
         for (int i = 0; i < spawnAmount; i++)
         {

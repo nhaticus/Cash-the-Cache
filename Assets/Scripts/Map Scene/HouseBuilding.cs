@@ -33,7 +33,7 @@ public class HouseBuilding : BaseMapBuilding
         }
 
         // change difficulty a little
-        difficulty += (int) Mathf.Floor(difficulty + Random.Range(-0.6f, 1.5f));
+        difficulty += (int) Mathf.Floor(difficulty + Random.Range(-0.75f, 1.4f));
     }
 
     public override void CreateCanvas(GameObject playerCam)

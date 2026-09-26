@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameOver : MonoBehaviour
 {
     [Header("Money")]
-    [SerializeField] int decreaseMoneyAmount = 2000;
+    [SerializeField] int decreaseMoneyAmount = 1000;
     [SerializeField] float timeToDecrease = 1.75f;
     [SerializeField] float smackTime = 0.3f;
 
@@ -75,6 +75,7 @@ public class GameOver : MonoBehaviour
             }
         }
 
+        penaltyText.text = "-$" + decreaseMoneyAmount.ToString();
         penaltyText.transform.localRotation = Quaternion.Euler(0, 0, 0);
         singleAudio.StopSelectSFX("Roll");
     }

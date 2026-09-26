@@ -1,5 +1,8 @@
-﻿// This script handles the collider where the player can leave the level. It displays a prompt to 
-// the player when they enter the trigger area and handles the actions when they press 'E' to leave.
+﻿/*
+ * This script handles the collider where the player can leave the level.
+ * It displays a prompt to the player when they enter the trigger area and handles the actions when they leave.
+*/
+
 using UnityEngine;
 using TMPro;
 using UnityEngine.Localization;
@@ -40,11 +43,13 @@ public class LeaveAreaTrigger : MonoBehaviour
             PlayerManager.Instance.isPlayerActive = false;
 
         canLeave = false; // prevent player from constantly leaving and adding stuff to stolen inventory
+        
 
         // Check for player's inventory and create result screen
-        PlayerInteract playerInventory = FindObjectOfType<PlayerInteract>();
+        PlayerInteract playerInteract = FindObjectOfType<PlayerInteract>();
+        vanInventory.TransferItemsFromPlayer(playerInteract);
 
-        if (vanInventory && playerInventory)
+        if (vanInventory && playerInteract)
         {
             PlayerManager.Instance.ableToInteract = false; // stop movement
             PlayerManager.Instance.lockRotation();
@@ -71,10 +76,7 @@ public class LeaveAreaTrigger : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
-        { // check if items left in inventory
-            warningText.SetActive(other.GetComponent<PlayerInteract>().inventory.Count > 0);
-        }
+        
     }
 
     private void OnTriggerExit(Collider other)

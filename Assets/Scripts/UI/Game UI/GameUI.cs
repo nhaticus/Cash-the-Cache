@@ -7,7 +7,7 @@ using UnityEngine.UI;
  */
 public class GameUI : MonoBehaviour
 {
-    [SerializeField] bool uiPossible = true;
+    bool uiPossible = true;
 
     [Header("UI Dependencies")]
     [SerializeField] GameObject pausePrefab;

@@ -21,7 +21,7 @@ public class BuildingDetection : MonoBehaviour
     private void Update()
     {
         // Interact and selected building exists
-        if (((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0))) && selectedBuilding)
+        if (Time.timeScale > 0 && ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0))) && selectedBuilding)
         {
             ExecuteEvents.Execute<InteractEvent>(selectedBuilding, null, (x, y) => x.Interact());
         }
