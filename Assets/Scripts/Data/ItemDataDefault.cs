@@ -19,7 +19,7 @@ public class ItemDataDefault : MonoBehaviour
         DataSystem.GetOrCreateItem("Flashlight", 1.0f, true); 
         DataSystem.GetOrCreateItem("RunningShoe", 0.6f, true);
         DataSystem.GetOrCreateItem("Screwdriver", 0.35f, true);
-        DataSystem.GetOrCreateItem("Vitamins", 10f, true);
+        DataSystem.GetOrCreateItem("Vitamins", 20f, true);
 
         DataSystem.SaveData();
     }

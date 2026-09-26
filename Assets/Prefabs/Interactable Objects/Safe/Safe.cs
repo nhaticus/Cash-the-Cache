@@ -126,9 +126,9 @@ public class Safe : MonoBehaviour, InteractEvent
         // Spawn loot depending on difficulty level (example: gold, silver, etc.)?
         int spawnAmount = 0;
 
-        if (difficulty <= 4)
+        if (difficulty <= 2)
             spawnAmount = 1;
-        else if (difficulty <= 7)
+        else if (difficulty <= 4)
             spawnAmount = 2;
         else
             spawnAmount = 3;
