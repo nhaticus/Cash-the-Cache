@@ -101,8 +101,8 @@ public class Cutscene : MonoBehaviour
         canSwitchScene = false;
         if (currentImg == 1)
         {
-            StartCoroutine(FadeIn(img2));
-            yield return StartCoroutine(FadeOut(img1));
+            StartCoroutine(FadeIn(img2, 1.05f));
+            yield return StartCoroutine(FadeOut(img1, 1.05f));
             if(sceneCount < scenes.Length)
             {
                 img1.sprite = scenes[sceneCount].sprite;
@@ -111,8 +111,8 @@ public class Cutscene : MonoBehaviour
         }
         else
         {
-            StartCoroutine(FadeIn(img1));
-            yield return StartCoroutine(FadeOut(img2));
+            StartCoroutine(FadeIn(img1, 1.05f));
+            yield return StartCoroutine(FadeOut(img2, 1.05f));
 
             if (sceneCount < scenes.Length)
             {
@@ -132,7 +132,7 @@ public class Cutscene : MonoBehaviour
         }
     }
 
-    IEnumerator FadeIn(Image image, float duration = 1.15f)
+    IEnumerator FadeIn(Image image, float duration = 1)
     {
         float elapsedTime = 0f;
         Color originalColor = image.color;
@@ -158,7 +158,7 @@ public class Cutscene : MonoBehaviour
         image.color = originalColor;
     }
 
-    IEnumerator FadeOut(Image image, float duration = 1.15f)
+    IEnumerator FadeOut(Image image, float duration = 1)
     {
         float elapsedTime = duration;
         Color originalColor = image.color;

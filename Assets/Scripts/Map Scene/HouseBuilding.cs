@@ -29,12 +29,15 @@ public class HouseBuilding : BaseMapBuilding
             Vector3 meshSize = collider.bounds.size;
             difficulty = (int) Mathf.Floor((meshSize.x + meshSize.y) / 12.5f);
             Debug.Log(transform.name + "   x:" + meshSize.x + "   y: " + meshSize.y);
-            if (difficulty < 1)
-                difficulty = 1;
         }
 
         // change difficulty a little from -1 to 1
         difficulty += Random.Range(-1, 2);
+
+        if (difficulty < 1)
+            difficulty = 1;
+        else if (difficulty > 5)
+            difficulty = 5;
     }
 
     public override void CreateCanvas(GameObject playerCam)

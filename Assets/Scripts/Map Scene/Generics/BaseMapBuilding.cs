@@ -10,11 +10,11 @@ using UnityEngine;
 public abstract class BaseMapBuilding : MonoBehaviour, InteractEvent
 {
     [SerializeField] GameObject canvas;
-    float spawnY = 5.5f;
+    float spawnY = 5.75f;
 
     private void Awake()
     {
-        // Set parent building object tag to Wall so an Building Detection can find it
+        // Set parent building object tag to Wall so Building Detection can find it
         gameObject.tag = "Wall";
     }
     public abstract void CreateCanvas(GameObject playerCam);
