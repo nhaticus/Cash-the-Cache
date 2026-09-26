@@ -27,13 +27,14 @@ public class HouseBuilding : BaseMapBuilding
 
             // get size of building and assign difficulty and floors
             Vector3 meshSize = collider.bounds.size;
-            difficulty = (int) Mathf.Floor((meshSize.x + meshSize.y) / 10);
+            difficulty = (int) Mathf.Floor((meshSize.x + meshSize.y) / 12.5f);
+            Debug.Log(transform.name + "   x:" + meshSize.x + "   y: " + meshSize.y);
             if (difficulty < 1)
                 difficulty = 1;
         }
 
-        // change difficulty a little
-        difficulty += (int) Mathf.Floor(difficulty + Random.Range(-0.75f, 1.4f));
+        // change difficulty a little from -1 to 1
+        difficulty += Random.Range(-1, 2);
     }
 
     public override void CreateCanvas(GameObject playerCam)
