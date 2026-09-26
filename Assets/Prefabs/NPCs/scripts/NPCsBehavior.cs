@@ -43,10 +43,10 @@ public class NPCsBehavior : MonoBehaviour
     private void Awake()
     {
         /*  Setting up variables    */
-        defaultSpeed *= PlayerPrefs.GetInt("Difficulty") * 0.5f;
+        defaultSpeed += PlayerPrefs.GetInt("Difficulty") * 0.4f;
         defaultSpeed = Mathf.Min(defaultSpeed, 7);
 
-        runningSpeed *= PlayerPrefs.GetInt("Difficulty") * 0.25f;
+        runningSpeed += PlayerPrefs.GetInt("Difficulty") * 0.225f;
         runningSpeed = Mathf.Min(runningSpeed, 9.5f);
 
         GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 4.5f);

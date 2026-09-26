@@ -20,11 +20,6 @@ public class GameOver : MonoBehaviour
 
     [SerializeField] SingleAudio singleAudio;
 
-    private void Start()
-    {
-        StartCoroutine(DisplayMoneyChanges());
-    }
-
     public void DecreasePlayerMoney()
     {
         if (GameManager.Instance == false)
@@ -50,8 +45,7 @@ public class GameOver : MonoBehaviour
         currentMoneyText.alpha = 0;
         yield return StartCoroutine(RollMoneyDisplay());
         yield return new WaitForSeconds(0.65f);
-        yield return StartCoroutine(SmackTotalAmount(100));
-        // yield return StartCoroutine(SmackTotalAmount(GameManager.Instance.playerMoney));
+        yield return StartCoroutine(SmackTotalAmount(GameManager.Instance.playerMoney));
     }
 
     // show how much money lost by "rolling"

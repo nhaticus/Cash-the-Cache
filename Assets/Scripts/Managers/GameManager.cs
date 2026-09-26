@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public int playerMoney;
-    public int moneyToEnd = 50000;
+    public int moneyToEnd = 10000;
 
     public Action OnNPCLeaving;
     public Action SpawnPolice;
@@ -72,8 +72,8 @@ public class GameManager : MonoBehaviour
         {
             playerMoney -= amount;
             
-        DataSystem.Data.gameState.playerMoney = playerMoney;
-        DataSystem.SaveData();
+            DataSystem.Data.gameState.playerMoney = playerMoney;
+            DataSystem.SaveData();
         }
     }
 
