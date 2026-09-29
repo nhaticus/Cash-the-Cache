@@ -12,11 +12,12 @@ public class Safe : MonoBehaviour, InteractEvent
     public bool isUnlocked = false;  // Tracks whether the safe is unlocked or not
     public Animator safeAnimator;    // Animator for the safe's animation
     public int maxAttempts = 3;      // Max number of attempts for the lockpicking game
+    [HideInInspector] float strength;
 
     [Header("Diffculty = number of pins")]
     [SerializeField] int difficulty = 1; // Difficulty level = number of pins
     [SerializeField] bool setRandomDifficulty = true;
-    [SerializeField] int minDifficulty = 3, maxDifficulty = 6;
+    [SerializeField] int minDifficulty = 1, maxDifficulty = 6;
 
     public bool isLockpickingOpen = false;  // Whether the lockpicking mini-game is open or not
 
@@ -31,6 +32,10 @@ public class Safe : MonoBehaviour, InteractEvent
 
     private void Start()
     {
+        Item screwdriver = DataSystem.GetItem("Screwdriver");
+        strength = screwdriver.level;
+        maxAttempts = (int) Mathf.Floor(maxAttempts + (strength * 0.5f)); // 1 more attempt per 2 strength
+
         if (setRandomDifficulty)
             difficulty = Random.Range(minDifficulty, maxDifficulty);
     }

@@ -64,12 +64,12 @@ public class Box : MonoBehaviour, InteractEvent
     {
         int spawnAmount = 0;
 
-        if (difficulty <= 3)
+        if (difficulty <= 2)
             spawnAmount = 3;
-        else if (difficulty <= 5)
+        else if (difficulty <= 4)
             spawnAmount = 4;
         else
-            spawnAmount = 5;
+            spawnAmount = 6;
 
         for (int i = 0; i < spawnAmount; i++)
         {

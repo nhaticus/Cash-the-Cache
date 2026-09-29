@@ -11,6 +11,9 @@ public class FlushingCanvas : MonoBehaviour
 {
     [Header("Flushing Settings")]
     public int difficulty;
+    [HideInInspector] public float strength;
+
+    [Header("Components")]
     [SerializeField] Slider powerSlider;
     [HideInInspector] public UnityEvent toiletOpened;
     [SerializeField] GameObject targetObject;
@@ -31,6 +34,9 @@ public class FlushingCanvas : MonoBehaviour
     private void Start()
     {
         powerSlider.value = 0;
+
+        Item screwdriver = DataSystem.GetItem("Screwdriver");
+        strength = screwdriver.level;
     }
 
     private void Update()

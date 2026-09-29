@@ -8,8 +8,10 @@ public class ToolBoxCanvas : MonoBehaviour
 
     [Header("Settings")]
     public int TotalLocks = 3;
+    public float failFreezeTime = 0.75f;
     [SerializeField] float RadiusOfLock;
     [HideInInspector] public float difficulty = 0;
+    [HideInInspector] public float strength;
 
     [Header("Dependencies")]
     [SerializeField] GameObject lockPick;
@@ -54,6 +56,13 @@ public class ToolBoxCanvas : MonoBehaviour
 
         // change cursor
         Cursor.SetCursor(cursorImage, Vector2.zero, CursorMode.ForceSoftware);
+
+
+        // get strength and increase goal size and decrease fail time
+        Item screwdriver = DataSystem.GetItem("Screwdriver");
+        strength = screwdriver.level;
+        lockGoal.transform.localScale += new Vector3(0.15f * strength, 0.15f * strength, 0);
+        failFreezeTime -= 0.09f * strength;
     }
 
     private void Update() {
@@ -95,7 +104,7 @@ public class ToolBoxCanvas : MonoBehaviour
         } else { // fail
             singleAudio.PlaySFX("Fail");
 
-            StartCoroutine(lockRotation.ShakeObject(0.75f)); // stop spinning dot
+            StartCoroutine(lockRotation.ShakeObject(failFreezeTime)); // stop spinning dot
         }
     }
 
