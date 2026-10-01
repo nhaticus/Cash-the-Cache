@@ -7,10 +7,16 @@ using UnityEngine.UI;
 public class Cutscene : MonoBehaviour
 {
     [System.Serializable]
+    public class SceneSFX
+    {
+        public string sfx;
+        public float volume = 0.8f;
+    }
+    [System.Serializable]
     public class Scene
     {
         public Sprite sprite;
-        public string sfx;
+        public SceneSFX[] sfx;
     }
 
     [Header("Audio")]
@@ -88,7 +94,8 @@ public class Cutscene : MonoBehaviour
         StartCoroutine(FadeIn(background, 1.25f));
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(FadeIn(img1, 1));
-        singleAudio.PlaySFX(scenes[0].sfx);
+        PlaySceneSFX(scenes[0]);
+       
         canSwitchScene = true;
     }
 
@@ -121,7 +128,7 @@ public class Cutscene : MonoBehaviour
             }
         }
 
-        singleAudio.PlaySFX(scenes[sceneCount - 1].sfx);
+        PlaySceneSFX(scenes[sceneCount - 1]);
         canSwitchScene = true;
         sceneCount++;
 
@@ -129,6 +136,17 @@ public class Cutscene : MonoBehaviour
         {
             yield return new WaitForSeconds(endCutsceneTime);
             CutsceneFinished.Invoke();
+        }
+    }
+
+    void PlaySceneSFX(Scene scene)
+    {
+        SceneSFX[] sceneSFX = scene.sfx;
+        foreach (var s in sceneSFX)
+        {
+            string sfx = s.sfx;
+            float volume = s.volume;
+            singleAudio.PlaySFX(sfx, volume:volume);
         }
     }
 

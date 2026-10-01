@@ -24,7 +24,7 @@ public class WhoopeeCushionUpgrade : MonoBehaviour
         {
             GameManager.Instance.SpendMoney(price);
             DataSystem.SaveData();
-            
+
             // play random whoopee cushion sound
             upgradeInfo.singleAudio.PlaySFX(sounds[Random.Range(0, sounds.Length)]);
             CheckPurchasable();

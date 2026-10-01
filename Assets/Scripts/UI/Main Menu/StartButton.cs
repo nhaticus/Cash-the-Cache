@@ -14,6 +14,7 @@ public class StartButton : MonoBehaviour
     [SerializeField] string scene = "Map";
     
     public void OnClick() {
+        /*
         if (DataSystem.Data.gameState.currentReplay > 0)
         {
             SwitchScene(scene);
@@ -23,6 +24,9 @@ public class StartButton : MonoBehaviour
             GameObject cs = Instantiate(cutscene, canvasLocation);
             StartCoroutine(InitializeCutsceneWhenActive(cs));
         }
+        */
+        GameObject cs = Instantiate(cutscene, canvasLocation);
+        StartCoroutine(InitializeCutsceneWhenActive(cs));
     }
 
     private IEnumerator InitializeCutsceneWhenActive(GameObject obj)

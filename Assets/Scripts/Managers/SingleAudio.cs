@@ -33,7 +33,7 @@ public class SingleAudio : MonoBehaviour
         }
 
     }
-    public void PlaySFX(string name = "", bool loop = false, AudioSource source = null)
+    public void PlaySFX(string name = "", bool loop = false, float volume = 0.8f, AudioSource source = null)
     {
         Sound s = System.Array.Find(sfxSounds, sound => sound.name == name);
         if (s == null)
@@ -47,10 +47,10 @@ public class SingleAudio : MonoBehaviour
                 validSource = source;
             else
                 validSource = GetAnySFXSource();
-                
 
             validSource.clip = s.clip;
             validSource.loop = loop;
+            validSource.volume = volume;
             validSource.Play();
         }
     }

@@ -61,7 +61,7 @@ public class ToolBoxCanvas : MonoBehaviour
         // get strength and increase goal size and decrease fail time
         Item screwdriver = DataSystem.GetItem("Screwdriver");
         strength = screwdriver.level;
-        lockGoal.transform.localScale += new Vector3(0.15f * strength, 0.15f * strength, 0);
+        lockGoal.transform.localScale += new Vector3(0.13f * strength, 0.13f * strength, 0);
         failFreezeTime -= 0.09f * strength;
     }
 

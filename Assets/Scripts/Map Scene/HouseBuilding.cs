@@ -28,7 +28,7 @@ public class HouseBuilding : BaseMapBuilding
             // get size of building and assign difficulty and floors
             Vector3 meshSize = collider.bounds.size;
             difficulty = (int) Mathf.Floor((meshSize.x + meshSize.y) / 12.5f);
-            Debug.Log(transform.name + "   x:" + meshSize.x + "   y: " + meshSize.y);
+            Debug.Log(transform.name + "  x:" + meshSize.x + "  y: " + meshSize.y + " = " + difficulty);
         }
 
         // change difficulty a little from -1 to 1
