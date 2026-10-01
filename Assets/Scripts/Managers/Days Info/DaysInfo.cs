@@ -24,7 +24,8 @@ public class DaysInfo : MonoBehaviour
 
     void Start()
     {
-        daysLeft = DataSystem.Data.gameState.currentReplay;
+        int currentDays = DataSystem.Data.gameState.currentReplay;
+        daysLeft = daysTotal - currentDays;
         if (GameManager.Instance)
         {
             money = GameManager.Instance.playerMoney;
@@ -47,6 +48,7 @@ public class DaysInfo : MonoBehaviour
         SetRotation();
     }
 
+    // remove later
     private void Update()
     {
         daysText.text = daysLeft.ToString();

@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   singleAudio: {fileID: 8220234996470389142}
-  music: 
+  music: wind
   timeToChange: 4
   background: {fileID: 6335059480416074562}
   img1: {fileID: 3700446112026771191}
@@ -147,6 +147,8 @@ MonoBehaviour:
     sfx:
     - sfx: bag landing
       volume: 1
+    - sfx: joy
+      volume: 0.6
   - sprite: {fileID: 21300000, guid: d445a3fe26802a5408e9f57ed479514b, type: 3}
     sfx: []
   - sprite: {fileID: 21300000, guid: 838d93ba6ab54ab4c826046fb6f930b9, type: 3}
@@ -613,12 +615,17 @@ PrefabInstance:
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSources.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: musicSounds.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
@@ -659,71 +666,91 @@ PrefabInstance:
         type: 3}
       propertyPath: sfxSounds.Array.data[1].clip
       value: 
-      objectReference: {fileID: 8300000, guid: e69c85001252af749aae23c6958dbc53, type: 3}
+      objectReference: {fileID: 8300000, guid: 2bbda828ebcea9c4ba38738edc0079e2, type: 3}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[1].name
-      value: bag grab
+      value: joy
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[2].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 77994111542d5864984d40d69ab441e0, type: 3}
+      objectReference: {fileID: 8300000, guid: e69c85001252af749aae23c6958dbc53, type: 3}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[2].name
-      value: sigh
+      value: bag grab
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[3].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 8f1451bb796b524488ed30b667dde41f, type: 3}
+      objectReference: {fileID: 8300000, guid: 77994111542d5864984d40d69ab441e0, type: 3}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[3].name
-      value: walk away
+      value: sigh
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[4].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 46fba8d414a6bd3418f5e3ca94aa83a2, type: 3}
+      objectReference: {fileID: 8300000, guid: 8f1451bb796b524488ed30b667dde41f, type: 3}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[4].name
-      value: error
+      value: walk away
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[5].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 34531a1d09b326744b8992e067657a44, type: 3}
+      objectReference: {fileID: 8300000, guid: 46fba8d414a6bd3418f5e3ca94aa83a2, type: 3}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[5].name
-      value: click
+      value: error
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[6].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 46aa3b66fabea11479bad13d34030179, type: 3}
+      objectReference: {fileID: 8300000, guid: 34531a1d09b326744b8992e067657a44, type: 3}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[6].name
-      value: sad sigh
+      value: click
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[7].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 6670ea10e3973b043a193222065c82ef, type: 3}
+      objectReference: {fileID: 8300000, guid: 46aa3b66fabea11479bad13d34030179, type: 3}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: sfxSounds.Array.data[7].name
+      value: sad sigh
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[8].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 6670ea10e3973b043a193222065c82ef, type: 3}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: sfxSounds.Array.data[8].name
       value: disappointed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: musicSounds.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 6144641e8abc67f449b2d5efa3a05db5, type: 3}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: musicSounds.Array.data[0].name
+      value: wind
       objectReference: {fileID: 0}
     - target: {fileID: 8858477280335669890, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
