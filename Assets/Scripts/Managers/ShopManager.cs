@@ -21,8 +21,14 @@ public class ShopManager : MonoBehaviour
 
     [Header("Dependencies")]
     [SerializeField] SingleAudio singleAudio;
-    [SerializeField] SingleAudio upgradeSingleAudio;
-    
+
+    [Header("Restock")]
+    [SerializeField] int restockPrice = 20;
+    [SerializeField] int restockIncrease = 15;
+    [SerializeField] int maxRestockPrice = 60;
+    string restockSFX = "restock", denySFX = "deny";
+    [SerializeField] LocalizeStringEvent restockText;
+
     bool shopActive = false;
 
     void Start()
@@ -114,14 +120,9 @@ public class ShopManager : MonoBehaviour
         GameObject created = Instantiate(item, shopPanelTransform);
         created.GetComponent<UpgradeInfo>().shopManager = this;
         created.GetComponent<UpgradeInfo>().upgradePurchased.AddListener(CheckUpgrades);
-        created.GetComponent<UpgradeInfo>().singleAudio = upgradeSingleAudio; // give single audio reference
     }
 
-    [Header("Restock")]
-    [SerializeField] int restockPrice = 20;
-    [SerializeField] int restockIncrease = 15;
-    [SerializeField] int maxRestockPrice = 60;
-    [SerializeField] LocalizeStringEvent restockText;
+    
     public void Restock()
     {
         if (GameManager.Instance.playerMoney >= restockPrice)
@@ -139,6 +140,11 @@ public class ShopManager : MonoBehaviour
             restockPrice = Mathf.Min(restockPrice + restockIncrease, maxRestockPrice);
             restockText.StringReference["price"] = new StringVariable { Value = restockPrice.ToString() };
             restockText.RefreshString();
+            singleAudio.PlaySFX(restockSFX);
+        }
+        else
+        {
+            singleAudio.PlaySFX(denySFX);
         }
     }
 

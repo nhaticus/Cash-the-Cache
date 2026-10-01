@@ -33,7 +33,7 @@ public class UpgradeInfo : MonoBehaviour
         shopManager.moneyText.StringReference["money"] = new StringVariable { Value = GameManager.Instance.playerMoney.ToString() };
         shopManager.moneyText.RefreshString();
 
-        singleAudio.PlaySFX("purchase upgrade");
+        singleAudio.PlaySFX("purchase");
         upgradePurchased.Invoke();
     }
 }

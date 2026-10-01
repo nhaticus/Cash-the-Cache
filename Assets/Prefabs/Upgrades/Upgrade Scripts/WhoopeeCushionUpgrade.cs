@@ -15,8 +15,6 @@ public class WhoopeeCushionUpgrade : MonoBehaviour
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
         upgradeInfo.itemPrice.text = "$" + price.ToString();
 
-        upgradeInfo.localizeLevel.gameObject.SetActive(false);
-
         CheckPurchasable();
     }
 
@@ -26,14 +24,10 @@ public class WhoopeeCushionUpgrade : MonoBehaviour
         {
             GameManager.Instance.SpendMoney(price);
             DataSystem.SaveData();
-
-            upgradeInfo.localizeLevel.gameObject.SetActive(true); // purchased text
             
-            upgradeInfo.PurchaseUpdate();
-            GetComponent<Image>().color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
-
             // play random whoopee cushion sound
             upgradeInfo.singleAudio.PlaySFX(sounds[Random.Range(0, sounds.Length)]);
+            CheckPurchasable();
         }
         else
         {

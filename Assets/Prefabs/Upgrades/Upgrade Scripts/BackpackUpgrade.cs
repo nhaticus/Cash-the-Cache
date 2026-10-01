@@ -55,7 +55,7 @@ public class BackpackUpgrade : MonoBehaviour
 
     int CalculatePrice()
     {
-        return Mathf.Min(Mathf.RoundToInt(price * 1.5f * backpack.level), maxPrice); ;
+        return Mathf.Min(Mathf.RoundToInt(price * 1.35f * backpack.level), maxPrice); ;
     }
 
     public void CheckPurchasable()

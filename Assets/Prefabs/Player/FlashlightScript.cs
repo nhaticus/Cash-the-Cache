@@ -10,7 +10,7 @@ public class FlashlightScript : MonoBehaviour
     void Start()
     {
         hasFlashlight = DataSystem.GetOrCreateItem("Flashlight").level == 1;
-        lightObj.SetActive(false);
+        lightObj.SetActive(hasFlashlight);
     }
 
     private void Update()
@@ -18,11 +18,6 @@ public class FlashlightScript : MonoBehaviour
         if (!playerCam.lockRotation) //rotates flashlight based on camera rotation
         {
             transform.rotation = Quaternion.Euler(playerCam.xRotation, playerCam.yRotation, 0);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F) && hasFlashlight)
-        {
-            lightObj.SetActive(!lightObj.activeSelf);
         }
     }
 
