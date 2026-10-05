@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
+    public bool canDrive = true;
+
     private float horizontalInput, verticalInput;
     private float currentSteerAngle, currentbreakForce;
     private bool isBreaking;
@@ -45,14 +47,12 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MyInput();
-        HandleMotor();
-        HandleSteering();
-
-        /*
-        float currentSpeedMPH = GetCurrentSpeedMPH();
-        Debug.Log($"Current Speed: {currentSpeedMPH:F1} MPH");
-        */
+        if (canDrive)
+        {
+            MyInput();
+            HandleMotor();
+            HandleSteering();
+        }
     }
 
     private void Tick()

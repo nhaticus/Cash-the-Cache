@@ -15,15 +15,20 @@ public class BuildingDetection : MonoBehaviour
 {
     [SerializeField] GameObject playerCam;
 
+    public bool canInteract = true;
+
     List<GameObject> buildingsDetected = new List<GameObject>();
     GameObject selectedBuilding;
 
     private void Update()
     {
         // Interact and selected building exists
-        if (Time.timeScale > 0 && ((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0))) && selectedBuilding)
+        if(canInteract && Time.timeScale > 0)
         {
-            ExecuteEvents.Execute<InteractEvent>(selectedBuilding, null, (x, y) => x.Interact());
+            if (((UserInput.Instance && UserInput.Instance.Interact) || (UserInput.Instance == null && Input.GetMouseButtonDown(0))) && selectedBuilding)
+            {
+                ExecuteEvents.Execute<InteractEvent>(selectedBuilding, null, (x, y) => x.Interact());
+            }
         }
     }
 

@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.UI;
 
 
 namespace UnityEngine.InputSystem.Samples.RebindUI
@@ -13,6 +15,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
     /// </summary>
     public class RebindActionUI : MonoBehaviour
     {
+        private Button m_CancelButton;
+
         /// <summary>
         /// Reference to the action that is to be rebound.
         /// </summary>
@@ -221,6 +225,18 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             UpdateBindingDisplay();
         }
 
+        // script for button to cancel rebind
+        public void CancelRebind()
+        {
+            Debug.Log("click");
+            if (m_RebindOperation != null)
+            {
+                // This manually triggers the system's cancellation sequence, 
+                // which automatically fires OnCancel callbacks and clears the UI overlay.
+                m_RebindOperation.Cancel();
+            }
+        }
+
         private void ResetBindings(InputAction action, int bindingIndex)
         {
             InputBinding newBinding = action.bindings[bindingIndex];
@@ -280,10 +296,34 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             //Fixes the "InvalidOperationException: Cannot rebind action x while it is enabled" error
             action.Disable();
 
+            // .WithCancelingThrough("<Keyboard>/escape")
+
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
                 .WithExpectedControlType<ButtonControl>()
-                .WithCancelingThrough("<Keyboard>/escape")
+                .OnPotentialMatch(operation =>
+                {
+                    if (EventSystem.current != null && m_CancelButton != null)
+                    {
+                        PointerEventData pointerData = new PointerEventData(EventSystem.current)
+                        {
+                            position = Input.mousePosition
+                        };
+
+                        List<RaycastResult> results = new List<RaycastResult>();
+                        EventSystem.current.RaycastAll(pointerData, results);
+
+                        foreach (var result in results)
+                        {
+                            if (result.gameObject == m_CancelButton.gameObject || result.gameObject.transform.IsChildOf(m_CancelButton.transform))
+                            {
+                                operation.Cancel(); // Abort binding so click passes to the UI button
+                                return;
+                            }
+                        }
+                    }
+                })
+                .OnMatchWaitForAnother(0.1f)
                 .OnCancel(
                     operation =>
                     {
@@ -323,6 +363,11 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         }
                     });
 
+            if (EventSystem.current != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+
             // If it's a part binding, show the name of the part in the UI.
             var partName = default(string);
             if (action.bindings[bindingIndex].isPartOfComposite)
@@ -336,6 +381,37 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                     ? $"{partName}Waiting for {m_RebindOperation.expectedControlType} input..."
                     : $"{partName}Waiting for input...";
                 m_RebindText.text = text;
+            }
+
+            // dummy
+            if (m_CancelButton == null)
+            {
+                // 1. First attempt: Search inside the activated overlay panel directly
+                if (m_RebindOverlay != null)
+                {
+                    foreach (Button btn in m_RebindOverlay.GetComponentsInChildren<Button>(true))
+                    {
+                        if (btn.gameObject.name == "Cancel Rebind")
+                        {
+                            m_CancelButton = btn;
+                            break;
+                        }
+                    }
+                }
+
+                // 2. Fallback attempt: If not found, search the entire UI Canvas system
+                if (m_CancelButton == null)
+                {
+                    Button[] allButtonsInScene = FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+                    foreach (Button btn in allButtonsInScene)
+                    {
+                        if (btn.gameObject.name == "Cancel Rebind")
+                        {
+                            m_CancelButton = btn;
+                            break;
+                        }
+                    }
+                }
             }
 
             // If we have no rebind overlay and no callback but we have a binding text label,

@@ -44,12 +44,12 @@ public class NPCsBehavior : MonoBehaviour
     {
         /*  Setting up variables    */
         defaultSpeed += PlayerPrefs.GetInt("Difficulty") * 0.4f;
-        defaultSpeed = Mathf.Min(defaultSpeed, 7);
+        defaultSpeed = Mathf.Min(defaultSpeed, 7.5f);
 
-        runningSpeed += PlayerPrefs.GetInt("Difficulty") * 0.225f;
+        runningSpeed += PlayerPrefs.GetInt("Difficulty") * 0.45f;
         runningSpeed = Mathf.Min(runningSpeed, 9.5f);
 
-        GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 4.5f);
+        GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 5f);
 
         agent = GetComponent<NavMeshAgent>();
         if(agent)
@@ -166,7 +166,6 @@ public class NPCsBehavior : MonoBehaviour
         if (deathSFX.Length > 0)
         {
             string choose = deathSFX[Random.Range(0, deathSFX.Length)];
-            Debug.Log(choose);
             singleAudio.PlaySFX(choose);
         }
 

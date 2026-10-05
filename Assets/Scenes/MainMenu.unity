@@ -1587,6 +1587,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620982487}
   m_CullTransparentMesh: 1
+--- !u!114 &672101596 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1297183700632155038, guid: 77ad8eccc0b84ad489b5a235f046052a,
+    type: 3}
+  m_PrefabInstance: {fileID: 987854575}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc11d99b1a6682f4cbc4aba1fcd9ac5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &686670558
 GameObject:
   m_ObjectHideFlags: 0
@@ -2983,8 +2995,64 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -194
       objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_Colors.m_PressedColor.b
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_Colors.m_PressedColor.g
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_Colors.m_PressedColor.r
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.b
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.g
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_Colors.m_SelectedColor.r
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.g
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 672101596}
+    - target: {fileID: 9082261562595612112, guid: 77ad8eccc0b84ad489b5a235f046052a,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CancelOngoingRebind
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8843815281836877868, guid: 77ad8eccc0b84ad489b5a235f046052a, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77ad8eccc0b84ad489b5a235f046052a, type: 3}
@@ -3465,7 +3533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactAction:
-    m_Name: 
+    m_Name: Interact
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: d3839eac-ceeb-4bf1-845a-76112ec40865

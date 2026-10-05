@@ -50,7 +50,16 @@ public class LockPickingCanvas : MonoBehaviour
         CreatePins(); // Create pins dynamically based on difficulty
         UpdateAttemptsUI();
     }
-    
+
+    private void Update()
+    {
+        if ((UserInput.Instance && UserInput.Instance.Cancel) ||
+            (!UserInput.Instance && Input.GetKeyDown(KeyCode.Escape)))
+        {
+            ExitSafe();
+        }
+    }
+
     // Method to set max attempts from the Safe script
     public void SetMaxAttempts(int attempts)
     {

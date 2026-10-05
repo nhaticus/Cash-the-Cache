@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.SceneManagement;
 
 public class DaysInfo : MonoBehaviour
 {
+    [SerializeField] float maxRotation = 11;
+
     [Header("Days")]
     [SerializeField] int daysLeft = 45; // when reach 0, BAD ending
     [SerializeField] int daysTotal = 45;
@@ -13,7 +16,7 @@ public class DaysInfo : MonoBehaviour
 
     [Header("Money")]
     [SerializeField] int money = 0;
-    [SerializeField] int moneyToEnd = 50000; // when reach this, GOOD ending
+    [SerializeField] int moneyToEnd = 10000; // when reach this, GOOD ending
     [SerializeField] TMP_Text moneyText;
 
     [Header("Cutscene")]
@@ -21,6 +24,11 @@ public class DaysInfo : MonoBehaviour
     [SerializeField] GameObject winScene, loseScene;
     [SerializeField] string atEndScene;
     [SerializeField] SingleAudio singleAudio; // stop music
+
+    [Header("Van")]
+    [SerializeField] GameObject van; // stop van from doing anything on cutscene
+    CarController carController;
+    BuildingDetection buildingDetection;
 
     void Start()
     {
@@ -32,34 +40,81 @@ public class DaysInfo : MonoBehaviour
             moneyToEnd = GameManager.Instance.moneyToEnd;
         }
 
-        if (money >= moneyToEnd) // WIN game
-        {
-            GameObject cs = Instantiate(winScene, canvasLocation);
-            StartCoroutine(InitializeCutsceneWhenActive(cs));
-        }
-        else if (daysLeft <= 0) // LOSE game
-        {
-            GameObject cs = Instantiate(loseScene, canvasLocation);
-            StartCoroutine(InitializeCutsceneWhenActive(cs));
-        }
+        CheckConditions();
 
         daysText.text = daysLeft.ToString();
         moneyText.text = "$" + money.ToString();
         SetRotation();
     }
 
-    // remove later
+    bool test = false;
     private void Update()
     {
-        daysText.text = daysLeft.ToString();
-        SetRotation();
+        if(test == false)
+        {
+            daysText.text = daysLeft.ToString();
+            moneyText.text = "$" + money.ToString();
+            SetRotation();
+
+            CheckConditions();
+        }
     }
 
     void SetRotation()
     {
-        float rotAmount = daysTotal / daysLeft;
-        rotAmount = Mathf.Min(11, rotAmount);
+        float rotAmount;
+        if (daysLeft > 0)
+            rotAmount = daysTotal / daysLeft;
+        else
+            rotAmount = maxRotation; // prevent dividing by 0
+
+        rotAmount = Mathf.Min(maxRotation, rotAmount);
         transform.localRotation = Quaternion.Euler(0, 0, rotAmount);
+    }
+
+    void CheckConditions()
+    {
+        if (money >= moneyToEnd) // WIN game
+        {
+            GameObject cs = Instantiate(winScene, canvasLocation);
+            StartCoroutine(InitializeCutsceneWhenActive(cs));
+            Clear();
+            DisableVan();
+            test = true;
+        }
+        else if (daysLeft <= 0) // LOSE game
+        {
+            GameObject cs = Instantiate(loseScene, canvasLocation);
+            StartCoroutine(InitializeCutsceneWhenActive(cs));
+            Clear();
+            DisableVan();
+            test = true;
+        }
+    }
+
+    void DisableVan()
+    {
+        carController = van.GetComponentInChildren<CarController>();
+        buildingDetection = van.GetComponentInChildren<BuildingDetection>();
+
+        carController.canDrive = false;
+        buildingDetection.canInteract = false;
+    }
+
+    void Clear()
+    {
+        if (GameManager.Instance == false)
+            return;
+
+        int colorblind = PlayerPrefs.GetInt("ColorblindMode"); // keep colorblind
+        PlayerPrefs.DeleteAll();
+        DataSystem.ResetItems();
+        DataSystem.ResetData();
+        Debug.Log("days: " + DataSystem.Data.gameState.currentReplay);
+        Debug.Log("money: " + GameManager.Instance.playerMoney);
+        GameManager.Instance.SetMoney(0);
+        Debug.Log("money: " + GameManager.Instance.playerMoney);
+        PlayerPrefs.SetInt("ColorblindMode", colorblind); // restore colorblind
     }
 
     private IEnumerator InitializeCutsceneWhenActive(GameObject obj)

@@ -27,7 +27,7 @@ public class GameUI : MonoBehaviour
         // prevent pause when game is not loaded
         if (uiPossible)
         {
-            if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.P)))
+            if ((UserInput.Instance && UserInput.Instance.Pause) || (UserInput.Instance == null && Input.GetKeyDown(KeyCode.Escape)))
             {
                 Pause();
             }
@@ -59,6 +59,7 @@ public class GameUI : MonoBehaviour
         if (paused)
         {
             pauseRef = Instantiate(pausePrefab, transform);
+            pauseRef.transform.SetAsLastSibling(); // place in front of all UI
             pauseRef.GetComponentInChildren<PauseMenu>().UnPause.AddListener(UnPause);
         }
         else

@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   singleAudio: {fileID: 8220234996470389142}
-  music: 
+  music: music
   timeToChange: 4
   background: {fileID: 6335059480416074562}
   img1: {fileID: 3700446112026771191}
@@ -414,23 +414,21 @@ MonoBehaviour:
   - sprite: {fileID: 21300000, guid: 65742eb516df9904ba81fadcad89ae7d, type: 3}
     sfx:
     - sfx: hard knock
-      volume: 0.8
-    - sfx: IDK
-      volume: 0.9
+      volume: 1
   - sprite: {fileID: 21300000, guid: ff7fd69382995154dae41f973ba873d7, type: 3}
     sfx:
-    - sfx: slow open
-      volume: 0.75
+    - sfx: slow open door
+      volume: 0.8
     - sfx: IDK
-      volume: 0.75
+      volume: 0.8
   - sprite: {fileID: 21300000, guid: dd9a02ab639c3174695c21affe8f5653, type: 3}
     sfx:
     - sfx: walk away 1
-      volume: 0.8
+      volume: 0.9
     - sfx: walk away 2
-      volume: 0.8
+      volume: 0.9
     - sfx: dread
-      volume: 0.4
+      volume: 0.5
   endCutsceneTime: 2
 --- !u!1 &6917943270973287704
 GameObject:
@@ -594,7 +592,7 @@ PrefabInstance:
     - target: {fileID: 582984610325533782, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
       propertyPath: m_Volume
-      value: 0.7
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 1413205878131475056, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
@@ -615,6 +613,11 @@ PrefabInstance:
         type: 3}
       propertyPath: sfxSources.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: musicSounds.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}
@@ -700,6 +703,16 @@ PrefabInstance:
         type: 3}
       propertyPath: sfxSounds.Array.data[5].name
       value: dread
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: musicSounds.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2eccbecf00c734f4ea36903da49c09f0, type: 3}
+    - target: {fileID: 8787543209596973570, guid: 161e12d9a24261d4d8ce06163b1b6100,
+        type: 3}
+      propertyPath: musicSounds.Array.data[0].name
+      value: music
       objectReference: {fileID: 0}
     - target: {fileID: 8858477280335669890, guid: 161e12d9a24261d4d8ce06163b1b6100,
         type: 3}

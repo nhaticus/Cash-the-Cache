@@ -41,6 +41,12 @@ public class FlushingCanvas : MonoBehaviour
 
     private void Update()
     {
+        if ((UserInput.Instance && UserInput.Instance.Cancel) ||
+            (!UserInput.Instance && Input.GetKeyDown(KeyCode.Escape)))
+        {
+            ExitToilet();
+        }
+
         ApplyForceToControl((-0.5f) * speed);
         if(powerSlider.value >= 1)
         {

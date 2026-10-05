@@ -7,6 +7,9 @@ using UnityEngine.Localization.Components;
 
 public class KeyboardConfig : MonoBehaviour
 {
+    [Header("Components")]
+    [SerializeField] GameObject waitForInput;
+
     [Header("Language")]
     public LocalizeStringEvent sensLocalizeStringEvent;
 
@@ -19,6 +22,8 @@ public class KeyboardConfig : MonoBehaviour
 
     private void Start()
     {
+        waitForInput.SetActive(false);
+
         float sensitivity = DataSystem.SettingsData.keyboard.mouseSensitivity;
         sensSlider.minValue = minSens;
         sensSlider.maxValue = maxSens;

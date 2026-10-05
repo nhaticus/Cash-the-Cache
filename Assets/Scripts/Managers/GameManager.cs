@@ -59,6 +59,13 @@ public class GameManager : MonoBehaviour
         CurrentState = newState;
     }
 
+    public void SetMoney(int amount)
+    {
+        playerMoney = amount;
+        DataSystem.Data.gameState.playerMoney = amount;
+        DataSystem.SaveData();
+    }
+
     public void AddMoney(int amount)
     {
         playerMoney += amount;
