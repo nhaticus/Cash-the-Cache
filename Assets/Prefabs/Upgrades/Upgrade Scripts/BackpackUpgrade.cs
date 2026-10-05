@@ -19,10 +19,9 @@ public class BackpackUpgrade : MonoBehaviour
 
         backpack = DataSystem.GetOrCreateItem("Backpack");
         int level = backpack.level;
-        price = Mathf.Min(Mathf.RoundToInt(price * 1.5f * level), maxPrice);
+        price = CalculatePrice();
 
         upgradeInfo.itemPrice.text = "$" + price.ToString();
-
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         upgradeInfo.localizeLevel.RefreshString();
 
@@ -55,7 +54,8 @@ public class BackpackUpgrade : MonoBehaviour
 
     int CalculatePrice()
     {
-        return Mathf.Min(Mathf.RoundToInt(price * 1.35f * backpack.level), maxPrice); ;
+        int adjustedPrice = Mathf.RoundToInt(price + (price * 1.35f * backpack.level));
+        return Mathf.Min(adjustedPrice, maxPrice);
     }
 
     public void CheckPurchasable()

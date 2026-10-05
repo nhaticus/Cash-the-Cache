@@ -28,8 +28,8 @@ public class VitaminUpgrade : MonoBehaviour
         vitamins = DataSystem.GetOrCreateItem("Vitamins");
         int level = vitamins.level;
         price = CalculatePrice();
-        upgradeInfo.itemPrice.text = "$" + price.ToString();
 
+        upgradeInfo.itemPrice.text = "$" + price.ToString();
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         upgradeInfo.localizeLevel.RefreshString();
         CheckPurchasable();
@@ -64,8 +64,10 @@ public class VitaminUpgrade : MonoBehaviour
 
     int CalculatePrice()
     {
-        return Mathf.Min(Mathf.RoundToInt(price * 1.5f * vitamins.level), maxPrice); ;
+        int adjustedPrice = Mathf.RoundToInt(price + (price * 1.45f * vitamins.level));
+        return Mathf.Min(adjustedPrice, maxPrice);
     }
+
 
     public void CheckPurchasable()
     {

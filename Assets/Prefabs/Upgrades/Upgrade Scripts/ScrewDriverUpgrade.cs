@@ -15,13 +15,12 @@ public class ScrewDriverUpgrade : MonoBehaviour
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
-        screwdriver = DataSystem.GetOrCreateItem("Screwdriver");
 
+        screwdriver = DataSystem.GetOrCreateItem("Screwdriver");
         int level = screwdriver.level;
         price = CalculatePrice();
 
         upgradeInfo.itemPrice.text = "$" + price.ToString();
-
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         upgradeInfo.localizeLevel.RefreshString();
         CheckPurchasable();
@@ -51,8 +50,10 @@ public class ScrewDriverUpgrade : MonoBehaviour
 
     int CalculatePrice()
     {
-        return Mathf.Min(Mathf.RoundToInt(price * 1.5f * screwdriver.level), maxPrice); ;
+        int adjustedPrice = Mathf.RoundToInt(price + (price * 1.5f * screwdriver.level));
+        return Mathf.Min(adjustedPrice, maxPrice);
     }
+
 
     public void CheckPurchasable()
     {

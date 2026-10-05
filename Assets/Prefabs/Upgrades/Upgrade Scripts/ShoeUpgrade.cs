@@ -15,12 +15,12 @@ public class ShoeUpgrade : MonoBehaviour
     {
         upgradeInfo = GetComponent<UpgradeInfo>();
         upgradeInfo.updateItem.AddListener(CheckPurchasable);
-        runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
 
+        runningShoe = DataSystem.GetOrCreateItem("RunningShoe");
         int level = runningShoe.level;
         price = CalculatePrice();
-        upgradeInfo.itemPrice.text = "$" + price.ToString();
 
+        upgradeInfo.itemPrice.text = "$" + price.ToString();
         upgradeInfo.localizeLevel.StringReference["level"] = new StringVariable { Value = level.ToString() };
         upgradeInfo.localizeLevel.RefreshString();
         CheckPurchasable();
@@ -51,8 +51,10 @@ public class ShoeUpgrade : MonoBehaviour
 
     int CalculatePrice()
     {
-        return Mathf.Min(Mathf.RoundToInt(price * 1.5f * runningShoe.level), maxPrice); ;
+        int adjustedPrice = Mathf.RoundToInt(price + (price * 1.5f * runningShoe.level));
+        return Mathf.Min(adjustedPrice, maxPrice);
     }
+
 
     public void CheckPurchasable()
     {
