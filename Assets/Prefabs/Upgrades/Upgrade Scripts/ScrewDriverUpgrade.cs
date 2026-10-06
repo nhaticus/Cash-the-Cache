@@ -8,6 +8,7 @@ public class ScrewDriverUpgrade : MonoBehaviour
 
     public int price = 50;
     public int maxPrice = 250;
+    [SerializeField] float priceMult = 0.35f;
 
     Item screwdriver;
 
@@ -50,7 +51,7 @@ public class ScrewDriverUpgrade : MonoBehaviour
 
     int CalculatePrice()
     {
-        int adjustedPrice = Mathf.RoundToInt(price + (price * 1.5f * screwdriver.level));
+        int adjustedPrice = Mathf.RoundToInt(price + (price * priceMult * screwdriver.level));
         return Mathf.Min(adjustedPrice, maxPrice);
     }
 

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class BoxCanvas : MonoBehaviour
 {
     [SerializeField] GameObject screw;
+    [SerializeField] int minScrews = 3;
     int screwsLeft = 0;
 
     public SingleAudio singleAudio;
@@ -21,15 +22,16 @@ public class BoxCanvas : MonoBehaviour
         strength = 1 + screwdriver.level * screwdriverStrength;
 
         // create screws
-        screwsLeft = difficulty;
+        screwsLeft = Mathf.FloorToInt(minScrews + (difficulty * 1.5f));
         for (int i = 0; i < screwsLeft; i++)
         {
             GameObject screwObj = Instantiate(screw);
             screwObj.transform.SetParent(transform);
             screwObj.transform.localPosition = new Vector3(Random.Range(-620, 620), Random.Range(-320, 320), 0);
+
             Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
             screwScript.singleAudio = singleAudio;
-            screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.7f);
+            screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.75f);
             screwScript.removeScrew.AddListener(ScrewOff);
             screwScript.clickStrength = strength;
         }

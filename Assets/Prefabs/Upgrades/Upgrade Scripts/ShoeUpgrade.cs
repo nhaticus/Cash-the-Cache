@@ -8,6 +8,7 @@ public class ShoeUpgrade : MonoBehaviour
 
     public int price = 40;
     public int maxPrice = 300;
+    [SerializeField] float priceMult = 0.35f;
 
     Item runningShoe;
 
@@ -51,7 +52,7 @@ public class ShoeUpgrade : MonoBehaviour
 
     int CalculatePrice()
     {
-        int adjustedPrice = Mathf.RoundToInt(price + (price * 1.5f * runningShoe.level));
+        int adjustedPrice = Mathf.RoundToInt(price + (price * priceMult * runningShoe.level));
         return Mathf.Min(adjustedPrice, maxPrice);
     }
 

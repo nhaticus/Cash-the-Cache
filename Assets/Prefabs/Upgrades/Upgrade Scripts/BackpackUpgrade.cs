@@ -9,6 +9,7 @@ public class BackpackUpgrade : MonoBehaviour
 
     public int price = 40;
     public int maxPrice = 300;
+    [SerializeField] float priceMult = 0.35f;
 
     Item backpack;
 
@@ -54,7 +55,7 @@ public class BackpackUpgrade : MonoBehaviour
 
     int CalculatePrice()
     {
-        int adjustedPrice = Mathf.RoundToInt(price + (price * 1.35f * backpack.level));
+        int adjustedPrice = Mathf.RoundToInt(price + (price * priceMult * backpack.level));
         return Mathf.Min(adjustedPrice, maxPrice);
     }
 

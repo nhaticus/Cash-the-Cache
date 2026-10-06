@@ -20,6 +20,7 @@ public class GameUI : MonoBehaviour
     private void Start()
     {
         StartCoroutine(FindPlayer());
+        GameOver();
     }
 
     private void Update()
@@ -94,7 +95,7 @@ public class GameUI : MonoBehaviour
         GameObject gameOver = Instantiate(gameOverPrefab, transform);
         gameOver.GetComponent<GameOver>().DecreasePlayerMoney();
 
-        // hide game over
+        // first hide game over
         CanvasGroup gameOverCanvas = gameOver.GetComponent<CanvasGroup>();
         gameOverCanvas.alpha = 0;
 
@@ -122,7 +123,7 @@ public class GameUI : MonoBehaviour
     {
         GameObject newObj = new GameObject(); //Create the GameObject
         newObj.name = "FadeWhite";
-        newObj.transform.SetParent(this.transform);
+        newObj.transform.SetParent(transform);
         newObj.transform.localPosition = Vector3.zero;
         Image newImage = newObj.AddComponent<Image>();
         newObj.GetComponent<RectTransform>().sizeDelta = new Vector2(1920, 1080);

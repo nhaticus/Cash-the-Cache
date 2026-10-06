@@ -10,8 +10,12 @@ public class ToolBoxCanvas : MonoBehaviour
     public int TotalLocks = 3;
     public float failFreezeTime = 0.75f;
     [SerializeField] float RadiusOfLock;
+
+    [Header("Difficulty")]
     [HideInInspector] public float difficulty = 0;
     [HideInInspector] public float strength;
+    [SerializeField] float sizeMult = 0.12f; // increase target size based on strength
+    [SerializeField] float failMult = 0.08f; // decrease fail time based on strength
 
     [Header("Dependencies")]
     [SerializeField] GameObject lockPick;
@@ -61,8 +65,8 @@ public class ToolBoxCanvas : MonoBehaviour
         // get strength and increase goal size and decrease fail time
         Item screwdriver = DataSystem.GetItem("Screwdriver");
         strength = screwdriver.level;
-        lockGoal.transform.localScale += new Vector3(0.13f * strength, 0.13f * strength, 0);
-        failFreezeTime -= 0.09f * strength;
+        lockGoal.transform.localScale += new Vector3(sizeMult * strength, sizeMult * strength, 0);
+        failFreezeTime -= failMult * strength;
     }
 
     private void Update() {

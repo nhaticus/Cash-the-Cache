@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 /*
  * A raycast attached to NPCs that looks for the player
@@ -14,18 +15,24 @@ using UnityEngine.Events;
 
 public class NPCDetection : MonoBehaviour
 {
+    #region public variables
+
     /*  Detection  */
     [Header("Sight Range")]
     [SerializeField] float sightDistance;
     [SerializeField] int sightAngle; // Angle of the detection cone
 
-    [SerializeField] float sightCountdown = 1.4f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
+    [Header("Sight Cooldown")]
+    public float sightCountdown = 1.4f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
     [SerializeField] float minSightCountdown = 1f;
-    float sightTimer = 0.0f;
-
+    [SerializeField] float sightMult = 1.03f;
+    
     [Header("Dependencies")]
     public DetectionBarController detectionBar;
 
+    #endregion
+
+    #region private variables
     Transform player;
 
     public UnityEvent<GameObject> PlayerNoticed; // when player just touched detection
@@ -33,22 +40,35 @@ public class NPCDetection : MonoBehaviour
     public UnityEvent PlayerLost; // player just left detection
     bool playerStartUndetected = false;
     bool sendRaycast = true;
+    float sightTimer = 0.0f;
+    #endregion
 
     private void Start()
     {
         player = GameObject.Find("Player").transform;
 
-        // alter sight countdown based on difficulty
-        sightCountdown /= PlayerPrefs.GetInt("Difficulty") * 1.03f;
-        sightCountdown = Mathf.Max(sightCountdown, minSightCountdown);
+        CalculateSightCountdown(PlayerPrefs.GetInt("Difficulty"));
     }
 
     private void Update()
     {
         // send raycast if not dead and player is active
-        if(sendRaycast)
+        if (sendRaycast)
+        {
             if ((PlayerManager.Instance == null) || (PlayerManager.Instance && PlayerManager.Instance.isPlayerActive))
                 SendDetectionRaycast();
+        } 
+    }
+
+    #region Private Functions
+
+    /// <summary>
+    /// alter sight countdown based on difficulty
+    /// </summary>
+    void CalculateSightCountdown(int difficulty)
+    {
+        sightCountdown /= difficulty * sightMult;
+        sightCountdown = Mathf.Max(sightCountdown, minSightCountdown);
     }
 
     /// <summary>
@@ -173,5 +193,5 @@ public class NPCDetection : MonoBehaviour
         Gizmos.DrawRay(transform.position, leftLimit * sightDistance);
         Gizmos.DrawRay(transform.position, rightLimit * sightDistance);
     }
-
+    #endregion
 }

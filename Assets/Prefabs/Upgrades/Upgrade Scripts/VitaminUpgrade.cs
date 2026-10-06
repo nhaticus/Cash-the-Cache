@@ -16,6 +16,7 @@ public class VitaminUpgrade : MonoBehaviour
 
     public int price = 75;
     public int maxPrice = 350;
+    [SerializeField] float priceMult = 0.35f;
 
     Item vitamins;
 
@@ -64,7 +65,7 @@ public class VitaminUpgrade : MonoBehaviour
 
     int CalculatePrice()
     {
-        int adjustedPrice = Mathf.RoundToInt(price + (price * 1.45f * vitamins.level));
+        int adjustedPrice = Mathf.RoundToInt(price + (price * priceMult * vitamins.level));
         return Mathf.Min(adjustedPrice, maxPrice);
     }
 
