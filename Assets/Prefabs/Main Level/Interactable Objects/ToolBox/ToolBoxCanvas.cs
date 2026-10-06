@@ -61,6 +61,7 @@ public class ToolBoxCanvas : MonoBehaviour
         // change cursor
         Cursor.SetCursor(cursorImage, Vector2.zero, CursorMode.ForceSoftware);
 
+        TotalLocks += Mathf.FloorToInt(difficulty * 0.5f);
 
         // get strength and increase goal size and decrease fail time
         Item screwdriver = DataSystem.GetItem("Screwdriver");
