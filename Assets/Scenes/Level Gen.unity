@@ -564,7 +564,7 @@ PrefabInstance:
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
       propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
@@ -585,17 +585,17 @@ PrefabInstance:
         type: 3}
       propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1630375477}
+      objectReference: {fileID: 1965084194}
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
       propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 1965084194}
+      objectReference: {fileID: 1657759260}
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
       propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
-      objectReference: {fileID: 1657759260}
+      objectReference: {fileID: 1630375477}
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
       propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -624,7 +624,7 @@ PrefabInstance:
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
       propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ToggleMovement
+      value: SetGameUIPossible
       objectReference: {fileID: 0}
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
@@ -634,7 +634,7 @@ PrefabInstance:
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
       propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
-      value: SetGameUIPossible
+      value: ToggleMovement
       objectReference: {fileID: 0}
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
@@ -644,17 +644,22 @@ PrefabInstance:
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
       propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: PlayerMovement, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
-        type: 3}
-      propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: GameUI, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
-      propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: PlayerUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
+        type: 3}
+      propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[3].m_TargetAssemblyTypeName
+      value: PlayerMovement, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
+        type: 3}
+      propertyPath: loadingComplete.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5883565926036583754, guid: b6e6ee04463cfbf4b832fc7772be97fd,
         type: 3}
@@ -14672,12 +14677,12 @@ PrefabInstance:
     - target: {fileID: 1720288065719894229, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.066567
+      value: 2.866
       objectReference: {fileID: 0}
     - target: {fileID: 1720288065719894229, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.71000004
+      value: 1.72
       objectReference: {fileID: 0}
     - target: {fileID: 1720288065719894229, guid: 5d80e1a35ec8ee34b980b8089ce87bdf,
         type: 3}
@@ -20937,6 +20942,11 @@ PrefabInstance:
       propertyPath: punchDuration
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 6490516278436240154, guid: 9f2312d32bfabda47aedea375adc49d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7278953280163806405, guid: 9f2312d32bfabda47aedea375adc49d3,
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
@@ -21001,6 +21011,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8584664989261509797, guid: 9f2312d32bfabda47aedea375adc49d3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36272,12 +36287,12 @@ PrefabInstance:
     - target: {fileID: 8061344465567195826, guid: f1f768f237b35fd4eaf0ce3d92db623d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.676095
+      value: 1.513
       objectReference: {fileID: 0}
     - target: {fileID: 8061344465567195826, guid: f1f768f237b35fd4eaf0ce3d92db623d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7099998
+      value: 1.765
       objectReference: {fileID: 0}
     - target: {fileID: 8061344465567195826, guid: f1f768f237b35fd4eaf0ce3d92db623d,
         type: 3}

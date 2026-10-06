@@ -138,6 +138,7 @@ public class ShopManager : MonoBehaviour
             // spend money
             GameManager.Instance.SpendMoney(restockPrice);
             restockPrice = Mathf.Min(restockPrice + restockIncrease, maxRestockPrice);
+
             restockText.StringReference["price"] = new StringVariable { Value = restockPrice.ToString() };
             restockText.RefreshString();
 
