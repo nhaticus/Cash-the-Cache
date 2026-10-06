@@ -184,9 +184,14 @@ public class PlayerMovement : MonoBehaviour
         }
     }
    */
-    public void ToggleMovement()
+    public void ToggleMovement(bool active)
     {
-        canMove = !canMove;
+        canMove = active;
+        PlayerManager.Instance.ableToInteract = active; // stop movement
+        if(active)
+            PlayerManager.Instance.unlockRotation();
+        else
+            PlayerManager.Instance.lockRotation();
     }
 
 }

@@ -91,16 +91,17 @@ public class GameUI : MonoBehaviour
         // play death sound
         singleAudio.PlaySFX("death");
 
+        // fade out from white
+        StartCoroutine(CreateWhiteFade());
+
         // create game over screen
         GameObject gameOver = Instantiate(gameOverPrefab, transform);
+        gameOver.transform.SetAsLastSibling();
         gameOver.GetComponent<GameOver>().DecreasePlayerMoney();
 
         // first hide game over
         CanvasGroup gameOverCanvas = gameOver.GetComponent<CanvasGroup>();
         gameOverCanvas.alpha = 0;
-
-        // fade out from white
-        StartCoroutine(CreateWhiteFade());
 
         // wait for a little then fade in game over
         yield return new WaitForSeconds(timeTillGameOverReveal);
