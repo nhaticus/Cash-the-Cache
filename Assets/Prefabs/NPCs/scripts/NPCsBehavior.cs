@@ -51,13 +51,18 @@ public class NPCsBehavior : MonoBehaviour
     private void Awake()
     {
         /*  Setting up variables    */
-        defaultSpeed += PlayerPrefs.GetInt("Difficulty") * 0.3f;
-        defaultSpeed = Mathf.Min(defaultSpeed, 7.5f);
+        int difficulty = PlayerPrefs.GetInt("Difficulty");
+        if (difficulty > 1)
+        {
+            defaultSpeed += difficulty * 0.325f;
+            defaultSpeed = Mathf.Min(defaultSpeed, 7.5f);
 
-        runningSpeed += PlayerPrefs.GetInt("Difficulty") * 0.45f;
-        runningSpeed = Mathf.Min(runningSpeed, 9.5f);
+            runningSpeed += difficulty * 0.475f;
+            runningSpeed = Mathf.Min(runningSpeed, 9.5f);
 
-        GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 5f);
+            GetComponent<HealthController>().maxHealth += Mathf.Floor(difficulty * 7.5f);
+        }
+        
 
         agent = GetComponent<NavMeshAgent>();
         if(agent)
