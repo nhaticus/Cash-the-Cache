@@ -27,14 +27,14 @@ public class Target : MonoBehaviour
     {
         // get strength and increase time to move
         strength = canvas.strength;
-        minTimeToMove += strength * 0.145f;
+        minTimeToMove += strength * 0.13f;
         minTimeToMove = Mathf.Min(minTimeToMove, capMinMoveTime);
-        maxTimeToMove = (4 / canvas.difficulty) + (strength * 0.125f);
+        maxTimeToMove = (4 / canvas.difficulty) + (strength * 0.12f);
         maxTimeToMove = Mathf.Min(maxTimeToMove, capMaxMoveTime);
 
 
         // increase size based on strength
-        transform.localScale += new Vector3(5 * strength, 0, 0);
+        transform.localScale += new Vector3(3 * strength, 0, 0);
 
         // set bounds to correct size
         float halfScaleX = transform.localScale.x * 0.5f;

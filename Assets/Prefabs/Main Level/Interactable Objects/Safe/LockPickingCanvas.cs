@@ -36,6 +36,7 @@ public class LockPickingCanvas : MonoBehaviour
     public Color correctColor = Color.green;
     public Color wrongColor = Color.red;
 
+    int totalPins = 3;
     private List<Button> pins = new List<Button>(); // List to store dynamically created pins
     private List<int> correctOrder = new List<int>(); // Correct order of pins to click
     private List<int> remainingPins = new List<int>(); // To keep track of pins that haven't been pressed yet
@@ -47,7 +48,9 @@ public class LockPickingCanvas : MonoBehaviour
 
     private void Start()
     {
-        CreatePins(); // Create pins dynamically based on difficulty
+        totalPins += Mathf.FloorToInt(difficulty * 0.75f);
+
+        CreatePins();
         UpdateAttemptsUI();
     }
 
@@ -68,7 +71,7 @@ public class LockPickingCanvas : MonoBehaviour
     // Dynamically creates pins based on the difficulty level
     private void CreatePins()
     {
-        for (int i = 0; i < difficulty; i++)
+        for (int i = 0; i < totalPins; i++)
         {
             Button newPin = Instantiate(pinPrefab, pinsContainer).GetComponent<Button>();
             float totalWidth = (difficulty - 1) * pinSpacing;

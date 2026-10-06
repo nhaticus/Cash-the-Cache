@@ -51,7 +51,7 @@ public class NPCsBehavior : MonoBehaviour
     private void Awake()
     {
         /*  Setting up variables    */
-        defaultSpeed += PlayerPrefs.GetInt("Difficulty") * 0.35f;
+        defaultSpeed += PlayerPrefs.GetInt("Difficulty") * 0.3f;
         defaultSpeed = Mathf.Min(defaultSpeed, 7.5f);
 
         runningSpeed += PlayerPrefs.GetInt("Difficulty") * 0.45f;

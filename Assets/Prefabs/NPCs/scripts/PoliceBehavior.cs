@@ -62,10 +62,10 @@ public class PoliceBehavior : MonoBehaviour
     private void Awake()
     {
         // increase health and speed based on difficulty
-        speed += PlayerPrefs.GetInt("Difficulty") / 2.5f;
+        speed += PlayerPrefs.GetInt("Difficulty") * 0.35f;
         speed = Mathf.Min(speed, 11); // max value is 11
 
-        GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 1.4f);
+        GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 15f);
 
         /*  Setting up variables    */
         agent = GetComponent<NavMeshAgent>();

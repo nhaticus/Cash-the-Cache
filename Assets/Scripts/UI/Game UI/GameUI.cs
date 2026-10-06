@@ -20,7 +20,6 @@ public class GameUI : MonoBehaviour
     private void Start()
     {
         StartCoroutine(FindPlayer());
-        GameOver();
     }
 
     private void Update()
@@ -77,7 +76,9 @@ public class GameUI : MonoBehaviour
     void GameOver()
     {
         StartCoroutine(CreateGameOverScreen());
-        GameManager.Instance.SetGameState(GameManager.GameState.Over);
+
+        if(GameManager.Instance)
+            GameManager.Instance.SetGameState(GameManager.GameState.Over);
 
         // unlock cursor
         Cursor.lockState = CursorLockMode.None;
