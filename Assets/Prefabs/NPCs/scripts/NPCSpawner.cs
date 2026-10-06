@@ -32,13 +32,13 @@ public class NPCSpawner : MonoBehaviour
         switch (PlayerPrefs.GetInt("Difficulty"))
         {
             case 1:
-                amountOfNPCs = 1;
+                amountOfNPCs = Random.Range(1, 3); // 1-2
                 break;
             case 2:
                 amountOfNPCs = Random.Range(1, 3); // 1-2
                 break;
             case 3:
-                amountOfNPCs = 2;
+                amountOfNPCs = Random.Range(2, 4); // 2-3
                 break;
             case 4:
                 amountOfNPCs = Random.Range(2, 5); // 2-4
@@ -47,6 +47,7 @@ public class NPCSpawner : MonoBehaviour
                 amountOfNPCs = Random.Range(3, 6); // 3-5
                 break;
             default:
+                amountOfNPCs = 2;
                 break;
         }
     }
