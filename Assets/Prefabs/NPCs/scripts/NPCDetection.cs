@@ -23,7 +23,7 @@ public class NPCDetection : MonoBehaviour
     [SerializeField] int sightAngle; // Angle of the detection cone
 
     [Header("Sight Cooldown")]
-    public float sightCountdown = 1.4f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
+    [SerializeField] float sightCountdown = 1.4f; // Time for how long the player needs to stay in line-of-sight before the enemy starts chasing
     [SerializeField] float minSightCountdown = 1f;
     [SerializeField] float sightMult = 1.03f;
     
@@ -58,6 +58,17 @@ public class NPCDetection : MonoBehaviour
             if ((PlayerManager.Instance == null) || (PlayerManager.Instance && PlayerManager.Instance.isPlayerActive))
                 SendDetectionRaycast();
         } 
+    }
+
+    /// <summary>
+    /// Only used in NPCBehavior
+    /// Decreases sight countdown after knocked out
+    /// </summary>
+    /// <param name="multiplier"></param>
+    public void DecreaseSightCountdown(float count)
+    {
+        sightCountdown -= count;
+        sightCountdown = Mathf.Max(sightCountdown, minSightCountdown);
     }
 
     #region Private Functions

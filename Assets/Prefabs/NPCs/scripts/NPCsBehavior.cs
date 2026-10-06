@@ -12,7 +12,8 @@ public enum NPCState
 
 public class NPCsBehavior : MonoBehaviour
 {
-    NavMeshAgent agent;
+    #region Public variables
+    
     [SerializeField] Animator anim;
 
     /*  Navmesh Agent Settings   */
@@ -27,18 +28,25 @@ public class NPCsBehavior : MonoBehaviour
     /*  Random walking  */
     [Header("Patrolling Settings")]
     [SerializeField] Vector3 walkPoint;
-    bool walkPointExist;
     public float walkPointRange;
-
     public float cooldownBeforeWalking = 4f; // how long NPC waits after reaching destination
-
-    GameObject objectToLookAt;
 
     [SerializeField] NPCState currentState = NPCState.Patrol;
 
     [Header("Sounds")]
     [SerializeField] SingleAudio singleAudio;
     [SerializeField] string[] noticeSFX, runSFX, deathSFX;
+
+    #endregion
+
+    #region Private variables
+
+    NPCDetection npcDetection;
+    NavMeshAgent agent;
+    bool walkPointExist;
+    GameObject objectToLookAt;
+
+    #endregion
 
     private void Awake()
     {
@@ -54,6 +62,8 @@ public class NPCsBehavior : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         if(agent)
             agent.speed = defaultSpeed;
+
+        npcDetection = GetComponentInChildren<NPCDetection>();
     }
 
     void Update()
@@ -172,8 +182,9 @@ public class NPCsBehavior : MonoBehaviour
         currentState = NPCState.Asleep;
         PlayerLost();
 
-        // search for npc detection and turn off
-        GetComponentInChildren<NPCDetection>().enabled = false;
+        // decrease spot time and turn off detection
+        npcDetection.DecreaseSightCountdown(0.15f);
+        npcDetection.enabled = false;
     }
 
     /// <summary>
