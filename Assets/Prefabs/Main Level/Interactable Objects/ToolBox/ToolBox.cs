@@ -15,6 +15,7 @@ public class ToolBox : MonoBehaviour, InteractEvent {
     [SerializeField] GameObject toolboxCanvas;
     [SerializeField] Texture2D cursorImage;
 
+    float strength;
 
     private void Start()
     {
@@ -24,6 +25,9 @@ public class ToolBox : MonoBehaviour, InteractEvent {
         difficulty += PlayerPrefs.GetInt("Difficulty") / 3;
         if (difficulty > maxDifficulty)
             difficulty = maxDifficulty;
+
+        Item screwdriver = DataSystem.GetItem("Screwdriver");
+        strength = screwdriver.level;
     }
 
     public void Interact() {
@@ -69,6 +73,11 @@ public class ToolBox : MonoBehaviour, InteractEvent {
             spawnAmount = 4;
         else
             spawnAmount = 5;
+
+        // random chance to increase rewards based on strength
+        float chance = Random.Range(0f, 1f);
+        if (chance <= strength * 0.05)
+            spawnAmount++;
 
         for (int i = 0; i < spawnAmount; i++)
         {

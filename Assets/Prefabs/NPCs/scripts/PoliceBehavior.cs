@@ -63,7 +63,6 @@ public class PoliceBehavior : MonoBehaviour
     {
         // increase health and speed based on difficulty
         speed += PlayerPrefs.GetInt("Difficulty") * 0.35f;
-        speed = Mathf.Min(speed, 11); // max value is 11
 
         GetComponent<HealthController>().maxHealth += Mathf.Floor(PlayerPrefs.GetInt("Difficulty") * 15f);
 
@@ -74,7 +73,8 @@ public class PoliceBehavior : MonoBehaviour
 
         player = GameObject.Find("Player").transform;
 
-        SetChasePlayer();
+        if(player)
+            SetChasePlayer();
     }
 
     void Update()

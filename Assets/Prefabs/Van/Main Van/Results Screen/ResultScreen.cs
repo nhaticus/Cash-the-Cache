@@ -37,6 +37,8 @@ public class ResultScreen : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         continueButton.SetActive(false);
+
+        GetTotalValue();
         StartCoroutine(CalculateTotalValue());
     }
 
@@ -63,8 +65,21 @@ public class ResultScreen : MonoBehaviour
             yield return new WaitForSeconds(itemDelay);
         }
 
-        GameManager.Instance.AddMoney(total);
         continueButton.SetActive(true);
+    }
+
+    // give money to player before showing items stolen
+    void GetTotalValue()
+    {
+        int total = 0;
+        foreach (var loot in inventoryRef)
+        {
+            int amount = loot.Value.Item1;
+            int value = loot.Value.Item2.value;
+            total += value * amount;
+        }
+
+        GameManager.Instance.AddMoney(total);
     }
 
     int CreateElement(LootInfo lootInfo, int amount)

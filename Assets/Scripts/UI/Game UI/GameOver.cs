@@ -35,6 +35,11 @@ public class GameOver : MonoBehaviour
         if (GameManager.Instance == false)
             return;
 
+        // set flashlight to off
+        Item flashlight = DataSystem.GetOrCreateItem("Flashlight");
+        flashlight.level = 0;
+        DataSystem.SaveData();
+
         StartCoroutine(DisplayMoneyChanges());
     }
 

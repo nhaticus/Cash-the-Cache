@@ -6,11 +6,11 @@ using UnityEngine.Events;
 
 public class Box_Screw : MonoBehaviour
 {
-    [HideInInspector] public float clicksRequired = 0;
-    float clicks = 0;
+    public float clicksRequired = 4;
     [HideInInspector] public float clickStrength = 1;
+    float clicks = 0;
 
-    public SingleAudio singleAudio; // given by box canvas
+    [HideInInspector] public SingleAudio singleAudio; // given by box canvas
 
     [HideInInspector] public UnityEvent removeScrew;
 

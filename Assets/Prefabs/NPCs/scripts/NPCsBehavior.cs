@@ -54,11 +54,8 @@ public class NPCsBehavior : MonoBehaviour
         int difficulty = PlayerPrefs.GetInt("Difficulty");
         if (difficulty > 1)
         {
-            defaultSpeed += difficulty * 0.325f;
-            defaultSpeed = Mathf.Min(defaultSpeed, 7.5f);
-
+            defaultSpeed += difficulty * 0.35f;
             runningSpeed += difficulty * 0.475f;
-            runningSpeed = Mathf.Min(runningSpeed, 9.5f);
 
             GetComponent<HealthController>().maxHealth += Mathf.Floor(difficulty * 7.5f);
         }

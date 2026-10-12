@@ -14,29 +14,26 @@ public class Target : MonoBehaviour
     [SerializeField] float lowerBound, upperBound;
 
     [Header("Game Values")]
-    [SerializeField] float minTimeToMove, maxTimeToMove;
-    [SerializeField] float capMinMoveTime, capMaxMoveTime;
+    [SerializeField] float minTimeToMove = 1.5f, maxTimeToMove = 3.5f;
     [SerializeField] float timeToMove = 1;
     [SerializeField] float timeIncrease = 1.3f;
 
     float timer = 0;
 
-    float strength;
-
     private void Start()
     {
         // get strength and increase time to move
-        strength = canvas.strength;
+        float strength = canvas.strength;
+        minTimeToMove -= canvas.difficulty * 0.065f;
         minTimeToMove += strength * 0.13f;
-        minTimeToMove = Mathf.Min(minTimeToMove, capMinMoveTime);
-        maxTimeToMove = (4 / canvas.difficulty) + (strength * 0.12f);
-        maxTimeToMove = Mathf.Min(maxTimeToMove, capMaxMoveTime);
 
+        maxTimeToMove -= canvas.difficulty * 0.175f;
+        maxTimeToMove += strength * 0.12f;
 
         // increase size based on strength
         transform.localScale += new Vector3(3 * strength, 0, 0);
 
-        // set bounds to correct size
+        // set bounds based on adjusted size
         float halfScaleX = transform.localScale.x * 0.5f;
         lowerBound += halfScaleX;
         upperBound -= halfScaleX;

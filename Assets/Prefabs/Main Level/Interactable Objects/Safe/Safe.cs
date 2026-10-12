@@ -138,6 +138,11 @@ public class Safe : MonoBehaviour, InteractEvent
         else
             spawnAmount = 3;
 
+        // random chance to increase rewards based on strength
+        float chance = Random.Range(0f, 1f);
+        if (chance <= strength * 0.035)
+            spawnAmount++;
+
         for (int i = 0; i < spawnAmount; i++)
         {
             Instantiate(gold, spawnPos.position, transform.rotation);

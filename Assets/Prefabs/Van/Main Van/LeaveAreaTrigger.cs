@@ -58,6 +58,7 @@ public class LeaveAreaTrigger : MonoBehaviour
         {
             Debug.LogError("VanInventory or PlayerInventory is NON-EXISTANT!");
         }
+
         ShowResultScreen();
     }
 
@@ -70,13 +71,7 @@ public class LeaveAreaTrigger : MonoBehaviour
             pressToLeaveString.GetLocalizedStringAsync().Completed += handle => {
                 vanText.GetComponent<TMP_Text>().text = handle.Result;
             };
-
         }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        
     }
 
     private void OnTriggerExit(Collider other)
@@ -102,8 +97,5 @@ public class LeaveAreaTrigger : MonoBehaviour
         Item flashlight = DataSystem.GetOrCreateItem("Flashlight");
         flashlight.level = 0;
         DataSystem.SaveData();
-
-        // increase amount of plays
-        DataSystem.Data.gameState.currentReplay++;
     }
 }

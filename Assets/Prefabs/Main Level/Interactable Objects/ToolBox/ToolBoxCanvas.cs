@@ -50,8 +50,6 @@ public class ToolBoxCanvas : MonoBehaviour
         lockPickCollider = lockPick.GetComponent<BoxCollider2D>();
         lockGoalCollider = lockGoal.GetComponent<BoxCollider2D>();
 
-        CreateStars();
-
         // create moving lock
         lockRotation = lockPick.GetComponent<AnchoredRotation>();
         lockRotation.SetRotationSpeed(difficulty);
@@ -68,6 +66,8 @@ public class ToolBoxCanvas : MonoBehaviour
         strength = screwdriver.level;
         lockGoal.transform.localScale += new Vector3(sizeMult * strength, sizeMult * strength, 0);
         failFreezeTime -= failMult * strength;
+
+        CreateStars();
     }
 
     private void Update() {
@@ -98,7 +98,7 @@ public class ToolBoxCanvas : MonoBehaviour
             singleAudio.PlaySFX("Success"); // sound effect
             starList[currentLocksBroken].GetComponent<Animator>().SetBool("Full", true); // fill in star
 
-            currentLocksBroken += 1;
+            currentLocksBroken++;
             StartCoroutine(lockRotation.FreezeObject(0.3f));
             if (currentLocksBroken >= TotalLocks) {
                 OpenToolBox.Invoke();

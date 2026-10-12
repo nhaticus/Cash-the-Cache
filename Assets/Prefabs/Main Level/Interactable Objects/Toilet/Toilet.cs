@@ -28,11 +28,15 @@ public class Toilet : MonoBehaviour, InteractEvent
     [SerializeField] GameObject[] loot;
     [SerializeField] Transform spawnPos;
 
+    float strength;
 
     private void Start()
     {
         if (setRandomDifficulty)
             difficulty = Random.Range(minDifficulty, maxDifficulty);
+
+        Item screwdriver = DataSystem.GetItem("Screwdriver");
+        strength = screwdriver.level;
     }
 
     // This method is called when the player interacts with the toilet
@@ -109,6 +113,11 @@ public class Toilet : MonoBehaviour, InteractEvent
             spawnAmount = 4;
         else
             spawnAmount = 6;
+
+        // random chance to increase rewards based on strength
+        float chance = Random.Range(0f, 1f);
+        if (chance <= strength * 0.05)
+            spawnAmount++;
 
         for (int i = 0; i < spawnAmount; i++)
         {

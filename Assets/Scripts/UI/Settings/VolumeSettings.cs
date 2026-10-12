@@ -36,6 +36,7 @@ public class VolumeSettings : MonoBehaviour
     private void Start()
     {
         audioData = DataSystem.SettingsData.audio;
+
         //Master
         float masterVolume = audioData.masterVolume;
         masterSlider.minValue = minVolume;

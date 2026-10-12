@@ -31,7 +31,7 @@ public class BoxCanvas : MonoBehaviour
 
             Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
             screwScript.singleAudio = singleAudio;
-            screwScript.clicksRequired = Mathf.RoundToInt(difficulty * 1.75f);
+            screwScript.clicksRequired += Mathf.RoundToInt(difficulty * 1.5f);
             screwScript.removeScrew.AddListener(ScrewOff);
             screwScript.clickStrength = strength;
         }

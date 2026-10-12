@@ -47,6 +47,9 @@ public class HouseBuilding : BaseMapBuilding
 
     public override void Interact()
     {
+        // increase amount of plays
+        DataSystem.Data.gameState.currentReplay++;
+
         PlayerPrefs.SetInt("Difficulty", difficulty);
         SceneManager.LoadScene(levelScene);
     }

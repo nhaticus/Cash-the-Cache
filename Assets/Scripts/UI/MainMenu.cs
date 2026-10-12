@@ -14,10 +14,12 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        AudioSettingsData audioData = DataSystem.SettingsData.audio;
+
         // set master, music, and sfx volume
-        audioMixer.SetFloat("Master", Mathf.Log10(PlayerPrefs.GetFloat("Master", defaultVolume)) * 20f);
-        audioMixer.SetFloat("Music", Mathf.Log10(PlayerPrefs.GetFloat("Music", defaultVolume)) * 20f);
-        audioMixer.SetFloat("SFX", Mathf.Log10(PlayerPrefs.GetFloat("SFX", defaultVolume)) * 20f);
+        audioMixer.SetFloat("Master", Mathf.Log10(audioData.masterVolume) * 20f);
+        audioMixer.SetFloat("Music", Mathf.Log10(audioData.musicVolume) * 20f);
+        audioMixer.SetFloat("SFX", Mathf.Log10(audioData.sfxVolume) * 20f);
     }
 
     public void SwitchScene(string gameScene)
