@@ -48,7 +48,15 @@ public class LockPickingCanvas : MonoBehaviour
 
     private void Start()
     {
-        totalPins += Mathf.FloorToInt(difficulty * 0.75f);
+        // increase pins based on difficulty
+        if(2 < difficulty && difficulty <= 4) // 3-4 = +1 pin
+        {
+            totalPins += 1;
+        }
+        else if(4 < difficulty) // 5-inf = +1 pin
+        {
+            totalPins += 1;
+        }
 
         CreatePins();
         UpdateAttemptsUI();

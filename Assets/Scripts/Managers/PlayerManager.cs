@@ -241,13 +241,13 @@ public class PlayerManager : MonoBehaviour
             return getMaxMoveSpeed() - (getMaxMoveSpeed() * percent / 100);
         }
 
-        float weightPercentage = (float)getWeight() / getMaxWeight();
+        float weightPercentage = (float) getWeight() / getMaxWeight();
         float newSpeed = getMaxMoveSpeed();
-        if (weightPercentage >= 0.9)
+        if (weightPercentage >= 0.8)
             newSpeed = ChangeSpeedByPercent(42); // 42% slower
-        else if (weightPercentage >= 0.8)
+        else if (weightPercentage >= 0.65)
             newSpeed = ChangeSpeedByPercent(25); // 25% slower
-        else if (weightPercentage >= 0.5)
+        else if (weightPercentage >= 0.4)
             newSpeed = ChangeSpeedByPercent(14); // 14% slower
         else
             newSpeed = ChangeSpeedByPercent(0); //Player Inventory is empty

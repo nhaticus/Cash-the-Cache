@@ -23,6 +23,22 @@ public class BoxCanvas : MonoBehaviour
 
         // create screws
         screwsLeft = Mathf.FloorToInt(minScrews + (difficulty * 1.5f));
+
+        int extraClicksRequired = 0;
+        // increase pins based on difficulty
+        if (1 < difficulty && difficulty <= 3) // 2-3 = +1 click
+        {
+            extraClicksRequired = 1;
+        }
+        else if (3 < difficulty) // 4-5 = +2 click
+        {
+            extraClicksRequired = 2;
+        }
+        else if (5 < difficulty) // 5-inf = +2 click
+        {
+            extraClicksRequired = 3;
+        }
+
         for (int i = 0; i < screwsLeft; i++)
         {
             GameObject screwObj = Instantiate(screw);
@@ -31,7 +47,7 @@ public class BoxCanvas : MonoBehaviour
 
             Box_Screw screwScript = screwObj.GetComponent<Box_Screw>();
             screwScript.singleAudio = singleAudio;
-            screwScript.clicksRequired += Mathf.RoundToInt(difficulty * 1.5f);
+            screwScript.clicksRequired += extraClicksRequired;
             screwScript.removeScrew.AddListener(ScrewOff);
             screwScript.clickStrength = strength;
         }

@@ -35,7 +35,7 @@ public class NPCSpawner : MonoBehaviour
                 amountOfNPCs = Random.Range(1, 3); // 1-2
                 break;
             case 2:
-                amountOfNPCs = Random.Range(1, 3); // 1-2
+                amountOfNPCs = 2;
                 break;
             case 3:
                 amountOfNPCs = Random.Range(2, 4); // 2-3

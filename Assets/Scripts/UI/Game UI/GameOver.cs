@@ -20,6 +20,12 @@ public class GameOver : MonoBehaviour
 
     [SerializeField] SingleAudio singleAudio;
 
+    private void Start()
+    {
+        penaltyText.alpha = 0;
+        currentMoneyText.alpha = 0;
+    }
+
     public void DecreasePlayerMoney()
     {
         if (GameManager.Instance == false)
@@ -56,6 +62,9 @@ public class GameOver : MonoBehaviour
     // show how much money lost by "rolling"
     IEnumerator RollMoneyDisplay()
     {
+        penaltyText.text = "-$0";
+        penaltyText.alpha = 1;
+
         singleAudio.PlaySFX("Roll", loop: true);
         int currDecrease = 0;
         int rollAmount = 10;

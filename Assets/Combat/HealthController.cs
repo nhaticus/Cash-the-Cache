@@ -7,7 +7,7 @@ public class HealthController : MonoBehaviour
 {
     [Header("Stats")]
     public float maxHealth = 50;
-    float currentHealth;
+    public float currentHealth;
     float invincibilityTime = 0.15f, currentInvincibility = 0;
 
     bool alive = true, canDamage = true;
