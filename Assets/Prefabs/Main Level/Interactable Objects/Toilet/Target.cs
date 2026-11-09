@@ -31,7 +31,7 @@ public class Target : MonoBehaviour
         maxTimeToMove += strength * 0.12f;
 
         // increase size based on strength
-        transform.localScale += new Vector3(3 * strength, 0, 0);
+        transform.localScale += new Vector3(2.5f * strength, 0, 0);
 
         // set bounds based on adjusted size
         float halfScaleX = transform.localScale.x * 0.5f;

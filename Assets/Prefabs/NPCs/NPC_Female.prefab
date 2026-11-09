@@ -352,7 +352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7208015ca4493469f979396186f84d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 40
+  maxHealth: 50
+  currentHealth: 0
   OnDamaged:
     m_PersistentCalls:
       m_Calls:
@@ -459,7 +460,19 @@ MonoBehaviour:
   pelvisBone: {fileID: 4589281271856054477}
   OnRevive:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2831299527764118023}
+        m_TargetAssemblyTypeName: NPCsBehavior, Assembly-CSharp
+        m_MethodName: SetRunaway
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1160277434120777709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1651,7 +1664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0fc5fa79789c194b9f2c1d60c2861d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightDistance: 7.75
+  sightDistance: 8
   sightAngle: 50
   sightCountdown: 1.5
   minSightCountdown: 0.95

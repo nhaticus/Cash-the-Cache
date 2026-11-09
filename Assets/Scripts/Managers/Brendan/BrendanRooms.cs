@@ -136,7 +136,7 @@ public class BrendanRooms : MonoBehaviour
             // yield return new WaitForSeconds(0.3f);
 
             /*
-             * 1. Find needed rotation
+             * 1. Find needed rotation for an unspawned room's door to snap onto a spawned room's door
              * 2. Get the position of the selected door when RotatePointAroundPivot()
              * 3. Get the difference between Rotate() selected door and door to connect to
              * 4. Get needed raycast position by adding difference and rotated box center
@@ -171,6 +171,7 @@ public class BrendanRooms : MonoBehaviour
             Quaternion newRoomRotation = Quaternion.Euler(new Vector3(0, needRot, 0));
             // yield return new WaitForSeconds(0.3f);
 
+            // check if valid placement using raycast box
             if (IsPlacementValid(difference + rotBoxCenter, newRoomRotation, box.size) == false)
             {
                 // yield return new WaitForSeconds(1f);

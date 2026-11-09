@@ -27,7 +27,7 @@ public class DetectionBarController : MonoBehaviour
         // Store the original color
         Color originalColor = detectionFill.color;
 
-        float totalFlashTime = 4f;   // total time to flash
+        float totalFlashTime = 4.2f;   // total time to flash
         float interval = 0.2f;       // how long each color stays active before switching
         float elapsedTime = 0f;     // total time passed
         bool toggleColor = false;

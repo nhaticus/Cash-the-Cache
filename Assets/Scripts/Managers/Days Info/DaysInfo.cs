@@ -110,10 +110,7 @@ public class DaysInfo : MonoBehaviour
         PlayerPrefs.DeleteAll();
         DataSystem.ResetItems();
         DataSystem.ResetData();
-        Debug.Log("days: " + DataSystem.Data.gameState.currentReplay);
-        Debug.Log("money: " + GameManager.Instance.playerMoney);
         GameManager.Instance.SetMoney(0);
-        Debug.Log("money: " + GameManager.Instance.playerMoney);
         PlayerPrefs.SetInt("ColorblindMode", colorblind); // restore colorblind
     }
 

@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.43137255}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.19607843}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -585,7 +585,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -480, y: 300}
+  m_AnchoredPosition: {x: -475, y: 310}
   m_SizeDelta: {x: 320, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3796900339724041495
@@ -698,7 +698,7 @@ GameObject:
   - component: {fileID: 1267765120891006785}
   - component: {fileID: 954367686475854946}
   - component: {fileID: 1122486579400173401}
-  - component: {fileID: 5896429734462157894}
+  - component: {fileID: 5106889892614477630}
   - component: {fileID: 2926329630598310174}
   m_Layer: 0
   m_Name: Lock Pick
@@ -724,7 +724,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 175}
-  m_SizeDelta: {x: 60, y: 60}
+  m_SizeDelta: {x: 55, y: 55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1267765120891006785
 CanvasRenderer:
@@ -792,8 +792,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &5896429734462157894
-BoxCollider2D:
+--- !u!58 &5106889892614477630
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -821,22 +821,12 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 60, y: 60}
-  m_EdgeRadius: 0
+  m_Radius: 27.5
 --- !u!114 &2926329630598310174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1120,12 +1110,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TotalLocks: 3
-  failFreezeTime: 0.75
+  failFreezeTime: 0.85
   RadiusOfLock: 145
   difficulty: 0
   strength: 0
   sizeMult: 0.12
-  failMult: 0.08
+  failMult: 0.06
+  minFreezeTime: 0.5
   lockPick: {fileID: 3686398092293431985}
   lockGoal: {fileID: 4566384152197134006}
   LockGoalParent: {fileID: 1609897229061308611}
@@ -1654,6 +1645,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7224719479615457593, guid: 1dd708d01c6ae6243bd47331e4264dbd,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7224719479615457593, guid: 1dd708d01c6ae6243bd47331e4264dbd,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1715,6 +1711,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 1533997905960968532, guid: 1dd708d01c6ae6243bd47331e4264dbd, type: 3}
     - {fileID: 1574366912405453458, guid: 1dd708d01c6ae6243bd47331e4264dbd, type: 3}
+    - {fileID: 5354665648185230258, guid: 1dd708d01c6ae6243bd47331e4264dbd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

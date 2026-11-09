@@ -29,7 +29,7 @@ public class HealthController : MonoBehaviour
 
         currentHealth -= dmg.amount;
         OnDamaged?.Invoke(dmg);
-        //Debug.Log($"{gameObject.name} took {dmg.amount} damage. Current health: {currentHealth}");
+
         if (alive && currentHealth <= 0)
         {
             alive = false;

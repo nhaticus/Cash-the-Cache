@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public enum NPCState
 {
@@ -57,7 +59,7 @@ public class NPCsBehavior : MonoBehaviour
             defaultSpeed += difficulty * 0.35f;
             runningSpeed += difficulty * 0.475f;
 
-            GetComponent<HealthController>().maxHealth += Mathf.Floor(difficulty * 7.5f);
+            GetComponent<HealthController>().maxHealth += Mathf.Floor(difficulty * 10f);
         }
         
 
@@ -97,7 +99,6 @@ public class NPCsBehavior : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
-            
         }
     }
 
@@ -182,10 +183,8 @@ public class NPCsBehavior : MonoBehaviour
         }
 
         currentState = NPCState.Asleep;
-        PlayerLost();
 
-        // decrease spot time and turn off detection
-        npcDetection.DecreaseSightCountdown(0.15f);
+        // turn off detection
         npcDetection.enabled = false;
     }
 

@@ -71,6 +71,16 @@ public class NPCDetection : MonoBehaviour
         sightCountdown = Mathf.Max(sightCountdown, minSightCountdown);
     }
 
+    #region Public Functions
+
+    public void FillDetectionBar()
+    {
+        sendRaycast = false;
+        StartCoroutine(detectionBar.FlashingEffect());
+    }
+
+    #endregion
+
     #region Private Functions
 
     /// <summary>
@@ -122,7 +132,7 @@ public class NPCDetection : MonoBehaviour
                 if (distance < playerDist)
                     playerDist = distance;
             }
-            else if (currObject.CompareTag("Wall") || currObject.gameObject.name.Contains("Door")) // prevent raycasting through wall
+            else if (currObject.CompareTag("Wall") || currObject.gameObject.name.Contains("Door")) // prevent raycasting through walls and doors
             {
                 // check if distance is the closest wall
                 float distance = objectsDetected[i].distance;

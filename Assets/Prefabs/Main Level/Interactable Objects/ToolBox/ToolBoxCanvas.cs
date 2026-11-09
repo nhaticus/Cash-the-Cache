@@ -15,7 +15,8 @@ public class ToolBoxCanvas : MonoBehaviour
     [HideInInspector] public float difficulty = 0;
     [HideInInspector] public float strength;
     [SerializeField] float sizeMult = 0.12f; // increase target size based on strength
-    [SerializeField] float failMult = 0.08f; // decrease fail time based on strength
+    [SerializeField] float failMult = 0.06f; // decrease fail time based on strength
+    [SerializeField] float minFreezeTime = 0.5f;
 
     [Header("Dependencies")]
     [SerializeField] GameObject lockPick;
@@ -40,15 +41,15 @@ public class ToolBoxCanvas : MonoBehaviour
     #region Private Params
 
     int currentLocksBroken = 0;
-    BoxCollider2D lockPickCollider, lockGoalCollider;
+    CircleCollider2D lockPickCollider, lockGoalCollider;
 
     #endregion
 
     #region Init and Update
     
     private void Start() {
-        lockPickCollider = lockPick.GetComponent<BoxCollider2D>();
-        lockGoalCollider = lockGoal.GetComponent<BoxCollider2D>();
+        lockPickCollider = lockPick.GetComponent<CircleCollider2D>();
+        lockGoalCollider = lockGoal.GetComponent<CircleCollider2D>();
 
         // create moving lock
         lockRotation = lockPick.GetComponent<AnchoredRotation>();
@@ -61,11 +62,14 @@ public class ToolBoxCanvas : MonoBehaviour
 
         TotalLocks += Mathf.FloorToInt(difficulty * 0.5f);
 
-        // get strength and increase goal size and decrease fail time
+        // get strength and increase goal size
         Item screwdriver = DataSystem.GetItem("Screwdriver");
         strength = screwdriver.level;
         lockGoal.transform.localScale += new Vector3(sizeMult * strength, sizeMult * strength, 0);
+
+        // decrease fail time
         failFreezeTime -= failMult * strength;
+        failFreezeTime = Mathf.Max(failFreezeTime, minFreezeTime);
 
         CreateStars();
     }

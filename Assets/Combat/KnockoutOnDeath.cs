@@ -94,17 +94,31 @@ public class KnockoutOnDeath : MonoBehaviour
             transform.position = finalPos;
             ragdollController.SetRagdoll(false);
 
-            healthController.Revive();
-            OnRevive.Invoke(); // emit revive event
-
             // search for npc detection and turn on
             GetComponentInChildren<NPCDetection>().enabled = true;
 
             //    - Re-enable your root systems
             anim.enabled = true;
             agent.enabled = true;
+
+            // Snap agent to NavMesh floor
+            if (UnityEngine.AI.NavMesh.SamplePosition(transform.position, out UnityEngine.AI.NavMeshHit hit, 3.0f, UnityEngine.AI.NavMesh.AllAreas))
+            {
+                agent.Warp(hit.position);
+            }
+            else
+            {
+                agent.Warp(transform.position); // Fallback boundary snap
+            }
+
             rootCol.enabled = true;
             behavior.enabled = true;
+
+            // wait a frame so body is placed correctly
+            yield return null;
+
+            healthController.Revive();
+            OnRevive.Invoke(); // emit revive event
         }
         
     }
