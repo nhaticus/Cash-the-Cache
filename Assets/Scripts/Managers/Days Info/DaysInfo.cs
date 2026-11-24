@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.SceneManagement;
 
 public class DaysInfo : MonoBehaviour
@@ -17,7 +16,7 @@ public class DaysInfo : MonoBehaviour
     [Header("Money")]
     [SerializeField] int money = 0;
     [SerializeField] int moneyToEnd = 10000; // when reach this, GOOD ending
-    [SerializeField] TMP_Text moneyText;
+    [SerializeField] TMP_Text moneyText, moneyRequireText;
 
     [Header("Cutscene")]
     [SerializeField] Transform canvasLocation;
@@ -44,9 +43,11 @@ public class DaysInfo : MonoBehaviour
 
         daysText.text = daysLeft.ToString();
         moneyText.text = "$" + money.ToString();
+        moneyRequireText.text = "$" + moneyToEnd.ToString();
         SetRotation();
     }
 
+    // test is just for debugging
     bool test = false;
     private void Update()
     {
@@ -54,6 +55,7 @@ public class DaysInfo : MonoBehaviour
         {
             daysText.text = daysLeft.ToString();
             moneyText.text = "$" + money.ToString();
+            moneyRequireText.text = "$" + moneyToEnd.ToString();
             SetRotation();
 
             CheckConditions();

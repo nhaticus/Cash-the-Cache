@@ -48,6 +48,7 @@ public class LevelLoader : MonoBehaviour
         
     }
 
+    [Header("Van Loading Finished")]
     [SerializeField] GameObject pivot;
     [SerializeField] float canvasRotateSpeed = 80;
 

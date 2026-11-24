@@ -6,6 +6,10 @@ using UnityEngine.Localization.Components;
 using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.SceneManagement;
 
+/*
+ * Gets called in Game UI
+ */
+
 public class GameOver : MonoBehaviour
 {
     [Header("Money")]
