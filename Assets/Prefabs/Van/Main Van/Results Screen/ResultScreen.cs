@@ -19,8 +19,10 @@ public class ResultScreen : MonoBehaviour
 {
     public Dictionary<LocalizedString, (int, LootInfo)> inventoryRef; // reference to any inventory (should be van but possible for player's)
 
+    [Header("Scrolling")]
     [SerializeField] float startDelay = 0.5f;
     [SerializeField] float itemDelay = 0.25f;
+    [SerializeField] Scrollbar scrollbar;
 
     [Header("Dependencies")]
     [SerializeField] GameObject resultElement; // prefab that shows item stolen
@@ -28,10 +30,21 @@ public class ResultScreen : MonoBehaviour
     [SerializeField] LocalizeStringEvent totalStolenText;
     [SerializeField] GameObject continueButton;
 
-    [SerializeField] Scrollbar scrollbar;
+    [Header("Game End")]
+    [SerializeField] GameObject gameEndCanvas;
+    [SerializeField] Transform canvasLocation; // where to spawn gameEndCanvas
+
+    
     bool scrollClicked = false;
 
     [SerializeField] string nextScene = "Shop";
+
+    //testing
+    private void Start()
+    {
+        Instantiate(gameEndCanvas, canvasLocation);
+    }
+
     public void Begin()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -104,9 +117,26 @@ public class ResultScreen : MonoBehaviour
         scrollClicked = true;
     }
 
-    public void GoToShop() // used by Continue button to go to shop scene
+    public void OnContinue()
     {
-        SceneManager.LoadScene(nextScene);
+        int currentDays = DataSystem.Data.gameState.currentReplay;
+        int daysTotal = (int) DataSystem.GetItem("DaysTotal").statValue;
+
+        int money = 0, moneyToEnd = 0;
+        if (GameManager.Instance)
+            money = GameManager.Instance.playerMoney;
+        moneyToEnd = (int) DataSystem.GetItem("MoneyToEnd").statValue;
+
+        if (daysTotal - currentDays <= 0 || money >= moneyToEnd)
+        {
+            GameObject endCanvas = Instantiate(gameEndCanvas, canvasLocation);
+            endCanvas.GetComponent<GameEndCanvas>().Initialize();
+        }
+        else
+        {
+            SceneManager.LoadScene(nextScene);
+        }
+
     }
 
 }

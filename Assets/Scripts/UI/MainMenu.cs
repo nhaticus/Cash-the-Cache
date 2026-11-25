@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] AudioMixer audioMixer;
-    float defaultVolume = 1;
 
     [SerializeField] EventSystem eventSystem;
     [HideInInspector] public GameObject prevButton; // remember which button when renabling main menu

@@ -10,12 +10,12 @@ public class DaysInfo : MonoBehaviour
 
     [Header("Days")]
     [SerializeField] int daysLeft = 45; // when reach 0, BAD ending
-    [SerializeField] int daysTotal = 45;
+    int daysTotal = 45;
     [SerializeField] TMP_Text daysText;
 
     [Header("Money")]
     [SerializeField] int money = 0;
-    [SerializeField] int moneyToEnd = 10000; // when reach this, GOOD ending
+    int moneyToEnd = 10000; // when reach this, GOOD ending
     [SerializeField] TMP_Text moneyText, moneyRequireText;
 
     [Header("Cutscene")]
@@ -32,34 +32,25 @@ public class DaysInfo : MonoBehaviour
     void Start()
     {
         int currentDays = DataSystem.Data.gameState.currentReplay;
+        int daysTotal = (int)DataSystem.GetItem("DaysTotal").statValue;
         daysLeft = daysTotal - currentDays;
+        daysText.text = daysLeft.ToString();
+
         if (GameManager.Instance)
-        {
             money = GameManager.Instance.playerMoney;
-            moneyToEnd = GameManager.Instance.moneyToEnd;
-        }
+        moneyToEnd = (int)DataSystem.GetItem("MoneyToEnd").statValue;
+        moneyText.text = "$" + money.ToString();
+        moneyRequireText.text = "$" + moneyToEnd.ToString();
 
-        CheckConditions();
+        SetRotation();
+    }
 
+    private void Update()
+    {
         daysText.text = daysLeft.ToString();
         moneyText.text = "$" + money.ToString();
         moneyRequireText.text = "$" + moneyToEnd.ToString();
         SetRotation();
-    }
-
-    // test is just for debugging
-    bool test = false;
-    private void Update()
-    {
-        if(test == false)
-        {
-            daysText.text = daysLeft.ToString();
-            moneyText.text = "$" + money.ToString();
-            moneyRequireText.text = "$" + moneyToEnd.ToString();
-            SetRotation();
-
-            CheckConditions();
-        }
     }
 
     void SetRotation()
@@ -74,26 +65,6 @@ public class DaysInfo : MonoBehaviour
         transform.localRotation = Quaternion.Euler(0, 0, rotAmount);
     }
 
-    void CheckConditions()
-    {
-        if (money >= moneyToEnd) // WIN game
-        {
-            GameObject cs = Instantiate(winScene, canvasLocation);
-            StartCoroutine(InitializeCutsceneWhenActive(cs));
-            Clear();
-            DisableVan();
-            test = true;
-        }
-        else if (daysLeft <= 0) // LOSE game
-        {
-            GameObject cs = Instantiate(loseScene, canvasLocation);
-            StartCoroutine(InitializeCutsceneWhenActive(cs));
-            Clear();
-            DisableVan();
-            test = true;
-        }
-    }
-
     void DisableVan()
     {
         carController = van.GetComponentInChildren<CarController>();
@@ -103,45 +74,4 @@ public class DaysInfo : MonoBehaviour
         buildingDetection.canInteract = false;
     }
 
-    void Clear()
-    {
-        if (GameManager.Instance == false)
-            return;
-
-        int colorblind = PlayerPrefs.GetInt("ColorblindMode"); // keep colorblind
-        PlayerPrefs.DeleteAll();
-        DataSystem.ResetItems();
-        DataSystem.ResetData();
-        GameManager.Instance.SetMoney(0);
-        PlayerPrefs.SetInt("ColorblindMode", colorblind); // restore colorblind
-    }
-
-    private IEnumerator InitializeCutsceneWhenActive(GameObject obj)
-    {
-        // Wait until the object is not null and active
-        yield return new WaitUntil(() => obj != null && obj.activeInHierarchy);
-
-        Cutscene cutscene = obj.GetComponent<Cutscene>();
-        cutscene.Initialize();
-        cutscene.CutsceneFinished += AtCutsceneEnd;
-
-        singleAudio.StopAllMusic();
-        singleAudio.StopAllSFX();
-    }
-
-    void AtCutsceneEnd()
-    {
-        StartCoroutine(AfterCutsceneSwitchScene());
-    }
-
-    IEnumerator AfterCutsceneSwitchScene()
-    {
-        yield return new WaitForSeconds(6);
-        SwitchScene(atEndScene);
-    }
-    public void SwitchScene(string gameScene)
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene(gameScene);
-    }
 }

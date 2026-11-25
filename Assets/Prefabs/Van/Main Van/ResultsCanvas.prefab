@@ -546,12 +546,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startDelay: 0.5
   itemDelay: 0.25
+  scrollbar: {fileID: 7763072364841885842}
   resultElement: {fileID: 5690077547365747053, guid: 10ae3dc827dd6094bb6fbd667edb3bcb,
     type: 3}
   resultGridTransform: {fileID: 5481680530215137401}
   totalStolenText: {fileID: 1556950645865606149}
   continueButton: {fileID: 7657097190639487472}
-  scrollbar: {fileID: 7763072364841885842}
+  gameEndCanvas: {fileID: 5051480088131399804, guid: 24cc27d46a681a34fa3a14ab9bf2b632,
+    type: 3}
+  canvasLocation: {fileID: 5161600318661272619}
   nextScene: Shop
 --- !u!1 &5327127660432212125
 GameObject:
@@ -1128,7 +1131,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2691240402864545424}
         m_TargetAssemblyTypeName: ResultScreen, Assembly-CSharp
-        m_MethodName: GoToShop
+        m_MethodName: OnContinue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
